@@ -1,0 +1,433 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>BreedingPro · Manual de usuario · Bloque 2: planear cruzas, ensayo y potencia</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,500;0,600;1,500&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../interior.css">
+<!-- reparte el contenido en hojas tamaño carta, con encabezados y números de página -->
+<script src="../paginar.js"></script>
+<style>
+  figure.chica .marco, figure.chica > svg { width: 72%; margin: 0 auto; }
+  figure.chica figcaption { margin-left: 14%; margin-right: 14%; }
+  .rejilla { display: grid; grid-template-columns: 1fr 1fr; gap: 0.1in 0.18in; align-items: start; }
+  .rejilla.plan { grid-template-columns: 0.82fr 1fr; }
+  .rejilla .sub { font-family: var(--sans); font-size: 8.4pt; color: var(--negro); text-align: center; margin-top: 0.04in; }
+  .rejilla .sub b { font-weight: 600; }
+  td.n, th.n { text-align: right; white-space: nowrap; }
+  table.libreta { font-size: 7.8pt; }
+  table.libreta td, table.libreta th { padding: 0.03in 0.045in; white-space: nowrap; }
+  .formula { font-family: var(--sans); font-size: 9pt; background: #f6f3fa; border-radius: 4px; padding: 0.07in 0.12in; margin: 0.06in 0 0.12in; line-height: 1.6; }
+  code.meta { display: block; font-size: 7.6pt; white-space: normal; word-break: normal; background: #f6f3fa; padding: 0.06in 0.1in; border-radius: 4px; margin: 0.04in 0 0.12in; }
+</style>
+</head>
+<body>
+
+<section class="capitulo" id="cap-b2" data-pestana="B2" data-orden="3" style="--acento: var(--b2)">
+  <div class="cap-apertura">
+    <div class="cap-num">B2</div>
+    <div class="cap-etiqueta">Capítulo dos · Bloque 2 · Planear</div>
+    <h1 data-corto="Bloque 2 · Planear cruzas, ensayo y potencia">Planear cruzas, ensayo y potencia</h1>
+    <div class="cap-regla"></div>
+    <p class="cap-resumen">Antes de hacer la primera polinización conviene saber cuántas cruzas hay que hacer, cuánta semilla hará falta, cómo quedará el ensayo en el campo y si el experimento tendrá la potencia necesaria para responder la pregunta. El Bloque 2 resuelve las cuatro cosas y entrega la libreta de campo que el Bloque 3 leerá después.</p>
+    <div class="cap-franja"><span class="k2"></span><span class="k2" style="opacity:.75"></span><span class="k2" style="opacity:.5"></span><span class="k2" style="opacity:.3"></span></div>
+    <ul class="cap-contenido">
+      <li><b>2.1</b>Qué resuelve este bloque</li>
+      <li><b>2.2</b>El diseño de apareamiento</li>
+      <li><b>2.3</b>Semilla y polinizaciones</li>
+      <li><b>2.4</b>El ensayo de campo</li>
+      <li><b>2.5</b>La libreta de campo</li>
+      <li><b>2.6</b>Precisión y potencia antes de sembrar</li>
+      <li><b>2.7</b>Otros diseños, con sus números</li>
+      <li><b>2.8</b>De la libreta al Bloque 3</li>
+    </ul>
+  </div>
+
+  <!-- ====================================================================== 2.1 -->
+  <h2 id="s2-1"><span class="num">2.1</span>Qué resuelve este bloque</h2>
+  <p class="lead">El Bloque 2 se recorre de arriba abajo en cuatro tarjetas. Cada una toma lo que definió la anterior, y todo se recalcula al momento: si cambias el número de progenitores, cambian las cruzas, la semilla, el croquis y la potencia.</p>
+
+  <figure>
+    <svg viewBox="0 0 700 250" xmlns="http://www.w3.org/2000/svg" font-family="Jost, sans-serif" role="img" aria-label="Las cuatro tarjetas del Bloque 2 y su salida hacia el Bloque 3">
+      <defs>
+        <marker id="fv" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#2e8556"/></marker>
+        <marker id="fg" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#625d6c"/></marker>
+        <marker id="ft" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#0f766e"/></marker>
+      </defs>
+      <!-- the loop back when power falls short -->
+      <path d="M612 52 C 612 16 600 14 560 14 L 140 14 C 96 14 86 18 86 48" fill="none" stroke="#625d6c" stroke-width="1.4" stroke-dasharray="5 4" marker-end="url(#fg)"/>
+      <text x="350" y="10" text-anchor="middle" font-size="10" fill="#625d6c">¿no alcanza la potencia? más progenitores, repeticiones o localidades</text>
+      <g font-size="10" fill="#1f3d2c">
+        <!-- card 1 -->
+        <rect x="10" y="52" width="152" height="112" rx="9" fill="#e7f3ec" stroke="#2e8556" stroke-width="1.4"/>
+        <rect x="10" y="52" width="152" height="28" rx="9" fill="#2e8556"/><rect x="10" y="70" width="152" height="10" fill="#2e8556"/>
+        <text x="20" y="71" fill="#fff" font-weight="600" font-size="11">1 · Diseño de apareamiento</text>
+        <text x="20" y="100">• 11 diseños</text><text x="20" y="117">• cruzas por hacer</text><text x="20" y="134">• entradas a evaluar</text><text x="20" y="151">• plan y calendario</text>
+        <!-- card 2 -->
+        <rect x="185" y="52" width="152" height="112" rx="9" fill="#e7f3ec" stroke="#2e8556" stroke-width="1.4"/>
+        <rect x="185" y="52" width="152" height="28" rx="9" fill="#2e8556"/><rect x="185" y="70" width="152" height="10" fill="#2e8556"/>
+        <text x="195" y="71" fill="#fff" font-weight="600" font-size="11">2 · Semilla y polinizaciones</text>
+        <text x="195" y="100">• semilla por entrada</text><text x="195" y="117">• polinizaciones</text><text x="195" y="134">• plantas por progenitor</text><text x="195" y="151">• avisos de polen</text>
+        <!-- card 3 -->
+        <rect x="360" y="52" width="152" height="112" rx="9" fill="#e7f3ec" stroke="#2e8556" stroke-width="1.4"/>
+        <rect x="360" y="52" width="152" height="28" rx="9" fill="#2e8556"/><rect x="360" y="70" width="152" height="10" fill="#2e8556"/>
+        <text x="370" y="71" fill="#fff" font-weight="600" font-size="11">3 · Ensayo de campo</text>
+        <text x="370" y="100">• 4 diseños de campo</text><text x="370" y="117">• croquis por localidad</text><text x="370" y="134">• superficie y gl del error</text><text x="370" y="151">• libreta de campo</text>
+        <!-- card 4 -->
+        <rect x="535" y="52" width="155" height="112" rx="9" fill="#e7f3ec" stroke="#2e8556" stroke-width="1.4"/>
+        <rect x="535" y="52" width="155" height="28" rx="9" fill="#2e8556"/><rect x="535" y="70" width="155" height="10" fill="#2e8556"/>
+        <text x="545" y="71" fill="#fff" font-weight="600" font-size="11">4 · Precisión y potencia</text>
+        <text x="545" y="100">• errores estándar</text><text x="545" y="117">• diferencias detectables</text><text x="545" y="134">• potencia de las pruebas F</text><text x="545" y="151">• precisión de σ²A y σ²D</text>
+      </g>
+      <g stroke="#2e8556" stroke-width="1.6"><path d="M162 108 L 182 108" marker-end="url(#fv)"/><path d="M337 108 L 357 108" marker-end="url(#fv)"/><path d="M512 108 L 532 108" marker-end="url(#fv)"/></g>
+      <!-- towards Block 3 -->
+      <path d="M436 164 L 436 196" stroke="#0f766e" stroke-width="1.6" marker-end="url(#ft)"/>
+      <rect x="250" y="200" width="372" height="40" rx="20" fill="#e3f1ef" stroke="#0f766e" stroke-width="1.3"/>
+      <text x="436" y="217" text-anchor="middle" font-size="10.5" fill="#0b4f4a"><tspan font-weight="600">Bloque 3 · Libreta del Bloque 2</tspan></text>
+      <text x="436" y="232" text-anchor="middle" font-size="9.5" fill="#244d4a">con los datos del campo, o con valores simulados para ensayar el análisis</text>
+      <g font-size="9.5" fill="#625d6c">
+        <text x="20" y="190">.xlsx con cuatro hojas:</text><text x="20" y="204">libreta, entradas,</text><text x="20" y="218">cruzamiento y diseño;</text><text x="20" y="232">figuras hasta 900 ppp</text>
+      </g>
+    </svg>
+    <figcaption><b>Figura 2.1.</b> Las cuatro tarjetas del Bloque 2. La libreta de campo de la tarjeta 3 se descarga o pasa directo al Bloque 3; si la tarjeta 4 muestra poca potencia, se regresa a la 1 o a la 2 y se ajusta el tamaño del experimento.</figcaption>
+  </figure>
+
+  <p>A lo largo del capítulo se usa un mismo ejemplo: <b>un dialelo de ocho líneas de maíz</b>, L1 a L8, con el método 4 de Griffing (solo las F<sub>1</sub>), dos testigos comerciales, tres repeticiones y dos localidades, en un látice α. Todos los números que se citan salen de la app con esos ajustes y con la semilla aleatoria que trae por omisión, 2026.</p>
+
+  <!-- ====================================================================== 2.2 -->
+  <h2 id="s2-2"><span class="num">2.2</span>El diseño de apareamiento</h2>
+  <p>La tarjeta <span class="ui">1 · Diseño de apareamiento</span> empieza con once mosaicos, uno por diseño, cada uno con su ilustración. Al elegir uno aparecen los datos que ese diseño necesita: la lista de progenitores, el número de machos y hembras, los dos progenitores de una cruza o las generaciones. Debajo, cuatro recuadros resumen el plan: progenitores o individuos, cruzas por hacer, entradas a evaluar y ciclos de cultivo hasta la evaluación.</p>
+
+  <table class="compacta">
+    <caption><b>Tabla 2.1.</b> Los once diseños. <i>p</i>: progenitores; <i>c</i>: conjuntos; <i>m</i> y <i>f</i>: machos y hembras por conjunto; <i>n</i>: plantas F<sub>2</sub> o líneas; <i>l</i> y <i>t</i>: líneas y probadores.</caption>
+    <thead><tr><th style="width:20%">Diseño</th><th>Qué se cruza</th><th style="width:18%">Entradas</th><th style="width:12%">Bloques</th></tr></thead>
+    <tbody>
+      <tr><td><span class="ui">Griffing 1</span></td><td>Cada par en las dos direcciones, más los progenitores</td><td><i>p</i>²</td><td><span class="chip k4">4</span> <span class="chip k5">5</span></td></tr>
+      <tr><td><span class="ui">Griffing 2</span></td><td>Cada par una vez, más los progenitores</td><td><i>p</i>(<i>p</i> + 1)/2</td><td><span class="chip k4">4</span> <span class="chip k5">5</span></td></tr>
+      <tr><td><span class="ui">Griffing 3</span></td><td>Cada par en las dos direcciones, sin progenitores</td><td><i>p</i>(<i>p</i> − 1)</td><td><span class="chip k4">4</span></td></tr>
+      <tr><td><span class="ui">Griffing 4</span></td><td>Cada par una vez, sin progenitores</td><td><i>p</i>(<i>p</i> − 1)/2</td><td><span class="chip k4">4</span></td></tr>
+      <tr><td><span class="ui">Dialelo parcial</span></td><td>Cada progenitor con <i>s</i> de los demás, en un esquema circulante</td><td><i>ps</i>/2</td><td><span class="chip k6">6</span></td></tr>
+      <tr><td><span class="ui">Carolina del Norte I</span></td><td>Cada macho con <i>f</i> hembras propias, distintas de las de los otros machos</td><td><i>c</i>·<i>m</i>·<i>f</i></td><td><span class="chip k6">6</span></td></tr>
+      <tr><td><span class="ui">Carolina del Norte II</span></td><td>Todos los machos con todas las hembras de su conjunto</td><td><i>c</i>·<i>m</i>·<i>f</i></td><td><span class="chip k6">6</span></td></tr>
+      <tr><td><span class="ui">Carolina del Norte III</span></td><td>Cada planta F<sub>2</sub> como macho con P<sub>1</sub> y con P<sub>2</sub></td><td>2<i>n</i></td><td><span class="chip k6">6</span></td></tr>
+      <tr><td><span class="ui">Cruza triple de prueba</span></td><td>Cada planta F<sub>2</sub> o línea como macho con P<sub>1</sub>, P<sub>2</sub> y F<sub>1</sub></td><td>3<i>n</i></td><td><span class="chip k6">6</span></td></tr>
+      <tr><td><span class="ui">Línea × probador</span></td><td>Cada línea (hembra) con cada probador (macho)</td><td><i>l</i>·<i>t</i></td><td><span class="chip k6">6</span></td></tr>
+      <tr><td><span class="ui">Generaciones</span></td><td>P<sub>1</sub>, P<sub>2</sub>, F<sub>1</sub>, F<sub>2</sub>, BC<sub>1</sub> = F<sub>1</sub> × P<sub>1</sub> y BC<sub>2</sub> = F<sub>1</sub> × P<sub>2</sub>; opcionales la F<sub>1</sub> recíproca, la F<sub>3</sub> y las retrocruzas autofecundadas</td><td>una por generación</td><td><span class="chip k7">7</span></td></tr>
+    </tbody>
+  </table>
+  <p>El dialelo parcial, las Carolinas del Norte III y la cruza triple de prueba pueden añadir los progenitores (y la F<sub>1</sub>) como entradas; la línea × probador añade por omisión las líneas y los probadores; y cualquier diseño admite <b>testigos</b>, que se escriben separados por comas y se evalúan como una entrada más. Los nombres de los progenitores son libres; si la lista queda vacía, la app usa nombres genéricos (P1, P2… o L1, L2…) y el número que indiques. Al escribir nombres, ese número se ajusta solo a la cantidad escrita y se bloquea.</p>
+
+  <figure>
+    <div class="marco"><img src="../img/b2-tarjeta1.png" alt="La tarjeta del diseño de apareamiento con el método 4 elegido"></div>
+    <figcaption><b>Figura 2.2.</b> La tarjeta 1 con el ejemplo: <span class="ui">Griffing 4</span>, ocho líneas y dos testigos. Resultan 28 cruzas y 30 entradas, que se evalúan en el segundo ciclo de cultivo.</figcaption>
+  </figure>
+
+  <div class="caja nota">
+    <div class="caja-t"><span class="ico">i</span>Nota · cómo se escriben las cruzas</div>
+    <p>Todas las cruzas se escriben <b>hembra × macho</b>. En los dialelos, las F<sub>1</sub> directas van arriba de la diagonal (la hembra es la fila) y las recíprocas abajo, como en Griffing (1956b). En la Carolina del Norte III y la cruza triple de prueba, los probadores P<sub>1</sub>, P<sub>2</sub> y F<sub>1</sub> son las hembras y cada planta F<sub>2</sub> da el polen. En la línea × probador, las líneas son hembras. Los nombres repetidos se ignoran con un aviso, porque los bloques siguientes identifican cada entrada por su nombre.</p>
+  </div>
+
+  <h3>Reglas propias de algunos diseños</h3>
+  <ul>
+    <li><b>Métodos 3 y 4</b> necesitan al menos cuatro progenitores para estimar la ACE; los demás dialelos, al menos tres.</li>
+    <li><b>Dialelo parcial</b> (Kempthorne y Curnow, 1961): el progenitor <i>i</i> se cruza con <i>i</i> + <i>k</i>, …, <i>i</i> + <i>k</i> + <i>s</i> − 1 (en círculo), con <i>k</i> = (<i>p</i> + 1 − <i>s</i>)/2. Así cada progenitor entra en exactamente <i>s</i> cruzas, pero solo si <i>p</i> y <i>s</i> tienen paridad opuesta y <i>s</i> &lt; <i>p</i> − 1; el menú <span class="ui">Cruzas por progenitor (s)</span> ofrece únicamente esos valores. Con 10 progenitores son <i>s</i> = 3, 5 o 7 (15, 25 o 35 cruzas, en lugar de 45).</li>
+    <li><b>Carolinas del Norte I y II</b> se organizan en conjuntos, cada uno con machos y hembras nuevos; se evalúan como experimentos separados. En la II, la casilla <span class="ui">Machos y hembras son plantas de una población</span> indica que son plantas no endogámicas: al elegir el diseño con ella activada, la tarjeta 4 toma F = 0 (lo mismo que en la I, la III y la cruza triple), y la tarjeta 2 revisa si cada planta alcanza para todas sus cruzas.</li>
+    <li><b>Carolina del Norte III y cruza triple de prueba</b>: se recomiendan 20 o más plantas F<sub>2</sub> (Kearsey, 1980). La casilla <span class="ui">Ya tengo semilla F₂ (o las líneas)</span> quita del calendario los ciclos para formarlas.</li>
+    <li><b>Línea × probador</b> con un solo probador es una cruza de prueba: la app avisa que así no se estiman ni la ACE ni la ACG de los probadores.</li>
+    <li><b>Generaciones</b>: sin P<sub>1</sub>, P<sub>2</sub>, F<sub>1</sub> o F<sub>2</sub> no hay pruebas de escala, y sin las dos retrocruzas solo se ajusta el modelo aditivo–dominante con la prueba C; la app lo advierte. Las retrocruzas llevan los códigos BC1 y BC2 (del inglés <i>backcross</i>); el Bloque 3 reconoce igual RC1 y RC2, y el Bloque 7 las muestra como RC<sub>1</sub> y RC<sub>2</sub>.</li>
+  </ul>
+
+  <h3>El plan de cruzamientos y el calendario</h3>
+  <p>Debajo de los recuadros aparecen dos figuras editables. El <b>plan de cruzamientos</b> es la tabla hembra × macho con cada cruza coloreada por tipo (progenitor, F<sub>1</sub> directa, recíproca, familia de hermanos completos, retrocruza a cada probador); en las generaciones se sustituye por un esquema del origen de cada generación con sus plantas. El <b>calendario por ciclos</b> reparte el trabajo en ciclos de cultivo, del bloque de cruzamiento a la evaluación.</p>
+  <figure>
+    <div class="rejilla plan">
+      <div><div class="marco"><img src="../img/b2-plan.png" alt="El plan de cruzamientos del método 4 con ocho líneas"></div><div class="sub"><b>A</b> · Plan de cruzamientos</div></div>
+      <div><div class="marco"><img src="../img/b2-calendario.png" alt="El calendario por ciclos del ejemplo"></div><div class="sub"><b>B</b> · Calendario por ciclos</div></div>
+    </div>
+    <figcaption><b>Figura 2.3.</b> Las dos figuras de la tarjeta 1 con el ejemplo. En el método 4 solo se hacen las cruzas de arriba de la diagonal; los testigos no aparecen en el plan porque no se cruzan.</figcaption>
+  </figure>
+  <table class="compacta">
+    <caption><b>Tabla 2.2.</b> Ciclos de cultivo hasta la evaluación, según el diseño.</caption>
+    <thead><tr><th style="width:30%">Diseño</th><th>Ciclos</th><th style="width:8%" class="c">Total</th></tr></thead>
+    <tbody>
+      <tr><td>Dialelos, parcial y línea × probador</td><td>Bloque de cruzamiento (con autofecundación de los progenitores y siembras escalonadas si no florecen juntos) · evaluación</td><td class="c">2</td></tr>
+      <tr><td>Carolina del Norte I y II</td><td>Bloque de cruzamiento, con cada planta etiquetada · evaluación, un experimento por conjunto</td><td class="c">2</td></tr>
+      <tr><td>Carolina del Norte III y cruza triple</td><td>Formar la F<sub>1</sub> · formar la F<sub>2</sub> · retrocruzas de prueba, cada macho con todos sus probadores el mismo día · evaluación</td><td class="c">4</td></tr>
+      <tr><td>Generaciones</td><td>Formar la F<sub>1</sub> · generaciones segregantes, rehaciendo la F<sub>1</sub> e incrementando P<sub>1</sub> y P<sub>2</sub> · (tercera generación, si se pidió) · evaluación conjunta de todas</td><td class="c">3 o 4</td></tr>
+    </tbody>
+  </table>
+  <p>La lista completa de cruzas y entradas está plegada al final de la tarjeta, en <span class="ui">Lista de cruzas y entradas</span>, con su número, código, hembra, macho y tipo, y se descarga con <span class="ui">⬇ CSV</span>.</p>
+
+  <h3>Cuántas plantas por generación</h3>
+  <p>En el diseño de generaciones cada generación se evalúa con un número de plantas. Las segregantes varían más que los progenitores y la F<sub>1</sub>, así que, con el mismo número de plantas, sus medias quedan más precisas o menos según su varianza. El botón <span class="ui">Repartir para igualar la precisión</span> distribuye un total de plantas en proporción a la varianza esperada de cada generación, para que todas las medias tengan el mismo error estándar (Kearsey, 1980).</p>
+  <div class="formula">V(P<sub>1</sub>) = V(P<sub>2</sub>) = V(F<sub>1</sub>) = E &nbsp;·&nbsp; V(F<sub>2</sub>) = ½D + ¼H + E &nbsp;·&nbsp; V(BC<sub>1</sub>) = V(BC<sub>2</sub>) = ¼D + ¼H + E<br>con D y H deducidos de la heredabilidad en la F<sub>2</sub> y del cociente (H/D)<sup>½</sup> que indiques</div>
+  <p>Con los valores por omisión (600 plantas, H² = 0.5 en la F<sub>2</sub> y (H/D)<sup>½</sup> = 0.8) el reparto es 73 plantas de cada progenitor y de la F<sub>1</sub>, 146 de F<sub>2</sub> y 118 de cada retrocruza, y los errores estándar de las seis medias quedan entre 0.079 y 0.080. Con el reparto inicial de 30 y 100 plantas iban de 0.086 a 0.124 (sección 2.7).</p>
+
+  <!-- ====================================================================== 2.3 -->
+  <h2 id="s2-3"><span class="num">2.3</span>Semilla y polinizaciones</h2>
+  <p>La tarjeta <span class="ui">2 · Semilla y polinizaciones</span> responde tres preguntas del bloque de cruzamiento: cuánta semilla necesita cada entrada para todo el ensayo, cuántas polinizaciones hay que hacer y cuántas plantas de cada progenitor hay que sembrar. El menú <span class="ui">Cultivo</span> llena los campos con valores orientativos (tabla 2.4) que puedes corregir con los de tu programa.</p>
+  <figure class="media">
+    <div class="marco"><img src="../img/b2-semilla.png" alt="La tarjeta de semilla y polinizaciones con la tabla de progenitores abierta"></div>
+    <figcaption><b>Figura 2.4.</b> La tarjeta 2 con el ejemplo y la tabla <span class="ui">Plantas por progenitor en el bloque de cruzamiento</span> abierta.</figcaption>
+  </figure>
+  <div class="caja teoria">
+    <div class="caja-t"><span class="ico">θ</span>Teoría en breve · las cuentas de la tarjeta</div>
+    <div class="formula" style="margin-bottom:0.04in">semilla por entrada = semillas por parcela × repeticiones × localidades × (1 + margen)<br>polinizaciones por entrada = semilla ÷ (semillas por polinización × fracción de polinizaciones exitosas)<br>plantas hembra de un progenitor = (polinizaciones como hembra + autofecundaciones) ÷ unidades femeninas por planta<br>plantas macho de un progenitor = polinizaciones como macho ÷ polinizaciones por planta macho</div>
+    <p>Todo se redondea hacia arriba. En el diseño de generaciones la semilla sale de las plantas de cada generación por el número de localidades, con el mismo margen. Las autofecundaciones son las que dan la semilla de los progenitores que se evalúan; en los métodos 3 y 4 no hay, porque los progenitores no entran al ensayo.</p>
+  </div>
+  <p>En el ejemplo, cada entrada necesita 40 × 3 × 2 × 1.3 = 312 semillas; con 250 semillas por polinización y 70&nbsp;% de éxito, cada una rinde 175, así que se hacen dos polinizaciones por cruza: 56 en total para las 28 cruzas. Con una mazorca por planta y cuatro polinizaciones por planta macho, el bloque de cruzamiento necesita 56 plantas hembra y 16 plantas macho.</p>
+  <div class="caja importante">
+    <div class="caja-t"><span class="ico">!</span>Importante · quién es hembra y quién macho</div>
+    <p>En los métodos 2 y 4 la app escribe cada cruza con el progenitor que va antes en la lista como hembra. En el ejemplo, L1 es hembra en sus siete cruzas (14 plantas hembra y ninguna macho) y L8 es macho en todas (4 plantas macho). Como en estos métodos se supone que no hay efectos recíprocos, puedes invertir algunas cruzas en el bloque de cruzamiento para repartir el trabajo; conserva el código de la entrada tal como está en la libreta.</p>
+  </div>
+  <table class="compacta" style="width:86%">
+    <caption><b>Tabla 2.3.</b> Datos de la tarjeta 2 y sus valores iniciales (los de maíz).</caption>
+    <thead><tr><th>Campo</th><th class="n">Inicial</th><th>Qué es</th></tr></thead>
+    <tbody>
+      <tr><td><span class="ui">Repeticiones</span> · <span class="ui">Localidades</span></td><td class="n">3 · 2</td><td>Los de todo el bloque: los usan también las tarjetas 3 y 4</td></tr>
+      <tr><td><span class="ui">Semillas por parcela</span></td><td class="n">40</td><td>Semillas que se siembran en cada parcela</td></tr>
+      <tr><td><span class="ui">Margen de seguridad (%)</span></td><td class="n">30</td><td>Semilla de más, para resiembras y pérdidas</td></tr>
+      <tr><td><span class="ui">Semillas por polinización</span></td><td class="n">250</td><td>Semilla que da una polinización exitosa</td></tr>
+      <tr><td><span class="ui">Polinizaciones exitosas (%)</span></td><td class="n">70</td><td>Fracción de polinizaciones que forman semilla</td></tr>
+      <tr><td><span class="ui">Unidades femeninas por planta</span></td><td class="n">1</td><td>Mazorcas, panojas o flores que pueden polinizarse en una planta</td></tr>
+      <tr><td><span class="ui">Polinizaciones por planta macho</span></td><td class="n">4</td><td>Polinizaciones que puede dar el polen de una planta</td></tr>
+    </tbody>
+  </table>
+  <table class="compacta">
+    <caption><b>Tabla 2.4.</b> Valores orientativos del menú <span class="ui">Cultivo</span>. <span class="ui">Otro (valores propios)</span> deja los campos como estén.</caption>
+    <thead><tr><th>Cultivo</th><th class="n">Semillas por polinización</th><th class="n">Unidades femeninas por planta</th><th class="n">Polinizaciones por planta macho</th><th class="n">Semillas por parcela</th></tr></thead>
+    <tbody>
+      <tr><td>Maíz</td><td class="n">250</td><td class="n">1</td><td class="n">4</td><td class="n">40</td></tr>
+      <tr><td>Sorgo</td><td class="n">400</td><td class="n">1</td><td class="n">3</td><td class="n">80</td></tr>
+      <tr><td>Trigo</td><td class="n">30</td><td class="n">3</td><td class="n">5</td><td class="n">300</td></tr>
+      <tr><td>Arroz</td><td class="n">20</td><td class="n">3</td><td class="n">6</td><td class="n">200</td></tr>
+      <tr><td>Frijol</td><td class="n">4</td><td class="n">10</td><td class="n">10</td><td class="n">40</td></tr>
+      <tr><td>Jitomate</td><td class="n">60</td><td class="n">8</td><td class="n">10</td><td class="n">20</td></tr>
+      <tr><td>Chile</td><td class="n">40</td><td class="n">8</td><td class="n">10</td><td class="n">20</td></tr>
+      <tr><td>Calabaza</td><td class="n">200</td><td class="n">2</td><td class="n">3</td><td class="n">10</td></tr>
+      <tr><td>Girasol</td><td class="n">300</td><td class="n">1</td><td class="n">3</td><td class="n">30</td></tr>
+      <tr><td>Algodón</td><td class="n">25</td><td class="n">10</td><td class="n">10</td><td class="n">40</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Cuando cada progenitor es una sola planta</h3>
+  <p>En las Carolinas del Norte I y III, en la cruza triple de prueba y en la Carolina del Norte II con plantas de una población, cada progenitor es una planta que no puede multiplicarse. La tarjeta compara lo que se le pide con lo que puede dar y avisa cuando no alcanza. En la Carolina del Norte II con sus valores iniciales (tres conjuntos de 4 × 4), cada macho debe dar polen para 8 polinizaciones, más de las 4 supuestas, y cada hembra necesita 8 polinizaciones con una sola mazorca. La app sugiere reducir la semilla por parcela, escalonar las siembras de las hembras, usar varias espigas o flores por planta o, en la II, usar como hembras líneas o clones que puedan multiplicarse.</p>
+
+  <!-- ====================================================================== 2.4 -->
+  <h2 id="s2-4"><span class="num">2.4</span>El ensayo de campo</h2>
+  <p>La tarjeta <span class="ui">3 · Diseño del ensayo de campo</span> aleatoriza las entradas en cada localidad y dibuja el croquis. La aleatorización es <b>reproducible</b>: parte de la <span class="ui">Semilla aleatoria</span>, que queda escrita en la libreta, y cada localidad recibe su propia aleatorización derivada de ella. El botón <span class="ui">↻</span> sortea otra semilla.</p>
+  <table class="compacta">
+    <caption><b>Tabla 2.5.</b> Los cuatro diseños de campo. <i>v</i>: entradas; <i>r</i>: repeticiones; <i>s</i>: bloques por repetición; <i>b</i>: bloques y <i>c</i>: testigos del aumentado.</caption>
+    <thead><tr><th style="width:24%">Diseño</th><th>Cómo se forma</th><th style="width:30%">Grados de libertad del error</th></tr></thead>
+    <tbody>
+      <tr><td><span class="ui">Bloques completos al azar</span></td><td>Cada repetición es un bloque con todas las entradas</td><td>(<i>r</i> − 1)(<i>v</i> − 1)</td></tr>
+      <tr><td><span class="ui">Látice alfa (bloques incompletos)</span></td><td>Cada repetición se divide en <i>s</i> bloques de <i>k</i> parcelas (Patterson y Williams, 1976)</td><td><i>vr</i> − 1 − (<i>v</i> − 1) − (<i>r</i> − 1) − <i>r</i>(<i>s</i> − 1)</td></tr>
+      <tr><td><span class="ui">Completamente al azar</span></td><td>Todas las parcelas se sortean juntas</td><td><i>v</i>(<i>r</i> − 1)</td></tr>
+      <tr><td><span class="ui">Aumentado (testigos repetidos)</span></td><td>Los testigos en cada bloque; las entradas nuevas una sola vez (Federer, 1956)</td><td>(<i>b</i> − 1)(<i>c</i> − 1)</td></tr>
+    </tbody>
+  </table>
+  <div class="caja regla">
+    <div class="caja-t"><span class="ico">✓</span>Regla de decisión · qué diseño de campo usar</div>
+    <table class="compacta"><tbody>
+      <tr><td style="width:46%"><b>Si</b> hay pocas entradas (hasta 15 o 20) y el terreno es uniforme en el tamaño de una repetición…</td><td><b>entonces</b> bloques completos al azar.</td></tr>
+      <tr><td><b>Si</b> hay muchas entradas y una repetición completa ya no cabe en suelo homogéneo…</td><td><b>entonces</b> látice α, con bloques de un tamaño cercano a √<i>v</i>.</td></tr>
+      <tr><td><b>Si</b> hay muchas entradas nuevas y semilla para una sola parcela de cada una…</td><td><b>entonces</b> aumentado, con al menos dos testigos y 12 o más grados de libertad del error.</td></tr>
+      <tr><td><b>Si</b> las parcelas son macetas o unidades homogéneas (invernadero, laboratorio)…</td><td><b>entonces</b> completamente al azar.</td></tr>
+    </tbody></table>
+    <p class="regla-pie">La app exige al menos dos repeticiones, salvo en el aumentado, y advierte cuando el error queda con menos de 12 grados de libertad.</p>
+  </div>
+
+  <h3>El látice α</h3>
+  <p>Al elegir el látice, la app propone un tamaño de bloque <i>k</i> cercano a √<i>v</i>; con 30 entradas propone 5, es decir, seis bloques por repetición. Si <i>v</i> no es múltiplo de <i>k</i>, los bloques quedan de dos tamaños que difieren en una parcela.</p>
+  <div class="caja teoria">
+    <div class="caja-t"><span class="ico">θ</span>Teoría en breve · cómo se construye y qué es el factor de eficiencia</div>
+    <p>Cuando el número de bloques por repetición <i>s</i> es primo y <i>r</i> ≤ <i>s</i> y <i>k</i> ≤ <i>s</i>, un arreglo cíclico da un diseño α(0,1), en el que ningún par de entradas comparte bloque más de una vez: con 25 entradas en bloques de 5, o 49 en bloques de 7, alcanza la eficiencia máxima posible. En los demás casos, la app genera candidatos con arreglos generadores al azar y con un algoritmo de intercambio que reparte los encuentros entre pares, elige el de mayor <b>factor de eficiencia E</b> y, hasta 100 entradas, lo pule con intercambios que suben E directamente.</p>
+    <p>E compara la varianza de las diferencias entre entradas con la que tendría un diseño de bloques completos con el mismo error: E = 0.785 quiere decir que la información perdida por usar bloques incompletos equivale a un 21.5&nbsp;%. Junto a E, la app muestra su <b>cota superior</b> para diseños resolubles y los <b>encuentros máximos</b>, el mayor número de veces que un par de entradas comparte bloque.</p>
+  </div>
+  <figure class="media">
+    <div class="marco"><img src="../img/b2-campo.png" alt="La tarjeta del ensayo de campo con el látice alfa y sus recuadros"></div>
+    <figcaption><b>Figura 2.5.</b> La tarjeta 3 con el látice α del ejemplo: 90 parcelas por localidad, 720 m², 43 grados de libertad del error y E = 0.785, con cota superior 0.795; ningún par de entradas comparte bloque más de una vez.</figcaption>
+  </figure>
+  <table class="compacta" style="width:88%">
+    <caption><b>Tabla 2.6.</b> El látice α del ejemplo (30 entradas, tres repeticiones) con distintos tamaños de bloque.</caption>
+    <thead><tr><th class="n"><i>k</i></th><th class="n">Bloques por repetición</th><th class="n">E</th><th class="n">Cota superior</th><th class="n">Encuentros máximos</th><th class="n">gl del error</th></tr></thead>
+    <tbody>
+      <tr><td class="n">3</td><td class="n">10</td><td class="n">0.591</td><td class="n">0.682</td><td class="n">1</td><td class="n">31</td></tr>
+      <tr><td class="n">5</td><td class="n">6</td><td class="n">0.785</td><td class="n">0.795</td><td class="n">1</td><td class="n">43</td></tr>
+      <tr><td class="n">6</td><td class="n">5</td><td class="n">0.823</td><td class="n">0.829</td><td class="n">2</td><td class="n">46</td></tr>
+      <tr><td class="n">10</td><td class="n">3</td><td class="n">0.905</td><td class="n">0.906</td><td class="n">3</td><td class="n">52</td></tr>
+      <tr><td class="n">30</td><td class="n">1 (bloques completos)</td><td class="n">1</td><td class="n">—</td><td class="n">—</td><td class="n">58</td></tr>
+    </tbody>
+  </table>
+  <div class="caja importante">
+    <div class="caja-t"><span class="ico">!</span>Importante · un E más alto no es un mejor diseño</div>
+    <p>E sube con el tamaño del bloque y llega a 1 con bloques completos, porque compara con un diseño que tuviera el <i>mismo</i> error. Pero el propósito de los bloques pequeños es que el error sea menor, porque cada bloque ocupa un pedazo de terreno más uniforme. Elige <i>k</i> por el tamaño del terreno homogéneo y usa E para comparar diseños con el mismo <i>k</i>. La cota superior tampoco siempre se alcanza: con bloques de tres parcelas, varias semillas dan E entre 0.591 y 0.592, lejos de 0.682, porque ningún diseño llega a ella.</p>
+  </div>
+  <div class="caja dato">
+    <div class="dato-cifra">6 de 7</div>
+    <div class="dato-txt"><div class="caja-t">Dato clave</div>En la validación del programa, los látices α generados igualaron o superaron la eficiencia de los de un generador independiente con el mismo número de entradas, repeticiones y tamaño de bloque en 6 de 7 casos; en el séptimo quedaron 0.03&nbsp;% abajo. E se calcula exactamente, con los valores propios de la matriz de información.</div>
+  </div>
+
+  <h3>Cómo se acomoda en el terreno</h3>
+  <table class="compacta">
+    <caption><b>Tabla 2.7.</b> Opciones de la tarjeta 3 que no cambian el diseño estadístico.</caption>
+    <thead><tr><th style="width:27%">Campo</th><th>Qué hace</th></tr></thead>
+    <tbody>
+      <tr><td><span class="ui">Parcelas por fila de campo</span></td><td>0 pone cada bloque en una fila; otro número parte los bloques en filas de ese largo.</td></tr>
+      <tr><td><span class="ui">Repeticiones en el campo</span></td><td><span class="ui">una debajo de otra</span> o <span class="ui">lado a lado</span>, con una calle de una parcela entre ellas.</td></tr>
+      <tr><td><span class="ui">Numeración de parcelas</span></td><td><span class="ui">serpentina</span> (cada fila en sentido contrario a la anterior, como se recorre el campo), <span class="ui">por filas</span> o <span class="ui">repetición × 100 + parcela</span> (101, 102… o ×1000 si una repetición tiene 100 o más parcelas).</td></tr>
+      <tr><td><span class="ui">Localidades</span></td><td>Sus nombres, separados por comas; su número se toma de la tarjeta 2.</td></tr>
+      <tr><td><span class="ui">Surcos por parcela</span>, <span class="ui">Largo del surco (m)</span>, <span class="ui">Distancia entre surcos (m)</span></td><td>Calculan la superficie: parcelas × surcos × largo × distancia, sin calles ni bordos. En el ejemplo, 90 × 2 × 5 × 0.8 = 720 m² por localidad.</td></tr>
+      <tr><td><span class="ui">Caracteres a registrar</span></td><td>Nombres separados por comas; cada uno será una columna vacía de la libreta.</td></tr>
+    </tbody>
+  </table>
+  <p>El croquis se dibuja para una localidad a la vez; si hay varias, un menú permite cambiarla. El editor de la figura colorea las parcelas por tipo de entrada o por repetición y muestra u oculta los códigos de las entradas y los números de parcela. Cuando el plan es pequeño, el croquis se rehace solo al cambiar el plan; si es grande (más de 2500 parcelas, o un látice α con más de 200 entradas), la app pide pulsar <span class="ui">Generar croquis y libreta</span>.</p>
+  <figure>
+    <div class="marco"><img src="../img/b2-croquis.png" alt="El croquis del látice alfa en la localidad 1, con las tres repeticiones lado a lado"></div>
+    <figcaption><b>Figura 2.6.</b> Croquis de la localidad 1 con las repeticiones lado a lado. Cada fila de una repetición es un bloque incompleto de cinco parcelas; la numeración en serpentina recorre las tres repeticiones fila por fila. Los testigos van en gris.</figcaption>
+  </figure>
+
+  <!-- ====================================================================== 2.5 -->
+  <h2 id="s2-5"><span class="num">2.5</span>La libreta de campo</h2>
+  <p>Debajo del croquis está la <b>libreta de campo</b>: una fila por parcela de todas las localidades, lista para imprimirse o para capturar los datos. Tiene once columnas fijas y una más, vacía, por cada carácter que se escribió en la tarjeta. La vista muestra las primeras 60 filas; las descargas las incluyen todas.</p>
+  <table class="compacta libreta">
+    <caption><b>Tabla 2.8.</b> Las primeras filas de la libreta del ejemplo (180 parcelas en total). Las tres últimas columnas quedan vacías para los datos.</caption>
+    <thead><tr><th>Localidad</th><th class="n">Parcela</th><th class="n">Repetición</th><th class="n">Bloque</th><th class="n">Fila</th><th class="n">Columna</th><th class="n">Entrada</th><th>Genotipo</th><th>Hembra</th><th>Macho</th><th>Tipo</th><th>Rendimiento</th><th>Floración m.</th><th>Altura</th></tr></thead>
+    <tbody>
+      <tr><td>Localidad 1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">22</td><td>L4 × L8</td><td>L4</td><td>L8</td><td>F₁ directa</td><td></td><td></td><td></td></tr>
+      <tr><td>Localidad 1</td><td class="n">2</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">2</td><td class="n">8</td><td>L2 × L3</td><td>L2</td><td>L3</td><td>F₁ directa</td><td></td><td></td><td></td></tr>
+      <tr><td>Localidad 1</td><td class="n">3</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">3</td><td class="n">28</td><td>L7 × L8</td><td>L7</td><td>L8</td><td>F₁ directa</td><td></td><td></td><td></td></tr>
+      <tr><td>Localidad 1</td><td class="n">4</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">4</td><td class="n">17</td><td>L3 × L7</td><td>L3</td><td>L7</td><td>F₁ directa</td><td></td><td></td><td></td></tr>
+      <tr><td>Localidad 1</td><td class="n">5</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">5</td><td class="n">11</td><td>L2 × L6</td><td>L2</td><td>L6</td><td>F₁ directa</td><td></td><td></td><td></td></tr>
+      <tr><td>Localidad 1</td><td class="n">6</td><td class="n">2</td><td class="n">1</td><td class="n">1</td><td class="n">7</td><td class="n">15</td><td>L3 × L5</td><td>L3</td><td>L5</td><td>F₁ directa</td><td></td><td></td><td></td></tr>
+      <tr><td>…</td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+    </tbody>
+  </table>
+  <p>La parcela 6 ya pertenece a la repetición 2 y está en la columna 7: con las repeticiones lado a lado, la primera fila del campo cruza las tres repeticiones, y la columna 6 es la calle entre ellas.</p>
+  <h3>Las descargas</h3>
+  <ul>
+    <li><span class="ui">⬇ Libro de cálculo (.xlsx)</span> guarda cuatro hojas: <b>Libreta</b>; <b>Entradas</b>, con la semilla y las polinizaciones de cada una; <b>Cruzamiento</b>, con las plantas de cada progenitor; y <b>Diseño</b>, con el diseño de apareamiento y de campo, las repeticiones, las localidades, la semilla aleatoria, los grados de libertad del error, el factor de eficiencia y su cota (en el látice α) y la fecha.</li>
+    <li><span class="ui">⬇ CSV</span> guarda solo la libreta, en texto con codificación UTF-8, que las hojas de cálculo abren con los acentos correctos.</li>
+  </ul>
+  <p>Con la casilla <span class="ui">Incluir la línea que describe el diseño</span> activada, la primera línea de ambos archivos declara el plan. En el ejemplo dice:</p>
+  <code class="meta">#BreedingPro fieldbook, mating=griffing, method=4, field=alpha, reps=3, k=5, locations=2, entries=30, seed=2026, F=1</code>
+  <p>El Bloque 3 lee de esa línea el diseño de apareamiento, el método y el diseño de campo, así que no tiene que adivinarlos; el resto queda como constancia. Captura los datos en las columnas vacías sin cambiar los nombres de las columnas fijas.</p>
+
+  <!-- ====================================================================== 2.6 -->
+  <h2 id="s2-6"><span class="num">2.6</span>Precisión y potencia antes de sembrar</h2>
+  <p class="lead">La última tarjeta responde la pregunta que más a menudo se hace demasiado tarde: con este tamaño de experimento, ¿podré detectar lo que me interesa? Basta suponer una media, el coeficiente de variación del error y el tamaño de las varianzas genéticas; la app calcula todo a partir de los cuadrados medios esperados del análisis balanceado, antes de tener un solo dato.</p>
+  <table class="compacta">
+    <caption><b>Tabla 2.9.</b> Los supuestos de la tarjeta 4 y sus valores iniciales.</caption>
+    <thead><tr><th style="width:30%">Campo</th><th class="n" style="width:10%">Inicial</th><th>Qué es</th></tr></thead>
+    <tbody>
+      <tr><td><span class="ui">Media del carácter</span></td><td class="n">8</td><td>En las unidades del carácter; por ejemplo, t/ha de grano</td></tr>
+      <tr><td><span class="ui">CV del error (%)</span></td><td class="n">12</td><td>Coeficiente de variación del error de parcela que suele tener el carácter</td></tr>
+      <tr><td><span class="ui">CV aditivo, σA/media (%)</span></td><td class="n">10</td><td>Tamaño de la variación aditiva esperada, relativo a la media</td></tr>
+      <tr><td><span class="ui">CV de dominancia, σD/media (%)</span></td><td class="n">8</td><td>Lo mismo para la dominancia</td></tr>
+      <tr><td><span class="ui">Endogamia de los progenitores (F)</span></td><td class="n">1</td><td>1 para líneas; 0.875, 0.75 o 0.5 para S<sub>3</sub>, S<sub>2</sub> o S<sub>1</sub>; 0 para plantas no endogámicas</td></tr>
+      <tr><td>α · <span class="ui">Potencia deseada</span></td><td class="n">0.05 · 80&nbsp;%</td><td>Nivel de significancia y potencia que se busca</td></tr>
+      <tr><td><span class="ui">Curva de potencia según</span></td><td class="n">progenitores</td><td>Número de progenitores (o familias) o número de repeticiones</td></tr>
+    </tbody>
+  </table>
+  <div class="caja teoria">
+    <div class="caja-t"><span class="ico">θ</span>Teoría en breve · de los supuestos a las varianzas</div>
+    <div class="formula" style="margin-bottom:0.04in">σ²<sub>e</sub> = (CV<sub>e</sub> × media)² &nbsp;·&nbsp; σ²<sub>A</sub> = (CV<sub>A</sub> × media)² &nbsp;·&nbsp; σ²<sub>D</sub> = (CV<sub>D</sub> × media)²<br>σ²<sub>ACG</sub> = ¼(1 + F) σ²<sub>A</sub> &nbsp;·&nbsp; σ²<sub>ACE</sub> = ¼(1 + F)² σ²<sub>D</sub> &nbsp;·&nbsp; error de una media de entrada: σ²<sub>e</sub>/(<i>r</i>·<i>L</i>)<br>DMS = <i>t</i><sub>1−α/2</sub> × EE &nbsp;·&nbsp; diferencia detectable = (<i>t</i><sub>1−α/2</sub> + <i>t</i><sub>potencia</sub>) × EE</div>
+    <p>En el modelo I la potencia de cada prueba F sale de la distribución F no central; en el modelo II, de la F central escalada por el cociente de los cuadrados medios esperados. La precisión de las varianzas genéticas se calcula con la varianza de muestreo de los estimadores de momentos. Se supone que no hay interacción de los efectos genéticos con las localidades; si la hay, la potencia real será menor, y la app lo recuerda en un mensaje.</p>
+  </div>
+  <p>Con los valores iniciales, σ²<sub>A</sub> = 0.64 y σ²<sub>D</sub> = 0.41; como las líneas tienen F = 1, σ²<sub>ACG</sub> = 0.32 y σ²<sub>ACE</sub> = 0.41.</p>
+
+  <table class="compacta">
+    <caption><b>Tabla 2.10.</b> Qué calcula la tarjeta 4 en cada diseño.</caption>
+    <thead><tr><th style="width:24%">Diseño</th><th>Precisión</th><th style="width:34%">Potencia</th></tr></thead>
+    <tbody>
+      <tr><td>Métodos de Griffing</td><td>EE de ĝ<sub>i</sub>, ŝ<sub>ii</sub>, ŝ<sub>ij</sub> y r̂<sub>ij</sub> y de sus diferencias; DMS y diferencia detectable; EE y CV de σ²<sub>ACG</sub>, σ²<sub>ACE</sub>, σ²<sub>A</sub> y σ²<sub>D</sub></td><td>ACG y ACE en los modelos I y II; en el método 1 la del modelo II es aproximada</td></tr>
+      <tr><td>Dialelo parcial</td><td>EE de ĝ<sub>i</sub> − ĝ<sub>j</sub> según la distancia de los progenitores en el círculo</td><td>ACG y ACE, modelos I y II</td></tr>
+      <tr><td>Línea × probador</td><td>EE exactos de la ACG de líneas y probadores y de la ACE, junto a los convencionales</td><td>Líneas, probadores y líneas × probadores, modelos I y II</td></tr>
+      <tr><td>Carolinas del Norte y cruza triple</td><td>EE y CV de σ²<sub>A</sub> y σ²<sub>D</sub></td><td>Las pruebas de los componentes del diseño (modelo aleatorio)</td></tr>
+      <tr><td>Generaciones</td><td>EE de la media de cada generación con sus plantas</td><td>—</td></tr>
+    </tbody>
+  </table>
+  <figure>
+    <div class="marco"><img src="../img/b2-potencia.png" alt="La tarjeta de precisión y potencia con el ejemplo del dialelo"></div>
+    <figcaption><b>Figura 2.7.</b> La tarjeta 4 con el ejemplo. A la izquierda, los errores estándar y las diferencias detectables; a la derecha, la potencia de cada prueba F y la precisión de las varianzas genéticas, en verde cuando alcanzan la meta.</figcaption>
+  </figure>
+  <ul>
+    <li><b>Efectos.</b> Dos ACG difieren significativamente si su diferencia pasa de 0.448 (la DMS), y una diferencia real de 0.639, el 8&nbsp;% de la media, se detectaría con 80&nbsp;% de probabilidad. Para las ACE, las diferencias detectables son del 16 al 18&nbsp;%.</li>
+    <li><b>Pruebas.</b> En el modelo I (estas ocho líneas) la ACG y la ACE se detectan casi con seguridad. En el modelo II (una población de la que las ocho líneas son una muestra), la probabilidad de concluir que σ²<sub>ACG</sub> &gt; 0 es de 77&nbsp;%, porque esa prueba tiene solo 7 y 20 grados de libertad.</li>
+    <li><b>Varianzas.</b> σ²<sub>A</sub> se estimaría con un coeficiente de variación del 70&nbsp;% y σ²<sub>D</sub> del 44&nbsp;%: con ocho progenitores, las varianzas genéticas son estimaciones muy imprecisas.</li>
+  </ul>
+  <p>El texto de abajo lo resume y calcula cuántos progenitores harían falta para la inferencia poblacional: unos 9.</p>
+  <figure class="media">
+    <div class="marco"><img src="../img/b2-curva.png" alt="La curva de potencia según el número de progenitores"></div>
+    <figcaption><b>Figura 2.8.</b> Potencia según el número de progenitores, con el mismo número de repeticiones y localidades. Las líneas continuas son el modelo I y las punteadas el modelo II; la línea vertical marca el diseño actual y la horizontal, la potencia deseada.</figcaption>
+  </figure>
+  <div class="caja importante">
+    <div class="caja-t"><span class="ico">!</span>Importante · progenitores, no repeticiones</div>
+    <p>Si en el menú <span class="ui">Curva de potencia según</span> eliges el número de repeticiones, verás que pasar de 3 a 8 repeticiones solo sube la potencia para σ²<sub>ACG</sub> de 77 a 83&nbsp;%, mientras que un progenitor más la lleva a 87&nbsp;% y dos más a 93&nbsp;%. La precisión de las varianzas depende sobre todo del número de progenitores, porque son ellos, no las parcelas, la muestra de la población.</p>
+  </div>
+
+  <!-- ====================================================================== 2.7 -->
+  <h2 id="s2-7"><span class="num">2.7</span>Otros diseños, con sus números</h2>
+  <p>Los valores iniciales de cada diseño bastan para ver sus diferencias. En todos los casos siguientes se usan tres repeticiones, dos localidades y los supuestos iniciales de la tarjeta 4.</p>
+
+  <h3>Carolinas del Norte: cuál estima mejor la dominancia</h3>
+  <table class="compacta">
+    <caption><b>Tabla 2.11.</b> Las tres Carolinas del Norte con sus valores iniciales: I y II, tres conjuntos de 4 machos y 4 hembras (por macho en la I); III, 30 plantas F<sub>2</sub>. Plantas no endogámicas (F = 0).</caption>
+    <thead><tr><th>Diseño</th><th class="n">Entradas</th><th>Potencia de las pruebas</th><th class="n">CV de σ²<sub>A</sub></th><th class="n">CV de σ²<sub>D</sub></th></tr></thead>
+    <tbody>
+      <tr><td>Carolina del Norte I</td><td class="n">48</td><td>machos 58&nbsp;%; hembras dentro de machos 98&nbsp;%</td><td class="n">79&nbsp;%</td><td class="n">171&nbsp;%</td></tr>
+      <tr><td>Carolina del Norte II</td><td class="n">48</td><td>machos 75&nbsp;%; hembras 75&nbsp;%; machos × hembras 58&nbsp;%</td><td class="n">48&nbsp;%</td><td class="n">69&nbsp;%</td></tr>
+      <tr><td>Carolina del Norte III</td><td class="n">60</td><td>plantas F<sub>2</sub> 99&nbsp;%; F<sub>2</sub> × probadores 100&nbsp;%</td><td class="n">39&nbsp;%</td><td class="n">36&nbsp;%</td></tr>
+    </tbody>
+  </table>
+  <p>Con el mismo número de entradas, la II estima σ²<sub>A</sub> y σ²<sub>D</sub> con mucha más precisión que la I, en la que σ²<sub>D</sub> se obtiene por diferencia y su CV pasa del 170&nbsp;%. La III, pensada para el grado medio de dominancia, estima las dos varianzas con precisión parecida, y la app lo dice así en su texto. Recuerda que estas varianzas se estiman en un solo ambiente; la app advierte que, si se promedian localidades sin modelar la interacción, σ²<sub>A</sub> y σ²<sub>D</sub> quedan infladas por σ²<sub>GA</sub>.</p>
+
+  <h3>Línea × probador: los errores estándar exactos</h3>
+  <p>Con 20 líneas, 2 probadores y las líneas y probadores como entradas, hay 40 cruzas y 62 entradas. Los errores estándar de los efectos que usa la app incluyen los factores (<i>l</i> − 1)/<i>l</i> y (<i>t</i> − 1)/<i>t</i>; los convencionales los omiten y sobrestiman la incertidumbre, sobre todo cuando hay pocos probadores.</p>
+  <table class="compacta" style="width:78%">
+    <caption><b>Tabla 2.12.</b> Errores estándar exactos y convencionales en la línea × probador de 20 × 2.</caption>
+    <thead><tr><th>Estimación</th><th class="n">EE exacto</th><th class="n">EE convencional</th></tr></thead>
+    <tbody>
+      <tr><td>ĝ de una línea</td><td class="n">0.270</td><td class="n">0.277</td></tr>
+      <tr><td>ĝ de un probador</td><td class="n">0.062</td><td class="n">0.088</td></tr>
+      <tr><td>ŝ<sub>ij</sub></td><td class="n">0.270</td><td class="n">0.392</td></tr>
+      <tr><td>ŝ<sub>ij</sub> − ŝ<sub>kj</sub> (mismo probador)</td><td class="n">0.392</td><td class="n">0.554</td></tr>
+    </tbody>
+  </table>
+  <p>En el modelo II, en cambio, la potencia para σ²<sub>ACG</sub> de líneas es de solo 49&nbsp;%, porque se prueba contra la interacción con 19 grados de libertad. La app lo explica: con dos probadores, la ACG de cada línea se promedia sobre dos cruzas, y más probadores de base genética distinta dan una ACG más general.</p>
+
+  <h3>Dialelo parcial</h3>
+  <p>Con 10 progenitores y <i>s</i> = 5 se hacen 25 cruzas en lugar de 45. La ACG de cada progenitor se estima con cinco cruzas, y la precisión de una diferencia ĝ<sub>i</sub> − ĝ<sub>j</sub> depende de qué tan lejos están los dos progenitores en el círculo: su error estándar va de 0.256, para vecinos, a 0.324, para los opuestos. La potencia para la ACG en el modelo I es de 100&nbsp;%, y para σ²<sub>ACG</sub> en el modelo II, de 67&nbsp;%.</p>
+
+  <h3>Generaciones</h3>
+  <table class="compacta" style="width:86%">
+    <caption><b>Tabla 2.13.</b> Error estándar de cada media generacional, con el reparto inicial de plantas y con el del botón <span class="ui">Repartir para igualar la precisión</span> (600 plantas por localidad).</caption>
+    <thead><tr><th>Generación</th><th class="n">Plantas iniciales</th><th class="n">EE</th><th class="n">Plantas repartidas</th><th class="n">EE</th></tr></thead>
+    <tbody>
+      <tr><td>P<sub>1</sub>, P<sub>2</sub>, F<sub>1</sub></td><td class="n">30</td><td class="n">0.124</td><td class="n">73</td><td class="n">0.079</td></tr>
+      <tr><td>F<sub>2</sub></td><td class="n">100</td><td class="n">0.096</td><td class="n">146</td><td class="n">0.079</td></tr>
+      <tr><td>BC<sub>1</sub>, BC<sub>2</sub></td><td class="n">100</td><td class="n">0.086</td><td class="n">118</td><td class="n">0.080</td></tr>
+    </tbody>
+  </table>
+  <p>Las pruebas de escala comparan combinaciones de medias y ganan precisión cuando todas tienen errores estándar parecidos; por eso, en este diseño, la tarjeta 4 muestra esta tabla en lugar de la potencia. Con seis entradas y tres repeticiones, el error tiene solo 10 grados de libertad por localidad (la app lo marca en ámbar); una cuarta repetición los sube a 15.</p>
+
+  <!-- ====================================================================== 2.8 -->
+  <h2 id="s2-8"><span class="num">2.8</span>De la libreta al Bloque 3</h2>
+  <p>El botón <span class="ui">Continuar: Datos →</span> al final del bloque lleva al Bloque 3. Ahí, la tarjeta de carga tiene un mosaico <span class="ui">Libreta del Bloque 2</span> que muestra el resumen del plan actual; en el ejemplo, 2 localidades, 180 parcelas y un dialelo de Griffing. Hay dos maneras de usarlo.</p>
+  <figure class="chica">
+    <div class="marco"><img src="../img/b3-desde-plan.png" alt="La tarjeta de carga del Bloque 3 con el mosaico de la libreta del Bloque 2"></div>
+    <figcaption><b>Figura 2.9.</b> La tarjeta <span class="ui">1 · Cargar datos</span> del Bloque 3 con el plan del ejemplo listo para cargarse.</figcaption>
+  </figure>
+  <ol class="pasos">
+    <li><b>Antes de sembrar, para ensayar.</b> Con la casilla <span class="ui">llenarla con valores simulados…</span> activada, la libreta se carga con una columna de rendimiento simulado, con efectos de progenitores, de cruza, de localidad, de repetición y de bloque. Sirve para recorrer todo el análisis, del reconocimiento del diseño al informe, y comprobar que el experimento dará las tablas que necesitas. <b>No son datos reales.</b></li>
+    <li><b>Después de la cosecha.</b> Captura los datos en las columnas vacías de la libreta descargada y carga el archivo en el mosaico <span class="ui">Archivo</span>. La línea que describe el diseño le dice al Bloque 3 cuál es el diseño de apareamiento y de campo.</li>
+  </ol>
+
+  <p>Como el resto de la app, el Bloque 2 no guarda nada al recargar la página: descarga el libro de cálculo, que además conserva la semilla aleatoria para regenerar el mismo croquis.</p>
+</section>
+
+</body>
+</html>

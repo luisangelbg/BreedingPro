@@ -1,0 +1,197 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>BreedingPro · Manual de usuario · Bloque 6: diseños de apareamiento</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,500;0,600;1,500&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../interior.css">
+<!-- reparte el contenido en hojas tamaño carta, con encabezados y números de página -->
+<script src="../paginar.js"></script>
+<style>
+  figure.chica .marco, figure.chica > svg { width: 72%; margin: 0 auto; }
+  figure.chica figcaption { margin-left: 14%; margin-right: 14%; }
+  figure.angosta .marco { width: 58%; margin: 0 auto; }
+  figure.angosta figcaption { margin-left: 21%; margin-right: 21%; }
+  td.n, th.n { text-align: right; white-space: nowrap; }
+  td.c, th.c { text-align: center; }
+  .formula { font-family: var(--sans); font-size: 9pt; background: #f6f3fa; border-radius: 4px; padding: 0.07in 0.12in; margin: 0.06in 0 0.12in; line-height: 1.6; }
+</style>
+</head>
+<body>
+
+<section class="capitulo" id="cap-b6" data-pestana="B6" data-orden="7" style="--acento: var(--b6)">
+  <div class="cap-apertura">
+    <div class="cap-num">B6</div>
+    <div class="cap-etiqueta">Capítulo seis · Bloque 6 · Apareamiento</div>
+    <h1 data-corto="Bloque 6 · Diseños de apareamiento">Diseños de apareamiento</h1>
+    <div class="cap-regla"></div>
+    <p class="cap-resumen">Los dialelos no son la única forma de estimar varianzas genéticas. Las Carolinas del Norte de Comstock y Robinson, la cruza triple de prueba de Kearsey y Jinks, la línea × probador y los dialelos parciales organizan las cruzas de otra manera, casi siempre para evaluar más familias con menos trabajo. El Bloque 6 analiza los seis diseños con un mismo motor: calcula los cuadrados medios esperados del experimento real, elige contra qué probar cada fuente y convierte los componentes en σ²<sub>A</sub>, σ²<sub>D</sub> y heredabilidades.</p>
+    <div class="cap-franja"><span class="k6"></span><span class="k6" style="opacity:.75"></span><span class="k6" style="opacity:.5"></span><span class="k6" style="opacity:.3"></span></div>
+    <ul class="cap-contenido">
+      <li><b>6.1</b>Seis diseños, una misma idea</li>
+      <li><b>6.2</b>Datos y supuestos</li>
+      <li><b>6.3</b>El análisis de varianza</li>
+      <li><b>6.4</b>Los efectos</li>
+      <li><b>6.5</b>Componentes y parámetros genéticos</li>
+      <li><b>6.6</b>Carolina del Norte I</li>
+      <li><b>6.7</b>Carolina del Norte III y cruza triple de prueba</li>
+      <li><b>6.8</b>Línea × probador</li>
+      <li><b>6.9</b>Dialelo parcial</li>
+      <li><b>6.10</b>Varios ambientes, descargas y siguiente bloque</li>
+    </ul>
+  </div>
+
+  <!-- ====================================================================== 6.1 -->
+  <h2 id="s6-1"><span class="num">6.1</span>Seis diseños, una misma idea</h2>
+  <p class="lead">Todos estos diseños se basan en lo mismo: los parientes se parecen en proporción a los genes que comparten. Los medios hermanos (un progenitor en común) comparten una cuarta parte de la varianza aditiva; los hermanos completos, la mitad de la aditiva y una cuarta parte de la de dominancia. Cada diseño organiza las cruzas para que el análisis de varianza separe esas dos covarianzas.</p>
+  <div class="formula">Cov(MH) = ¼(1 + <i>F</i>)σ²<sub>A</sub> &nbsp;·&nbsp; Cov(HC) = ½(1 + <i>F</i>)σ²<sub>A</sub> + ¼(1 + <i>F</i>)²σ²<sub>D</sub></div>
+  <table class="compacta">
+    <caption><b>Tabla 6.1.</b> Los diseños del Bloque 6, qué estiman y el ejemplo del capítulo que los ilustra.</caption>
+    <thead><tr><th style="width:21%">Diseño</th><th>Cómo se cruza</th><th style="width:25%">Estima</th><th style="width:20%">Ejemplo</th></tr></thead>
+    <tbody>
+      <tr><td>Carolina del Norte I</td><td>Cada macho con varias hembras propias (jerárquico)</td><td>σ²<sub>A</sub> de los machos; σ²<sub>D</sub> de las hembras dentro de machos</td><td>2 conjuntos × 3 machos × 2 hembras</td></tr>
+      <tr><td>Carolina del Norte II</td><td>Todos los machos con todas las hembras de su conjunto (factorial)</td><td>σ²<sub>A</sub> de machos y de hembras; σ²<sub>D</sub> de su interacción</td><td>papa: 2 conjuntos de 5 × 5</td></tr>
+      <tr><td>Carolina del Norte III</td><td>Cada planta F<sub>2</sub> con los dos progenitores de la F<sub>1</sub></td><td>σ²<sub>A</sub> de las sumas; σ²<sub>D</sub> de las diferencias</td><td>16 plantas F<sub>2</sub> en 4 conjuntos</td></tr>
+      <tr><td>Cruza triple de prueba</td><td>Como la III, más la F<sub>1</sub> como tercer probador</td><td>Lo mismo y, además, epistasis</td><td>simulado: 30 plantas F<sub>2</sub></td></tr>
+      <tr><td>Línea × probador</td><td>Cada línea con cada probador; opcionalmente, los progenitores</td><td>ACG de líneas y probadores; ACE; heterosis</td><td>5 líneas × 3 probadores</td></tr>
+      <tr><td>Dialelo parcial</td><td>Cada progenitor con <i>s</i> de los demás (circulante)</td><td>ACG y ACE como un dialelo, con menos cruzas</td><td>maíz: 8 líneas, <i>s</i> = 5</td></tr>
+    </tbody>
+  </table>
+  <p>El Bloque 3 reconoce el diseño y decide qué columna es la hembra, el macho, el probador o la planta F<sub>2</sub>. Si los datos no son de ninguno de estos diseños, la tarjeta 1 dice dónde se analizan: los dialelos completos, en los Bloques 4 y 5; las generaciones, en el 7.</p>
+
+  <!-- ====================================================================== 6.2 -->
+  <h2 id="s6-2"><span class="num">6.2</span>Datos y supuestos</h2>
+  <p>La tarjeta <span class="ui">1 · Datos y modelo</span> toma los valores de parcela del Bloque 3 (con el análisis de campo que corresponda al diseño y las observaciones que hayas excluido), resume el experimento en una línea y da los principales resultados en recuadros. La tabla <span class="ui">Qué supone el diseño</span>, debajo, dice qué supone cada diseño y qué pasa si no se cumple.</p>
+  <figure>
+    <div class="marco"><img src="../img/b6-datos.png" alt="La tarjeta de datos y modelo con la Carolina del Norte II de papa"></div>
+    <figcaption><b>Figura 6.1.</b> La tarjeta 1 con la Carolina del Norte II de papa: dos conjuntos de cinco machos × cinco hembras, tres repeticiones y 150 parcelas de rendimiento. Los recuadros dan σ²<sub>A</sub>, σ²<sub>D</sub>, el grado de dominancia, la heredabilidad y el error.</figcaption>
+  </figure>
+  <table class="compacta">
+    <caption><b>Tabla 6.2.</b> Los controles de la tarjeta 1.</caption>
+    <thead><tr><th style="width:27%">Control</th><th>Para qué sirve</th></tr></thead>
+    <tbody>
+      <tr><td><span class="ui">Variable</span></td><td>Todo el bloque se recalcula para la variable elegida.</td></tr>
+      <tr><td><span class="ui">Ambiente</span></td><td>Con varios ambientes, uno de ellos o <span class="ui">todos juntos</span>, que añade los ambientes y sus interacciones al modelo (sección 6.10).</td></tr>
+      <tr><td><span class="ui">Endogamia de los progenitores (F)</span></td><td>0, 0.5, 0.75 o 1. Por omisión, 1 en línea × probador y dialelos parciales (líneas endogámicas) y 0 en las Carolinas del Norte y la cruza triple (plantas de una población); si la libreta del Bloque 2 declaró otro valor, se usa ese. F cambia los coeficientes de las covarianzas, no las sumas de cuadrados.</td></tr>
+      <tr><td><span class="ui">Probador F₁ (L₃)</span></td><td>Solo en la cruza triple de prueba: cuál de los tres probadores es la F<sub>1</sub> de los otros dos. La app lo adivina por el nombre.</td></tr>
+      <tr><td><span class="ui">Interesa</span> · <span class="ui">Nivel de significancia</span></td><td>La dirección favorable para ordenar la heterosis, y el nivel de las pruebas.</td></tr>
+    </tbody>
+  </table>
+  <div class="caja importante">
+    <div class="caja-t"><span class="ico">!</span>Importante · el valor de F cambia σ²<sub>A</sub> y σ²<sub>D</sub></div>
+    <p>Con los mismos cuadrados medios, σ²<sub>A</sub> = 4Cov(MH)/(1 + <i>F</i>) y σ²<sub>D</sub> = 4σ²<sub>ACE</sub>/(1 + <i>F</i>)². Pasar de F = 0 a F = 1 divide σ²<sub>A</sub> entre 2 y σ²<sub>D</sub> entre 4. En el ejemplo de línea × probador, con F = 0 σ²<sub>D</sub> saldría 1679 y el grado de dominancia 8.76; con F = 1, que es lo correcto para líneas endogámicas, σ²<sub>D</sub> = 420 y el grado de dominancia 6.19. Revisa siempre este control.</p>
+  </div>
+
+  <!-- ====================================================================== 6.3 -->
+  <h2 id="s6-3"><span class="num">6.3</span>El análisis de varianza</h2>
+  <p>La tarjeta <span class="ui">2 · Análisis de varianza del apareamiento</span> ajusta el modelo del diseño a los valores de parcela: los estratos del campo (conjuntos, repeticiones, bloques) y la partición de las entradas propia de cada diseño. Además de gl, sumas de cuadrados y cuadrados medios, la tabla da el <b>cuadrado medio esperado</b> de cada fuente, contra qué se prueba y su valor <i>p</i>.</p>
+  <figure>
+    <div class="marco"><img src="../img/b6-anova.png" alt="El análisis de varianza de la Carolina del Norte II con sus cuadrados medios esperados"></div>
+    <figcaption><b>Figura 6.2.</b> El análisis de varianza de la Carolina del Norte II. Machos y hembras se prueban contra su interacción; la interacción, contra el error; los conjuntos, con una cuasi-<i>F</i> de 12.9 grados de libertad.</figcaption>
+  </figure>
+  <div class="caja teoria">
+    <div class="caja-t"><span class="ico">θ</span>Teoría en breve · cuadrados medios esperados calculados, no copiados</div>
+    <p>Los libros traen tablas de cuadrados medios esperados para cada diseño balanceado. El Bloque 6 los calcula para el experimento que tienes: el coeficiente de cada varianza en el cuadrado medio de cada fuente es una traza, tr(A<sub>t</sub>Z<sub>k</sub>Z<sub>k</sub>′)/gl<sub>t</sub>, que se obtiene ajustando cada columna de efectos aleatorios como si fuera la respuesta. Con datos balanceados reproduce los coeficientes de los libros (en la figura 6.2, 15 = <i>r</i>·<i>f</i> y 3 = <i>r</i>); con cruzas faltantes o repeticiones desiguales los coeficientes dejan de ser enteros y siguen siendo exactos. Cada fuente se prueba contra el cuadrado medio cuya esperanza difiere solo en el término probado; si no hay uno así, contra una combinación de cuadrados medios con grados de libertad de Satterthwaite (cuasi-<i>F</i>).</p>
+  </div>
+  <p>Debajo de la tabla, la figura <span class="ui">Aporte de cada fuente</span> muestra qué parte de la variación entre entradas corresponde a cada término del apareamiento.</p>
+
+  <!-- ====================================================================== 6.4 -->
+  <h2 id="s6-4"><span class="num">6.4</span>Los efectos</h2>
+  <p>La tarjeta <span class="ui">3 · Efectos de progenitores y cruzas</span> estima el efecto de cada progenitor (su aptitud combinatoria general) y el de cada cruza (la específica), con su error estándar y su prueba <i>t</i>. En la Carolina del Norte II, los machos y las hembras tienen su tabla y la interacción otra, más una figura de puntos de los efectos generales y una matriz de colores de la interacción, conjunto por conjunto.</p>
+  <figure>
+    <div class="marco"><img src="../img/b6-efectos.png" alt="Los efectos de machos y hembras de la Carolina del Norte II"></div>
+    <figcaption><b>Figura 6.3.</b> Los efectos de los diez machos y las diez hembras de papa. Como machos y hembras comparten números pero son plantas distintas, la app los marca con ♂ y ♀.</figcaption>
+  </figure>
+  <figure class="angosta">
+    <div class="marco"><img src="../img/b6-sca.png" alt="La matriz de los efectos de la interacción del primer conjunto"></div>
+    <figcaption><b>Figura 6.4.</b> Los efectos de la interacción machos × hembras del primer conjunto. En rojo, las cruzas que rinden más de lo que predicen sus progenitores; en azul, las que rinden menos.</figcaption>
+  </figure>
+  <p>Los efectos se estiman por mínimos cuadrados con las restricciones del modelo (los efectos de cada conjunto suman cero), así que su error estándar es el del contraste completo: para una línea, σ²(1/<i>rt</i> − 1/<i>rlt</i>) y no σ²/<i>rt</i>, como imprimen algunos libros. En línea × probador, el error estándar de una ACG de línea es 2.464, no 2.755.</p>
+
+  <!-- ====================================================================== 6.5 -->
+  <h2 id="s6-5"><span class="num">6.5</span>Componentes y parámetros genéticos</h2>
+  <p>La tarjeta <span class="ui">4 · Componentes de varianza y parámetros genéticos</span> despeja los componentes de los cuadrados medios esperados (a la izquierda) y los convierte en covarianzas de parentesco, σ²<sub>A</sub>, σ²<sub>D</sub>, grado de dominancia y heredabilidades (a la derecha). Cada componente es una combinación de cuadrados medios, así que su error estándar sale de ellos: Var(Σc<sub>i</sub>M<sub>i</sub>) = Σc<sub>i</sub>²·2M<sub>i</sub>²/gl<sub>i</sub>.</p>
+  <figure>
+    <div class="marco"><img src="../img/b6-comp.png" alt="Los componentes de varianza y los parámetros genéticos de la Carolina del Norte II"></div>
+    <figcaption><b>Figura 6.5.</b> Los componentes y parámetros de la papa. La prueba de que un componente vale cero es la <i>F</i> de su fuente: σ²<sub>m</sub> es claramente mayor que cero (<i>p</i> = 0.0014) aunque su error estándar sea grande.</figcaption>
+  </figure>
+  <p>En la papa, σ²<sub>A</sub> = 16&nbsp;407 ± 8579 y σ²<sub>D</sub> = 8862 ± 9138, con un grado medio de dominancia de 1.04 y una heredabilidad de 0.37 por parcela y 0.52 en medias de familia. La Carolina del Norte II da dos estimaciones de σ²<sub>A</sub>, una de los machos (21&nbsp;975) y otra de las hembras (10&nbsp;840), y la app las promedia; cuando difieren mucho, como aquí, conviene pensar en efectos maternos o en que machos y hembras no vienen de la misma población.</p>
+  <div class="caja importante">
+    <div class="caja-t"><span class="ico">!</span>Importante · componentes negativos</div>
+    <p>Un componente negativo se informa como sale: suele indicar que la varianza verdadera es cercana a cero o que hay pocas repeticiones. Una σ²<sub>D</sub> negativa se toma como cero en el denominador de h² en sentido estrecho, y con ella no se calculan el grado de dominancia, H² ni la razón de Baker; con σ²<sub>A</sub> negativa no se calcula ninguna heredabilidad. El aviso de la tarjeta lo explica cada vez.</p>
+  </div>
+
+  <!-- ====================================================================== 6.6 -->
+  <h2 id="s6-6"><span class="num">6.6</span>Carolina del Norte I</h2>
+  <p>En el diseño jerárquico cada macho se cruza con hembras que no se cruzan con ningún otro macho. La varianza entre machos es la covarianza de medios hermanos, y la de hembras dentro de machos es la de hermanos completos menos la de medios hermanos: σ²<sub>A</sub> = 4σ²<sub>m</sub>/(1 + <i>F</i>) y σ²<sub>D</sub> = 4(σ²<sub>h</sub> − σ²<sub>m</sub>)/(1 + <i>F</i>)². Los machos se prueban contra las hembras dentro de machos, y estas contra el error.</p>
+  <figure class="media">
+    <div class="marco"><img src="../img/b6-nc1.png" alt="El análisis de varianza de la Carolina del Norte I con la fila entre plantas"></div>
+    <figcaption><b>Figura 6.6.</b> La Carolina del Norte I del ejemplo, con tres plantas medidas por parcela: la última fila es el error de muestreo entre plantas, en la escala de plantas.</figcaption>
+  </figure>
+  <p>En el ejemplo los machos difieren (<i>F</i> = 6.89, <i>p</i> = 0.020), pero las hembras dentro de machos no (<i>p</i> = 0.096), y σ²<sub>D</sub> sale negativa (−1.26 ± 1.39): con seis machos y dos hembras por macho la dominancia no se puede estimar bien. La tabla de supuestos recuerda una limitación propia del diseño: como cada hembra tiene un solo macho, los efectos maternos quedan dentro del componente de hembras y sobrestiman σ²<sub>D</sub> cuando existen. Con datos por planta, la heredabilidad se da también en base de planta, separando el error de muestreo entre plantas del error de parcela.</p>
+
+  <!-- ====================================================================== 6.7 -->
+  <h2 id="s6-7"><span class="num">6.7</span>Carolina del Norte III y cruza triple de prueba</h2>
+  <p>En la Carolina del Norte III cada planta F<sub>2</sub> se cruza con los dos progenitores de la F<sub>1</sub>, L<sub>1</sub> y L<sub>2</sub>. Para cada planta, la suma de sus dos cruzas refleja su valor aditivo y la diferencia, su dominancia: la varianza de las sumas estima σ²<sub>A</sub> y la de las diferencias, 2σ²<sub>D</sub>, las dos después de restar el error de un par (Comstock y Robinson, 1952). La cruza triple de prueba añade la F<sub>1</sub> como tercer probador, L<sub>3</sub>, y el contraste L<sub>1</sub> + L<sub>2</sub> − 2L<sub>3</sub>, que vale cero si no hay epistasis (Kearsey y Jinks, 1968).</p>
+  <div class="caja teoria">
+    <div class="caja-t"><span class="ico">θ</span>Teoría en breve · sumas, diferencias y epistasis</div>
+    <div class="formula" style="margin-bottom:0.04in">Var(L<sub>1</sub> + L<sub>2</sub>) − 2CM<sub>e</sub>/<i>r</i> = σ²<sub>A</sub> &nbsp;·&nbsp; ½[Var(L<sub>1</sub> − L<sub>2</sub>) − 2CM<sub>e</sub>/<i>r</i>] = σ²<sub>D</sub> &nbsp;·&nbsp; D = 2σ²<sub>A</sub>, H = 4σ²<sub>D</sub>, grado de dominancia √(H/D)</div>
+    <p>Un locus de la F<sub>2</sub> cruzado con los dos progenitores da diferencias a − d, a y a + d con frecuencias ¼, ½ y ¼, de modo que la varianza de las diferencias es H/2 = 2σ²<sub>D</sub>. La correlación entre sumas y diferencias dice hacia qué progenitor va la dominancia. En la cruza triple, la media del contraste L<sub>1</sub> + L<sub>2</sub> − 2L<sub>3</sub> prueba la epistasis global (tipo i) y su variación entre individuos, la de tipos j y l.</p>
+  </div>
+  <figure>
+    <div class="marco"><img src="../img/b6-nc3.png" alt="El análisis de varianza de la Carolina del Norte III"></div>
+    <figcaption><b>Figura 6.7.</b> La Carolina del Norte III del ejemplo: 16 plantas F<sub>2</sub> en cuatro conjuntos, cruzadas con P1 y P2. Las plantas se prueban contra el error y la interacción plantas × probadores también: los probadores son fijos.</figcaption>
+  </figure>
+  <p>Los probadores son dos líneas fijas, no una muestra, así que la interacción de cada planta con ellos no entra en el cuadrado medio esperado de las plantas (el modelo restringido de Comstock y Robinson). Por eso las plantas se prueban contra el error (<i>F</i> = 2.40, <i>p</i> = 0.028), y el componente de plantas, 0.255, es exactamente σ²<sub>A</sub>/4 = 1.019/4. La interacción plantas × probadores es significativa (<i>p</i> = 0.006): hay dominancia, con σ²<sub>D</sub> = 0.80 ± 0.49 y un grado de dominancia de 1.25.</p>
+  <p>La tarjeta <span class="ui">5 · Sumas, diferencias y epistasis</span> reúne esos cálculos. Con la cruza triple simulada de la galería de ejemplos —ocho loci sin epistasis, D = 11.52 y H = 8 (σ²<sub>A</sub> = 5.76, σ²<sub>D</sub> = 2)—, el bloque estima σ²<sub>A</sub> = 4.97 ± 2.20 y σ²<sub>D</sub> = 1.86 ± 0.94, con un grado de dominancia de 0.87 (verdadero, 0.83).</p>
+  <figure>
+    <div class="marco"><img src="../img/b6-sd.png" alt="La tabla de sumas y diferencias de la cruza triple de prueba"></div>
+    <figcaption><b>Figura 6.8.</b> Sumas y diferencias de la cruza triple simulada. La media de las diferencias mide la diferencia aditiva entre los probadores; la correlación entre sumas y diferencias (−0.55, <i>p</i> = 0.001) dice que la dominancia va hacia P1.</figcaption>
+  </figure>
+  <div class="caja nota">
+    <div class="caja-t"><span class="ico">i</span>Nota · el orden de los probadores</div>
+    <p>El contraste de epistasis solo tiene sentido si L<sub>3</sub> es la F<sub>1</sub> de L<sub>1</sub> y L<sub>2</sub>. La app ordena los probadores por el nombre (la F<sub>1</sub>, al final); si los nombres no lo dicen, elige el correcto en <span class="ui">Probador F₁ (L₃)</span>. Con el orden equivocado, datos sin epistasis la mostrarían muy significativa.</p>
+  </div>
+  <figure class="media">
+    <div class="marco"><img src="../img/b6-fig-sd.png" alt="La figura de sumas contra diferencias de cada individuo"></div>
+    <figcaption><b>Figura 6.9.</b> Cada individuo F<sub>2</sub> por su suma y su diferencia. La pendiente negativa indica que los individuos con más alelos que aumentan el valor tienen diferencias menores: la dominancia va hacia el progenitor de valor alto.</figcaption>
+  </figure>
+  <figure>
+    <div class="marco"><img src="../img/b6-epi.png" alt="La prueba de epistasis de Kearsey y Jinks"></div>
+    <figcaption><b>Figura 6.10.</b> La prueba de epistasis. En los datos simulados sin epistasis, ni la media del contraste (<i>p</i> = 0.90) ni su variación entre individuos (<i>p</i> = 0.95) son significativas, como debe ser. Debajo, una figura muestra el contraste de cada individuo con su intervalo.</figcaption>
+  </figure>
+
+  <!-- ====================================================================== 6.8 -->
+  <h2 id="s6-8"><span class="num">6.8</span>Línea × probador</h2>
+  <p>La línea × probador (Kempthorne, 1957) cruza cada línea con unos cuantos probadores. Si también se evaluaron los progenitores, las entradas se parten en progenitores, cruzas y el contraste entre ambos grupos; las cruzas, en líneas, probadores y su interacción. La ACG de líneas y probadores sale de sus efectos, y la ACE, de la interacción.</p>
+  <figure>
+    <div class="marco"><img src="../img/b6-lxt.png" alt="El análisis de varianza de línea por probador con progenitores"></div>
+    <figcaption><b>Figura 6.11.</b> Cinco líneas × tres probadores más ocho progenitores. Líneas y probadores se prueban contra su interacción; la interacción es muy significativa (<i>F</i> = 19.44). El contraste progenitores contra cruzas lleva una cuasi-<i>F</i> porque la media de las cruzas contiene los efectos aleatorios de líneas y probadores.</figcaption>
+  </figure>
+  <p>En el ejemplo, las líneas difieren en su ACG (L3, con +23.8, es la mejor; L4, con −13.9, la peor) y dos probadores también (T7, +6.4; T8, −6.7), pero con cinco líneas y tres probadores sus varianzas no llegan a ser significativas contra la interacción, que domina. La varianza de los probadores sale negativa, y σ²<sub>A</sub>, que se calcula con el promedio de las varianzas de líneas y probadores, queda en 21.9 ± 197: casi toda la variación entre cruzas es específica. El aviso de la tarjeta 4 explica por qué: unos pocos probadores elegidos a propósito no estiman la covarianza de medios hermanos de una población.</p>
+  <figure>
+    <div class="marco"><img src="../img/b6-lxt-het.png" alt="La tabla de heterosis de cada cruza de línea por probador"></div>
+    <figcaption><b>Figura 6.12.</b> Con los progenitores en el experimento, la tarjeta 5 da la heterosis de cada cruza respecto a la media de sus progenitores y al mejor de ellos. L3 × T8 supera a la media de sus progenitores en 51&nbsp;% y al mejor en 44&nbsp;%.</figcaption>
+  </figure>
+
+  <!-- ====================================================================== 6.9 -->
+  <h2 id="s6-9"><span class="num">6.9</span>Dialelo parcial</h2>
+  <p>En un dialelo parcial cada progenitor se cruza con <i>s</i> de los demás, normalmente en el orden circulante de Kempthorne y Curnow (1961) que prepara el Bloque 2. El Bloque 6 ajusta y<sub>ij</sub> = μ + g<sub>i</sub> + g<sub>j</sub> + s<sub>ij</sub> por mínimos cuadrados sobre las cruzas que se hicieron, así que sirve para el arreglo circulante y para cualquier conjunto incompleto de cruzas, y da la ACG de cada progenitor y la ACE de cada cruza como un dialelo del método 4.</p>
+  <figure>
+    <div class="marco"><img src="../img/b6-parcial.png" alt="El análisis de varianza del dialelo parcial de maíz"></div>
+    <figcaption><b>Figura 6.13.</b> El dialelo parcial de ocho líneas de maíz con <i>s</i> = 5 (20 cruzas y cuatro repeticiones). El coeficiente de σ²<sub>ACG</sub>, 17.14 = 120/7, no es entero: el cálculo por trazas lo obtiene sin tablas.</figcaption>
+  </figure>
+  <p>Aquí ni la ACG (<i>p</i> = 0.085) ni la ACE (<i>p</i> = 0.52) son significativas en conjunto, aunque dos líneas se apartan: la 2 (ĝ = +0.59, <i>p</i> = 0.009) y la 7 (ĝ = −0.49, <i>p</i> = 0.028). σ²<sub>ACE</sub> sale negativa, así que no hay razón de Baker ni grado de dominancia; con F = 1, σ²<sub>A</sub> = 0.13 ± 0.12 y la heredabilidad es 0.13 por parcela.</p>
+
+  <!-- ====================================================================== 6.10 -->
+  <h2 id="s6-10"><span class="num">6.10</span>Varios ambientes, descargas y siguiente bloque</h2>
+  <p>Con datos de varios ambientes, el menú <span class="ui">Ambiente</span> permite analizar uno o <span class="ui">todos juntos</span>. En el segundo caso el modelo añade los ambientes y la interacción de cada término genético con ellos (machos × ambientes, hembras × ambientes, líneas × probadores × ambientes…), y los cuadrados medios esperados y las pruebas se recalculan por trazas para ese modelo; σ²<sub>A</sub> y σ²<sub>D</sub> descuentan entonces su interacción con los ambientes.</p>
+  <p>La tarjeta <span class="ui">6 · Supuestos, fórmulas y referencias</span> resume el modelo y las fórmulas de cada diseño con sus referencias. <span class="ui">Resultados (.xlsx)</span> descarga el análisis de varianza, los componentes, los parámetros, los efectos y, según el diseño, las sumas y diferencias o la heterosis. Cada figura tiene su panel de descarga.</p>
+  <p>El botón <span class="ui">Continuar</span> lleva al Bloque 8 (parámetros genéticos, correlaciones e índices de selección entre las familias) o, con varios ambientes, al 9 (genotipo × ambiente). <span class="ui">← Datos</span> regresa al Bloque 3.</p>
+</section>
+
+</body>
+</html>

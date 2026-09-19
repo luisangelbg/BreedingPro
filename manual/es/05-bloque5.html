@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>BreedingPro · Manual de usuario · Bloque 5: Hayman–Jinks y Gardner–Eberhart</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,500;0,600;1,500&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../interior.css">
+<!-- reparte el contenido en hojas tamaño carta, con encabezados y números de página -->
+<script src="../paginar.js"></script>
+<style>
+  figure.chica .marco, figure.chica > svg { width: 72%; margin: 0 auto; }
+  figure.chica figcaption { margin-left: 14%; margin-right: 14%; }
+  figure.angosta .marco { width: 58%; margin: 0 auto; }
+  figure.angosta figcaption { margin-left: 21%; margin-right: 21%; }
+  td.n, th.n { text-align: right; white-space: nowrap; }
+  td.c, th.c { text-align: center; }
+  .formula { font-family: var(--sans); font-size: 9pt; background: #f6f3fa; border-radius: 4px; padding: 0.07in 0.12in; margin: 0.06in 0 0.12in; line-height: 1.6; }
+</style>
+</head>
+<body>
+
+<section class="capitulo" id="cap-b5" data-pestana="B5" data-orden="6" style="--acento: var(--b5)">
+  <div class="cap-apertura">
+    <div class="cap-num">B5</div>
+    <div class="cap-etiqueta">Capítulo cinco · Bloque 5 · Hayman–Jinks</div>
+    <h1 data-corto="Bloque 5 · Hayman–Jinks y Gardner–Eberhart">Hayman–Jinks y Gardner–Eberhart</h1>
+    <div class="cap-regla"></div>
+    <p class="cap-resumen">El mismo dialelo admite otras dos lecturas. La de Hayman y Jinks pregunta por la acción de los genes: cuánta variación es aditiva y cuánta de dominancia, si la dominancia es parcial o sobredominancia y qué progenitores llevan los alelos dominantes. La de Gardner y Eberhart, pensada para cruzas entre variedades, reparte la heterosis en promedio, de variedad y específica. El Bloque 5 hace las dos, con el gráfico Wr–Vr, y comprueba en tus datos que ambas cuadran con Griffing.</p>
+    <div class="cap-franja"><span class="k5"></span><span class="k5" style="opacity:.75"></span><span class="k5" style="opacity:.5"></span><span class="k5" style="opacity:.3"></span></div>
+    <ul class="cap-contenido">
+      <li><b>5.1</b>Tres lecturas de un dialelo</li>
+      <li><b>5.2</b>Datos y supuestos</li>
+      <li><b>5.3</b>La partición de Hayman</li>
+      <li><b>5.4</b>Los componentes genéticos</li>
+      <li><b>5.5</b>El gráfico Wr–Vr y el orden de dominancia</li>
+      <li><b>5.6</b>Gardner y Eberhart: variedades y heterosis</li>
+      <li><b>5.7</b>Las equivalencias</li>
+      <li><b>5.8</b>Casos especiales, descargas y siguiente bloque</li>
+    </ul>
+  </div>
+
+  <!-- ====================================================================== 5.1 -->
+  <h2 id="s5-1"><span class="num">5.1</span>Tres lecturas de un dialelo</h2>
+  <p class="lead">Griffing (capítulo 5) describe cada progenitor por su aptitud combinatoria. Hayman y Jinks van más al fondo y describen los genes, con un modelo aditivo–dominante y una serie de supuestos. Gardner y Eberhart describen variedades y la heterosis de sus cruzas. Las tres reparten la misma variación entre entradas, así que sus sumas de cuadrados coinciden; cambian la pregunta y la lectura.</p>
+  <table class="compacta">
+    <caption><b>Tabla 5.1.</b> Qué pregunta responde cada análisis del Bloque 5 y qué necesita.</caption>
+    <thead><tr><th style="width:24%">Análisis</th><th>Pregunta</th><th style="width:30%">Necesita</th></tr></thead>
+    <tbody>
+      <tr><td>Partición de Hayman (1954)</td><td>¿Hay efectos aditivos, dominancia media, dominancia que cambia entre progenitores, dominancia específica y efectos recíprocos?</td><td>Tabla completa con recíprocas (o media, con Morley Jones, 1965)</td></tr>
+      <tr><td>Componentes de Hayman y Jinks</td><td>¿Cuánto pesan la varianza aditiva (D) y la de dominancia (H<sub>1</sub>, H<sub>2</sub>)? ¿Hay sobredominancia? ¿Predominan los alelos dominantes?</td><td>Progenitores homocigóticos incluidos en el experimento</td></tr>
+      <tr><td>Gráfico Wr–Vr</td><td>¿Se cumple el modelo aditivo–dominante? ¿Qué progenitores tienen más genes dominantes?</td><td>Al menos cinco o seis progenitores para que las pruebas tengan potencia</td></tr>
+      <tr><td>Gardner y Eberhart (1966), análisis II y III</td><td>¿Cuánto rinde cada variedad, cuánta heterosis promedio hay, qué variedades aportan heterosis y qué cruzas tienen heterosis específica?</td><td>Las variedades (progenitores) y sus cruzas</td></tr>
+      <tr><td>Heterosis de cada cruza</td><td>¿Cuánto supera cada cruza a la media de sus progenitores y al mejor de ellos?</td><td>Progenitores y cruzas</td></tr>
+    </tbody>
+  </table>
+  <p>El capítulo usa dos ejemplos publicados. Para Hayman y Jinks, el dialelo 8 × 8 de <i>Nicotiana rustica</i> de Hayman (1954) —ocho líneas, tabla completa con recíprocas, dos bloques, días a floración—, el caso clásico del gráfico Wr–Vr. Para Gardner y Eberhart, las cruzas entre seis variedades de maíz de Lonnquist y Gardner (1961), un medio dialelo con las variedades como progenitores. Los dos se reproducen exactamente con los valores publicados.</p>
+
+  <!-- ====================================================================== 5.2 -->
+  <h2 id="s5-2"><span class="num">5.2</span>Datos y supuestos</h2>
+  <p>Como el Bloque 4, el 5 toma del Bloque 3 las medias ajustadas y el error. La tarjeta <span class="ui">1 · Datos y supuestos</span> resume los datos en una línea (progenitores, tipo de tabla y E, la varianza de una media de entrada), muestra los avisos y ofrece los controles de la tabla 5.2. Los recuadros resumen el reparto de la variación entre efectos aditivos, dominancia y recíprocos, los principales cocientes de Hayman y Jinks y la regresión de Wr sobre Vr.</p>
+  <figure>
+    <div class="marco"><img src="../img/b5-datos.png" alt="La tarjeta de datos y supuestos con el dialelo de Hayman"></div>
+    <figcaption><b>Figura 5.1.</b> La tarjeta 1 con el dialelo de Hayman. Los efectos aditivos reúnen 70&nbsp;% de la variación entre entradas; la dominancia, 26&nbsp;%; los recíprocos, 5&nbsp;%.</figcaption>
+  </figure>
+  <table class="compacta">
+    <caption><b>Tabla 5.2.</b> Los controles de la tarjeta 1.</caption>
+    <thead><tr><th style="width:27%">Control</th><th style="width:30%">Opciones</th><th>Para qué sirve</th></tr></thead>
+    <tbody>
+      <tr><td><span class="ui">Variable</span></td><td>las del Bloque 3</td><td>Todo el bloque se recalcula para la variable elegida</td></tr>
+      <tr><td><span class="ui">Ambiente</span></td><td>cada ambiente · media de todos</td><td>Con varios ambientes: estos análisis se hacen sobre una sola tabla dialélica</td></tr>
+      <tr><td><span class="ui">Tabla dialélica</span></td><td>automática · completa · media</td><td>Usar la tabla con recíprocas (Hayman) o una cruza por pareja (Morley Jones)</td></tr>
+      <tr><td><span class="ui">Error de las pruebas F</span></td><td>error combinado · interacción de cada ítem con bloques</td><td>La segunda es la prueba de Hayman y de Mather y Jinks; necesita bloques completos</td></tr>
+      <tr><td><span class="ui">Correcciones por error (medio dialelo)</span></td><td>deducidas para cruzas únicas · clásicas</td><td>Solo en medio dialelo: cómo se descuenta el error de H<sub>1</sub>, H<sub>2</sub> y h² (sección 5.4)</td></tr>
+      <tr><td><span class="ui">Interesa</span></td><td>el valor más alto · el más bajo</td><td>Qué progenitor cuenta como el mejor en la heterosis y cómo se ordenan las cruzas</td></tr>
+      <tr><td><span class="ui">Nivel de significancia</span></td><td>0.05 · 0.01 · 0.10</td><td>Para las lecturas y los intervalos</td></tr>
+    </tbody>
+  </table>
+  <h3>Los supuestos, uno por uno</h3>
+  <p>El modelo aditivo–dominante de Hayman y Jinks supone segregación diploide, progenitores homocigóticos, ausencia de efectos recíprocos y de epistasis, un máximo de dos alelos por locus y genes repartidos de forma independiente entre los progenitores. La tabla de supuestos prueba los que los datos permiten probar y dice cuáles no.</p>
+  <figure>
+    <div class="marco"><img src="../img/b5-supuestos.png" alt="La tabla de supuestos del análisis con el dialelo de Hayman"></div>
+    <figcaption><b>Figura 5.2.</b> Los supuestos con el dialelo de Hayman. Hay efectos recíprocos (<i>p</i> = 0.037), la pendiente no se aparta de 1 y la dominancia es clara; los arreglos difieren en Wr − Vr entre bloques (<i>p</i> = 0.024), un indicio de epistasis.</figcaption>
+  </figure>
+  <p>Con estos datos las pruebas no concuerdan del todo, y es normal. La pendiente de Wr sobre Vr (b = 0.931 ± 0.087) no se aparta de 1 y la prueba t² de uniformidad se cumple, pero el análisis de Wr − Vr entre bloques sí encuentra diferencias entre arreglos; además, los recíprocos son significativos, así que promediarlos, como exige el modelo, sesga un poco los componentes. La lectura prudente es usar los componentes como una descripción aproximada y apoyarse en las pruebas de escala del Bloque 7 o en la cruza triple de prueba del Bloque 6 si la epistasis importa.</p>
+
+  <!-- ====================================================================== 5.3 -->
+  <h2 id="s5-3"><span class="num">5.3</span>La partición de Hayman</h2>
+  <p>La tarjeta <span class="ui">2 · Partición de Hayman</span> divide la variación entre entradas en seis ítems (tabla 5.3). Con la tabla completa se usan los seis; con un medio dialelo, los cuatro primeros, calculados con el método de Morley Jones (1965), que coincide con la partición de Gardner y Eberhart. La última fila, la variación entre progenitores, es la que Walters y Gale (1977) proponen para probar los efectos génicos cuando hay efectos recíprocos, porque el ítem a solo los prueba si no hay dominancia.</p>
+  <table class="compacta">
+    <caption><b>Tabla 5.3.</b> Los ítems de Hayman y lo que miden. <i>p</i>: progenitores.</caption>
+    <thead><tr><th style="width:8%" class="c">Ítem</th><th style="width:17%" class="c">gl</th><th>Mide</th><th style="width:28%">Equivale a</th></tr></thead>
+    <tbody>
+      <tr><td class="c">a</td><td class="c"><i>p</i> − 1</td><td>Efectos aditivos: diferencias entre los arreglos (filas) de la tabla</td><td>ACG del método 1 de Griffing</td></tr>
+      <tr><td class="c">b<sub>1</sub></td><td class="c">1</td><td>Dominancia media: las F<sub>1</sub> contra los progenitores</td><td>heterosis promedio (<span style="text-decoration: overline">h</span>)</td></tr>
+      <tr><td class="c">b<sub>2</sub></td><td class="c"><i>p</i> − 1</td><td>Dominancia que difiere entre arreglos: alelos dominantes concentrados en algunos progenitores</td><td>heterosis de variedad (h<sub>j</sub>)</td></tr>
+      <tr><td class="c">b<sub>3</sub></td><td class="c"><i>p</i>(<i>p</i> − 3)/2</td><td>Dominancia específica de cada cruza</td><td>ACE del método 3 (tabla completa) o del 4</td></tr>
+      <tr><td class="c">c</td><td class="c"><i>p</i> − 1</td><td>Efectos maternos</td><td>maternos del método 1</td></tr>
+      <tr><td class="c">d</td><td class="c">(<i>p</i> − 1)(<i>p</i> − 2)/2</td><td>Diferencias recíprocas restantes</td><td>no maternos del método 1</td></tr>
+    </tbody>
+  </table>
+  <figure>
+    <div class="marco"><img src="../img/b5-particion.png" alt="La partición de Hayman con las interacciones de cada ítem con bloques"></div>
+    <figcaption><b>Figura 5.3.</b> La partición de Hayman de los días a floración de <i>N. rustica</i>. Las dos últimas columnas prueban cada ítem contra su interacción con bloques; con dos bloques, esas pruebas tienen muy pocos grados de libertad (b<sub>1</sub>, con <i>F</i> = 39.5, no llega a ser significativo).</figcaption>
+  </figure>
+  <p>Con el menú <span class="ui">Error de las pruebas F</span> en <span class="ui">interacción de cada ítem con bloques</span>, las pruebas <i>F</i> de la tabla pasan a ser las de las dos últimas columnas. Esas interacciones solo se calculan con bloques completos en un ambiente; su suma es el error de bloques × entradas del Bloque 3. La figura de debajo de la tabla muestra el porcentaje de la variación que reúne cada ítem, o sus cuadrados medios.</p>
+  <div class="caja nota">
+    <div class="caja-t"><span class="ico">✓</span>Comprobado · lo publicado</div>
+    <p>En la escala de parcelas (el doble, con dos bloques), los ítems son los de Hayman (1954): a = 277&nbsp;716.73, b<sub>1</sub> = 30&nbsp;796.89, b<sub>2</sub> = 34&nbsp;152.70, b<sub>3</sub> = 37&nbsp;288.86, c = 6739.13 y d = 12&nbsp;372.88, con <i>F</i> = 95.18 para a, 2.31 para c y 1.41 para d. La partición de un medio dialelo reproduce la tabla 1 de Morley Jones (1965).</p>
+  </div>
+
+  <!-- ====================================================================== 5.4 -->
+  <h2 id="s5-4"><span class="num">5.4</span>Los componentes genéticos</h2>
+  <p>La tarjeta <span class="ui">3 · Componentes genéticos</span> estima los seis parámetros del modelo de Hayman y Jinks con su error estándar y su prueba <i>t</i> (con <i>p</i> − 2 grados de libertad), y a la derecha los cocientes que se leen de ellos. Debajo, cinco recuadros y una lectura en palabras. La tarjeta solo aparece si el experimento incluye a los progenitores.</p>
+  <figure>
+    <div class="marco"><img src="../img/b5-componentes.png" alt="Los componentes genéticos D, F, H1, H2, h2 y E con sus cocientes"></div>
+    <figcaption><b>Figura 5.4.</b> Los componentes del dialelo de Hayman. D domina sobre H<sub>1</sub>; el grado medio de dominancia es 0.70 y predominan los alelos dominantes (KD/KR = 2.87).</figcaption>
+  </figure>
+  <div class="caja teoria">
+    <div class="caja-t"><span class="ico">θ</span>Teoría en breve · los componentes y sus cocientes</div>
+    <div class="formula" style="margin-bottom:0.04in">D̂ = V<sub>0</sub>L<sub>0</sub> − E &nbsp;·&nbsp; F̂ = 2V<sub>0</sub>L<sub>0</sub> − 4W<sub>0</sub>L<sub>01</sub> − 2(<i>p</i> − 2)E/<i>p</i> &nbsp;·&nbsp; Ĥ<sub>1</sub> = V<sub>0</sub>L<sub>0</sub> − 4W<sub>0</sub>L<sub>01</sub> + 4V<sub>1</sub>L<sub>1</sub> − (3<i>p</i> − 2)E/<i>p</i><br>Ĥ<sub>2</sub> = 4V<sub>1</sub>L<sub>1</sub> − 4V<sub>0</sub>L<sub>1</sub> − 2E &nbsp;·&nbsp; ĥ² = 4(ML<sub>1</sub> − ML<sub>0</sub>)² − 4(<i>p</i> − 1)E/<i>p</i>²</div>
+    <p>V<sub>0</sub>L<sub>0</sub> es la varianza de los progenitores; V<sub>1</sub>L<sub>1</sub>, la media de las varianzas de los arreglos; W<sub>0</sub>L<sub>01</sub>, la media de sus covarianzas con los progenitores; V<sub>0</sub>L<sub>1</sub>, la varianza de las medias de los arreglos, y ML<sub>1</sub> − ML<sub>0</sub>, la diferencia entre la media de las cruzas y la de los progenitores. D es la variación aditiva; H<sub>1</sub>, la de dominancia; H<sub>2</sub>, la de dominancia ponderada por las frecuencias de los alelos; F, la covarianza entre efectos aditivos y de dominancia (positiva si predominan los alelos dominantes); h², el efecto neto de la dominancia sumado sobre los loci, y E, el error de una media de entrada (Hayman, 1954; Jinks, 1954). De ahí salen √(H<sub>1</sub>/D), el grado medio de dominancia (mayor que 1: sobredominancia); H<sub>2</sub>/4H<sub>1</sub>, que vale 0.25 si los alelos tienen frecuencias iguales; KD/KR, la razón de alelos dominantes a recesivos, y h²/H<sub>2</sub>, el número aproximado de grupos de genes con dominancia.</p>
+  </div>
+  <p>En <i>N. rustica</i>, D = 10&nbsp;002 ± 352 y H<sub>1</sub> = 4908 ± 810: la parte aditiva supera a la dominancia y el grado medio de dominancia, 0.70, indica dominancia parcial. H<sub>2</sub>/4H<sub>1</sub> = 0.165 dice que los alelos no tienen frecuencias iguales; F positivo y KD/KR = 2.87, que los progenitores llevan más alelos dominantes que recesivos, y h²/H<sub>2</sub> = 2.05, que al menos dos grupos de genes muestran dominancia en la misma dirección. La heredabilidad en sentido estrecho, en la forma de Mather y Jinks, es 0.71, y en sentido amplio, 0.94.</p>
+  <div class="caja importante">
+    <div class="caja-t"><span class="ico">!</span>Importante · las correcciones de un medio dialelo</div>
+    <p>Las correcciones clásicas por error de Hayman suponen que cada cruza es la media de dos recíprocas. En un medio dialelo cada cruza se evaluó <b>una sola vez</b>, así que su varianza es el doble y esas correcciones se quedan cortas: en simulaciones sin ninguna variación genética, con E = 4 y cinco progenitores, las clásicas dan H<sub>1</sub> = 6.52 en lugar de cero. Por eso el bloque usa por omisión correcciones deducidas para cruzas únicas —H<sub>1</sub> − (5<i>p</i> − 4)E/<i>p</i>, H<sub>2</sub> − 4E + 4(<i>p</i> − 1)E/<i>p</i>² y h² − 4(<i>p</i>² − 1)E/<i>p</i>³—, comprobadas por simulación, y deja las clásicas en el menú para cuando las recíprocas se hayan promediado de verdad. La nota de la tarjeta dice cuáles se usaron.</p>
+  </div>
+
+  <!-- ====================================================================== 5.5 -->
+  <h2 id="s5-5"><span class="num">5.5</span>El gráfico Wr–Vr y el orden de dominancia</h2>
+  <p>La tarjeta <span class="ui">4 · Gráfico Wr–Vr y orden de dominancia</span> dibuja cada progenitor como un punto: Vr es la varianza de su arreglo (su fila de la tabla dialélica) y Wr, la covarianza de ese arreglo con los progenitores. Si el modelo aditivo–dominante se cumple, los puntos caen sobre una recta de pendiente 1, dentro de la parábola límite Wr² = Vr·V<sub>0</sub>L<sub>0</sub>. El capítulo 2 muestra con el laboratorio de dialelos cómo cambia el gráfico con cada tipo de dominancia y de epistasis.</p>
+  <figure>
+    <div class="marco"><img src="../img/b5-wrvr.png" alt="El gráfico Wr-Vr del dialelo de Hayman con la parábola y las rectas"></div>
+    <figcaption><b>Figura 5.5.</b> El gráfico Wr–Vr de los días a floración. La recta ajustada (morada) casi coincide con la de pendiente 1 (verde) y corta el eje Wr arriba del origen: dominancia parcial. H, E y B, cerca del origen, tienen más genes dominantes; C, lejos, más recesivos. Los rombos marcan dónde caería un progenitor con todos los alelos dominantes o todos recesivos.</figcaption>
+  </figure>
+  <div class="caja regla">
+    <div class="caja-t"><span class="ico">✓</span>Regla de lectura · el gráfico Wr–Vr</div>
+    <table class="compacta"><tbody>
+      <tr><td style="width:42%"><b>Pendiente</b> que no se aparta de 1</td><td>El modelo aditivo–dominante es adecuado; si se aparta, hay epistasis o genes correlacionados entre progenitores.</td></tr>
+      <tr><td><b>Intercepto</b> positivo · cero · negativo</td><td>Dominancia parcial · completa · sobredominancia.</td></tr>
+      <tr><td><b>Distancia al origen</b> de cada punto</td><td>Cerca: el progenitor lleva sobre todo alelos dominantes; lejos: recesivos.</td></tr>
+      <tr><td><b>Correlación</b> entre el valor del progenitor y Wr + Vr</td><td>Positiva: los alelos dominantes disminuyen la variable; negativa: la aumentan.</td></tr>
+    </tbody></table>
+  </div>
+  <p>La segunda figura ordena los progenitores por Wr + Vr (de más dominante a más recesivo) contra su propio valor. En <i>N. rustica</i> la correlación es 0.74: los progenitores con más alelos dominantes florecen antes, así que la precocidad es dominante. La recta predice que un progenitor completamente dominante floreciría a los 131 días y uno completamente recesivo, a los 407.</p>
+  <figure class="media">
+    <div class="marco"><img src="../img/b5-dominancia.png" alt="El valor de cada progenitor contra Wr + Vr, con los extremos dominante y recesivo"></div>
+    <figcaption><b>Figura 5.6.</b> El orden de dominancia: días a floración de cada progenitor contra Wr + Vr, con los extremos predichos (rombos). G, muy precoz pero con valores intermedios de Wr + Vr, se aparta de la recta.</figcaption>
+  </figure>
+  <figure>
+    <div class="marco"><img src="../img/b5-arreglos.png" alt="La tabla de la regresión de Wr sobre Vr y la tabla de arreglos"></div>
+    <figcaption><b>Figura 5.7.</b> La regresión de Wr sobre Vr con su lectura, y la tabla de arreglos: el valor propio de cada progenitor, Vr, Wr, Wr + Vr, Wr − Vr y su lugar en el orden de dominancia (1 = el más dominante, H).</figcaption>
+  </figure>
+  <p>La prueba t² de Hayman compara la varianza de Wr con la de Vr; si es significativa, los supuestos fallan. Con bloques completos, el recuadro plegado <span class="ui">Análisis de varianza de Wr − Vr y Wr + Vr entre bloques</span> repite el gráfico en cada bloque: arreglos no significativos en Wr − Vr indican que el modelo es adecuado, y significativos en Wr + Vr, que hay dominancia.</p>
+
+  <!-- ====================================================================== 5.6 -->
+  <h2 id="s5-6"><span class="num">5.6</span>Gardner y Eberhart: variedades y heterosis</h2>
+  <p>El análisis II de Gardner y Eberhart (1966) describe cada cruza entre dos variedades como la media de sus variedades más una heterosis, que a su vez se divide en heterosis promedio (<span style="text-decoration: overline">h</span>), heterosis de cada variedad (h<sub>j</sub>) y heterosis específica de la pareja (s<sub>jj′</sub>). El análisis III separa a las variedades por sí mismas (sp<sub>j</sub>) de su aptitud combinatoria entre las cruzas (g<sub>j</sub>), y se cumple g<sub>j</sub> = ½v<sub>j</sub> + h<sub>j</sub>. La tarjeta <span class="ui">5 · Gardner y Eberhart</span> hace los dos, con sus estimaciones, una figura de los efectos de variedad y de heterosis, y la heterosis de cada cruza.</p>
+  <figure>
+    <div class="marco"><img src="../img/b5-ge.png" alt="Los análisis II y III de Gardner y Eberhart con las cruzas de variedades de maíz"></div>
+    <figcaption><b>Figura 5.8.</b> Los análisis II y III con las seis variedades de maíz de Lonnquist y Gardner (1961). La heterosis promedio es muy significativa; la de variedad y la específica, no.</figcaption>
+  </figure>
+  <p>En este ejemplo la heterosis promedio es <span style="text-decoration: overline">h</span> = 5.19 ± 1.29 (<i>p</i> = 0.0002): las cruzas rinden en promedio 5.2 unidades más que la media de sus variedades (μ<sub>v</sub> = 92.45). Solo la variedad K2 aporta una heterosis propia significativa (ĥ = 4.50, <i>p</i> = 0.011), y solo la cruza B × G tiene heterosis específica (ŝ = 4.81 ± 2.06). En el análisis III, K2 es también la de mejor aptitud combinatoria entre las cruzas (ĝ = 6.375, <i>p</i> &lt; 0.0001): ½ × 3.75 + 4.50. Todas estas cifras son las publicadas.</p>
+  <div class="caja importante">
+    <div class="caja-t"><span class="ico">!</span>Importante · variedades o líneas</div>
+    <p>El análisis de Gardner y Eberhart está hecho para variedades de polinización libre; el de Hayman y Jinks supone progenitores homocigóticos. Con variedades como progenitores, los componentes de Hayman y Jinks (aquí, un grado medio de dominancia de 2.49, que sugeriría sobredominancia) no deben leerse como parámetros genéticos. Con tabla completa, Gardner y Eberhart se calculan sobre la tabla con las recíprocas promediadas; el aviso de la tarjeta 1 lo recuerda.</p>
+  </div>
+  <figure class="media">
+    <div class="marco"><img src="../img/b5-heterosis.png" alt="La tabla de heterosis de cada cruza respecto a la media de los progenitores y al mejor progenitor"></div>
+    <figcaption><b>Figura 5.9.</b> La heterosis de cada cruza respecto a la media de sus progenitores y al mejor de ellos, con su error estándar y su prueba. Seis cruzas superan significativamente a la media de sus progenitores; solo H × K2 supera al mejor.</figcaption>
+  </figure>
+  <p>La tabla de heterosis no depende de ningún modelo: compara medias con la varianza exacta de cada contraste. La prueba contra el mejor progenitor no corrige por haberlo elegido como el mejor, y el encabezado lo advierte. El menú <span class="ui">Interesa</span> define qué progenitor es el mejor: con días a floración o altura, el valor más bajo.</p>
+  <p>Debajo de la tabla, una figura de barras muestra la heterosis de cada cruza en porcentaje, con color sólido si es significativa, respecto a la media de los progenitores o al mejor. El Bloque 7 hace lo mismo con la F<sub>1</sub> de un experimento de generaciones y añade la depresión endogámica de la F<sub>2</sub>.</p>
+
+  <!-- ====================================================================== 5.7 -->
+  <h2 id="s5-7"><span class="num">5.7</span>Las equivalencias</h2>
+  <p>La tarjeta <span class="ui">6 · Equivalencias entre las metodologías</span> calcula las tres sobre tus datos y comprueba, fila por fila, que las sumas de cuadrados que deben coincidir coinciden. No es un adorno: si una fila dice «no», algo está mal en los datos o en el cálculo, y así se encontró y corrigió un error durante la validación del bloque.</p>
+  <figure>
+    <div class="marco"><img src="../img/b5-equiv.png" alt="La tabla de equivalencias entre Hayman, Griffing y Gardner y Eberhart"></div>
+    <figcaption><b>Figura 5.10.</b> Las equivalencias con el dialelo de Hayman: con la tabla completa, a, b, c, d y b<sub>3</sub> son la ACG, la ACE, los maternos y los no maternos del método 1 y la ACE del método 3; con las recíprocas promediadas, los ítems de Morley Jones son las fuentes del análisis II y los métodos 2 y 4 de Griffing.</figcaption>
+  </figure>
+  <p>Las sumas de cuadrados coinciden, pero los efectos no: la ACG del método 2 de Griffing incluye a los progenitores, y la g<sub>j</sub> del análisis III no. Por eso un mismo progenitor puede tener un orden distinto en el Bloque 4 y en el 5 sin que ninguno esté mal. Debajo de la tabla se comprueba además la identidad de Gardner y Eberhart b<sub>2</sub> = SC(progenitores) + ACG(método 4) − ACG(método 2).</p>
+
+  <!-- ====================================================================== 5.8 -->
+  <h2 id="s5-8"><span class="num">5.8</span>Casos especiales, descargas y siguiente bloque</h2>
+  <ul>
+    <li><b>Sin progenitores</b> (métodos 3 y 4): no hay componentes de Hayman y Jinks ni análisis de Gardner y Eberhart, porque necesitan a los progenitores por sí mismos; la partición sí se calcula.</li>
+    <li><b>Entradas faltantes:</b> Wr, Vr y los componentes necesitan la tabla completa; la tarjeta 1 avisa cuántas faltan.</li>
+    <li><b>Pocos progenitores:</b> con menos de seis, la regresión Wr–Vr tiene tres grados de libertad o menos, y el bloque advierte que las pruebas tienen poca potencia.</li>
+    <li><b>Varios ambientes:</b> el menú <span class="ui">Ambiente</span> elige uno o la media de todos. Con bloques incompletos, E es la varianza de las medias ajustadas, como en el Bloque 4 (sección 4.8).</li>
+  </ul>
+  <p>Las descargas son <span class="ui">Resultados (.xlsx)</span>, con seis hojas (ítems de Hayman, componentes y cocientes, arreglos, Gardner y Eberhart, heterosis y la tabla dialélica), y <span class="ui">Tabla dialélica (.csv)</span>, la tabla de medias progenitor × progenitor. <span class="ui">Supuestos, fórmulas y referencias</span>, al final de la tarjeta 6, reúne las fórmulas y las fuentes.</p>
+  <p>El Bloque 5 es el último específico de los dialelos. Su botón <span class="ui">Continuar</span> lleva al Bloque 8 (parámetros genéticos y selección entre las cruzas) o, con varios ambientes, al 9 (genotipo × ambiente); el Bloque 6 es para los otros diseños de apareamiento.</p>
+</section>
+
+</body>
+</html>

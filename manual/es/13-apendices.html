@@ -1,0 +1,1003 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>BreedingPro · Manual de usuario · Apéndices</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,500;0,600;1,500&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../interior.css">
+<!-- reparte el contenido en hojas tamaño carta, con encabezados y números de página -->
+<script src="../paginar.js"></script>
+<style>
+  td.n, th.n { text-align: right; white-space: nowrap; }
+  td.c, th.c { text-align: center; }
+  td.f { font-family: var(--serif); font-size: 10.5pt; color: var(--negro); }
+  .caja-t .sec-ref { margin-left: auto; letter-spacing: 0.08em; font-size: 7.4pt; opacity: 0.85; }
+  /* archivos de ejemplo */
+  .pre-t { font-family: var(--sans); font-size: 8.5pt; color: var(--gris); margin: 0.12in 0 0; letter-spacing: 0.02em; }
+  .pre-t b { color: var(--negro); font-weight: 500; }
+  pre.archivo { font-family: var(--mono); font-size: 7.9pt; line-height: 1.38; color: var(--negro); background: #f6f8fc; border: 1px solid var(--linea); border-left: 3px solid var(--acento); border-radius: 0 4px 4px 0; padding: 0.07in 0.12in; margin: 0.05in 0 0.18in; white-space: pre-wrap; word-break: break-all; break-inside: avoid; }
+  /* índice de reglas */
+  ul.indice-reglas { list-style: none; padding: 0; margin: 0.12in 0 0.2in; font-family: var(--sans); font-size: 8.8pt; }
+  ul.indice-reglas li { display: grid; grid-template-columns: 2.9em 31% 1fr; column-gap: 0.12in; align-items: baseline; margin: 0; padding: 0.045in 0; border-top: 1px solid var(--linea); break-inside: avoid; }
+  ul.indice-reglas li:last-child { border-bottom: 1px solid var(--linea); }
+  ul.indice-reglas .ir-t { font-weight: 500; color: var(--negro); }
+  ul.indice-reglas .ir-i b { color: var(--negro); font-weight: 500; margin-right: 0.3em; }
+  ul.indice-reglas .ir-i span { white-space: nowrap; margin-right: 0.9em; }
+  .hoja[data-pestana="A"] .caja.regla { margin: 0.1in 0 0.14in; }
+  h3.ap-cap { font-size: 13pt; }
+  h3.ap-cap .chip { font-size: 8.5pt; margin-right: 0.55em; position: relative; top: -0.12em; }
+  /* glosario */
+  tr.letra td { background: #eef1f6 !important; font-family: var(--serif); font-size: 12.5pt; font-weight: 600; color: var(--negro); }
+  td.termino b { font-family: var(--serif); font-size: 10.5pt; }
+  /* referencias */
+  ul.refs { list-style: none; padding: 0; margin: 0.12in 0 0.2in; font-size: 9.7pt; line-height: 1.36; }
+  ul.refs li { padding-left: 1.5em; text-indent: -1.5em; margin-bottom: 0.32em; break-inside: avoid; text-align: left; hyphens: manual; }
+  ul.refs .doi { font-family: var(--sans); font-size: 0.8em; color: var(--gris); overflow-wrap: anywhere; }
+  ul.refs .m { color: var(--marino); font-size: 0.85em; }
+</style>
+</head>
+<body>
+
+<section class="capitulo" id="apendices" data-pestana="A" data-orden="14" style="--acento: var(--bx)">
+  <div class="cap-apertura">
+    <div class="cap-num">A–F</div>
+    <div class="cap-etiqueta">Apéndices · material de consulta</div>
+    <h1 data-corto="Apéndices">Apéndices</h1>
+    <div class="cap-regla"></div>
+    <p class="cap-resumen">Los apéndices no se leen de corrido: se consultan. Aquí están las reglas exactas con que la app lee y escribe cada archivo, las reglas de decisión de todo el manual reunidas en un solo lugar, un glosario de términos, siglas y símbolos, las soluciones a los problemas más comunes, las referencias completas de los métodos y de los datos, y los componentes de terceros con sus licencias.</p>
+    <div class="cap-franja"><span class="kx"></span><span class="kx" style="opacity:.75"></span><span class="kx" style="opacity:.5"></span><span class="kx" style="opacity:.3"></span></div>
+    <ul class="cap-contenido">
+      <li><b>A</b>Formatos de archivo</li>
+      <li><b>B</b>Resumen de reglas de decisión</li>
+      <li><b>C</b>Glosario</li>
+      <li><b>D</b>Solución de problemas</li>
+      <li><b>E</b>Referencias</li>
+      <li><b>F</b>Componentes de terceros</li>
+    </ul>
+  </div>
+
+  <!-- ====================================================================== A -->
+  <h2 id="ap-a"><span class="num">A</span>Formatos de archivo</h2>
+  <p class="lead">El capítulo 3 explica cómo acomodar una tabla de parcelas y cómo reconoce la app el papel de cada columna y el diseño (tablas 3.1 a 3.3); los capítulos 10 y 11 describen las tablas propias de sus bloques. Este apéndice reúne las reglas exactas en un solo lugar: qué archivos se leen, qué cuenta como faltante, la línea que declara el diseño, los códigos de generación, las tablas de los Bloques 10 y 11 y el formato de cada archivo que la app descarga.</p>
+
+  <h3>A.1 Archivos que se leen</h3>
+  <table class="compacta">
+    <caption><b>Tabla A.1.</b> Formas de dar los datos a la app y cómo se leen.</caption>
+    <thead><tr><th style="width:23%">Fuente</th><th style="width:34%">Cómo se lee</th><th>Qué conviene saber</th></tr></thead>
+    <tbody>
+      <tr><td><b>Hoja de cálculo</b><br><code>.xlsx .xls .xlsm .ods</code></td><td>En el Bloque 3 se abre la hoja que tiene más datos, y el menú <span class="ui">Hoja del libro</span> cambia a otra.</td><td>Los números se guardan como números, así que el separador decimal no importa.</td></tr>
+      <tr><td><b>Texto delimitado</b><br><code>.csv .tsv .txt</code></td><td>El separador se deduce de las primeras 30 líneas: tabulador si aparece al menos la mitad de veces que el punto y coma; si no, punto y coma si hay más que comas; si no, coma.</td><td>Codificación UTF-8, con o sin marca inicial. Admite comillas dobles. Los espacios no separan columnas. Las filas vacías se ignoran, y también los renglones que empiezan con <code>#</code> antes de los encabezados, salvo la línea de declaración (sección A.3).</td></tr>
+      <tr><td><b>Hoja de datos</b> de la app</td><td>Se pega con Ctrl+V un bloque copiado de cualquier hoja de cálculo o un texto separado por comas, punto y coma o tabuladores.</td><td>Hasta 20&nbsp;000 filas y 5000 columnas. Se guarda en el navegador cada vez que cambia (sección 3.2).</td></tr>
+      <tr><td><b>Libreta del Bloque 2</b></td><td>Pasa al Bloque 3 sin descargar nada, vacía o con un rendimiento simulado.</td><td>Trae la línea de declaración, así que el diseño no se deduce: se lee (sección 2.8).</td></tr>
+    </tbody>
+  </table>
+
+  <div class="dos">
+    <div class="caja nota" style="margin:0">
+      <div class="caja-t"><span class="ico">i</span>Faltantes</div>
+      <p style="margin:0">Son faltantes la celda vacía, <code>NA</code>, <code>N/A</code>, <code>NaN</code>, <code>null</code>, <code>.</code>, <code>..</code>, <code>-</code>, <code>--</code>, <code>?</code>, <code>*</code>, <code>missing</code>, <code>perdido</code>, <code>faltante</code>, <code>s/d</code>, <code>sd</code>, <code>nd</code>, <code>n.d.</code> y los errores <code>#N/A</code>, <code>#VALUE!</code> y <code>#DIV/0!</code>, con mayúsculas o sin ellas. En una variable, cualquier otro texto (<code>12.5a</code>) también se vuelve faltante, y la tarjeta 2 dice cuántos hubo y en qué fila está el primero.</p>
+    </div>
+    <div class="caja nota" style="margin:0">
+      <div class="caja-t"><span class="ico">i</span>Separador decimal</div>
+      <p style="margin:0">En <span class="ui">automático</span>, cada columna usa coma decimal si tiene más valores del tipo <code>12,5</code> o <code>1.234,5</code> que del tipo <code>12.5</code>. El menú <span class="ui">Separador decimal</span> impone punto o coma a todas. En un CSV separado por comas, un <code>12,5</code> sin comillas parte la fila en dos columnas: guarda ese archivo con punto y coma.</p>
+    </div>
+  </div>
+
+  <h3>A.2 La tabla de parcelas</h3>
+  <p>Una fila por parcela (o por planta) y una columna por dato; la primera fila con contenido lleva los nombres de las columnas, en español o en inglés. Los nombres se comparan sin acentos, mayúsculas, espacios ni signos, y la tabla 3.1 da los que se reconocen para cada uno de los 16 papeles. Dos nombres de columna iguales se distinguen añadiendo <code>(2)</code>, <code>(3)</code>… Lo demás se resume en la tabla A.2.</p>
+  <table class="compacta">
+    <caption><b>Tabla A.2.</b> Cómo se escriben el pedigrí, el tipo de cada entrada y las generaciones.</caption>
+    <thead><tr><th style="width:21%">Dato</th><th>Cómo se escribe</th><th style="width:9%" class="c">Ver</th></tr></thead>
+    <tbody>
+      <tr><td><b>Pedigrí en dos columnas</b></td><td>Hembra (o línea, planta F<sub>2</sub>, progenitor 1) y macho (o probador, progenitor 2). Si además hay una columna de entradas con números que corresponden uno a uno con el pedigrí, la entrada se nombra por su pedigrí (<code>L1 × L2</code>) y el número se conserva.</td><td class="c">3.3</td></tr>
+      <tr><td><b>Pedigrí en el nombre</b></td><td><code>A × B</code>, <code>A x B</code>, <code>A/B</code>, <code>A*B</code> o códigos compactos como <code>1x3</code>, siempre que al menos la mitad de los nombres sean cruzas y los progenitores se repitan entre ellas. Un nombre igual a un progenitor es ese progenitor.</td><td class="c">3.3</td></tr>
+      <tr><td><b>Tipo de entrada</b></td><td><code>testigo</code>, <code>check</code>, <code>control</code> o <code>comercial</code>; <code>progenitor</code> o <code>parental</code>; <code>recíproca</code>; <code>línea</code>; <code>probador</code>; <code>F1</code>, <code>cruza</code> o <code>híbrido</code>. Sin esa columna se deduce: hembra igual al macho es un progenitor, hembra distinta del macho una F<sub>1</sub>, y una entrada sin progenitores en datos con cruzas, un testigo.</td><td class="c">3.3</td></tr>
+      <tr><td><b>Generaciones</b></td><td><code>P1</code>, <code>P2</code>, <code>F1</code>, <code>F2</code>, <code>F3</code>; la F<sub>1</sub> recíproca <code>RF1</code>, <code>F1R</code> o <code>F1rec</code>; las retrocruzas <code>BC1</code>, <code>RC1</code>, <code>B1</code>, <code>retrocruza1</code> (y las de P<sub>2</sub>); las retrocruzas autofecundadas <code>BC1S</code>, <code>BC11</code>, <code>B11</code>, <code>BS1</code> (y <code>BC2S</code>, <code>B22</code>, <code>BS2</code>). Van en la columna de generación, en la de tipo o en el nombre de la entrada.</td><td class="c">7.1</td></tr>
+      <tr><td><b>Testigo de un ensayo de generaciones</b></td><td>Una entrada más que no es generación: su nombre en la columna de entradas, o escrito en la misma columna de generación (<code>Testigo</code>, <code>H-520</code>), que el Bloque 3 lee como testigo. Solo entra en la heterosis estándar.</td><td class="c">7.7</td></tr>
+      <tr><td><b>Datos por planta</b></td><td>Varias filas con la misma parcela, o una columna <code>Planta</code>. Cada parcela se resume con la media de sus plantas y el error de muestreo va aparte.</td><td class="c">3.8</td></tr>
+      <tr><td><b>Medias sin repeticiones</b></td><td>Un valor por entrada. El error del experimento original (cuadrado medio, grados de libertad, escala y repeticiones) se escribe en la tarjeta 3 del Bloque 3.</td><td class="c">3.8</td></tr>
+    </tbody>
+  </table>
+
+  <div class="caja importante">
+    <div class="caja-t"><span class="ico">!</span>Importante · detalles que confunden al cargar una tabla</div>
+    <ul style="margin:0">
+      <li><b>Números de identificación.</b> Una columna numérica con un nombre que la app no reconoce (<code>Lote</code>, <code>Surco</code>, <code>Clave</code>) se toma por variable respuesta. Pásala a <span class="ui">Ignorar</span>.</li>
+      <li><b>Hembras y machos que comparten código.</b> En las Carolinas del Norte y la línea × probador, <code>1 × 1</code> es una cruza entre dos plantas distintas, no un progenitor; la app las marca con ♀ y ♂. Si los códigos se repiten entre conjuntos, les antepone el conjunto (<code>S1·3</code>).</li>
+      <li><b>Nombres de las entradas.</b> Se comparan exactos entre tablas: para unir el ensayo con el pedigrí del Bloque 10 o con los marcadores del Bloque 11, cada entrada debe llevar el mismo nombre en los dos archivos.</li>
+    </ul>
+  </div>
+
+  <h3>A.3 La línea de declaración de la libreta</h3>
+  <p>Toda libreta del Bloque 2 empieza, si se deja marcada la casilla <span class="ui">Incluir la línea que describe el diseño</span>, con una línea como esta:</p>
+  <pre class="archivo">#BreedingPro fieldbook, mating=griffing, method=4, field=alpha, reps=3, k=5, locations=2, entries=30, seed=2026, F=1</pre>
+  <p>Son pares <code>clave=valor</code> separados por comas. Si la hoja de cálculo repartió la línea en varias celdas, el Bloque 3 la vuelve a unir. Las claves distinguen mayúsculas; un valor numérico se lee como número.</p>
+  <table class="compacta">
+    <caption><b>Tabla A.3.</b> Claves de la línea de declaración y quién las usa.</caption>
+    <thead><tr><th style="width:13%">Clave</th><th style="width:47%">Valores</th><th>Uso</th></tr></thead>
+    <tbody>
+      <tr><td><code>mating</code></td><td><code>griffing</code>, <code>partial</code> (dialelo parcial), <code>nc1</code>, <code>nc2</code>, <code>nc3</code> (Carolinas del Norte), <code>ttc</code> (cruza triple de prueba), <code>lxt</code> (línea × probador), <code>generations</code>; el menú del Bloque 3 añade <code>none</code> (ensayo de genotipos).</td><td>El Bloque 3 toma el diseño de apareamiento sin deducirlo (confianza <i>declarado</i>).</td></tr>
+      <tr><td><code>method</code></td><td>1 a 4; solo con <code>griffing</code>.</td><td>El método de Griffing.</td></tr>
+      <tr><td><code>field</code></td><td><code>rcbd</code> (bloques completos al azar), <code>alpha</code> (látice α), <code>crd</code> (completamente al azar), <code>augmented</code> (aumentado); el Bloque 3 acepta además <code>ibd</code> (bloques incompletos), <code>rowcol</code> (filas y columnas) y <code>means</code> (medias).</td><td>El diseño de campo.</td></tr>
+      <tr><td><code>F</code></td><td>Endogamia de los progenitores: 0, 0.5, 0.75 o 1.</td><td>El Bloque 6 la toma como valor inicial del control <span class="ui">Endogamia de los progenitores (F)</span>.</td></tr>
+      <tr><td><code>reps</code>, <code>k</code>, <code>blocks</code>, <code>locations</code>, <code>entries</code>, <code>seed</code></td><td>Repeticiones, tamaño del bloque del látice, bloques del aumentado, localidades, entradas y semilla aleatoria.</td><td>Constancia del plan. Con la semilla, el Bloque 2 regenera el mismo croquis.</td></tr>
+    </tbody>
+  </table>
+  <p>Debajo de la línea van los encabezados de once columnas fijas —<code>Localidad</code>, <code>Parcela</code>, <code>Repetición</code>, <code>Bloque</code>, <code>Fila</code>, <code>Columna</code>, <code>Entrada</code>, <code>Genotipo</code>, <code>Hembra</code>, <code>Macho</code> y <code>Tipo</code>— y una columna vacía por cada carácter escrito en la tarjeta 3 del Bloque 2 (tabla 2.8). Con la app en inglés, los encabezados salen en inglés; el Bloque 3 los entiende en los dos idiomas. Los datos se capturan en las columnas vacías sin cambiar los nombres de las fijas.</p>
+
+  <h3>A.4 Las tablas del Bloque 10</h3>
+  <table class="compacta">
+    <caption><b>Tabla A.4.</b> Lo que leen las tarjetas del Bloque 10. Los papeles de las columnas se describen en la tabla 10.3.</caption>
+    <thead><tr><th style="width:20%">Tabla</th><th>Cómo se escribe</th><th style="width:9%" class="c">Ver</th></tr></thead>
+    <tbody>
+      <tr><td><b>Registros</b><br><span class="small">tarjeta 1</span></td><td>Una fila por registro con el individuo, su padre y su madre; un progenitor desconocido se escribe <code>0</code>, <code>NA</code> o se deja vacío. Se proponen los papeles por el nombre: <code>Animal</code>, <code>ID</code>, <code>Individuo</code> o <code>Genotipo</code> es el individuo; <code>Padre</code>, <code>Sire</code> o <code>Toro</code>, el padre; <code>Madre</code> o <code>Dam</code>, la madre; <code>CG</code>, <code>Camada</code>, <code>Litter</code> o <code>Grupo</code>, un efecto aleatorio; una columna numérica con pocos valores enteros, un efecto fijo, y una con muchos valores, la variable respuesta. En plantas, el progenitor que da la semilla va como madre.</td><td class="c">10.2</td></tr>
+      <tr><td><b>Pedigrí aparte</b><br><span class="small">opcional</span></td><td>Columnas de individuo, padre y madre con ancestros que no tienen registros, para que el parentesco llegue más atrás. Los progenitores sin fila propia se agregan como fundadores.</td><td class="c">10.2</td></tr>
+      <tr><td><b>Grupos</b><br><span class="small">tarjeta 4, estimar</span></td><td>Una fila por grupo: <code>cruza, n, media, EE</code>. El número y el error estándar pueden quedar vacíos (<code>1×2, , 309</code>); con todos los EE, los pesos son 1/EE² y hay prueba de falta de ajuste.</td><td class="c">10.6</td></tr>
+      <tr><td><b>Cruzas</b></td><td>El padre primero: <code>A</code>, <code>A×B</code>, <code>C×(A×B)</code>, <code>(A×B)×(A×B)</code>. El signo puede ser <code>×</code>, <code>*</code>, <code>·</code> o una <code>x</code> entre espacios. Para predecir, además, <code>rot(A,B)</code> y <code>rot(A,B,C)</code> (rotaciones) y <code>comp(A,B,C)</code> (compuesta con partes iguales) o <code>comp(A:0.5,B:0.25,C:0.25)</code>.</td><td class="c">10.6</td></tr>
+      <tr><td><b>Parámetros</b><br><span class="small">predecir con parámetros conocidos</span></td><td>Una fila por parámetro con su valor: <code>mu, 14.3</code>, <code>gI:B, -3.18</code>, <code>gM:B, …</code>, <code>hI, -0.04</code>, <code>hM, …</code>, <code>rI, -6.20</code>. Los que no se escriben valen cero: la raza sin efecto escrito es la de referencia.</td><td class="c">10.6</td></tr>
+      <tr><td><b>Medias de razas</b><br><span class="small">heterosis en porcentaje</span></td><td>Una fila por raza pura (<code>A, 460</code>) y, aparte, los porcentajes de heterosis individual y materna y de pérdida por recombinación.</td><td class="c">10.6</td></tr>
+    </tbody>
+  </table>
+
+  <h3>A.5 Las tablas del Bloque 11</h3>
+  <table class="compacta">
+    <caption><b>Tabla A.5.</b> Lo que leen las tarjetas del Bloque 11. Las codificaciones de los marcadores están en la tabla 11.3.</caption>
+    <thead><tr><th style="width:20%">Tabla</th><th>Cómo se escribe</th><th style="width:9%" class="c">Ver</th></tr></thead>
+    <tbody>
+      <tr><td><b>Marcadores</b><br><span class="small">tarjeta 1</span></td><td>Una fila por individuo, con su identificador en la primera columna y una columna por marcador; si el archivo viene al revés, la casilla <span class="ui">Marcadores en filas</span> lo traspone. Dosis 0/1/2, −1/0/1, presencia o ausencia 0/1 (el menú <span class="ui">Un archivo 0/1 significa</span> decide si son líneas puras o dosis) o letras (<code>AA/AB/BB</code>, <code>A/C/G/T</code>, y los códigos de dos bases <code>R Y S W K M</code> como heterocigotos). Faltantes: vacío, <code>NA</code>, <code>-</code> o <code>N</code>.</td><td class="c">11.2</td></tr>
+      <tr><td><b>Fenotipos</b><br><span class="small">tarjeta 3</span></td><td>El identificador en la primera columna y una columna por variable. También sirven los del ejemplo o el ensayo del Bloque 3, si sus entradas tienen marcadores.</td><td class="c">11.4</td></tr>
+      <tr><td><b>Híbridos</b><br><span class="small">tarjeta 5</span></td><td>Una fila por híbrido evaluado: la línea del grupo 1, la del grupo 2 y las variables (medias ajustadas). Los nombres de las dos primeras columnas son los de los grupos. Los marcadores de todas las líneas van en la tarjeta 1.</td><td class="c">11.6</td></tr>
+      <tr><td><b>Cruzas triples y dobles</b></td><td>Una por renglón, <code>(A×B)×C</code> o <code>(A×B)×(C×D)</code>, con las líneas de cada lado de grupos distintos.</td><td class="c">11.6</td></tr>
+    </tbody>
+  </table>
+
+  <h3>A.6 Archivos que produce la app</h3>
+  <p>Todas las tablas CSV se escriben separadas por comas, con punto decimal y hasta 12 cifras significativas, en UTF-8 con marca inicial (las hojas de cálculo las abren con los acentos correctos) y con fin de línea de Windows. Un campo que contiene coma, punto y coma, comillas o un salto de línea va entre comillas dobles. En los libros <code>.xlsx</code>, cada tabla ocupa su hoja; los nombres de las hojas siguen el idioma de la app, y algunos encabezados de columna usan símbolos o abreviaturas fijas (<code>sigma2A</code>, <code>SE</code>, <code>GEBV</code>). El nombre del archivo se forma con el bloque y la variable, sin acentos ni signos (<code>griffing_Rendimiento.xlsx</code>).</p>
+  <table class="compacta">
+    <caption><b>Tabla A.6.</b> Lo que descarga cada bloque. Las figuras, el informe y el paquete se describen en las secciones I.6, 12.3 y 12.6.</caption>
+    <thead><tr><th style="width:9%">Bloque</th><th style="width:25%">Archivo</th><th>Contenido</th></tr></thead>
+    <tbody>
+      <tr><td><span class="chip k2">B2</span></td><td><code>libreta_de_campo.xlsx</code> · <code>libreta_de_campo.csv</code> · <code>entradas.csv</code></td><td>Hojas <code>Libreta</code>, <code>Entradas</code>, <code>Cruzamiento</code> y <code>Diseño</code>; el CSV, solo la libreta, con la línea de declaración si se pidió; la lista de cruzas y entradas.</td></tr>
+      <tr><td><span class="chip k3">B3</span></td><td><code>datos_y_diseno_….xlsx</code> · <code>medias_ajustadas.csv</code> · <code>datos_depurados.csv</code></td><td>Hojas <code>Medias</code>, <code>ANOVA</code>, <code>Calidad</code>, <code>Datos</code> y <code>Diseño</code>; las medias ajustadas por variable y ambiente; la tabla original con la columna <code>Excluido</code> (tabla 3.7).</td></tr>
+      <tr><td><span class="chip k3">B3</span></td><td>Hoja de datos: <span class="ui">Guardar como</span></td><td><code>.xlsx</code>, <code>.ods</code>, <code>.csv</code> con coma o con punto y coma, o <code>.tsv</code>, con los valores tal como se escribieron.</td></tr>
+      <tr><td><span class="chip k4">B4</span></td><td><code>griffing_….xlsx</code> · <code>efectos_griffing.csv</code></td><td>Hojas <code>ANOVA</code>, <code>Efectos</code>, <code>Componentes</code>, <code>Parámetros</code>, <code>Cruzas</code> y, si se compararon los métodos, <code>Comparación</code>; el CSV, los efectos con sus errores estándar.</td></tr>
+      <tr><td><span class="chip k5">B5</span></td><td><code>hayman_gardner_….xlsx</code> · <code>tabla_dialelica.csv</code></td><td>Hojas <code>Hayman</code>, <code>Componentes</code>, <code>Arreglos</code> (V<sub>r</sub>, W<sub>r</sub>), <code>Gardner-Eberhart</code>, <code>Heterosis</code> y <code>Tabla dialélica</code>.</td></tr>
+      <tr><td><span class="chip k6">B6</span></td><td><code>apareamiento_….xlsx</code></td><td>Hojas <code>ANOVA</code>, <code>Componentes</code>, <code>Parámetros</code>, <code>Efectos</code> y, según el diseño, <code>Sumas y diferencias</code> o <code>Heterosis</code>.</td></tr>
+      <tr><td><span class="chip k7">B7</span></td><td><code>generaciones_….xlsx</code></td><td>Hojas <code>Generaciones</code>, <code>Escala</code>, <code>Modelos</code>, <code>Parámetros</code>, <code>Ajuste perfecto</code>, <code>Varianzas</code>, <code>Factores</code> y <code>Heterosis</code>.</td></tr>
+      <tr><td><span class="chip k8">B8</span></td><td><code>seleccion.xlsx</code></td><td>Hojas <code>Parámetros</code>, <code>rG</code>, <code>rP</code>, <code>rE</code>, <code>P</code>, <code>G</code>, <code>Índices</code>, <code>Selección</code> y <code>Métodos</code>.</td></tr>
+      <tr><td><span class="chip k9">B9</span></td><td><code>interaccion_gxa_….xlsx</code></td><td>Hojas <code>Tabla GxA</code> (con las celdas estimadas), <code>ANOVA</code>, <code>Regresión</code>, <code>Varianzas</code>, <code>Rangos</code>, <code>AMMI ejes</code>, <code>AMMI genotipos</code>, <code>AMMI ambientes</code>, <code>GGE</code> y <code>Dos etapas</code>.</td></tr>
+      <tr><td><span class="chip k10">B10</span></td><td><code>blup_y_cruzamiento.xlsx</code></td><td>Hojas <code>Pedigrí</code> (con F y b), <code>Componentes</code>, <code>Valores genéticos</code>, una por cada factor fijo, <code>Ensayo BLUP</code>, <code>Dickerson</code>, <code>Dialelo de razas</code> y <code>Predicciones</code>.</td></tr>
+      <tr><td><span class="chip k11">B11</span></td><td><code>genomica.xlsx</code></td><td>Hojas <code>Marcadores</code>, <code>G</code> (hasta 1500 individuos), <code>GEBV</code>, <code>Efectos</code>, <code>Validación</code> e <code>Híbridos</code>.</td></tr>
+      <tr><td><span class="chip k12">B12</span></td><td>Informe <code>.html</code> · paquete <code>.zip</code></td><td>El nombre sale del título del informe. El paquete trae <code>informe.html</code>, <code>tablas/</code>, <code>figuras/</code>, <code>resultados/</code>, <code>datos/</code>, <code>metodos.txt</code> y <code>LEAME.txt</code> (tabla 12.3).</td></tr>
+      <tr><td>Figuras</td><td>Panel de cada figura</td><td>PNG, JPG, WEBP y TIFF (sin compresión) hasta 900&nbsp;ppp, o SVG, que es vectorial; el panel da el tamaño en píxeles y en centímetros.</td></tr>
+    </tbody>
+  </table>
+  <p>Solo se incluyen en un libro las hojas que tienen resultados: un Bloque 6 con una Carolina del Norte II no trae <code>Sumas y diferencias</code>, y un Bloque 10 sin cruzamiento no trae <code>Dickerson</code>.</p>
+
+  <!-- ====================================================================== B -->
+  <h2 id="ap-b" data-nueva-hoja><span class="num">B</span>Resumen de reglas de decisión</h2>
+  <p class="lead">Las reglas de decisión del manual, en el orden de la app. Las de la introducción y de los capítulos 1 a 5 se repiten tal como aparecen en ellos; las de los Bloques 6 a 12, cuyos capítulos dan los criterios dentro del texto, se resumen aquí en el mismo formato. Cada recuadro indica la sección que explica la teoría en que se apoya. Son guías para interpretar, no leyes: el conocimiento de tu especie y de tu programa siempre manda.</p>
+  <ul class="indice-reglas">
+    <li><span class="chip k0">In</span><span class="ir-t">Introducción</span><span class="ir-i"><span><b>I.8</b>Qué bloque usar</span> <span><b>I.9</b>Lectura de un valor P</span></span></li>
+    <li><span class="chip k1">B1</span><span class="ir-t">Inicio, laboratorios y teoría</span><span class="ir-i"><span><b>1.2</b>Cómo redacta la app la interpretación</span></span></li>
+    <li><span class="chip k2">B2</span><span class="ir-t">Planear cruzas, ensayo y potencia</span><span class="ir-i"><span><b>2.4</b>Qué diseño de campo usar</span></span></li>
+    <li><span class="chip k3">B3</span><span class="ir-t">Datos y análisis de campo</span><span class="ir-i"><span><b>3.6</b>La calidad del ensayo</span> <span><b>3.9</b>Antes de pasar a los bloques genéticos</span></span></li>
+    <li><span class="chip k4">B4</span><span class="ir-t">Dialelos de Griffing</span><span class="ir-i"><span><b>4.4</b>Qué efecto sirve para qué</span></span></li>
+    <li><span class="chip k5">B5</span><span class="ir-t">Hayman–Jinks y Gardner–Eberhart</span><span class="ir-i"><span><b>5.5</b>El gráfico Wr–Vr</span></span></li>
+    <li><span class="chip k6">B6</span><span class="ir-t">Diseños de apareamiento</span><span class="ir-i"><span><b>6.2</b>La endogamia F de los progenitores</span> <span><b>6.5</b>Componentes y pruebas</span></span></li>
+    <li><span class="chip k7">B7</span><span class="ir-t">Generaciones y heterosis</span><span class="ir-i"><span><b>7.3</b>La varianza de cada media</span> <span><b>7.4</b>Escala, modelos y heterosis</span></span></li>
+    <li><span class="chip k8">B8</span><span class="ir-t">Parámetros genéticos y selección</span><span class="ir-i"><span><b>8.2</b>Leer una heredabilidad</span> <span><b>8.6</b>Cuándo confiar en las sendas</span> <span><b>8.7</b>Qué índice usar</span></span></li>
+    <li><span class="chip k9">B9</span><span class="ir-t">Interacción genotipo × ambiente</span><span class="ir-i"><span><b>9.2</b>Interacción y estabilidad</span> <span><b>9.7</b>AMMI y biplot GGE</span></span></li>
+    <li><span class="chip k10">B10</span><span class="ir-t">Modelos mixtos, BLUP y cruzamiento</span><span class="ir-i"><span><b>10.3</b>El modelo mixto</span> <span><b>10.5</b>Valores genéticos y cruzamiento</span></span></li>
+    <li><span class="chip k11">B11</span><span class="ir-t">Genómica y predicción de híbridos</span><span class="ir-i"><span><b>11.2</b>Marcadores y GBLUP</span> <span><b>11.5</b>Validación e híbridos</span></span></li>
+    <li><span class="chip k12">B12</span><span class="ir-t">Informe, figuras y paquete</span><span class="ir-i"><span><b>12.3</b>Qué salida usar</span></span></li>
+  </ul>
+
+  <h3 class="ap-cap"><span class="chip k0">In</span>Introducción a BreedingPro</h3>
+
+  <div class="caja regla">
+    <div class="caja-t"><span class="ico">✓</span>Regla de decisión · qué bloque usar<span class="sec-ref">Sección I.8</span></div>
+    <table class="compacta"><tbody>
+      <tr><td style="width:44%"><b>Si</b> la tabla tiene hembra y macho de un grupo de progenitores cruzados entre sí…</td><td><b>entonces</b> Griffing (4), Hayman–Jinks (5) y parámetros (8).</td></tr>
+      <tr><td><b>Si</b> los machos y las hembras son grupos distintos (CN, L × P) o el dialelo es parcial…</td><td><b>entonces</b> diseños de apareamiento (6) y parámetros (8).</td></tr>
+      <tr><td><b>Si</b> hay una columna de generación (P₁, P₂, F₁, F₂…)…</td><td><b>entonces</b> generaciones (7).</td></tr>
+      <tr><td><b>Si</b> son genotipos en varias localidades o años…</td><td><b>entonces</b> parámetros (8), estabilidad (9) y, con pedigrí, BLUP (10).</td></tr>
+      <tr><td><b>Si</b> tienes pedigrí o marcadores…</td><td><b>entonces</b> BLUP (10) o genómica (11).</td></tr>
+    </tbody></table>
+    <p class="regla-pie">El Bloque 3 hace esta elección por ti al reconocer el diseño y lo indica en la tarjeta <span class="ui">3 · Diseño reconocido</span>.</p>
+  </div>
+
+  <div class="caja regla">
+    <div class="caja-t"><span class="ico">✓</span>Regla de lectura · un valor P<span class="sec-ref">Sección I.9</span></div>
+    <table class="compacta"><tbody>
+      <tr><td style="width:44%"><b>Si</b> P &lt; 0.001 (***)…</td><td><b>entonces</b> evidencia muy fuerte.</td></tr>
+      <tr><td><b>Si</b> 0.001 ≤ P &lt; 0.01 (**)…</td><td><b>entonces</b> evidencia fuerte.</td></tr>
+      <tr><td><b>Si</b> 0.01 ≤ P &lt; 0.05 (*)…</td><td><b>entonces</b> evidencia moderada.</td></tr>
+      <tr><td><b>Si</b> P ≥ 0.05 (ns)…</td><td><b>entonces</b> no significativo al 5&nbsp;%.</td></tr>
+    </tbody></table>
+    <p class="regla-pie">Un valor P no mide la importancia de un efecto: mira también su magnitud y su error estándar.</p>
+  </div>
+
+  <h3 class="ap-cap"><span class="chip k1">B1</span>Inicio, laboratorios y teoría</h3>
+
+  <div class="caja regla">
+    <div class="caja-t"><span class="ico">✓</span>Regla de decisión · cómo redacta la app la interpretación<span class="sec-ref">Sección 1.2</span></div>
+    <table class="compacta"><tbody>
+      <tr><td style="width:47%"><b>Si</b> b no difiere de 1 (|t| menor que el valor crítico al 5&nbsp;% con <i>p</i> − 2 grados de libertad)…</td><td><b>entonces</b> el modelo aditivo–dominante se sostiene.</td></tr>
+      <tr><td><b>Si</b> b se aleja de 1…</td><td><b>entonces</b> hay interacción no alélica u otro supuesto roto, y los componentes quedan sesgados.</td></tr>
+      <tr><td><b>Si</b> (H<sub>1</sub>/D)<sup>½</sup> &lt; 0.25…</td><td><b>entonces</b> la acción génica es prácticamente aditiva.</td></tr>
+      <tr><td><b>Si</b> el intercepto de la recta es positivo y significativo…</td><td><b>entonces</b> dominancia parcial.</td></tr>
+      <tr><td><b>Si</b> es negativo y significativo…</td><td><b>entonces</b> sobredominancia.</td></tr>
+      <tr><td><b>Si</b> no difiere de cero y (H<sub>1</sub>/D)<sup>½</sup> está entre 0.8 y 1.2…</td><td><b>entonces</b> dominancia completa. Fuera de ese intervalo, la app avisa que la prueba del intercepto tiene poca potencia (práctica 4).</td></tr>
+      <tr><td><b>Si</b> r(Yr, Wr + Vr) &lt; −0.3 · &gt; 0.3…</td><td><b>entonces</b> los alelos dominantes · recesivos aumentan el carácter; entre ambos valores la dirección no es clara.</td></tr>
+    </tbody></table>
+    <p class="regla-pie">La app nombra además a los dos progenitores más cercanos al origen: son los que portan más alelos dominantes.</p>
+  </div>
+
+  <h3 class="ap-cap"><span class="chip k2">B2</span>Planear cruzas, ensayo y potencia</h3>
+
+  <div class="caja regla">
+    <div class="caja-t"><span class="ico">✓</span>Regla de decisión · qué diseño de campo usar<span class="sec-ref">Sección 2.4</span></div>
+    <table class="compacta"><tbody>
+      <tr><td style="width:46%"><b>Si</b> hay pocas entradas (hasta 15 o 20) y el terreno es uniforme en el tamaño de una repetición…</td><td><b>entonces</b> bloques completos al azar.</td></tr>
+      <tr><td><b>Si</b> hay muchas entradas y una repetición completa ya no cabe en suelo homogéneo…</td><td><b>entonces</b> látice α, con bloques de un tamaño cercano a √<i>v</i>.</td></tr>
+      <tr><td><b>Si</b> hay muchas entradas nuevas y semilla para una sola parcela de cada una…</td><td><b>entonces</b> aumentado, con al menos dos testigos y 12 o más grados de libertad del error.</td></tr>
+      <tr><td><b>Si</b> las parcelas son macetas o unidades homogéneas (invernadero, laboratorio)…</td><td><b>entonces</b> completamente al azar.</td></tr>
+    </tbody></table>
+    <p class="regla-pie">La app exige al menos dos repeticiones, salvo en el aumentado, y advierte cuando el error queda con menos de 12 grados de libertad.</p>
+  </div>
+
+  <h3 class="ap-cap"><span class="chip k3">B3</span>Datos, diseño reconocido y análisis de campo</h3>
+
+  <div class="caja regla">
+    <div class="caja-t"><span class="ico">✓</span>Regla de lectura · la calidad del ensayo<span class="sec-ref">Sección 3.6</span></div>
+    <table class="compacta">
+      <thead><tr><th style="width:36%">Prueba</th><th style="width:26%">Bien</th><th>A revisar</th></tr></thead>
+      <tbody>
+        <tr><td><b>Normalidad</b> de los residuales (Shapiro–Wilk)</td><td>p ≥ 0.05: se cumple</td><td>p &lt; 0.05: revisar el gráfico Q–Q</td></tr>
+        <tr><td><b>Aditividad</b> repetición × entrada (Tukey, 1 gl)</td><td>p ≥ 0.05: aditivo</td><td>p &lt; 0.05: no aditivo; pruebe una transformación</td></tr>
+        <tr><td><b>Valores atípicos</b> (Bonferroni)</td><td>ninguno</td><td>los hay: revisar en la tarjeta 4</td></tr>
+        <tr><td><b>Repetibilidad</b> (H²<sub>c</sub>)</td><td>≥ 0.5: ensayo informativo</td><td>0.3 a 0.5: moderada; &lt; 0.3: baja</td></tr>
+        <tr><td><b>Precisión</b> (CV)</td><td>≤ 12&nbsp;%: buena</td><td>12 a 20&nbsp;%: aceptable; &gt; 20&nbsp;%: baja</td></tr>
+        <tr><td><b>Ganancia</b> por bloques incompletos</td><td>≥ 5&nbsp;%: los bloques ayudaron</td><td>&lt; 5&nbsp;%: poca ganancia</td></tr>
+      </tbody>
+    </table>
+    <p class="regla-pie">Los límites del CV son orientativos: dependen del cultivo y de la variable. Si la prueba de Bartlett del análisis combinado da p &lt; 0.05, usa el análisis en dos etapas del Bloque 9.</p>
+  </div>
+
+  <div class="caja regla">
+    <div class="caja-t"><span class="ico">✓</span>Regla práctica · antes de pasar a los bloques genéticos<span class="sec-ref">Sección 3.9</span></div>
+    <table class="compacta"><tbody>
+      <tr><td style="width:46%"><b>Si</b> una columna quedó con un papel equivocado o en <span class="ui">Ignorar</span>…</td><td><b>entonces</b> corrígela en la tarjeta 2: todo lo demás depende de ella.</td></tr>
+      <tr><td><b>Si</b> el diseño de apareamiento tiene confianza media o baja…</td><td><b>entonces</b> lee las razones y revisa <span class="ui">Entradas reconocidas</span> y la figura de cruzas presentes.</td></tr>
+      <tr><td><b>Si</b> hay valores atípicos…</td><td><b>entonces</b> compáralos con la libreta de campo y excluye solo los errores comprobados.</td></tr>
+      <tr><td><b>Si</b> la normalidad o la aditividad fallan…</td><td><b>entonces</b> considera transformar la variable antes de cargarla de nuevo.</td></tr>
+    </tbody></table>
+    <p class="regla-pie">Los bloques genéticos usan exactamente lo que queda en el Bloque 3: sus datos, su diseño, las observaciones excluidas y el error externo.</p>
+  </div>
+
+  <h3 class="ap-cap"><span class="chip k4">B4</span>Dialelos de Griffing</h3>
+
+  <div class="caja regla">
+    <div class="caja-t"><span class="ico">✓</span>Regla de lectura · qué efecto sirve para qué<span class="sec-ref">Sección 4.4</span></div>
+    <table class="compacta"><tbody>
+      <tr><td style="width:40%"><b>ACG alta y significativa</b> (ĝ<sub>i</sub>)</td><td>El progenitor transmite su valor a todas sus cruzas: sirve para <b>formar poblaciones y sintéticos</b> y para elegir progenitores de un programa.</td></tr>
+      <tr><td><b>ACE alta y significativa</b> (ŝ<sub>ij</sub>)</td><td>La pareja rinde más de lo que predicen sus ACG: sirve para <b>híbridos</b> de esa combinación, no para elegir progenitores.</td></tr>
+      <tr><td><b>Efecto materno</b> (<i>m<sub>i</sub></i>)</td><td>Importa quién es la hembra: el progenitor debe usarse en la dirección favorable (citoplasma, endospermo, tamaño de semilla).</td></tr>
+      <tr><td><b>Recíproco no materno</b> (<i>n<sub>ij</sub></i>)</td><td>La dirección importa solo en esa pareja; conviene confirmarlo antes de sacar conclusiones.</td></tr>
+    </tbody></table>
+    <p class="regla-pie">La razón de Baker resume el balance: cerca de 1, la ACG predice bien las cruzas y domina la acción aditiva (sección 4.5).</p>
+  </div>
+
+  <h3 class="ap-cap"><span class="chip k5">B5</span>Hayman–Jinks y Gardner–Eberhart</h3>
+
+  <div class="caja regla">
+    <div class="caja-t"><span class="ico">✓</span>Regla de lectura · el gráfico Wr–Vr<span class="sec-ref">Sección 5.5</span></div>
+    <table class="compacta"><tbody>
+      <tr><td style="width:42%"><b>Pendiente</b> que no se aparta de 1</td><td>El modelo aditivo–dominante es adecuado; si se aparta, hay epistasis o genes correlacionados entre progenitores.</td></tr>
+      <tr><td><b>Intercepto</b> positivo · cero · negativo</td><td>Dominancia parcial · completa · sobredominancia.</td></tr>
+      <tr><td><b>Distancia al origen</b> de cada punto</td><td>Cerca: el progenitor lleva sobre todo alelos dominantes; lejos: recesivos.</td></tr>
+      <tr><td><b>Correlación</b> entre el valor del progenitor y Wr + Vr</td><td>Positiva: los alelos dominantes disminuyen la variable; negativa: la aumentan.</td></tr>
+    </tbody></table>
+  </div>
+
+  <h3 class="ap-cap"><span class="chip k6">B6</span>Diseños de apareamiento</h3>
+
+  <div class="caja regla">
+    <div class="caja-t"><span class="ico">✓</span>Regla de decisión · la endogamia F de los progenitores<span class="sec-ref">Sección 6.2</span></div>
+    <table class="compacta"><tbody>
+      <tr><td style="width:46%"><b>Si</b> los progenitores son líneas endogámicas (línea × probador, dialelos parciales de líneas)…</td><td><b>entonces</b> F = 1.</td></tr>
+      <tr><td><b>Si</b> son plantas de una población (Carolinas del Norte, cruza triple de prueba)…</td><td><b>entonces</b> F = 0.</td></tr>
+      <tr><td><b>Si</b> son líneas de pocas generaciones de autofecundación…</td><td><b>entonces</b> F = 0.5 o 0.75, según la generación.</td></tr>
+      <tr><td><b>Si</b> la libreta del Bloque 2 declaró otro valor…</td><td><b>entonces</b> la app usa ese: confírmalo.</td></tr>
+    </tbody></table>
+    <p class="regla-pie">Con los mismos cuadrados medios, pasar de F = 0 a F = 1 divide σ²<sub>A</sub> entre 2 y σ²<sub>D</sub> entre 4.</p>
+  </div>
+
+  <div class="caja regla">
+    <div class="caja-t"><span class="ico">✓</span>Regla de lectura · componentes y pruebas de un diseño<span class="sec-ref">Secciones 6.5 a 6.8</span></div>
+    <table class="compacta"><tbody>
+      <tr><td style="width:46%"><b>Si</b> un componente sale negativo…</td><td><b>entonces</b> la varianza verdadera es cercana a cero o faltan repeticiones. Se informa como sale; con σ²<sub>D</sub> negativa no hay grado de dominancia, H² ni razón de Baker.</td></tr>
+      <tr><td><b>Si</b> las dos σ²<sub>A</sub> de una Carolina del Norte II, la de machos y la de hembras, difieren mucho…</td><td><b>entonces</b> sospecha efectos maternos o que machos y hembras no vienen de la misma población.</td></tr>
+      <tr><td><b>Si</b> en la cruza triple de prueba el contraste L<sub>1</sub> + L<sub>2</sub> − 2L<sub>3</sub> es significativo…</td><td><b>entonces</b> hay epistasis, siempre que L<sub>3</sub> sea de verdad la F<sub>1</sub>: revisa <span class="ui">Probador F₁ (L₃)</span>.</td></tr>
+      <tr><td><b>Si</b> en la línea × probador la interacción domina y σ²<sub>A</sub> sale imprecisa…</td><td><b>entonces</b> casi toda la variación entre cruzas es específica; unos pocos probadores elegidos a propósito no estiman la σ²<sub>A</sub> de una población.</td></tr>
+    </tbody></table>
+    <p class="regla-pie">La prueba de que un componente vale cero es la F de su fuente, no su error estándar.</p>
+  </div>
+
+  <h3 class="ap-cap"><span class="chip k7">B7</span>Generaciones y heterosis</h3>
+
+  <div class="caja regla">
+    <div class="caja-t"><span class="ico">✓</span>Regla de decisión · la varianza de cada media<span class="sec-ref">Sección 7.3</span></div>
+    <table class="compacta"><tbody>
+      <tr><td style="width:46%"><b>Si</b> las plantas se aleatorizaron una por una (o hay una planta por parcela)…</td><td><b>entonces</b> la varianza entre individuos entre su número, s²/n.</td></tr>
+      <tr><td><b>Si</b> hay parcelas repetidas de varias plantas…</td><td><b>entonces</b> el error de parcela sin bloques, que es lo que hace <span class="ui">automático</span>.</td></tr>
+      <tr><td><b>Si</b> hay un solo valor por parcela…</td><td><b>entonces</b> el cuadrado medio residual; no hay D, H, F, E ni factores efectivos.</td></tr>
+      <tr><td><b>Si</b> hay parcelas y se fuerza <span class="ui">entre individuos / n</span>…</td><td><b>entonces</b> los errores estándar salen demasiado pequeños y cualquier diferencia parece significativa: no lo hagas.</td></tr>
+    </tbody></table>
+    <p class="regla-pie">Los bloques no entran en la varianza de las medias: cada generación está en todos ellos y su efecto se cancela en las comparaciones.</p>
+  </div>
+
+  <div class="caja regla">
+    <div class="caja-t"><span class="ico">✓</span>Regla de lectura · escala, modelos y heterosis<span class="sec-ref">Secciones 7.4 a 7.7</span></div>
+    <table class="compacta"><tbody>
+      <tr><td style="width:46%"><b>Si</b> una sola prueba de escala es significativa…</td><td><b>entonces</b> el modelo aditivo–dominante no alcanza; la prueba conjunta dice qué epistasis hace falta.</td></tr>
+      <tr><td><b>Si</b> las pruebas de escala fallan…</td><td><b>entonces</b> antes de añadir epistasis prueba una transformación de la variable: puede ser un efecto de escala.</td></tr>
+      <tr><td><b>Si</b> [h] y [l] son significativos con el mismo signo · con signos opuestos…</td><td><b>entonces</b> epistasis complementaria · duplicada (en la métrica elegida).</td></tr>
+      <tr><td><b>Si</b> D sale negativa…</td><td><b>entonces</b> hay pocas plantas, ligamiento o epistasis; lee la h² de Warner y la H² desde la F<sub>2</sub>.</td></tr>
+      <tr><td><b>Si</b> la pregunta es la acción génica · si la F<sub>1</sub> vale la pena…</td><td><b>entonces</b> lee la heterosis sobre los progenitores · la heterosis estándar contra el testigo.</td></tr>
+    </tbody></table>
+    <p class="regla-pie">Se prueba la diferencia, con su error estándar y grados de libertad de Satterthwaite; el porcentaje solo ayuda a leerla.</p>
+  </div>
+
+  <h3 class="ap-cap"><span class="chip k8">B8</span>Parámetros genéticos y selección</h3>
+
+  <div class="caja regla">
+    <div class="caja-t"><span class="ico">✓</span>Regla de lectura · una heredabilidad<span class="sec-ref">Secciones 8.2 a 8.4</span></div>
+    <table class="compacta"><tbody>
+      <tr><td style="width:46%"><b>Si</b> H² en medias &lt; 0.3 · 0.3 a 0.6 · &gt; 0.6…</td><td><b>entonces</b> baja · media · alta (la franja gris de la figura 8.2).</td></tr>
+      <tr><td><b>Si</b> el intervalo de Knapp es ancho (pocos genotipos)…</td><td><b>entonces</b> la clase es incierta: reporta el intervalo, no solo el valor.</td></tr>
+      <tr><td><b>Si</b> hay varios ambientes…</td><td><b>entonces</b> usa la H² combinada, con σ²<sub>GA</sub>; la de un ambiente mezcla la interacción con lo genético.</td></tr>
+      <tr><td><b>Si</b> el ensayo tiene bloques incompletos o está desbalanceado…</td><td><b>entonces</b> la H² de Cullis.</td></tr>
+    </tbody></table>
+    <p class="regla-pie">Con σ²<sub>G</sub> negativa la heredabilidad se informa tal cual, pero el avance genético se toma como cero.</p>
+  </div>
+
+  <div class="caja regla">
+    <div class="caja-t"><span class="ico">✓</span>Regla de decisión · cuándo confiar en las sendas<span class="sec-ref">Sección 8.6</span></div>
+    <table class="compacta"><tbody>
+      <tr><td style="width:46%"><b>Si</b> la app no muestra la tabla (la matriz no es definida positiva o R² &gt; 1)…</td><td><b>entonces</b> usa las correlaciones fenotípicas, quita variables con σ²<sub>G</sub> pequeña o aumenta la constante de cresta.</td></tr>
+      <tr><td><b>Si</b> el número de condición pasa de 100 o hay VIF grandes…</td><td><b>entonces</b> los efectos directos son inestables aunque la matriz sea válida.</td></tr>
+      <tr><td><b>Si</b> un efecto directo es pequeño y la correlación total grande…</td><td><b>entonces</b> la variable actúa a través de otras: sus efectos indirectos lo dicen.</td></tr>
+    </tbody></table>
+  </div>
+
+  <div class="caja regla">
+    <div class="caja-t"><span class="ico">✓</span>Regla de decisión · qué índice de selección usar<span class="sec-ref">Secciones 8.7 y 8.8</span></div>
+    <table class="compacta"><tbody>
+      <tr><td style="width:46%"><b>Si</b> P, G y los pesos económicos están bien estimados…</td><td><b>entonces</b> Smith–Hazel.</td></tr>
+      <tr><td><b>Si</b> G y P son poco confiables…</td><td><b>entonces</b> el índice base (b = w).</td></tr>
+      <tr><td><b>Si</b> una variable no debe cambiar…</td><td><b>entonces</b> el restringido.</td></tr>
+      <tr><td><b>Si</b> importa la proporción entre ganancias…</td><td><b>entonces</b> el de ganancias proporcionales, con θ &gt; 0.</td></tr>
+      <tr><td><b>Si</b> no hay pesos económicos…</td><td><b>entonces</b> el de ganancias deseadas, o el propio (ESIM) para la combinación más heredable.</td></tr>
+      <tr><td><b>Si</b> no hay P ni G…</td><td><b>entonces</b> la suma de rangos de Mulamba y Mock o el índice de Elston.</td></tr>
+    </tbody></table>
+    <p class="regla-pie">Los coeficientes no se interpretan uno por uno: lo que importa son las ganancias esperadas en cada variable.</p>
+  </div>
+
+  <h3 class="ap-cap"><span class="chip k9">B9</span>Interacción genotipo × ambiente</h3>
+
+  <div class="caja regla">
+    <div class="caja-t"><span class="ico">✓</span>Regla de lectura · interacción y estabilidad<span class="sec-ref">Secciones 9.2 a 9.6</span></div>
+    <table class="compacta"><tbody>
+      <tr><td style="width:46%"><b>Si</b> los ambientes son una muestra de la región · son los únicos que interesan…</td><td><b>entonces</b> prueba los genotipos contra la interacción · contra el error.</td></tr>
+      <tr><td><b>Si</b> la prueba de Bartlett rechaza que los errores sean iguales…</td><td><b>entonces</b> lee el análisis en dos etapas.</td></tr>
+      <tr><td><b>Si</b> b no difiere de 1 y S²<sub>d</sub> no es significativa…</td><td><b>entonces</b> adaptación amplia y predecible; b &gt; 1, aprovecha los buenos ambientes; b &lt; 1, se defiende en los pobres.</td></tr>
+      <tr><td><b>Si</b> S²<sub>d</sub> es significativa…</td><td><b>entonces</b> la respuesta del genotipo es impredecible, aunque su media sea alta.</td></tr>
+      <tr><td><b>Si</b> se ordena por el rango medio del resumen…</td><td><b>entonces</b> úsalo para ordenar la discusión, no para decidir: suma estadísticas que miden cosas distintas.</td></tr>
+    </tbody></table>
+    <p class="regla-pie">La estabilidad estática, en que el genotipo rinde igual en todos los ambientes, rara vez conviene en rendimiento: un genotipo que no cambia no aprovecha los buenos ambientes.</p>
+  </div>
+
+  <div class="caja regla">
+    <div class="caja-t"><span class="ico">✓</span>Regla de decisión · AMMI y biplot GGE<span class="sec-ref">Secciones 9.7 y 9.8</span></div>
+    <table class="compacta"><tbody>
+      <tr><td style="width:46%"><b>Si</b> hay que decidir cuántos ejes AMMI retener…</td><td><b>entonces</b> la prueba residual de Cornelius; la de Gollob es liberal.</td></tr>
+      <tr><td><b>Si</b> un genotipo tiene media alta y WAAS bajo…</td><td><b>entonces</b> es deseable: cuadrante IV de WAAS contra la media.</td></tr>
+      <tr><td><b>Si</b> los dos primeros componentes del GGE explican menos del 60&nbsp;%…</td><td><b>entonces</b> lee el biplot con cautela.</td></tr>
+      <tr><td><b>Si</b> la vista quién ganó dónde forma sectores…</td><td><b>entonces</b> son megaambientes solo si el patrón se repite en otros años.</td></tr>
+      <tr><td><b>Si</b> buscas un ambiente de prueba…</td><td><b>entonces</b> uno largo y cerca del eje del ambiente promedio; uno largo con ángulo grande sirve para descartar genotipos inestables.</td></tr>
+    </tbody></table>
+  </div>
+
+  <h3 class="ap-cap"><span class="chip k10">B10</span>Modelos mixtos, BLUP y cruzamiento</h3>
+
+  <div class="caja regla">
+    <div class="caja-t"><span class="ico">✓</span>Regla de decisión · el modelo mixto<span class="sec-ref">Secciones 10.3 y 10.4</span></div>
+    <table class="compacta"><tbody>
+      <tr><td style="width:46%"><b>Si</b> hay cientos de registros · unos pocos…</td><td><b>entonces</b> estima las varianzas por REML · dalas conocidas, de la literatura o de una población mayor.</td></tr>
+      <tr><td><b>Si</b> quieres saber si hace falta un efecto aleatorio…</td><td><b>entonces</b> lee la razón de verosimilitudes contra la mezcla ½χ²<sub>0</sub> + ½χ²<sub>1</sub>; solo compara modelos con los mismos efectos fijos.</td></tr>
+      <tr><td><b>Si</b> hay muchos grupos contemporáneos pequeños…</td><td><b>entonces</b> el grupo como efecto aleatorio.</td></tr>
+      <tr><td><b>Si</b> hay individuos con varios registros…</td><td><b>entonces</b> agrega el ambiente permanente.</td></tr>
+      <tr><td><b>Si</b> el modelo pasa de 2600 incógnitas…</td><td><b>entonces</b> reduce el pedigrí a los ancestros de los individuos con registros.</td></tr>
+    </tbody></table>
+  </div>
+
+  <div class="caja regla">
+    <div class="caja-t"><span class="ico">✓</span>Regla de lectura · valores genéticos y cruzamiento<span class="sec-ref">Secciones 10.3, 10.5 y 10.6</span></div>
+    <table class="compacta"><tbody>
+      <tr><td style="width:46%"><b>Si</b> el error estándar de predicción es del tamaño de las diferencias…</td><td><b>entonces</b> aun así elige por valor genético: ya descuenta esa incertidumbre.</td></tr>
+      <tr><td><b>Si</b> faltan parcelas, las repeticiones son desiguales o la heredabilidad es baja…</td><td><b>entonces</b> el BLUP del ensayo aventaja a la media; con familias de pocas parcelas, el parentesco (K = A) ayuda más.</td></tr>
+      <tr><td><b>Si</b> separas la parte aditiva y la no aditiva con pocas familias…</td><td><b>entonces</b> el reparto no es confiable: mira también el modelo solo aditivo.</td></tr>
+      <tr><td><b>Si</b> tomas de un artículo la pérdida por recombinación…</td><td><b>entonces</b> usa su misma convención, /4 o /2.</td></tr>
+      <tr><td><b>Si</b> un parámetro sale no estimable…</td><td><b>entonces</b> los grupos no lo separan: agrega retrocruzas, F<sub>2</sub> o cruzas de tres razas.</td></tr>
+    </tbody></table>
+  </div>
+
+  <h3 class="ap-cap"><span class="chip k11">B11</span>Selección genómica y predicción de híbridos</h3>
+
+  <div class="caja regla">
+    <div class="caja-t"><span class="ico">✓</span>Regla de decisión · marcadores y GBLUP<span class="sec-ref">Secciones 11.2 a 11.4</span></div>
+    <table class="compacta"><tbody>
+      <tr><td style="width:46%"><b>Si</b> no tienes otro criterio para el control de calidad…</td><td><b>entonces</b> los valores iniciales: hasta 20&nbsp;% de faltantes por marcador y por individuo, y MAF de 0.05 o más.</td></tr>
+      <tr><td><b>Si</b> hay pocos marcadores y el Bloque 10 tiene el pedigrí…</td><td><b>entonces</b> mezcla G con A (<span class="ui">Peso del pedigrí</span>).</td></tr>
+      <tr><td><b>Si</b> un individuo casi no se parece genómicamente a su supuesto padre…</td><td><b>entonces</b> sospecha un error de pedigrí.</td></tr>
+      <tr><td><b>Si</b> la heredabilidad genómica sale menor que la del ensayo…</td><td><b>entonces</b> parte de los QTL no está en desequilibrio con el panel.</td></tr>
+      <tr><td><b>Si</b> un marcador tiene un efecto grande…</td><td><b>entonces</b> merece una mirada, no una conclusión: la asociación se prueba con otros métodos.</td></tr>
+    </tbody></table>
+  </div>
+
+  <div class="caja regla">
+    <div class="caja-t"><span class="ico">✓</span>Regla de lectura · validación y predicción de híbridos<span class="sec-ref">Secciones 11.5 y 11.6</span></div>
+    <table class="compacta"><tbody>
+      <tr><td style="width:46%"><b>Si</b> quieres saber qué tan bien predice el modelo…</td><td><b>entonces</b> lee la validación cruzada, no la correlación con el propio dato, y deja marcada <span class="ui">Reestimar las varianzas en cada entrenamiento</span>.</td></tr>
+      <tr><td><b>Si</b> la pendiente de la validación es cercana a 1…</td><td><b>entonces</b> las predicciones no exageran ni encogen las diferencias.</td></tr>
+      <tr><td><b>Si</b> comparas la genómica con la fenotípica por año…</td><td><b>entonces</b> usa los años por ciclo reales del programa: el cociente depende casi por completo de ellos.</td></tr>
+      <tr><td><b>Si</b> T0 cae mucho frente a T2…</td><td><b>entonces</b> las líneas nuevas no tienen parientes cercanos entre las evaluadas.</td></tr>
+      <tr><td><b>Si</b> dos líneas son casi idénticas…</td><td><b>entonces</b> quédate con una: sus cruzas darán prácticamente lo mismo.</td></tr>
+    </tbody></table>
+  </div>
+
+  <h3 class="ap-cap"><span class="chip k12">B12</span>Informe, figuras y paquete de resultados</h3>
+
+  <div class="caja regla">
+    <div class="caja-t"><span class="ico">✓</span>Regla de decisión · qué salida usar<span class="sec-ref">Secciones 12.3 y 12.6</span></div>
+    <table class="compacta"><tbody>
+      <tr><td style="width:46%"><b>Si</b> vas a leer, revisar o imprimir…</td><td><b>entonces</b> la vista previa y <span class="ui">Imprimir o guardar como PDF</span>.</td></tr>
+      <tr><td><b>Si</b> lo compartes con quien no tiene la app…</td><td><b>entonces</b> <span class="ui">Descargar HTML</span>: se abre en cualquier navegador, sin conexión.</td></tr>
+      <tr><td><b>Si</b> escribes un manuscrito…</td><td><b>entonces</b> <span class="ui">Copiar los métodos</span>, y complétalos con lo que pasó en el campo.</td></tr>
+      <tr><td><b>Si</b> envías a una revista o archivas una tesis…</td><td><b>entonces</b> el paquete ZIP; el TIFF, solo de las figuras que se envían.</td></tr>
+      <tr><td><b>Si</b> lo necesitas en el otro idioma…</td><td><b>entonces</b> cambia <span class="ui">ES · EN</span> y ármalo de nuevo.</td></tr>
+    </tbody></table>
+    <p class="regla-pie">Cada bloque entra con lo que muestra en ese momento: si cambias algo en un bloque, arma el informe de nuevo.</p>
+  </div>
+
+  <!-- ====================================================================== C -->
+  <h2 id="ap-c"><span class="num">C</span>Glosario</h2>
+  <p class="lead">Los términos, siglas y símbolos del manual con una definición breve y la sección donde se explican con calma. Debajo de cada término va su nombre en inglés, tal como aparece en la app con el botón EN o en la literatura.</p>
+
+  <h3>C.1 Siglas</h3>
+  <table class="compacta">
+    <caption><b>Tabla C.1.</b> Siglas del manual y de la app. Entre paréntesis, la sigla inglesa cuando la literatura la usa.</caption>
+    <thead><tr><th style="width:11%">Sigla</th><th style="width:39%">Significado</th><th style="width:11%">Sigla</th><th>Significado</th></tr></thead>
+    <tbody>
+      <tr><td><b>ACE</b></td><td>Aptitud combinatoria específica (SCA)</td><td><b>G×A</b></td><td>Interacción genotipo × ambiente (G×E)</td></tr>
+      <tr><td><b>ACG</b></td><td>Aptitud combinatoria general (GCA)</td><td><b>GBLUP</b></td><td>BLUP genómico: BLUP con la matriz de parentesco de los marcadores</td></tr>
+      <tr><td><b>AG</b></td><td>Avance genético esperado</td><td><b>GGE</b></td><td>Genotipo más genotipo × ambiente: lo que dibuja el biplot GGE</td></tr>
+      <tr><td><b>AMMI</b></td><td>Efectos principales aditivos e interacción multiplicativa</td><td><b>gl</b></td><td>Grados de libertad (df)</td></tr>
+      <tr><td><b>ANOVA</b></td><td>Análisis de varianza</td><td><b>HT</b></td><td>Habilidad de transmisión: la mitad del valor genético</td></tr>
+      <tr><td><b>ASV</b></td><td>Valor de estabilidad AMMI</td><td><b>IC</b></td><td>Intervalo de confianza</td></tr>
+      <tr><td><b>BCA</b></td><td>Bloques completos al azar (RCBD)</td><td><b>IPCA</b></td><td>Eje de componentes principales de la interacción, en AMMI</td></tr>
+      <tr><td><b>BLUP</b></td><td>Mejor predictor lineal insesgado</td><td><b>L × P</b></td><td>Línea × probador (line × tester)</td></tr>
+      <tr><td><b>CA</b></td><td>Completamente al azar (CRD)</td><td><b>MAF</b></td><td>Frecuencia del alelo menor</td></tr>
+      <tr><td><b>CM · CME</b></td><td>Cuadrado medio · cuadrado medio del error (MS · MSE)</td><td><b>PEV</b></td><td>Varianza del error de predicción</td></tr>
+      <tr><td><b>CN I, II, III</b></td><td>Diseños de Carolina del Norte (NC I, II, III)</td><td><b>ppp</b></td><td>Puntos por pulgada (dpi)</td></tr>
+      <tr><td><b>CV</b></td><td>Coeficiente de variación; CV<sub>g</sub>, CV<sub>f</sub> y CV<sub>e</sub>: genético, fenotípico y ambiental</td><td><b>QTL</b></td><td>Locus de un carácter cuantitativo</td></tr>
+      <tr><td><b>CV1</b></td><td>Esquema de validación cruzada que predice individuos nuevos</td><td><b>RC</b></td><td>Retrocruza (BC): RC<sub>1</sub> con P<sub>1</sub>, RC<sub>2</sub> con P<sub>2</sub></td></tr>
+      <tr><td><b>DArT</b></td><td>Marcadores de micromatrices de diversidad (<i>Diversity Arrays Technology</i>)</td><td><b>REML</b></td><td>Máxima verosimilitud restringida</td></tr>
+      <tr><td><b>DE · EE</b></td><td>Desviación estándar · error estándar (SD · SE)</td><td><b>RR-BLUP</b></td><td>BLUP de regresión en cresta sobre los marcadores</td></tr>
+      <tr><td><b>DMS</b></td><td>Diferencia mínima significativa (LSD)</td><td><b>SC</b></td><td>Suma de cuadrados (SS)</td></tr>
+      <tr><td><b>EEP</b></td><td>Error estándar de predicción: √PEV</td><td><b>SNP</b></td><td>Polimorfismo de un solo nucleótido</td></tr>
+      <tr><td><b>EM</b></td><td>Algoritmo de esperanza-maximización</td><td><b>T0, T1, T2</b></td><td>Clases de la validación de híbridos: ninguno, uno o los dos progenitores con híbridos en el entrenamiento</td></tr>
+      <tr><td><b>ESIM</b></td><td>Índice de selección propio, de valores propios (<i>eigen selection index</i>)</td><td><b>VG</b></td><td>Valor genético (EBV)</td></tr>
+      <tr><td><b>F<sub>1</sub>, F<sub>2</sub>, F<sub>3</sub></b></td><td>Primera, segunda y tercera generación filial</td><td><b>VIF</b></td><td>Factor de inflación de la varianza</td></tr>
+      <tr><td><b>GEBV</b></td><td>Valor genético genómico, en las hojas de resultados</td><td><b>WAAS · WAASY</b></td><td>Promedio ponderado de las puntuaciones absolutas de AMMI · combinado con la media</td></tr>
+    </tbody>
+  </table>
+
+  <h3>C.2 Términos</h3>
+  <table class="compacta">
+    <caption><b>Tabla C.2.</b> Glosario en orden alfabético.</caption>
+    <thead><tr><th style="width:25%">Término</th><th>Definición</th><th style="width:9%" class="c">Sección</th></tr></thead>
+    <tbody>
+      <tr class="letra"><td colspan="3">A</td></tr>
+      <tr><td class="termino"><b>Ambiente permanente</b><br><span class="small">permanent environment</span></td><td>Efecto propio de un individuo, sin parentesco, que se repite en todos sus registros: lo que tiene de bueno o de malo por su historia y no por sus genes.</td><td class="c">10.4</td></tr>
+      <tr><td class="termino"><b>AMMI</b></td><td>Modelo que ajusta los efectos de genotipos y ambientes y descompone la interacción en unos cuantos ejes multiplicativos (IPCA); el resto se toma como ruido.</td><td class="c">9.7</td></tr>
+      <tr><td class="termino"><b>Análisis combinado</b><br><span class="small">combined analysis</span></td><td>El análisis de todos los ambientes juntos, con la interacción entrada × ambiente. Se ajusta en una etapa o, si el modelo es muy grande, en dos.</td><td class="c">3.7</td></tr>
+      <tr><td class="termino"><b>Análisis en dos etapas</b><br><span class="small">two-stage analysis</span></td><td>Primero las medias ajustadas de cada ambiente con su error; después, un modelo de la tabla genotipo × ambiente en que cada media pesa según la precisión de su ambiente.</td><td class="c">9.3</td></tr>
+      <tr><td class="termino"><b>Análisis de sendas</b><br><span class="small">path analysis</span></td><td>Descompone la correlación de cada variable con una dependiente en un efecto directo y efectos indirectos a través de las demás.</td><td class="c">8.6</td></tr>
+      <tr><td class="termino"><b>Aptitud combinatoria general</b> (ACG)<br><span class="small">general combining ability</span></td><td>Desempeño medio de un progenitor en sus cruzas, como desviación de la media general. Depende sobre todo de la varianza aditiva.</td><td class="c">I.3, 4.4</td></tr>
+      <tr><td class="termino"><b>Aptitud combinatoria específica</b> (ACE)<br><span class="small">specific combining ability</span></td><td>Lo que una cruza rinde de más o de menos respecto de lo que predicen las ACG de sus progenitores. Refleja dominancia y epistasis.</td><td class="c">I.3, 4.4</td></tr>
+      <tr><td class="termino"><b>Avance genético</b> (AG)<br><span class="small">genetic advance</span></td><td>Lo que subiría la media si se seleccionara la proporción elegida por su media fenotípica: i·σ<sub>F</sub>·H².</td><td class="c">8.2</td></tr>
+      <tr class="letra"><td colspan="3">B</td></tr>
+      <tr><td class="termino"><b>Bloques aumentados</b><br><span class="small">augmented design</span></td><td>Diseño en que unos testigos se repiten en cada bloque y las entradas nuevas aparecen una sola vez; los testigos estiman el efecto de los bloques.</td><td class="c">2.4, 3.8</td></tr>
+      <tr><td class="termino"><b>BLUP</b></td><td>Predicción de un efecto aleatorio que encoge los valores extremos hacia la media según su precisión y aprovecha el parentesco.</td><td class="c">10.3</td></tr>
+      <tr class="letra"><td colspan="3">C</td></tr>
+      <tr><td class="termino"><b>Carolina del Norte I, II y III</b><br><span class="small">North Carolina designs</span></td><td>Diseños de apareamiento de Comstock y Robinson: jerárquico (cada macho con sus hembras), factorial (machos × hembras) y cada planta F<sub>2</sub> con los dos progenitores de la F<sub>1</sub>.</td><td class="c">6.1</td></tr>
+      <tr><td class="termino"><b>Coancestría</b><br><span class="small">coancestry</span></td><td>Probabilidad de que dos alelos tomados al azar, uno de cada individuo, sean idénticos por descendencia. La consanguinidad de un hijo es la coancestría de sus padres.</td><td class="c">10.2</td></tr>
+      <tr><td class="termino"><b>Confiabilidad</b><br><span class="small">reliability</span></td><td>Cuadrado de la correlación entre el valor genético verdadero y el predicho: 1 − PEV/[(1 + F)σ²<sub>a</sub>]. Su raíz es la exactitud.</td><td class="c">10.3</td></tr>
+      <tr><td class="termino"><b>Confiabilidad de Annicchiarico</b><br><span class="small">reliability index</span></td><td>Desempeño relativo, en porcentaje de la media de cada ambiente, que un genotipo supera con probabilidad 1 − α.</td><td class="c">9.5</td></tr>
+      <tr><td class="termino"><b>Consanguinidad</b> (F)<br><span class="small">inbreeding coefficient</span></td><td>Probabilidad de que los dos alelos de un locus de un individuo sean idénticos por descendencia. Vale 1 en una línea pura.</td><td class="c">10.2</td></tr>
+      <tr><td class="termino"><b>Cresta</b><br><span class="small">ridge</span></td><td>Pequeña cantidad que se suma a la diagonal de una matriz para poder invertirla o estabilizarla: la constante k de las sendas y la λ de la matriz G.</td><td class="c">8.6, 11.3</td></tr>
+      <tr><td class="termino"><b>Cruza triple de prueba</b><br><span class="small">triple test cross</span></td><td>Cada planta F<sub>2</sub> se cruza con los dos progenitores y con su F<sub>1</sub>; además de σ²<sub>A</sub> y σ²<sub>D</sub>, prueba la epistasis.</td><td class="c">6.7</td></tr>
+      <tr><td class="termino"><b>Cruzas triples y dobles</b><br><span class="small">three-way and double crosses</span></td><td>Cruzas de tres o cuatro líneas; se predicen con las reglas de Jenkins a partir de las cruzas simples no progenitoras.</td><td class="c">11.6</td></tr>
+      <tr><td class="termino"><b>Cuadrado medio esperado</b><br><span class="small">expected mean square</span></td><td>Combinación de varianzas que estima un cuadrado medio. El Bloque 6 la calcula para el experimento real, por trazas, en vez de copiarla de una tabla.</td><td class="c">6.3</td></tr>
+      <tr><td class="termino"><b>Cuasi-F</b><br><span class="small">quasi-F</span></td><td>Prueba F cuyo denominador es una combinación de cuadrados medios, con grados de libertad de Satterthwaite; se usa cuando ninguna fuente sola sirve de denominador.</td><td class="c">6.3</td></tr>
+      <tr class="letra"><td colspan="3">D</td></tr>
+      <tr><td class="termino"><b>Depresión endogámica</b><br><span class="small">inbreeding depression</span></td><td>Lo que pierde la F<sub>2</sub> respecto de la F<sub>1</sub>: F<sub>1</sub> − F<sub>2</sub>. Sin epistasis, la F<sub>2</sub> conserva la mitad de la heterosis.</td><td class="c">7.7</td></tr>
+      <tr><td class="termino"><b>Dialelo</b><br><span class="small">diallel cross</span></td><td>Todas las cruzas posibles entre un grupo de progenitores. Griffing distinguió cuatro métodos, según entren o no los progenitores y las recíprocas.</td><td class="c">4.1</td></tr>
+      <tr><td class="termino"><b>Dialelo parcial</b><br><span class="small">partial diallel</span></td><td>Cada progenitor se cruza solo con s de los demás, casi siempre en el orden circulante de Kempthorne y Curnow.</td><td class="c">6.9</td></tr>
+      <tr><td class="termino"><b>Diferencia mínima significativa</b> (DMS)<br><span class="small">least significant difference</span></td><td>La menor diferencia entre dos medias que resulta significativa al nivel elegido.</td><td class="c">I.9, 3.6</td></tr>
+      <tr><td class="termino"><b>Doblado de una matriz</b><br><span class="small">bending</span></td><td>Corrección de una matriz de covarianzas que no es posible (valores propios negativos) para que lo sea, cambiándola lo menos posible.</td><td class="c">8.7</td></tr>
+      <tr class="letra"><td colspan="3">E</td></tr>
+      <tr><td class="termino"><b>Ecovalencia</b><br><span class="small">ecovalence</span></td><td>Suma de los residuos al cuadrado de un genotipo en el modelo aditivo: su contribución a la interacción (Wricke).</td><td class="c">9.5</td></tr>
+      <tr><td class="termino"><b>Efecto materno</b><br><span class="small">maternal effect</span></td><td>Parte del valor de un individuo que depende de su madre y no de sus propios genes. En un dialelo, la diferencia sistemática entre cruzas recíprocas; en el modelo animal, el valor genético materno de la madre.</td><td class="c">4.4, 10.4</td></tr>
+      <tr><td class="termino"><b>Efectos recíprocos</b><br><span class="small">reciprocal effects</span></td><td>Diferencias entre A × B y B × A. Se parten en maternos (de la hembra) y no maternos (propios de la pareja).</td><td class="c">4.4</td></tr>
+      <tr><td class="termino"><b>Eficiencia</b><br><span class="small">efficiency</span></td><td>Cuánto mejora un diseño con bloques incompletos a los bloques completos en la precisión de las comparaciones entre entradas.</td><td class="c">2.4, 3.6</td></tr>
+      <tr><td class="termino"><b>Epistasis</b><br><span class="small">epistasis</span></td><td>Interacción entre genes de loci distintos. En medias generacionales: aditiva × aditiva [i], aditiva × dominancia [j] y dominancia × dominancia [l]; complementaria o duplicada según los signos de [h] y [l].</td><td class="c">7.1, 7.5</td></tr>
+      <tr><td class="termino"><b>Error de muestreo</b><br><span class="small">sampling error</span></td><td>Variación entre las plantas de una misma parcela; se separa del error de parcela cuando hay datos por planta.</td><td class="c">3.8</td></tr>
+      <tr><td class="termino"><b>Error de parcela</b><br><span class="small">plot error</span></td><td>Variación entre parcelas de una misma entrada que no explican sus plantas; en el Bloque 7, σ²<sub>p</sub>.</td><td class="c">7.3</td></tr>
+      <tr><td class="termino"><b>Estabilidad estática y dinámica</b><br><span class="small">static, dynamic stability</span></td><td>Rendir igual en todos los ambientes, o seguir el patrón promedio de los ambientes. Las estadísticas de estabilidad miden una u otra.</td><td class="c">9.9</td></tr>
+      <tr><td class="termino"><b>Exactitud</b><br><span class="small">accuracy</span></td><td>Correlación entre el valor verdadero y el predicho. En la validación cruzada se aproxima con r/√h².</td><td class="c">10.3, 11.5</td></tr>
+      <tr class="letra"><td colspan="3">F</td></tr>
+      <tr><td class="termino"><b>Factores efectivos</b><br><span class="small">effective factors</span></td><td>Número mínimo de genes que separan a dos progenitores, estimado con la fórmula de Castle y Wright. Es una cota inferior.</td><td class="c">7.8</td></tr>
+      <tr><td class="termino"><b>Frontera</b><br><span class="small">boundary</span></td><td>Una varianza estimada por REML que queda en cero. Se informa así, sin error estándar, y su prueba usa una mezcla de χ².</td><td class="c">I.9, 10.3</td></tr>
+      <tr><td class="termino"><b>Fundador</b><br><span class="small">founder</span></td><td>Individuo del pedigrí sin padres conocidos; los fundadores forman la base, cuyo valor genético medio es 0.</td><td class="c">10.2</td></tr>
+      <tr class="letra"><td colspan="3">G</td></tr>
+      <tr><td class="termino"><b>GBLUP</b></td><td>BLUP con la matriz de parentesco genómico G. Equivale a la regresión en cresta de todos los marcadores (RR-BLUP).</td><td class="c">11.4</td></tr>
+      <tr><td class="termino"><b>Genotipo ideal</b><br><span class="small">ideal genotype</span></td><td>Punto del biplot GGE con la media más alta y la mayor estabilidad; sirve de referencia para comparar los demás.</td><td class="c">9.8</td></tr>
+      <tr><td class="termino"><b>Grado medio de dominancia</b><br><span class="small">average degree of dominance</span></td><td>√(H<sub>1</sub>/D) o √(2σ²<sub>D</sub>/σ²<sub>A</sub>): 0 sin dominancia, entre 0 y 1 parcial, 1 completa y más de 1 sobredominancia aparente.</td><td class="c">4.5, 5.4</td></tr>
+      <tr><td class="termino"><b>Grupo contemporáneo</b><br><span class="small">contemporary group</span></td><td>Animales criados juntos, en el mismo manejo y época; se ajusta como efecto fijo o aleatorio.</td><td class="c">10.4</td></tr>
+      <tr><td class="termino"><b>Grupo heterótico</b><br><span class="small">heterotic group</span></td><td>Conjunto de líneas que se cruzan con las de otro grupo y no entre sí, como las dentadas y las cristalinas del maíz.</td><td class="c">11.6</td></tr>
+      <tr class="letra"><td colspan="3">H</td></tr>
+      <tr><td class="termino"><b>Heredabilidad en sentido amplio</b> (H²)<br><span class="small">broad-sense heritability</span></td><td>Fracción genética de la varianza fenotípica, σ²<sub>G</sub>/σ²<sub>F</sub>, por parcela o en medias de genotipo.</td><td class="c">I.3, 8.2</td></tr>
+      <tr><td class="termino"><b>Heredabilidad en sentido estrecho</b> (h²)<br><span class="small">narrow-sense heritability</span></td><td>Fracción aditiva de la varianza fenotípica, σ²<sub>A</sub>/σ²<sub>F</sub>: la que determina la respuesta a la selección.</td><td class="c">4.5, 7.6</td></tr>
+      <tr><td class="termino"><b>Heredabilidad de Cullis</b><br><span class="small">generalised heritability</span></td><td>1 − v<sub>Δ</sub>/(2σ²<sub>g</sub>), con la varianza promedio de una diferencia entre dos medias; vale con datos desbalanceados y bloques incompletos.</td><td class="c">3.6</td></tr>
+      <tr><td class="termino"><b>Heredabilidad genómica</b><br><span class="small">genomic heritability</span></td><td>La parte de la varianza que capturan los marcadores. Es menor que la verdadera si parte de los QTL no está en desequilibrio con el panel.</td><td class="c">11.4</td></tr>
+      <tr><td class="termino"><b>Heterosis</b><br><span class="small">heterosis</span></td><td>Superioridad de la F<sub>1</sub> sobre la media de sus progenitores o sobre el mejor de ellos. En un dialelo de variedades se parte en media, de variedad y específica.</td><td class="c">5.6, 7.7</td></tr>
+      <tr><td class="termino"><b>Heterosis estándar</b><br><span class="small">standard heterosis</span></td><td>Diferencia entre la F<sub>1</sub> y un testigo sembrado en el mismo ensayo, en porcentaje de la media del testigo.</td><td class="c">7.7</td></tr>
+      <tr><td class="termino"><b>Heterosis individual y materna</b><br><span class="small">individual, maternal heterosis</span></td><td>En el cruzamiento de razas, la ventaja del individuo cruzado y la de tener una madre cruzada.</td><td class="c">10.6</td></tr>
+      <tr class="letra"><td colspan="3">I</td></tr>
+      <tr><td class="termino"><b>Índice ambiental</b><br><span class="small">environmental index</span></td><td>Media de un ambiente menos la media general: mide lo bueno que fue el ambiente.</td><td class="c">9.4</td></tr>
+      <tr><td class="termino"><b>Índice de selección</b><br><span class="small">selection index</span></td><td>Combinación lineal de variables, I = b′y, para elegir los genotipos que más mejoran un valor genético agregado.</td><td class="c">8.7</td></tr>
+      <tr><td class="termino"><b>Intensidad de selección</b> (i)<br><span class="small">selection intensity</span></td><td>Superioridad de los seleccionados en desviaciones estándar. Algunos libros la llaman k.</td><td class="c">8.3</td></tr>
+      <tr><td class="termino"><b>Interacción genotipo × ambiente</b><br><span class="small">genotype × environment interaction</span></td><td>Cambio del orden o de las diferencias entre genotipos de un ambiente a otro.</td><td class="c">9.2</td></tr>
+      <tr class="letra"><td colspan="3">L</td></tr>
+      <tr><td class="termino"><b>Látice α</b><br><span class="small">alpha lattice</span></td><td>Diseño de bloques incompletos resolubles: cada repetición se divide en bloques pequeños, que absorben la heterogeneidad del terreno.</td><td class="c">2.4</td></tr>
+      <tr><td class="termino"><b>Línea × probador</b><br><span class="small">line × tester</span></td><td>Cada línea se cruza con unos cuantos probadores; da la ACG de líneas y probadores y la ACE de sus cruzas.</td><td class="c">6.8</td></tr>
+      <tr class="letra"><td colspan="3">M</td></tr>
+      <tr><td class="termino"><b>Máxima verosimilitud restringida</b> (REML)<br><span class="small">restricted maximum likelihood</span></td><td>Método para estimar componentes de varianza que descuenta los grados de libertad de los efectos fijos; con datos balanceados coincide con los momentos cuando estos no son negativos.</td><td class="c">3.6, 10.3</td></tr>
+      <tr><td class="termino"><b>Media ajustada</b><br><span class="small">adjusted mean</span></td><td>Media de una entrada corregida por los efectos del diseño (bloques, repeticiones), comparable entre entradas.</td><td class="c">3.6</td></tr>
+      <tr><td class="termino"><b>Megaambiente</b><br><span class="small">mega-environment</span></td><td>Grupo de ambientes con el mismo genotipo ganador, que se repite a lo largo de los años.</td><td class="c">9.8</td></tr>
+      <tr><td class="termino"><b>Métrica F∞ y F<sub>2</sub></b><br><span class="small">F∞, F₂ metric</span></td><td>Dos orígenes para los parámetros de las medias generacionales: la media de las líneas puras que puede dar la cruza (Mather y Jinks) o la F<sub>2</sub> (Hayman).</td><td class="c">7.5</td></tr>
+      <tr><td class="termino"><b>Modelo animal</b><br><span class="small">animal model</span></td><td>Modelo mixto en que cada individuo del pedigrí tiene su valor genético, tenga o no registros.</td><td class="c">10.3</td></tr>
+      <tr><td class="termino"><b>Modelo de padres</b><br><span class="small">sire model</span></td><td>Modelo en que el efecto aleatorio es la habilidad de transmisión de cada padre; más pequeño, pero ignora a las madres.</td><td class="c">10.4</td></tr>
+      <tr><td class="termino"><b>Modelo I y modelo II</b><br><span class="small">fixed, random model</span></td><td>Progenitores o ambientes fijos (solo interesan esos) o aleatorios (una muestra de una población). Cambia el denominador de algunas pruebas.</td><td class="c">I.9, 4.1</td></tr>
+      <tr><td class="termino"><b>Muestreo mendeliano</b><br><span class="small">Mendelian sampling</span></td><td>La parte del valor genético de un hijo que no es el promedio de sus padres; su varianza relativa, b, entra en la inversa de A.</td><td class="c">10.2</td></tr>
+      <tr class="letra"><td colspan="3">N</td></tr>
+      <tr><td class="termino"><b>Número de condición</b><br><span class="small">condition number</span></td><td>Cociente entre el mayor y el menor valor propio de la matriz de correlaciones; más de 100 indica colinealidad fuerte.</td><td class="c">8.6</td></tr>
+      <tr class="letra"><td colspan="3">P</td></tr>
+      <tr><td class="termino"><b>Parentesco</b> (A, G)<br><span class="small">relationship matrix</span></td><td>El doble de la coancestría entre dos individuos: A desde el pedigrí, G desde los marcadores.</td><td class="c">10.2, 11.3</td></tr>
+      <tr><td class="termino"><b>Pérdida por recombinación</b><br><span class="small">recombination loss</span></td><td>Lo que se pierde cuando se separan las combinaciones favorables de genes de cada raza; aparece en las cruzas cuyos padres ya son cruzas.</td><td class="c">10.6</td></tr>
+      <tr><td class="termino"><b>Potencia</b><br><span class="small">power</span></td><td>Probabilidad de que una prueba detecte una diferencia que existe. El Bloque 2 la calcula antes de sembrar.</td><td class="c">2.6</td></tr>
+      <tr><td class="termino"><b>Prueba conjunta de escala</b><br><span class="small">joint scaling test</span></td><td>Ajuste de las medias de todas las generaciones por mínimos cuadrados ponderados; su χ² dice si el modelo basta (Cavalli).</td><td class="c">7.5</td></tr>
+      <tr><td class="termino"><b>Pruebas de escala</b><br><span class="small">scaling tests</span></td><td>Contrastes A, B, C y D entre medias generacionales que valen cero si basta el modelo aditivo–dominante (Mather).</td><td class="c">7.4</td></tr>
+      <tr class="letra"><td colspan="3">R</td></tr>
+      <tr><td class="termino"><b>Razón de Baker</b><br><span class="small">Baker's ratio</span></td><td>2σ²<sub>ACG</sub>/(2σ²<sub>ACG</sub> + σ²<sub>ACE</sub>): cerca de 1, la ACG predice bien las cruzas.</td><td class="c">4.5</td></tr>
+      <tr><td class="termino"><b>Relación de potencia</b><br><span class="small">potence ratio</span></td><td>(F<sub>1</sub> − MP)/(½|P<sub>1</sub> − P<sub>2</sub>|): 0 herencia intermedia, ±1 dominancia completa, más de 1 sobredominancia aparente.</td><td class="c">7.7</td></tr>
+      <tr><td class="termino"><b>Repetibilidad</b><br><span class="small">repeatability</span></td><td>Correlación entre registros repetidos de un individuo, (σ²<sub>a</sub> + σ²<sub>ep</sub>)/σ²<sub>P</sub>. La heredabilidad del ensayo del Bloque 3 es también una repetibilidad.</td><td class="c">3.6, 10.4</td></tr>
+      <tr><td class="termino"><b>Residual estudentizado</b><br><span class="small">studentized residual</span></td><td>Residual de una parcela dividido entre su desviación estándar estimada sin ella; se usa para señalar valores atípicos.</td><td class="c">3.5</td></tr>
+      <tr><td class="termino"><b>Respuesta a la selección</b><br><span class="small">response to selection</span></td><td>Avance de la media en la generación siguiente: R = h²S = i·h·σ<sub>A</sub>.</td><td class="c">I.3, 8.9</td></tr>
+      <tr><td class="termino"><b>Rotación y compuesta</b><br><span class="small">rotation, composite</span></td><td>Sistemas de cruzamiento: en la rotación se usan machos de dos o tres razas por turno; la compuesta es una población formada por varias razas que se aparea al azar.</td><td class="c">10.6</td></tr>
+      <tr class="letra"><td colspan="3">S</td></tr>
+      <tr><td class="termino"><b>Semivarianza media</b> (SM)<br><span class="small">average semivariance</span></td><td>tr(K)/n − 1′K1/n²: convierte σ²<sub>g</sub> en la varianza genética entre los individuos analizados.</td><td class="c">11.4</td></tr>
+      <tr><td class="termino"><b>Superioridad de Lin y Binns</b><br><span class="small">superiority measure</span></td><td>Distancia media de un genotipo al mejor de cada ambiente; cuanto menor, mejor. Combina media y estabilidad.</td><td class="c">9.5</td></tr>
+      <tr class="letra"><td colspan="3">T</td></tr>
+      <tr><td class="termino"><b>Testigo</b><br><span class="small">check</span></td><td>Variedad o híbrido conocido que se siembra con las entradas para compararlas; no entra en la selección.</td><td class="c">3.3, 7.7</td></tr>
+      <tr class="letra"><td colspan="3">V</td></tr>
+      <tr><td class="termino"><b>Validación cruzada</b><br><span class="small">cross-validation</span></td><td>Predecir un grupo de individuos con un modelo ajustado sin ellos y comparar con lo observado; mide la capacidad predictiva real.</td><td class="c">11.5</td></tr>
+      <tr><td class="termino"><b>Valor genético</b><br><span class="small">breeding value</span></td><td>Valor de un individuo como progenitor: el doble de la desviación media de su progenie respecto de la población.</td><td class="c">10.3</td></tr>
+      <tr><td class="termino"><b>Varianza aditiva y de dominancia</b> (σ²<sub>A</sub>, σ²<sub>D</sub>)<br><span class="small">additive, dominance variance</span></td><td>Varianza de los valores genéticos y de las desviaciones de dominancia. La selección aprovecha σ²<sub>A</sub>; los híbridos, también σ²<sub>D</sub>.</td><td class="c">I.3, 4.5</td></tr>
+      <tr><td class="termino"><b>Varianza de estabilidad</b><br><span class="small">stability variance</span></td><td>La contribución de un genotipo a la interacción en forma de varianza, que se puede probar contra el error (Shukla).</td><td class="c">9.5</td></tr>
+      <tr class="letra"><td colspan="3">W</td></tr>
+      <tr><td class="termino"><b>WAAS</b></td><td>Promedio de los valores absolutos de las puntuaciones de un genotipo en los ejes AMMI retenidos, ponderado por la interacción que explica cada eje; cuanto menor, más estable.</td><td class="c">9.7</td></tr>
+      <tr><td class="termino"><b>Wr–Vr, gráfico</b><br><span class="small">Wr–Vr graph</span></td><td>Covarianza de cada arreglo con los progenitores contra su varianza; su recta dice el grado de dominancia y la posición de cada progenitor, cuántos alelos dominantes lleva.</td><td class="c">5.5</td></tr>
+    </tbody>
+  </table>
+
+  <h3>C.3 Símbolos con más de un significado</h3>
+  <table class="compacta">
+    <caption><b>Tabla C.3.</b> La literatura usa las mismas letras para cantidades distintas; el bloque y la sección aclaran cuál es.</caption>
+    <thead><tr><th style="width:12%">Símbolo</th><th>Significados (sección)</th></tr></thead>
+    <tbody>
+      <tr><td class="f">F</td><td>Consanguinidad del individuo o endogamia de los progenitores (6.2, 10.2) · componente F de las varianzas, Σdh (5.4, 7.6) · estadístico F (I.9) · generaciones F<sub>1</sub>, F<sub>2</sub>, F<sub>3</sub> (7.1).</td></tr>
+      <tr><td class="f">D, H</td><td>Componentes aditivo y de dominancia de Hayman, D, H<sub>1</sub> y H<sub>2</sub> (5.4), y de las varianzas generacionales (7.6) · prueba de escala D (7.4) · valor genético agregado H = w′g del índice (8.7).</td></tr>
+      <tr><td class="f">E</td><td>Componente ambiental (5.4, 7.6) · factor de eficiencia de un látice (2.4).</td></tr>
+      <tr><td class="f">h, H²</td><td>Heredabilidad en sentido estrecho h² y amplio H² (4.5, 8.2) · efecto de dominancia [h] de las medias (7.1) · h² de Hayman, la dominancia neta (5.4) · coeficientes de heterosis h<sup>I</sup> y h<sup>M</sup> (10.6) · exactitud fenotípica h (11.5).</td></tr>
+      <tr><td class="f">i</td><td>Intensidad de selección (8.3) · epistasis aditiva × aditiva [i] (7.1).</td></tr>
+      <tr><td class="f">b</td><td>Pendiente sobre el índice ambiental (9.4) · pendiente de la recta Wr–Vr (5.5) · varianza del muestreo mendeliano (10.2) · coeficientes de un índice de selección (8.7).</td></tr>
+      <tr><td class="f">r</td><td>Número de repeticiones (3.6) · correlación (8.5) · confiabilidad r² (10.3) · capacidad predictiva (11.5) · pérdida por recombinación r<sup>I</sup> (10.6).</td></tr>
+      <tr><td class="f">A</td><td>Matriz de parentesco del pedigrí (10.2) · prueba de escala A (7.4) · varianza aditiva σ²<sub>A</sub> (4.5).</td></tr>
+      <tr><td class="f">G</td><td>Matriz de parentesco genómico (11.3) · matriz de covarianzas genotípicas de un índice (8.7) · efecto de los genotipos en el biplot GGE (9.8).</td></tr>
+      <tr><td class="f">P</td><td>Matriz de covarianzas fenotípicas (8.7) · progenitores P<sub>1</sub> y P<sub>2</sub> (7.1) · valor P (I.9).</td></tr>
+      <tr><td class="f">W</td><td>Ecovalencia W<sub>i</sub> de Wricke (9.5) · confiabilidad W<sub>i</sub> de Annicchiarico (9.5) · covarianza W<sub>r</sub> de Hayman (5.5).</td></tr>
+      <tr><td class="f">S</td><td>Diferencial de selección (I.3, 8.8) · desviaciones de la regresión S²<sub>d</sub> (9.4) · estadísticas de rangos S<sup>(1)</sup> a S<sup>(6)</sup> de Huehn (9.6) · semivarianza media SM (11.4).</td></tr>
+      <tr><td class="f">d</td><td>Efectos aditivos [d] de las medias (7.1) · ganancias deseadas de un índice (8.7) · desviación de dominancia en un locus, d/a (1.2).</td></tr>
+      <tr><td class="f">k</td><td>Plantas por parcela (7.3) · constante de cresta de las sendas (8.6) · tamaño del bloque de un látice (A.3) · intensidad de selección en algunos libros (8.3).</td></tr>
+      <tr><td class="f">λ</td><td>Cresta de la matriz G (11.3) · valor propio λ² del índice propio (8.7).</td></tr>
+      <tr><td class="f">s</td><td>Cruzas por progenitor en un dialelo parcial (6.9) · efecto de ACE ŝ<sub>ij</sub> (4.4) · varianza entre plantas s² (7.3).</td></tr>
+      <tr><td class="f">m</td><td>Media de las medias generacionales (7.1) · efecto materno m<sub>i</sub> de un dialelo (4.4) · fracción m² del efecto genético materno (10.4).</td></tr>
+      <tr><td class="f">σ²<sub>p</sub>, σ²<sub>P</sub></td><td>Error de parcela del Bloque 7 (7.3) · varianza fenotípica del modelo animal (10.3).</td></tr>
+    </tbody>
+  </table>
+
+  <!-- ====================================================================== D -->
+  <h2 id="ap-d"><span class="num">D</span>Solución de problemas</h2>
+  <p class="lead">Los problemas más comunes, agrupados por el momento en que aparecen. Los mensajes van entre comillas, como se ven en pantalla con la app en español; <code>{n}</code> marca una parte que cambia. Los mensajes en rojo detienen el análisis; los ámbar solo advierten.</p>
+
+  <h3>D.1 Abrir la app y conservar el trabajo</h3>
+  <table class="compacta">
+    <caption><b>Tabla D.1.</b> Problemas al abrir la app y al volver a ella.</caption>
+    <thead><tr><th style="width:27%">Síntoma o mensaje</th><th style="width:27%">Causa</th><th>Qué hacer</th><th style="width:7%" class="c">Ver</th></tr></thead>
+    <tbody>
+      <tr><td>La página se ve sin colores ni botones, o no responde.</td><td>Faltan carpetas junto a <code>index.html</code> (<code>js/</code>, <code>css/</code>, <code>vendor/</code>) o el navegador es antiguo.</td><td>Copia la carpeta <code>BreedingPro</code> completa y usa un navegador actualizado.</td><td class="c">I.5</td></tr>
+      <tr><td>La institución no deja abrir páginas como archivo local.</td><td>Una política del navegador o de la red.</td><td>Usa <code>Open BreedingPro.bat</code>: abre la misma app con un servidor en tu propia computadora (puerto 9200). Nada sale del equipo.</td><td class="c">I.5</td></tr>
+      <tr><td>Al recargar la página desaparecen los datos y los resultados.</td><td>La app solo recuerda el idioma, el tema, el estilo de las figuras y la hoja de datos del Bloque 3.</td><td>Descarga <span class="ui">Resultados (.xlsx)</span> de cada bloque o el paquete del Bloque 12 antes de cerrar, y vuelve a cargar el archivo.</td><td class="c">I.5</td></tr>
+      <tr><td>La hoja de datos no aparece en otra computadora, en otro navegador o en una ventana privada.</td><td>Se guarda en el navegador donde se escribió, y por separado para cada forma de abrir la app (doble clic o servidor local).</td><td>Abre la app siempre de la misma manera; para llevar la hoja a otro lado, <span class="ui">Guardar como</span>.</td><td class="c">3.2</td></tr>
+      <tr><td>El croquis del Bloque 2 salió distinto al volver a armarlo.</td><td>Otra semilla aleatoria.</td><td>Escribe la semilla guardada en la hoja <code>Diseño</code> del libro o en la línea de declaración.</td><td class="c">2.5</td></tr>
+    </tbody>
+  </table>
+
+  <h3>D.2 Cargar los datos</h3>
+  <table class="compacta">
+    <caption><b>Tabla D.2.</b> Problemas al leer una tabla en el Bloque 3.</caption>
+    <thead><tr><th style="width:27%">Síntoma o mensaje</th><th style="width:27%">Causa</th><th>Qué hacer</th><th style="width:7%" class="c">Ver</th></tr></thead>
+    <tbody>
+      <tr><td>«Falta la columna de entradas (genotipo, cruza o progenitores).» Las tarjetas 3 a 5 no aparecen.</td><td>Ninguna columna tiene el papel de entrada ni los de hembra y macho.</td><td>En la tarjeta 2, da el papel <span class="ui">Entrada / genotipo</span> a la columna de nombres, o <span class="ui">Hembra</span> y <span class="ui">Macho</span> a las del pedigrí.</td><td class="c">3.3</td></tr>
+      <tr><td>«No hay ninguna variable respuesta: marque al menos una columna numérica como “Variable respuesta”.»</td><td>Las columnas de datos se leyeron como texto o se les dio otro papel.</td><td>Revisa el separador decimal y los textos dentro de los números; marca las variables.</td><td class="c">3.3</td></tr>
+      <tr><td>Una columna de números de lote, surco o clave aparece como variable.</td><td>Su nombre no se reconoce y el 90&nbsp;% o más de sus celdas son números.</td><td>Pásala a <span class="ui">Ignorar</span>.</td><td class="c">3.3</td></tr>
+      <tr><td>La tarjeta 2 avisa de valores no numéricos en una variable.</td><td>Celdas como <code>12.5a</code> o notas escritas junto al dato: se toman como faltantes.</td><td><span class="ui">Corregir en la hoja de datos</span>, arreglar el valor y <span class="ui">Usar estos datos →</span>.</td><td class="c">3.2</td></tr>
+      <tr><td>Los decimales se leen mal: <code>12,5</code> como texto o como 125.</td><td>La columna mezcla coma y punto decimal, o un CSV separado por comas trae comas decimales.</td><td>Elige el <span class="ui">Separador decimal</span>, o guarda el CSV con punto y coma.</td><td class="c">3.3</td></tr>
+      <tr><td>Se abrió la hoja equivocada del libro.</td><td>Se abre la que tiene más datos.</td><td>Elige otra en <span class="ui">Hoja del libro</span>.</td><td class="c">3.2</td></tr>
+      <tr><td>«El libro no tiene hojas con datos.»</td><td>El libro está vacío o sus hojas no tienen valores.</td><td>Revisa el archivo en la hoja de cálculo y guárdalo con los valores.</td><td class="c">3.2</td></tr>
+      <tr><td>Los datos vienen a lo ancho: una columna por repetición o por ambiente.</td><td>La app necesita una fila por parcela.</td><td><span class="ui">Columnas → filas…</span>; un dialelo en forma de matriz, con <span class="ui">Tabla dialélica → filas</span>.</td><td class="c">3.3</td></tr>
+      <tr><td>Pegar no funciona en la cuadrícula de la hoja de datos.</td><td>El navegador no deja leer el portapapeles.</td><td>Abre <span class="ui">¿No funciona pegar en este navegador?</span> y pega en el cuadro de texto.</td><td class="c">3.2</td></tr>
+    </tbody>
+  </table>
+
+  <h3>D.3 Diseño reconocido y análisis de campo</h3>
+  <table class="compacta">
+    <caption><b>Tabla D.3.</b> Problemas con el diseño y el análisis de cada ambiente.</caption>
+    <thead><tr><th style="width:27%">Síntoma o mensaje</th><th style="width:27%">Causa</th><th>Qué hacer</th><th style="width:7%" class="c">Ver</th></tr></thead>
+    <tbody>
+      <tr><td>El diseño de apareamiento sale con confianza media o baja.</td><td>Faltan entradas del diseño completo, el parcial no es circulante, faltan cruzas del factorial, las hembras de una Carolina del Norte II repiten códigos entre machos o hay menos de 20 plantas F<sub>2</sub>.</td><td>Lee las razones, revisa <span class="ui">Entradas reconocidas</span> y, si hace falta, elige el diseño en el menú <span class="ui">Diseño de apareamiento</span>.</td><td class="c">3.4</td></tr>
+      <tr><td>Una Carolina del Norte I se reconoce como II.</td><td>Las hembras de cada macho repiten códigos con las de otros machos.</td><td>Elige <span class="ui">Carolina del Norte I</span> en el menú, o da a las hembras códigos únicos.</td><td class="c">3.4</td></tr>
+      <tr><td>«{n} parcelas tienen más de una entrada (p. ej., parcela {k}).»</td><td>Un error de captura en la columna de parcela o de entrada.</td><td>Corrige los datos: una parcela no puede tener dos entradas.</td><td class="c">3.4</td></tr>
+      <tr><td>El diseño de filas y columnas no se usa aunque los datos tienen fila y columna.</td><td>Nunca se elige solo.</td><td>Elige <span class="ui">Filas y columnas</span> en el menú <span class="ui">Diseño de campo</span>.</td><td class="c">3.4</td></tr>
+      <tr><td>Un látice o un diseño de filas y columnas se analizó como bloques completos.</td><td>Los datos no tienen bloques incompletos reales, o les faltan las columnas de fila y columna.</td><td>Es correcto; si no lo es, revisa los papeles de las columnas de bloque, fila y columna.</td><td class="c">3.8</td></tr>
+      <tr><td>El ambiente queda sin error, sin pruebas ni DMS.</td><td>Un solo valor por entrada: son medias.</td><td>Escribe el <span class="ui">Error del experimento original</span>: cuadrado medio, grados de libertad, escala y repeticiones.</td><td class="c">3.8</td></tr>
+      <tr><td>Dos parcelas de la misma entrada salen como atípicas con el mismo |t|.</td><td>Con dos repeticiones, los dos residuales de una entrada son iguales y de signo contrario.</td><td>Decide con la libreta de campo cuál está mal; excluye solo errores comprobados.</td><td class="c">3.5</td></tr>
+      <tr><td>Una media ajustada lleva una daga (†).</td><td>La entrada no está conectada con las demás en el diseño.</td><td>Revisa que esté en bloques que compartan entradas con otros.</td><td class="c">3.6</td></tr>
+      <tr><td>El análisis combinado dice que se hizo en dos etapas.</td><td>El modelo en una etapa tendría más de 1400 parámetros.</td><td>Es normal; las entradas que no están en todos los ambientes se omiten en la segunda etapa.</td><td class="c">3.7</td></tr>
+      <tr><td>El análisis combinado avisa que las pruebas F son aproximadas.</td><td>La prueba de Bartlett rechaza que los errores de los ambientes sean iguales.</td><td>Usa el análisis en dos etapas del Bloque 9.</td><td class="c">3.7</td></tr>
+    </tbody>
+  </table>
+
+  <h3>D.4 Bloques genéticos y de selección</h3>
+  <table class="compacta">
+    <caption><b>Tabla D.4.</b> Mensajes y resultados que faltan en los Bloques 4 a 9.</caption>
+    <thead><tr><th style="width:27%">Síntoma o mensaje</th><th style="width:27%">Causa</th><th>Qué hacer</th><th style="width:7%" class="c">Ver</th></tr></thead>
+    <tbody>
+      <tr><td>Un bloque dice que los datos no son de su diseño.</td><td>El Bloque 3 reconoció otro diseño de apareamiento.</td><td>Ve al bloque que indica la tarjeta 1, o corrige el diseño en el Bloque 3.</td><td class="c">3.9</td></tr>
+      <tr><td>Un componente de varianza sale negativo y lleva una daga.</td><td>La varianza verdadera es cercana a cero, o hay pocas repeticiones o progenitores.</td><td>Se informa como sale; los parámetros que lo usan no se calculan. Más progenitores o repeticiones lo estiman mejor.</td><td class="c">4.5, 6.5</td></tr>
+      <tr><td>σ²<sub>A</sub> y σ²<sub>D</sub> cambian mucho de un análisis a otro con los mismos datos.</td><td>Cambió la endogamia F de los progenitores.</td><td>Revisa el control <span class="ui">Endogamia de los progenitores (F)</span>.</td><td class="c">6.2</td></tr>
+      <tr><td>La cruza triple de prueba muestra epistasis muy significativa sin razón aparente.</td><td>El probador F<sub>1</sub> no es el que la app supuso.</td><td>Elige el correcto en <span class="ui">Probador F₁ (L₃)</span>.</td><td class="c">6.7</td></tr>
+      <tr><td>El Bloque 7 no da D, H, F, E ni factores efectivos.</td><td>Hay un valor por parcela: sin plantas no hay varianza entre individuos.</td><td>Carga los datos por planta.</td><td class="c">7.3</td></tr>
+      <tr><td>En el Bloque 7 todo es significativo y los errores estándar son diminutos.</td><td>La varianza de cada media se forzó a <span class="ui">entre individuos / n</span> con datos en parcelas.</td><td>Vuelve a <span class="ui">automática</span>.</td><td class="c">7.3</td></tr>
+      <tr><td>En el Bloque 8, una correlación genotípica sale fuera de [−1, 1] o queda vacía.</td><td>σ²<sub>G</sub> pequeña (el estimador por momentos no está acotado) o negativa.</td><td>No se trunca: léela con cautela o quita esa variable.</td><td class="c">8.5</td></tr>
+      <tr><td>En el Bloque 8, la tabla de sendas no aparece.</td><td>La matriz de correlaciones no es definida positiva, o R² saldría mayor que 1.</td><td>Usa las correlaciones fenotípicas, quita variables con σ²<sub>G</sub> pequeña o aumenta la constante de cresta.</td><td class="c">8.6</td></tr>
+      <tr><td>«Algún índice tiene precisión o heredabilidad mayor que 1…»</td><td>La matriz G estimada no cabe dentro de P en alguna dirección.</td><td>Quita las variables con σ²<sub>G</sub> muy pequeña o usa el índice base.</td><td class="c">8.7</td></tr>
+      <tr><td>En el Bloque 8, el avance genético de una variable vale cero.</td><td>Con varios ambientes, su σ²<sub>G</sub> salió negativa.</td><td>Es lo que corresponde: la variable casi no tiene varianza genética entre ambientes.</td><td class="c">8.4</td></tr>
+      <tr><td>«Se necesitan al menos 3 genotipos y 2 ambientes con datos.»</td><td>El Bloque 3 no tiene una columna de localidad o de año.</td><td>Da el papel <span class="ui">Localidad / ambiente</span> o <span class="ui">Año / ciclo</span> a la columna que los distingue.</td><td class="c">9.1</td></tr>
+      <tr><td>En el Bloque 9, algunas celdas llevan asterisco.</td><td>Faltaban y se estimaron por EM-AMMI; la interacción pierde un grado de libertad por cada una.</td><td>Revisa si esas combinaciones faltan de verdad.</td><td class="c">9.2</td></tr>
+      <tr><td>En el Bloque 9 no aparece la confiabilidad de Annicchiarico.</td><td>Solo se calcula cuando el mayor valor es el mejor.</td><td>Es lo esperado en días a floración o incidencia de una enfermedad.</td><td class="c">9.5</td></tr>
+      <tr><td>El biplot GGE lleva un aviso de cautela.</td><td>Los dos primeros componentes explican menos del 60&nbsp;% de G + G×A.</td><td>Léelo con cautela y apóyate en AMMI y en las estadísticas de estabilidad.</td><td class="c">9.8</td></tr>
+    </tbody>
+  </table>
+
+  <h3>D.5 BLUP y genómica</h3>
+  <table class="compacta">
+    <caption><b>Tabla D.5.</b> Problemas en los Bloques 10 y 11.</caption>
+    <thead><tr><th style="width:27%">Síntoma o mensaje</th><th style="width:27%">Causa</th><th>Qué hacer</th><th style="width:7%" class="c">Ver</th></tr></thead>
+    <tbody>
+      <tr><td>«Falta la columna del individuo.»</td><td>Ninguna columna tiene el papel de individuo.</td><td>Asígnalo en <span class="ui">Papel de cada columna</span>.</td><td class="c">10.2</td></tr>
+      <tr><td>«El archivo de pedigrí necesita columnas de individuo, padre y madre.»</td><td>El pedigrí aparte no tiene tres columnas reconocibles.</td><td>Nómbralas como en la tabla A.4 (individuo, padre y madre).</td><td class="c">10.2</td></tr>
+      <tr><td>Avisos de pedigrí: un individuo repetido con padres distintos, un individuo que es su propio progenitor, un ciclo, o el mismo individuo como padre y madre.</td><td>Errores de captura del pedigrí, o autofecundaciones en plantas.</td><td>La app conserva la primera fila y borra el progenitor imposible; corrige el archivo. En plantas, marca <span class="ui">Plantas</span>.</td><td class="c">10.2</td></tr>
+      <tr><td>«El sistema de ecuaciones tiene {n} incógnitas; este bloque resuelve de forma exacta (matrices densas) hasta 2600…»</td><td>El pedigrí es demasiado grande para el cálculo exacto en el navegador.</td><td>Reduce el pedigrí a los ancestros de los individuos con registros o analiza por partes.</td><td class="c">10.3</td></tr>
+      <tr><td>«Escriba todas las varianzas (mayores que cero) o elija estimarlas por REML.»</td><td>Falta alguna varianza dada.</td><td>Complétalas o cambia a REML.</td><td class="c">10.4</td></tr>
+      <tr><td>REML da valores sin sentido o no estima nada útil.</td><td>Muy pocos registros.</td><td>Da las varianzas conocidas.</td><td class="c">10.4</td></tr>
+      <tr><td>El ambiente permanente se omite con un aviso.</td><td>Ningún individuo tiene más de un registro.</td><td>Es lo correcto: el efecto no es estimable.</td><td class="c">10.4</td></tr>
+      <tr><td>La tarjeta 3 no encuentra el pedigrí de las entradas.</td><td>Los nombres del ensayo y del pedigrí no coinciden.</td><td>Usa el mismo nombre en los dos archivos.</td><td class="c">10.5</td></tr>
+      <tr><td>«Escriba al menos dos razas.» · «raza desconocida en «{cruza}» (posición {k})» · «falta «)» en «{cruza}»»</td><td>La lista de razas o la escritura de una cruza.</td><td>Escribe las razas separadas por comas y las cruzas como en la tabla A.4.</td><td class="c">10.6</td></tr>
+      <tr><td>Un parámetro de Dickerson sale no estimable.</td><td>Los grupos no lo separan.</td><td>Agrega grupos que lo contengan (retrocruzas, F<sub>2</sub>, cruzas de tres razas) o quita el parámetro con su casilla.</td><td class="c">10.6</td></tr>
+      <tr><td>Los marcadores se leen al revés: un individuo por columna.</td><td>El archivo trae los marcadores en filas.</td><td>Marca <span class="ui">Marcadores en filas</span>.</td><td class="c">11.2</td></tr>
+      <tr><td>«Hay muy pocos individuos con fenotipo y marcadores.»</td><td>Los identificadores del archivo de fenotipos, o las entradas del Bloque 3, no coinciden con los de los marcadores.</td><td>Usa los mismos identificadores en los dos archivos.</td><td class="c">11.4</td></tr>
+      <tr><td>No aparece <span class="ui">Peso del pedigrí (Bloque 10)</span>.</td><td>El Bloque 10 no tiene un pedigrí que incluya a todos los individuos con marcadores.</td><td>Carga ese pedigrí en la tarjeta 1 del Bloque 10.</td><td class="c">11.3</td></tr>
+      <tr><td>La casilla <span class="ui">Incluir la ACE (K₁ ⊗ K₂)</span> está desactivada.</td><td>Hay más de 700 híbridos evaluados: el núcleo de la ACE sería demasiado grande.</td><td>Predice con las ACG.</td><td class="c">11.6</td></tr>
+      <tr><td>«Hay muy pocos híbridos con fenotipo y progenitores genotipados.»</td><td>Las líneas de la tabla de híbridos no están en el archivo de marcadores.</td><td>Revisa los nombres de las líneas en los dos archivos.</td><td class="c">11.6</td></tr>
+      <tr><td>«Escriba una cruza triple o doble, por ejemplo (A×B)×C.» o una cruza que no se predice.</td><td>La escritura, o una cruza que necesita cruzas dentro de un mismo grupo.</td><td>Escribe una cruza por renglón, con las líneas de cada lado de grupos distintos.</td><td class="c">11.6</td></tr>
+    </tbody>
+  </table>
+
+  <h3>D.6 Informe y figuras</h3>
+  <table class="compacta">
+    <caption><b>Tabla D.6.</b> Problemas al armar el informe y al exportar.</caption>
+    <thead><tr><th style="width:27%">Síntoma o mensaje</th><th style="width:27%">Causa</th><th>Qué hacer</th><th style="width:7%" class="c">Ver</th></tr></thead>
+    <tbody>
+      <tr><td>Un bloque aparece <i>sin resultados</i> y no se puede elegir.</td><td>No se ha abierto con los datos cargados ahora.</td><td>Abre el bloque, analiza y vuelve al Bloque 12.</td><td class="c">12.2</td></tr>
+      <tr><td>El informe no incluye el cruzamiento del Bloque 10 ni la selección recurrente del Bloque 8.</td><td>Los ejemplos que esos bloques cargan solos no cuentan como análisis tuyos.</td><td>Corre el cruzamiento, o escribe tus valores en la tabla de selección recurrente.</td><td class="c">12.2</td></tr>
+      <tr><td>El informe muestra valores de antes de un cambio.</td><td>Cada bloque entra con lo que mostraba al armar el informe.</td><td>Arma el informe de nuevo.</td><td class="c">12.1</td></tr>
+      <tr><td>Una figura del informe no es como la querías.</td><td>Entra como quedó en su editor.</td><td>Cámbiala en su bloque y arma el informe de nuevo.</td><td class="c">12.5</td></tr>
+      <tr><td>El paquete ZIP pesa más de un gigabyte.</td><td>Las figuras en TIFF van sin compresión: unos 3 bytes por píxel.</td><td>Deja las figuras del paquete en SVG o PNG y descarga en TIFF, desde su panel, solo las que envías.</td><td class="c">12.6</td></tr>
+      <tr><td>Una figura se guardó a menos ppp de los pedidos, con aviso.</td><td>El navegador limita el tamaño de la imagen.</td><td>Baja la resolución o el tamaño de la figura, o usa SVG.</td><td class="c">12.6</td></tr>
+    </tbody>
+  </table>
+
+  <!-- ====================================================================== E -->
+  <h2 id="ap-e"><span class="num">E</span>Referencias</h2>
+  <p class="lead">Las obras citadas en el manual y en los textos de la app —la portada, las tarjetas de supuestos, fórmulas y referencias de cada bloque y los ejemplos—, con sus datos completos.</p>
+  <p>El símbolo <span class="m" style="color:var(--marino)">◆</span> marca las que puede nombrar la sección de métodos del Bloque 12: con ellas se completa la lista de referencias de un artículo (sección 12.4). Cinco títulos originales incluyen el nombre de un programa; en su lugar va <b>[…]</b>. Los capítulos 3 a 5 citan «Hayman (1954)» y «Griffing (1956)» sin letra: son Hayman (1954a) y Griffing (1956b). Los identificadores DOI se dan para los artículos de acceso abierto de donde salen datos de ejemplo.</p>
+  <ul class="refs">
+    <li>Aguilar, I., Misztal, I., Johnson, D.L., Legarra, A., Tsuruta, S. y Lawlor, T.J. (2010). A unified approach to utilize phenotypic, full pedigree, and genomic information for genetic evaluation of Holstein final score. <i>Journal of Dairy Science</i> 93: 743–752. <span class="m">◆</span></li>
+    <li>Annicchiarico, P. (1992). Cultivar adaptation and recommendation from alfalfa trials in Northern Italy. <i>Journal of Genetics and Breeding</i> 46: 269–278. <span class="m">◆</span></li>
+    <li>Baker, R.J. (1978). Issues in diallel analysis. <i>Crop Science</i> 18: 533–536. <span class="m">◆</span></li>
+    <li>Bartlett, M.S. (1937). Properties of sufficiency and statistical tests. <i>Proceedings of the Royal Society of London A</i> 160: 268–282. <span class="m">◆</span></li>
+    <li>Becker, H.C. y Léon, J. (1988). Stability analysis in plant breeding. <i>Plant Breeding</i> 101: 1–23.</li>
+    <li>Bernardo, R. (1994). Prediction of maize single-cross performance using RFLPs and information from related hybrids. <i>Crop Science</i> 34: 20–25. <span class="m">◆</span></li>
+    <li>Buchanan, D.S. y Northcutt, S.L. (s. f.). <i>Genetic principles of crossbreeding</i>. Beef Cattle Handbook BCH-1400.</li>
+    <li>Bulmer, M.G. (1971). The effect of selection on genetic variability. <i>The American Naturalist</i> 105: 201–211. <span class="m">◆</span></li>
+    <li>Bulmer, M.G. (1980). <i>The Mathematical Theory of Quantitative Genetics</i>. Clarendon Press, Oxford.</li>
+    <li>Burgueño, J., de los Campos, G., Weigel, K. y Crossa, J. (2012). Genomic prediction of breeding values when modeling genotype × environment interaction using pedigree and dense molecular markers. <i>Crop Science</i> 52: 707–719. <span class="m">◆</span></li>
+    <li>Burrows, P.M. (1972). Expected selection differentials for directional selection. <i>Biometrics</i> 28: 1091–1100. <span class="m">◆</span></li>
+    <li>Burton, G.W. y DeVane, E.H. (1953). Estimating heritability in tall fescue from replicated clonal material. <i>Agronomy Journal</i> 45: 478–481. <span class="m">◆</span></li>
+    <li>Carvalho, S.P. y Cruz, C.D. (1996). Diagnosis of multicollinearity: assessment of the condition of correlation matrices used in genetic studies. <i>Brazilian Journal of Genetics</i> 19: 479–484.</li>
+    <li>Cavalli, L.L. (1952). An analysis of linkage in quantitative inheritance. En: Reeve, E.C.R. y Waddington, C.H. (eds.), <i>Quantitative Inheritance</i>. HMSO, London, pp. 135–144. <span class="m">◆</span></li>
+    <li>Cerón-Rojas, J.J. y Crossa, J. (2018). <i>Linear Selection Indices in Modern Plant Breeding</i>. Springer, Cham. <span class="m">◆</span></li>
+    <li>Cerón-Rojas, J.J., Crossa, J., Sahagún-Castellanos, J., Castillo-González, F. y Santacruz-Varela, A. (2006). A selection index method based on eigenanalysis. <i>Crop Science</i> 46: 1711–1721.</li>
+    <li>Christie, B.R. y Shattuck, V.I. (1992). The diallel cross: design, analysis, and use for plant breeders. <i>Plant Breeding Reviews</i> 9: 9–36.</li>
+    <li>Cockerham, C.C. (1954). An extension of the concept of partitioning hereditary variance for analysis of covariances among relatives when epistasis is present. <i>Genetics</i> 39: 859–882.</li>
+    <li>Cockerham, C.C. (1963). Estimation of genetic variances. En: Hanson, W.D. y Robinson, H.F. (eds.), <i>Statistical Genetics and Plant Breeding</i>. NAS-NRC Publ. 982, Washington, pp. 53–94. <span class="m">◆</span></li>
+    <li>Cockerham, C.C. (1986). Modifications in estimating the number of genes for a quantitative character. <i>Genetics</i> 114: 659–664. <span class="m">◆</span></li>
+    <li>Comstock, R.E. y Robinson, H.F. (1948). The components of genetic variance in populations of biparental progenies and their use in estimating the average degree of dominance. <i>Biometrics</i> 4: 254–266. <span class="m">◆</span></li>
+    <li>Comstock, R.E. y Robinson, H.F. (1952). Estimation of average dominance of genes. En: Gowen, J.W. (ed.), <i>Heterosis</i>. Iowa State College Press, Ames, pp. 494–516. <span class="m">◆</span></li>
+    <li>Cook, R.D. y Weisberg, S. (1982). <i>Residuals and Influence in Regression</i>. Chapman &amp; Hall, New York. <span class="m">◆</span></li>
+    <li>Cornelius, P.L., Seyedsadr, M. y Crossa, J. (1992). Using the shifted multiplicative model to search for “separability” in crop cultivar trials. <i>Theoretical and Applied Genetics</i> 84: 161–172. <span class="m">◆</span></li>
+    <li>Crossa, J., de los Campos, G., Pérez, P., Gianola, D., Burgueño, J., Araus, J.L., Makumbi, D., Singh, R.P., Dreisigacker, S., Yan, J., Arief, V., Bänziger, M. y Braun, H.J. (2010). Prediction of genetic values of quantitative traits in plant breeding using pedigree and molecular markers. <i>Genetics</i> 186: 713–724. <span class="m">◆</span></li>
+    <li>Cullis, B.R., Smith, A.B. y Coombes, N.E. (2006). On the design of early generation variety trials with correlated data. <i>Journal of Agricultural, Biological and Environmental Statistics</i> 11: 381–393. <span class="m">◆</span></li>
+    <li>Dewey, D.R. y Lu, K.H. (1959). A correlation and path-coefficient analysis of components of crested wheatgrass seed production. <i>Agronomy Journal</i> 51: 515–518. <span class="m">◆</span></li>
+    <li>Dickerson, G.E. (1969). Experimental approaches in utilising breed resources. <i>Animal Breeding Abstracts</i> 37: 191–202. <span class="m">◆</span></li>
+    <li>Dickerson, G.E. (1973). Inbreeding and heterosis in animals. En: <i>Proceedings of the Animal Breeding and Genetics Symposium in Honor of Dr. J. L. Lush</i>. American Society of Animal Science, Champaign, pp. 54–77. <span class="m">◆</span></li>
+    <li>Eberhart, S.A. y Russell, W.A. (1966). Stability parameters for comparing varieties. <i>Crop Science</i> 6: 36–40. <span class="m">◆</span></li>
+    <li>Eisen, E.J., Hörstgen-Schwark, G., Saxton, A.M. y Bandy, T.R. (1983). Genetic interpretation and analysis of diallel crosses with animals. <i>Theoretical and Applied Genetics</i> 65: 17–23. <span class="m">◆</span></li>
+    <li>Elston, R.C. (1963). A weight-free index for the purpose of ranking or selection with respect to several traits at a time. <i>Biometrics</i> 19: 85–97. <span class="m">◆</span></li>
+    <li>Falconer, D.S. y Mackay, T.F.C. (1996). <i>Introduction to Quantitative Genetics</i>, 4.ª ed. Longman, Harlow.</li>
+    <li>Farshadfar, E. (2008). Incorporation of AMMI stability value and grain yield in a single non-parametric index (GSI) in bread wheat. <i>Pakistan Journal of Biological Sciences</i> 11: 1791–1796. <span class="m">◆</span></li>
+    <li>Federer, W.T. (1956). Augmented (or hoonuiaku) designs. <i>Hawaiian Planters’ Record</i> 55: 191–208. <span class="m">◆</span></li>
+    <li>Fehr, W.R. (1987). <i>Principles of Cultivar Development</i>, vol. 1. Macmillan, New York. <span class="m">◆</span></li>
+    <li>Feldmann, M.J., Piepho, H.P. y Knapp, S.J. (2022). Average semivariance directly yields accurate estimates of the genomic variance in complex trait analyses. <i>G3 Genes|Genomes|Genetics</i> 12: jkac080. <span class="m">◆</span></li>
+    <li>Finlay, K.W. y Wilkinson, G.N. (1963). The analysis of adaptation in a plant-breeding programme. <i>Australian Journal of Agricultural Research</i> 14: 742–754. <span class="m">◆</span></li>
+    <li>Gale, J.S., Mather, K. y Jinks, J.L. (1977). Joint scaling tests. <i>Heredity</i> 38: 47–51. <span class="doi">doi:10.1038/hdy.1977.6</span> <span class="m">◆</span></li>
+    <li>Gardner, C.O. y Eberhart, S.A. (1966). Analysis and interpretation of the variety cross diallel and related populations. <i>Biometrics</i> 22: 439–452. <span class="m">◆</span></li>
+    <li>Gauch, H.G. (1988). Model selection and validation for yield trials with interaction. <i>Biometrics</i> 44: 705–715. <span class="m">◆</span></li>
+    <li>Gauch, H.G. y Zobel, R.W. (1990). Imputing missing yield trial data. <i>Theoretical and Applied Genetics</i> 79: 753–761. <span class="m">◆</span></li>
+    <li>Gilmour, A.R., Thompson, R. y Cullis, B.R. (1995). Average information REML: an efficient algorithm for variance parameter estimation in linear mixed models. <i>Biometrics</i> 51: 1440–1450. <span class="m">◆</span></li>
+    <li>Gollob, H.F. (1968). A statistical model which combines features of factor analytic and analysis of variance techniques. <i>Psychometrika</i> 33: 73–115. <span class="m">◆</span></li>
+    <li>Griffing, B. (1956a). A generalised treatment of the use of diallel crosses in quantitative inheritance. <i>Heredity</i> 10: 31–50. <span class="m">◆</span></li>
+    <li>Griffing, B. (1956b). Concept of general and specific combining ability in relation to diallel crossing systems. <i>Australian Journal of Biological Sciences</i> 9: 463–493. <span class="m">◆</span></li>
+    <li>Habier, D., Fernando, R.L. y Dekkers, J.C.M. (2007). The impact of genetic relationship information on genome-assisted breeding values. <i>Genetics</i> 177: 2389–2397. <span class="m">◆</span></li>
+    <li>Hallauer, A.R., Carena, M.J. y Miranda Filho, J.B. (2010). <i>Quantitative Genetics in Maize Breeding</i>, 3.ª ed. Springer, New York. <span class="m">◆</span></li>
+    <li>Hayes, J.F. y Hill, W.G. (1981). Modification of estimates of parameters in the construction of genetic selection indices (‘bending’). <i>Biometrics</i> 37: 483–493.</li>
+    <li>Hayman, B.I. (1954a). The analysis of variance of diallel tables. <i>Biometrics</i> 10: 235–244. <span class="m">◆</span></li>
+    <li>Hayman, B.I. (1954b). The theory and analysis of diallel crosses. <i>Genetics</i> 39: 789–809. <span class="m">◆</span></li>
+    <li>Hayman, B.I. (1958). The separation of epistatic from additive and dominance variation in generation means. <i>Heredity</i> 12: 371–390. <span class="m">◆</span></li>
+    <li>Hazel, L.N. (1943). The genetic basis for constructing selection indexes. <i>Genetics</i> 28: 476–490. <span class="m">◆</span></li>
+    <li>Heffner, E.L., Lorenz, A.J., Jannink, J.L. y Sorrells, M.E. (2010). Plant breeding with genomic selection: gain per unit time and cost. <i>Crop Science</i> 50: 1681–1690. <span class="m">◆</span></li>
+    <li>Henderson, C.R. (1975). Best linear unbiased estimation and prediction under a selection model. <i>Biometrics</i> 31: 423–447. <span class="m">◆</span></li>
+    <li>Henderson, C.R. (1976). A simple method for computing the inverse of a numerator relationship matrix used in prediction of breeding values. <i>Biometrics</i> 32: 69–83. <span class="m">◆</span></li>
+    <li>Holland, J.B., Nyquist, W.E. y Cervantes-Martínez, C.T. (2003). Estimating and interpreting heritability for plant breeding: an update. <i>Plant Breeding Reviews</i> 22: 9–112. <span class="m">◆</span></li>
+    <li>Huehn, M. (1979). Beiträge zur Erfassung der phänotypischen Stabilität. <i>EDV in Medizin und Biologie</i> 10: 112–117. <span class="m">◆</span></li>
+    <li>Huehn, M. (1990). Nonparametric measures of phenotypic stability. Part 1: Theory. <i>Euphytica</i> 47: 189–194.</li>
+    <li>Itoh, Y. y Yamada, Y. (1987). Comparisons of selection indices achieving predetermined proportional gains. <i>Genetics Selection Evolution</i> 19: 69–82.</li>
+    <li>Jasso-Bobadilla, G., González-Huerta, A., Pérez-López, D.J., Franco-Martínez, J.R.P., Rubí-Arriaga, M. y Mejía-Carranza, J. (2022). Uso de […] para validar resultados en un dialélico parcial con ocho líneas de maíz evaluadas en un ambiente. <i>Revista Mexicana de Ciencias Agrícolas</i> 13: 41–52. <span class="doi">doi:10.29312/remexca.v13i1.3097</span></li>
+    <li>Jayasekara, N.E.M. y Jinks, J.L. (1976). Effect of gene dispersion on estimates of components of generation means and variances. <i>Heredity</i> 36: 31–40.</li>
+    <li>Jenkins, M.T. (1934). Methods of estimating the performance of double crosses in corn. <i>Journal of the American Society of Agronomy</i> 26: 199–204. <span class="m">◆</span></li>
+    <li>Jinks, J.L. (1954). The analysis of continuous variation in a diallel cross of <i>Nicotiana rustica</i> varieties. <i>Genetics</i> 39: 767–788. <span class="m">◆</span></li>
+    <li>Jinks, J.L. y Jones, R.M. (1958). Estimation of the components of heterosis. <i>Genetics</i> 43: 223–234. <span class="m">◆</span></li>
+    <li>Johansen, S. (1980). The Welch–James approximation to the distribution of the residual sum of squares in a weighted linear regression. <i>Biometrika</i> 67: 85–92.</li>
+    <li>Johnson, H.W., Robinson, H.F. y Comstock, R.E. (1955). Estimates of genetic and environmental variability in soybeans. <i>Agronomy Journal</i> 47: 314–318. <span class="m">◆</span></li>
+    <li>Kang, M.S. (1993). Simultaneous selection for yield and stability in crop performance trials: consequences for growers. <i>Agronomy Journal</i> 85: 754–757. <span class="m">◆</span></li>
+    <li>Kang, M.S. y Magari, R. (1995). […]: a […] program for calculating stability and yield-stability statistics. <i>Agronomy Journal</i> 87: 276–277.</li>
+    <li>Kearsey, M.J. (1980). The efficiency of the North Carolina Expt. III and the selfing, backcrossing series for estimating additive and dominance variation. <i>Heredity</i> 45: 73–82.</li>
+    <li>Kearsey, M.J. y Jinks, J.L. (1968). A general method of detecting additive, dominance and epistatic variation for metrical traits. I. Theory. <i>Heredity</i> 23: 403–409. <span class="m">◆</span></li>
+    <li>Kearsey, M.J. y Pooni, H.S. (1996). <i>The Genetical Analysis of Quantitative Traits</i>. Chapman &amp; Hall, London. <span class="m">◆</span></li>
+    <li>Kempthorne, O. (1957). <i>An Introduction to Genetic Statistics</i>. John Wiley &amp; Sons, New York. <span class="m">◆</span></li>
+    <li>Kempthorne, O. y Curnow, R.N. (1961). The partial diallel cross. <i>Biometrics</i> 17: 229–250. <span class="m">◆</span></li>
+    <li>Kempthorne, O. y Nordskog, A.W. (1959). Restricted selection indices. <i>Biometrics</i> 15: 10–19. <span class="m">◆</span></li>
+    <li>Kinghorn, B. (1980). The expression of “recombination loss” in quantitative traits. <i>Zeitschrift für Tierzüchtung und Züchtungsbiologie</i> 97: 138–143. <span class="m">◆</span></li>
+    <li>Knapp, S.J., Stroup, W.W. y Ross, W.M. (1985). Exact confidence intervals for heritability on a progeny mean basis. <i>Crop Science</i> 25: 192–194. <span class="m">◆</span></li>
+    <li>Kuehl, R.O., Rawlings, J.O. y Cockerham, C.C. (1968). Reference populations for diallel experiments. <i>Biometrics</i> 24: 881–901.</li>
+    <li>Lande, R. (1981). The minimum number of genes contributing to quantitative variation between and within populations. <i>Genetics</i> 99: 541–553. <span class="m">◆</span></li>
+    <li>Legarra, A. (2016). Comparing estimates of genetic variance across different relationship models. <i>Theoretical Population Biology</i> 107: 26–30. <span class="m">◆</span></li>
+    <li>Lin, C.S. y Binns, M.R. (1988). A superiority measure of cultivar performance for cultivar × location data. <i>Canadian Journal of Plant Science</i> 68: 193–198. <span class="m">◆</span></li>
+    <li>Lin, C.S., Binns, M.R. y Lefkovitch, L.P. (1986). Stability analysis: where do we stand? <i>Crop Science</i> 26: 894–900.</li>
+    <li>Lonnquist, J.H. y Gardner, C.O. (1961). Heterosis in intervarietal crosses in maize and its implication in breeding procedures. <i>Crop Science</i> 1: 179–183.</li>
+    <li>Mallard, J. (1972). The theory and computation of selection indices with constraints: a critical synthesis. <i>Biometrics</i> 28: 713–735.</li>
+    <li>Mather, K. (1949). <i>Biometrical Genetics: The Study of Continuous Variation</i>. Methuen, London. <span class="m">◆</span></li>
+    <li>Mather, K. y Jinks, J.L. (1982). <i>Biometrical Genetics</i>, 3.ª ed. Chapman &amp; Hall, London. <span class="m">◆</span></li>
+    <li>Meuwissen, T.H.E., Hayes, B.J. y Goddard, M.E. (2001). Prediction of total genetic value using genome-wide dense marker maps. <i>Genetics</i> 157: 1819–1829. <span class="m">◆</span></li>
+    <li>Meuwissen, T.H.E. y Luo, Z. (1992). Computing inbreeding coefficients in large populations. <i>Genetics Selection Evolution</i> 24: 305–313. <span class="m">◆</span></li>
+    <li>Möhring, J., Melchinger, A.E. y Piepho, H.P. (2011). REML-based diallel analysis. <i>Crop Science</i> 51: 470–478.</li>
+    <li>Möhring, J. y Piepho, H.P. (2009). Comparison of weighting in two-stage analysis of plant breeding trials. <i>Crop Science</i> 49: 1977–1988. <span class="m">◆</span></li>
+    <li>Morley Jones, R. (1965). Analysis of variance of the half diallel table. <i>Heredity</i> 20: 117–121. <span class="m">◆</span></li>
+    <li>Mrode, R.A. (2014). <i>Linear Models for the Prediction of Animal Breeding Values</i>, 3.ª ed. CABI, Wallingford. <span class="m">◆</span></li>
+    <li>Mulamba, N.N. y Mock, J.J. (1978). Improvement of yield potential of the Eto Blanco maize population by breeding for plant traits. <i>Egyptian Journal of Genetics and Cytology</i> 7: 40–51. <span class="m">◆</span></li>
+    <li>Nassar, R. y Huehn, M. (1987). Studies on estimation of phenotypic stability: tests of significance for nonparametric measures of phenotypic stability. <i>Biometrics</i> 43: 45–53. <span class="m">◆</span></li>
+    <li>Núñez, J.R., Anderton, C.R. y Renslow, R.S. (2018). Optimizing colormaps with consideration for color vision deficiency to enable accurate interpretation of scientific data. <i>PLOS ONE</i> 13: e0199239. <span class="doi">doi:10.1371/journal.pone.0199239</span></li>
+    <li>Oakey, H., Verbyla, A., Pitchford, W., Cullis, B. y Kuchel, H. (2006). Joint modeling of additive and non-additive genetic line effects in single field trials. <i>Theoretical and Applied Genetics</i> 113: 809–819. <span class="m">◆</span></li>
+    <li>Okabe, M. e Ito, K. (2008). Color Universal Design (CUD): how to make figures and presentations that are friendly to colorblind people. Página web. <span class="doi">https://jfly.uni-koeln.de/color/</span></li>
+    <li>Olivoto, T., Lúcio, A.D., da Silva, J.A.G., Marchioro, V.S., de Souza, V.Q. y Jost, E. (2019). Mean performance and stability in multi-environment trials I: combining features of AMMI and BLUP techniques. <i>Agronomy Journal</i> 111: 2949–2960. <span class="m">◆</span></li>
+    <li>Onofri, A., Terzaroli, N. y Russi, L. (2021). Linear models for diallel crosses: a review with […] functions. <i>Theoretical and Applied Genetics</i> 134: 585–601. <span class="doi">doi:10.1007/s00122-020-03716-8</span></li>
+    <li>Patterson, H.D. y Thompson, R. (1971). Recovery of inter-block information when block sizes are unequal. <i>Biometrika</i> 58: 545–554. <span class="m">◆</span></li>
+    <li>Patterson, H.D. y Williams, E.R. (1976). A new class of resolvable incomplete block designs. <i>Biometrika</i> 63: 83–92. <span class="m">◆</span></li>
+    <li>Pérez López, D.J., Saavedra Guevara, C., Rubí Arriaga, M., Franco Martínez, J.R.P., Gutiérrez Rodríguez, F. y González Huerta, A. (2020). Código de […] para analizar un dialélico completo y heterosis. Un ambiente. <i>Revista Mexicana de Ciencias Agrícolas</i> 11: 829–840. <span class="doi">doi:10.29312/remexca.v11i4.2249</span></li>
+    <li>Perkins, J.M. y Jinks, J.L. (1968). Environmental and genotype-environmental components of variability. III. Multiple lines and crosses. <i>Heredity</i> 23: 339–356. <span class="m">◆</span></li>
+    <li>Pesek, J. y Baker, R.J. (1969). Desired improvement in relation to selection indices. <i>Canadian Journal of Plant Science</i> 49: 803–804. <span class="m">◆</span></li>
+    <li>Piepho, H.P. (1995). Robustness of statistical tests for multiplicative terms in the additive main effects and multiplicative interaction model for cultivar trials. <i>Theoretical and Applied Genetics</i> 90: 438–443.</li>
+    <li>Purchase, J.L., Hatting, H. y van Deventer, C.S. (2000). Genotype × environment interaction of winter wheat in South Africa: II. Stability analysis of yield performance. <i>South African Journal of Plant and Soil</i> 17: 101–107. <span class="m">◆</span></li>
+    <li>Quaas, R.L. (1976). Computing the diagonal elements and inverse of a large numerator relationship matrix. <i>Biometrics</i> 32: 949–953. <span class="m">◆</span></li>
+    <li>Saavedra Guevara, C., Pérez López, D.J., González Huerta, A., Franco Martínez, J.R.P., Rubí Arriaga, M. y Ramírez Dávila, J.F. (2021). Métodos de Griffing: revisión sobre su importancia y aplicación en fitomejoramiento convencional. <i>Revista Mexicana de Ciencias Agrícolas</i> 12: 1275–1286. <span class="doi">doi:10.29312/remexca.v12i7.3040</span></li>
+    <li>Satterthwaite, F.E. (1946). An approximate distribution of estimates of variance components. <i>Biometrics Bulletin</i> 2: 110–114.</li>
+    <li>Schaeffer, L.R. (2014). <i>Making Covariance Matrices Positive Definite</i>. Centre for Genetic Improvement of Livestock, University of Guelph, Guelph. <span class="doi">http://animalbiosciences.uoguelph.ca/~lrs/ELARES/PDforce.pdf</span></li>
+    <li>Schaeffer, L.R. (2019). <i>Animal Models</i>. University of Guelph, Guelph. <span class="m">◆</span></li>
+    <li>Self, S.G. y Liang, K.Y. (1987). Asymptotic properties of maximum likelihood estimators and likelihood ratio tests under nonstandard conditions. <i>Journal of the American Statistical Association</i> 82: 605–610. <span class="m">◆</span></li>
+    <li>Shukla, G.K. (1972). Some statistical aspects of partitioning genotype-environmental components of variability. <i>Heredity</i> 29: 237–245. <span class="m">◆</span></li>
+    <li>Singh, D. (1973). Diallel analysis for combining ability over several environments. II. <i>Indian Journal of Genetics and Plant Breeding</i> 33: 469–481. <span class="m">◆</span></li>
+    <li>Singh, R.K. y Chaudhary, B.D. (1979). <i>Biometrical Methods in Quantitative Genetic Analysis</i>. Kalyani Publishers, New Delhi.</li>
+    <li>Smith, A.B., Cullis, B.R. y Thompson, R. (2005). The analysis of crop cultivar breeding and evaluation trials: an overview of current mixed model approaches. <i>Journal of Agricultural Science</i> 143: 449–462. <span class="m">◆</span></li>
+    <li>Smith, H.F. (1936). A discriminant function for plant selection. <i>Annals of Eugenics</i> 7: 240–250. <span class="m">◆</span></li>
+    <li>Sprague, G.F. y Eberhart, S.A. (1977). Corn breeding. En: Sprague, G.F. (ed.), <i>Corn and Corn Improvement</i>, 2.ª ed. American Society of Agronomy, Madison, pp. 305–362. <span class="m">◆</span></li>
+    <li>Sprague, G.F. y Tatum, L.A. (1942). General vs. specific combining ability in single crosses of corn. <i>Journal of the American Society of Agronomy</i> 34: 923–932. <span class="m">◆</span></li>
+    <li>Steel, R.G.D., Torrie, J.H. y Dickey, D.A. (1997). <i>Principles and Procedures of Statistics: A Biometrical Approach</i>, 3.ª ed. McGraw-Hill, New York. <span class="m">◆</span></li>
+    <li>Tallis, G.M. (1985). Constrained selection. <i>Japanese Journal of Genetics</i> 60: 151–155.</li>
+    <li>Technow, F., Riedelsheimer, C., Schrag, T.A. y Melchinger, A.E. (2012). Genomic prediction of hybrid performance in maize with models incorporating dominance and population specific marker effects. <i>Theoretical and Applied Genetics</i> 125: 1181–1194. <span class="m">◆</span></li>
+    <li>Technow, F., Schrag, T.A., Schipprack, W., Bauer, E., Simianer, H. y Melchinger, A.E. (2014). Genome properties and prospects of genomic prediction of hybrid performance in a breeding program of maize. <i>Genetics</i> 197: 1343–1355. <span class="m">◆</span></li>
+    <li>Tesema, Z., Deribe, B., Tilahun, M., Kefale, A., Alebachew, G.W., Alemayehu, K., Getachew, T., Kebede, D., Taye, M. y Gizaw, S. (2023). Estimation of crossbreeding and genetic parameters for reproductive traits of Boer × Central Highland goats in Ethiopia. <i>PLOS ONE</i> 18: e0291996. <span class="doi">doi:10.1371/journal.pone.0291996</span></li>
+    <li>Tol, P. (2021). <i>Colour Schemes</i>. Nota técnica SRON/EPS/TN/09-002, número 3.2. <span class="doi">https://sronpersonalpages.nl/~pault/data/colourschemes.pdf</span></li>
+    <li>Topham, P.B. (1966). Diallel analysis involving maternal and maternal interaction effects. <i>Heredity</i> 21: 665–674.</li>
+    <li>Tukey, J.W. (1949). One degree of freedom for non-additivity. <i>Biometrics</i> 5: 232–242. <span class="m">◆</span></li>
+    <li>VanRaden, P.M. (2008). Efficient methods to compute genomic predictions. <i>Journal of Dairy Science</i> 91: 4414–4423. <span class="m">◆</span></li>
+    <li>Walsh, B. y Lynch, M. (2018). <i>Evolution and Selection of Quantitative Traits</i>. Oxford University Press, Oxford.</li>
+    <li>Walters, D.E. y Gale, J.S. (1977). A note on the Hayman analysis of variance for a full diallel table. <i>Heredity</i> 38: 401–407. <span class="m">◆</span></li>
+    <li>Warner, J.N. (1952). A method for estimating heritability. <i>Agronomy Journal</i> 44: 427–430. <span class="m">◆</span></li>
+    <li>van der Werf, J. (s. f.). <i>Crossbreeding</i>. Notas de clase GENE251/351, lección 20. University of New England, Armidale.</li>
+    <li>Willham, R.L. (1963). The covariance between relatives for characters composed of components contributed by related individuals. <i>Biometrics</i> 19: 18–27. <span class="m">◆</span></li>
+    <li>Willham, R.L. (1972). The role of maternal effects in animal breeding: III. Biometrical aspects of maternal effects in animals. <i>Journal of Animal Science</i> 35: 1288–1293.</li>
+    <li>Williams, J.S. (1962). The evaluation of a selection index. <i>Biometrics</i> 18: 375–393. <span class="m">◆</span></li>
+    <li>Wricke, G. (1962). Über eine Methode zur Erfassung der ökologischen Streubreite in Feldversuchen. <i>Zeitschrift für Pflanzenzüchtung</i> 47: 92–96. <span class="m">◆</span></li>
+    <li>Wright, A.J. (1985). Diallel designs, analyses, and reference populations. <i>Heredity</i> 54: 307–311. <span class="m">◆</span></li>
+    <li>Yan, W., Hunt, L.A., Sheng, Q. y Szlavnics, Z. (2000). Cultivar evaluation and mega-environment investigation based on the GGE biplot. <i>Crop Science</i> 40: 597–605. <span class="m">◆</span></li>
+    <li>Yan, W. y Kang, M.S. (2003). <i>GGE Biplot Analysis: A Graphical Tool for Breeders, Geneticists, and Agronomists</i>. CRC Press, Boca Raton.</li>
+    <li>Yan, W. y Tinker, N.A. (2006). Biplot analysis of multi-environment trial data: principles and applications. <i>Canadian Journal of Plant Science</i> 86: 623–645. <span class="m">◆</span></li>
+    <li>Yang, J., Benyamin, B., McEvoy, B.P. y colaboradores (2010). Common SNPs explain a large proportion of the heritability for human height. <i>Nature Genetics</i> 42: 565–569.</li>
+    <li>Zhang, Y., Kang, M.S. y Lamkey, K.R. (2005). […]: a comprehensive program for Griffing’s and Gardner–Eberhart analyses. <i>Agronomy Journal</i> 97: 1097–1106.</li>
+  </ul>
+
+  <div class="caja nota">
+    <div class="caja-t"><span class="ico">i</span>Nota · correcciones hechas en la app al preparar los apéndices</div>
+    <p>Comparar las referencias y los avisos de la app con las fuentes originales permitió corregir:</p>
+    <ul style="margin:0">
+      <li>El índice propio (ESIM) se atribuía a Cerón-Rojas y colaboradores (2008); el artículo que lo propone es de 2006. Se corrigió en la app y en la tabla 8.3.</li>
+      <li>La lista de referencias del Bloque 8 omitía once obras que sus notas citan: Williams (1962), Elston (1963), Burrows (1972), Mallard (1972), Bulmer (1980), Hayes y Hill (1981), Tallis (1985), Itoh y Yamada (1987), Carvalho y Cruz (1996), Cerón-Rojas y colaboradores (2006) y Schaeffer (2014).</li>
+      <li>La ficha de Saavedra Guevara y colaboradores (2021) en la portada tenía el título y la última página equivocados, y la de Jasso-Bobadilla y colaboradores (2022), la última página.</li>
+      <li>El archivo de avisos de terceros no listaba los ejemplos de los Bloques 8 a 11 ni sus condiciones de uso.</li>
+    </ul>
+  </div>
+
+  <!-- ====================================================================== F -->
+  <h2 id="ap-f"><span class="num">F</span>Componentes de terceros</h2>
+  <p class="lead">BreedingPro es obra original: su código, su motor de figuras, sus paletas y escalas propias, sus ilustraciones y sus datos simulados se hicieron para este programa. Solo un componente de programa es de terceros; las paletas y los datos publicados que usa se declaran aquí con sus condiciones.</p>
+
+  <table class="compacta">
+    <caption><b>Tabla F.1.</b> Componente de programa de terceros incluido en la app.</caption>
+    <thead><tr><th style="width:27%">Componente</th><th style="width:9%">Versión</th><th style="width:15%">Licencia</th><th>Uso y aviso</th></tr></thead>
+    <tbody>
+      <tr><td><b>Biblioteca de lectura y escritura de hojas de cálculo</b><br><code>vendor/xlsx.full.min.js</code></td><td>0.18.5</td><td>Apache 2.0</td><td>Lee los libros <code>.xlsx</code>, <code>.xls</code>, <code>.xlsm</code> y <code>.ods</code> y escribe los <code>.xlsx</code> de todos los bloques y el <code>.ods</code> de la hoja de datos. Es una copia sin modificar que no forma parte de la obra original. Su aviso de derechos de autor, su fuente y el texto completo de la licencia están en <code>vendor/THIRD-PARTY-NOTICES.txt</code>, que debe acompañar siempre a la app.</td></tr>
+    </tbody>
+  </table>
+
+  <div class="caja importante">
+    <div class="caja-t"><span class="ico">!</span>Importante · al compartir o redistribuir la app</div>
+    <p style="margin:0">El código de BreedingPro se distribuye con la Licencia Pública General de GNU, versión 3 o posterior (archivo <code>LICENSE</code>). Si compartes la carpeta, consérvala completa: <code>LICENSE</code>, <code>vendor/THIRD-PARTY-NOTICES.txt</code> y la biblioteca de <code>vendor/</code> viajan juntas. Si publicas una figura con la paleta de Okabe e Ito, la de Tol o la escala Cividis, o un resultado obtenido con un ejemplo, cita a sus autores.</p>
+  </div>
+
+  <table class="compacta">
+    <caption><b>Tabla F.2.</b> Paletas y escalas de color publicadas que ofrece el editor de figuras.</caption>
+    <thead><tr><th style="width:25%">Recurso</th><th style="width:27%">Autoría</th><th style="width:23%">Condiciones</th><th>En el editor</th></tr></thead>
+    <tbody>
+      <tr><td><b>Paleta para daltonismo</b></td><td>Okabe e Ito (2008): ocho colores; la app añade un gris y un café oscuro.</td><td>Guía de acceso libre; la app y el manual citan a sus autores.</td><td><span class="ui">Okabe e Ito 2008 (apta para daltonismo)</span></td></tr>
+      <tr><td><b>Esquemas de color cualitativos</b></td><td>Tol (2021): esquema <i>bright</i> más negro y dos colores del esquema <i>vibrant</i>.</td><td>Nota técnica de acceso libre; se cita al autor.</td><td><span class="ui">Tol 2021 (apta para daltonismo)</span></td></tr>
+      <tr><td><b>Escalas Viridis, Magma, Inferno y Plasma</b></td><td>Nathaniel J. Smith y Stéfan van der Walt; Viridis también con Eric Firing (2015).</td><td>Dedicadas al dominio público (CC0 1.0); sus autores agradecen el crédito.</td><td>Escalas continuas de los mapas de calor, con cinco colores de cada una.</td></tr>
+      <tr><td><b>Escala Cividis</b></td><td>Núñez, Anderton y Renslow (2018).</td><td>Artículo de acceso abierto (CC BY 4.0); se cita.</td><td><span class="ui">Cividis (apta para daltonismo)</span></td></tr>
+    </tbody>
+  </table>
+  <p>Las otras trece paletas cualitativas del editor, como <span class="ui">Maíz morado (BreedingPro)</span> o <span class="ui">Cosecha</span>, y las ocho escalas de la figura F.1 son propias de la app.</p>
+
+  <figure>
+    <svg viewBox="0 0 700 262" xmlns="http://www.w3.org/2000/svg" font-family="Jost, sans-serif" role="img" aria-label="Las ocho escalas de color propias de la app">
+      <defs>
+        <linearGradient id="gRdylbu"><stop offset="0" stop-color="#274387"/><stop offset=".25" stop-color="#69aed5"/><stop offset=".5" stop-color="#fcf5c7"/><stop offset=".75" stop-color="#ed9c55"/><stop offset="1" stop-color="#a51e24"/></linearGradient>
+        <linearGradient id="gRdbu"><stop offset="0" stop-color="#023869"/><stop offset=".25" stop-color="#97c5de"/><stop offset=".5" stop-color="#f6efe6"/><stop offset=".75" stop-color="#e5a692"/><stop offset="1" stop-color="#902822"/></linearGradient>
+        <linearGradient id="gSpectral"><stop offset="0" stop-color="#564597"/><stop offset=".25" stop-color="#52c8b4"/><stop offset=".5" stop-color="#f1f4b6"/><stop offset=".75" stop-color="#f89a56"/><stop offset="1" stop-color="#a61f47"/></linearGradient>
+        <linearGradient id="gBluered"><stop offset="0" stop-color="#1e4798"/><stop offset=".5" stop-color="#f3ede6"/><stop offset="1" stop-color="#be3025"/></linearGradient>
+        <linearGradient id="gGreens"><stop offset="0" stop-color="#f1f7dd"/><stop offset=".5" stop-color="#59b47d"/><stop offset="1" stop-color="#003f33"/></linearGradient>
+        <linearGradient id="gYlgn"><stop offset="0" stop-color="#fcfacb"/><stop offset=".333" stop-color="#bde07e"/><stop offset=".667" stop-color="#47944c"/><stop offset="1" stop-color="#034741"/></linearGradient>
+        <linearGradient id="gBrowns"><stop offset="0" stop-color="#fdf5e6"/><stop offset=".5" stop-color="#cc9966"/><stop offset="1" stop-color="#663300"/></linearGradient>
+        <linearGradient id="gHeat"><stop offset="0" stop-color="#fff7d9"/><stop offset=".5" stop-color="#fd923e"/><stop offset="1" stop-color="#9e122b"/></linearGradient>
+      </defs>
+      <text x="0" y="12" font-size="10" letter-spacing="1.2" font-weight="500" fill="#111">ESCALAS PROPIAS DE LOS MAPAS DE CALOR</text>
+      <g font-size="11" fill="#111">
+        <text x="0" y="41">Rojo–Amarillo–Azul</text><rect x="160" y="28" width="430" height="18" fill="url(#gRdylbu)" stroke="#c9ced8" stroke-width=".6"/><text x="604" y="41" fill="#5d6472">divergente</text>
+        <text x="0" y="69">Rojo–Azul (divergente)</text><rect x="160" y="56" width="430" height="18" fill="url(#gRdbu)" stroke="#c9ced8" stroke-width=".6"/><text x="604" y="69" fill="#5d6472">divergente</text>
+        <text x="0" y="97">Espectral</text><rect x="160" y="84" width="430" height="18" fill="url(#gSpectral)" stroke="#c9ced8" stroke-width=".6"/><text x="604" y="97" fill="#5d6472">divergente</text>
+        <text x="0" y="125">Azul–Blanco–Rojo</text><rect x="160" y="112" width="430" height="18" fill="url(#gBluered)" stroke="#c9ced8" stroke-width=".6"/><text x="604" y="125" fill="#5d6472">divergente</text>
+        <text x="0" y="153">Verdes</text><rect x="160" y="140" width="430" height="18" fill="url(#gGreens)" stroke="#c9ced8" stroke-width=".6"/><text x="604" y="153" fill="#5d6472">secuencial</text>
+        <text x="0" y="181">Amarillo–Verde</text><rect x="160" y="168" width="430" height="18" fill="url(#gYlgn)" stroke="#c9ced8" stroke-width=".6"/><text x="604" y="181" fill="#5d6472">secuencial</text>
+        <text x="0" y="209">Cafés (suelo)</text><rect x="160" y="196" width="430" height="18" fill="url(#gBrowns)" stroke="#c9ced8" stroke-width=".6"/><text x="604" y="209" fill="#5d6472">secuencial</text>
+        <text x="0" y="237">Calor</text><rect x="160" y="224" width="430" height="18" fill="url(#gHeat)" stroke="#c9ced8" stroke-width=".6"/><text x="604" y="237" fill="#5d6472">secuencial</text>
+      </g>
+      <g font-size="9" fill="#5d6472" text-anchor="middle"><text x="160" y="258">mínimo</text><text x="375" y="258">centro</text><text x="590" y="258">máximo</text></g>
+    </svg>
+    <figcaption><b>Figura F.1.</b> Las ocho escalas de los mapas de calor diseñadas para la app, con sus nombres en el menú. Parten de colores anclados en un espacio de color perceptual: en las divergentes, la luminosidad sube hacia el centro y baja igual hacia los extremos; en las secuenciales, baja de forma continua. Los extremos de las divergentes se siguen distinguiendo con daltonismo rojo–verde.</figcaption>
+  </figure>
+
+  <table class="compacta">
+    <caption><b>Tabla F.3.</b> Datos publicados que usan los ejemplos. Si publicas algo hecho con uno de ellos, cita la obra original.</caption>
+    <thead><tr><th style="width:26%">Ejemplo</th><th style="width:34%">Fuente</th><th>Condiciones</th></tr></thead>
+    <tbody>
+      <tr><td>Maíz: dialelo completo 4 × 4</td><td>Pérez López y colaboradores (2020)</td><td>Artículo de acceso abierto, CC BY-NC 4.0: uso no comercial y con atribución.</td></tr>
+      <tr><td>Maíz: dialelo parcial de 8 líneas</td><td>Jasso-Bobadilla y colaboradores (2022); diseño de Kempthorne y Curnow (1961)</td><td>CC BY-NC 4.0.</td></tr>
+      <tr><td><i>Nicotiana rustica</i>: dialelo 8 × 8</td><td>Hayman (1954a), cuadro 5, reproducido por Onofri y colaboradores (2021)</td><td>Copia abierta con licencia CC BY 4.0.</td></tr>
+      <tr><td>Dialelo con progenitores en dos ambientes</td><td>Zhang, Kang y Lamkey (2005), reproducido por Onofri y colaboradores (2021)</td><td>CC BY 4.0.</td></tr>
+      <tr><td>Cruzas entre variedades de maíz</td><td>Lonnquist y Gardner (1961); Gardner y Eberhart (1966); Onofri y colaboradores (2021)</td><td>CC BY 4.0.</td></tr>
+      <tr><td>Dialelo 8 × 8 de libro de texto; Carolinas del Norte I y III; línea × probador</td><td>Singh y Chaudhary (1979)</td><td>Transcripciones distribuidas con licencia GPL en programas libres.</td></tr>
+      <tr><td>Maíz: medias de 36 cruzas simples</td><td>Griffing (1956b)</td><td>Transcripción distribuida con licencia GPL.</td></tr>
+      <tr><td>Papa: Carolina del Norte II; papa: 28 clones en 6 localidades</td><td>Centro Internacional de la Papa (CIP), Perú: Majes; Ayacucho, Huancayo, La Molina y San Ramón (2002–2003)</td><td>Distribuidos con licencia GPL en programas libres.</td></tr>
+      <tr><td>Maíz: 13 híbridos (uno y cuatro ambientes); avena: 10 genotipos en 14 ambientes</td><td>T. Olivoto, autor de los datos</td><td>Distribuidos por su autor con licencia GPL v3.</td></tr>
+      <tr><td>Medias de 17 genotipos en 12 ambientes</td><td>Kang (1993); Kang y Magari (1995)</td><td>Distribuidos con licencia GPL.</td></tr>
+      <tr><td><i>N. rustica</i>: seis generaciones</td><td>Gale, Mather y Jinks (1977), cuadro 1, primer conjunto</td><td>Solo se usan las estadísticas publicadas (número, media y varianza de cada generación); las plantas se reconstruyeron con esos valores exactos.</td></tr>
+      <tr><td>Bloque 10: modelos animal y de padres</td><td>Mrode (2014), ejemplos 3.1, 3.2 y de camada; Schaeffer (2019), cuadros 3.1, 6.1 y 6.2</td><td>Ejemplos breves de libro, reproducidos con su fuente para comprobar los cálculos.</td></tr>
+      <tr><td>Bloque 10: cruzamiento</td><td>van der Werf (s. f.); Tesema y colaboradores (2023); Buchanan y Northcutt (s. f.)</td><td>Unas cuantas medias y parámetros publicados, con su fuente; el artículo de Tesema y colaboradores es CC BY 4.0.</td></tr>
+      <tr><td>Bloque 11: trigo con marcadores DArT; híbridos de maíz dentado × cristalino</td><td>Crossa y colaboradores (2010), datos del Centro Internacional de Mejoramiento de Maíz y Trigo (CIMMYT); Technow y colaboradores (2014), con 2000 de los 35&nbsp;478 SNP</td><td>Distribuidos con licencia GPL en programas libres.</td></tr>
+      <tr><td>Todos los simulados</td><td>BreedingPro, con semillas fijas</td><td>Libres de derechos; sus valores verdaderos vienen con el ejemplo.</td></tr>
+    </tbody>
+  </table>
+
+  <p><b>Recursos del manual.</b> Las tipografías Cormorant, Crimson Pro y Jost, de Christian Thalmann, Jacques Le Bailly y Owen Earl, tienen la Licencia de Tipografías Abiertas SIL (OFL), versión 1.1: las páginas HTML las cargan de un servicio público de tipografías y el PDF las incrusta, como permite la licencia; sin conexión, el navegador usa tipografías del sistema. La app no usa tipografías externas. Las ilustraciones y los esquemas son originales del manual y de la app, y las capturas de pantalla salen de la propia app con sus ejemplos.</p>
+
+</section>
+
+</body>
+</html>

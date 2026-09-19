@@ -1,0 +1,39 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+title: "BreedingPro: a browser-based platform for diallel crosses, mating designs, genetic parameters and prediction in plant and animal breeding"
+abstract: >-
+  BreedingPro is a self-contained web application for the analysis of plant and animal
+  breeding experiments entirely in the browser, with no installation and no server-side
+  computation. It plans crosses and field trials, recognises the mating and field design of
+  a data table, analyses the trial, and estimates combining ability with the four Griffing
+  methods, Hayman-Jinks and Gardner-Eberhart diallel analyses, North Carolina designs, triple
+  test crosses, line x tester and partial diallels, generation means and variances with
+  scaling tests, heritability with exact confidence intervals, correlations, path analysis
+  and selection indices, genotype x environment interaction and stability (regression,
+  AMMI, GGE biplot, two-stage REML), animal and sire models with BLUP and REML, Dickerson
+  crossbreeding parameters, genomic prediction with GBLUP and the prediction of untested
+  hybrids. It ends in editable publication-quality figures and a report with the methods
+  written from the settings actually used and their references.
+type: software
+authors:
+  - given-names: "Luis Ángel"
+    family-names: "Barrera-Guzmán"
+    email: lbarrerag@chapingo.mx
+    orcid: "https://orcid.org/0000-0001-8057-2583"
+version: "1.0.0"
+date-released: "2026-09-19"
+repository-code: "https://github.com/luisangelbg/BreedingPro"
+url: "https://luisangelbg.github.io/BreedingPro/"
+license: GPL-3.0-or-later
+keywords:
+  - plant breeding
+  - animal breeding
+  - diallel cross
+  - combining ability
+  - mating designs
+  - generation means
+  - heritability
+  - selection index
+  - genotype by environment interaction
+  - BLUP
+  - genomic prediction

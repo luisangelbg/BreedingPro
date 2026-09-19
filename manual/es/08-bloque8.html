@@ -1,0 +1,214 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>BreedingPro · Manual de usuario · Bloque 8: parámetros genéticos y selección</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,500;0,600;1,500&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../interior.css">
+<!-- reparte el contenido en hojas tamaño carta, con encabezados y números de página -->
+<script src="../paginar.js"></script>
+<style>
+  figure.chica .marco, figure.chica > svg { width: 72%; margin: 0 auto; }
+  figure.chica figcaption { margin-left: 14%; margin-right: 14%; }
+  figure.angosta .marco { width: 58%; margin: 0 auto; }
+  figure.angosta figcaption { margin-left: 21%; margin-right: 21%; }
+  td.n, th.n { text-align: right; white-space: nowrap; }
+  td.c, th.c { text-align: center; }
+  .formula { font-family: var(--sans); font-size: 9pt; background: #f6f3fa; border-radius: 4px; padding: 0.07in 0.12in; margin: 0.06in 0 0.12in; line-height: 1.6; }
+</style>
+</head>
+<body>
+
+<section class="capitulo" id="cap-b8" data-pestana="B8" data-orden="9" style="--acento: var(--b8)">
+  <div class="cap-apertura">
+    <div class="cap-num">B8</div>
+    <div class="cap-etiqueta">Capítulo ocho · Bloque 8 · Selección</div>
+    <h1 data-corto="Bloque 8 · Parámetros genéticos y selección">Parámetros genéticos y selección</h1>
+    <div class="cap-regla"></div>
+    <p class="cap-resumen">Antes de seleccionar hay que saber cuánto de lo que se ve es genético, cómo se relacionan las variables entre sí y cuánto se puede ganar. El Bloque 8 calcula la heredabilidad de cada variable con su intervalo exacto, los coeficientes de variación y el avance genético; las correlaciones genotípicas, fenotípicas y ambientales con el análisis de sendas; cinco índices de selección y los genotipos que eligen; y la ganancia esperada de los métodos de selección recurrente.</p>
+    <div class="cap-franja"><span class="k8"></span><span class="k8" style="opacity:.75"></span><span class="k8" style="opacity:.5"></span><span class="k8" style="opacity:.3"></span></div>
+    <ul class="cap-contenido">
+      <li><b>8.1</b>Qué hace el bloque</li>
+      <li><b>8.2</b>Parámetros genéticos de cada variable</li>
+      <li><b>8.3</b>Heredabilidad e intensidad de selección</li>
+      <li><b>8.4</b>Varios ambientes</li>
+      <li><b>8.5</b>Correlaciones</li>
+      <li><b>8.6</b>Análisis de sendas</li>
+      <li><b>8.7</b>Índices de selección</li>
+      <li><b>8.8</b>Los genotipos seleccionados</li>
+      <li><b>8.9</b>Métodos de selección recurrente</li>
+      <li><b>8.10</b>Descargas y siguiente paso</li>
+    </ul>
+  </div>
+
+  <!-- ====================================================================== 8.1 -->
+  <h2 id="s8-1"><span class="num">8.1</span>Qué hace el bloque</h2>
+  <p class="lead">El Bloque 8 trabaja con genotipos evaluados en un ensayo: líneas, híbridos, clones, familias o las cruzas de un dialelo tratadas como entradas. Toma del Bloque 3 el análisis de campo de cada variable, con el diseño que corresponda (bloques completos, látice α, bloques aumentados o solo medias con un error externo), y lo reduce a los cuadrados medios y productos cruzados que necesitan los parámetros genéticos. Las generaciones de una cruza se analizan en el Bloque 7, no aquí.</p>
+  <table class="compacta">
+    <caption><b>Tabla 8.1.</b> Las cinco tarjetas del Bloque 8 y lo que dan.</caption>
+    <thead><tr><th style="width:32%">Tarjeta</th><th>Qué da</th></tr></thead>
+    <tbody>
+      <tr><td>1 · Parámetros genéticos de cada variable</td><td>σ²<sub>G</sub>, σ²<sub>GA</sub>, σ²<sub>e</sub>, heredabilidad por parcela y por medias con su intervalo exacto, coeficientes de variación y avance genético</td></tr>
+      <tr><td>2 · Correlaciones y análisis de sendas</td><td>Correlaciones genotípicas, fenotípicas y ambientales con su error estándar; efectos directos e indirectos sobre una variable</td></tr>
+      <tr><td>3 · Índices de selección</td><td>Smith–Hazel, base, restringido, de ganancias proporcionales, de ganancias deseadas y propio, con la ganancia esperada en cada variable</td></tr>
+      <tr><td>4 · Genotipos seleccionados</td><td>El orden de los genotipos con el índice elegido, la suma de rangos o el índice de Elston, y la ganancia realizada</td></tr>
+      <tr><td>5 · Métodos de selección recurrente</td><td>La ganancia por ciclo y por año de siete métodos a partir de σ²<sub>A</sub>, σ²<sub>D</sub> y el error</td></tr>
+    </tbody>
+  </table>
+  <p>El hilo del capítulo es el ensayo de 13 híbridos de maíz de la galería de ejemplos: tres repeticiones en bloques completos y 15 variables de planta y mazorca (datos distribuidos por su autor con licencia libre). Las correlaciones, las sendas y los índices usan cinco de ellas: altura de planta (PH), altura de mazorca (EH), peso de grano por mazorca (KW), peso de mil granos (TKW) y granos por mazorca (NKE). Las capturas usan una proporción seleccionada de 20&nbsp;%.</p>
+
+  <!-- ====================================================================== 8.2 -->
+  <h2 id="s8-2"><span class="num">8.2</span>Parámetros genéticos de cada variable</h2>
+  <p>La tarjeta <span class="ui">1 · Parámetros genéticos de cada variable</span> tiene tres controles: <span class="ui">Proporción seleccionada</span> (de 1 a 50&nbsp;%), <span class="ui">Intensidad de selección</span> (la de una población infinita o la exacta para los genotipos del ensayo) y <span class="ui">Nivel de significancia</span>, que fija el intervalo de confianza. Con varios ambientes aparece además <span class="ui">Ambiente</span>, con la opción de combinarlos todos (sección 8.4).</p>
+  <figure>
+    <div class="marco"><img src="../img/b8-params.png" alt="La tabla de parámetros genéticos de las 15 variables del ensayo de maíz"></div>
+    <figcaption><b>Figura 8.1.</b> Los parámetros de las 15 variables del maíz. Cada fila da los componentes de varianza, las dos heredabilidades, el intervalo de Knapp, la heredabilidad de Cullis, los coeficientes de variación, el avance genético y la prueba <i>F</i> de genotipos.</figcaption>
+  </figure>
+  <p>Los componentes salen de los cuadrados medios esperados del modelo aleatorio: σ²<sub>G</sub> = (CM<sub>G</sub> − CM<sub>e</sub>)/<i>r</i>, con su error estándar. De ahí se leen dos heredabilidades en sentido amplio: la de una parcela y la de la media de un genotipo, que es la que importa cuando se selecciona por medias de <i>r</i> repeticiones.</p>
+  <div class="formula">H²<sub>parcela</sub> = σ²<sub>G</sub>/(σ²<sub>G</sub> + σ²<sub>e</sub>) &nbsp;·&nbsp; H²<sub>medias</sub> = σ²<sub>G</sub>/(σ²<sub>G</sub> + σ²<sub>e</sub>/<i>r</i>) = 1 − CM<sub>e</sub>/CM<sub>G</sub> &nbsp;·&nbsp; AG = <i>i</i>·σ<sub>F</sub>·H²</div>
+  <p>El peso de grano por mazorca (KW) tiene σ²<sub>G</sub> = 180.97 ± 115.24 y σ²<sub>e</sub> = 280.41: su heredabilidad es 0.392 por parcela y 0.659 en medias de tres repeticiones, con un intervalo de 0.135 a 0.887. El largo del olote (CL), el porcentaje de grano (PERK) y el peso del olote (CW) superan 0.88; el largo de mazorca (EL), con 0.126, casi no tiene varianza genética en estos híbridos (<i>p</i> = 0.37).</p>
+  <p>El intervalo es el exacto de Knapp, Stroup y Ross (1985), que usa la distribución <i>F</i> del cociente de cuadrados medios en lugar de suponer normalidad. Su límite inferior puede ser negativo cuando la varianza genética es pequeña; se muestra tal como sale, porque truncarlo en cero cambiaría su cobertura, y un aviso lo recuerda. Los coeficientes de variación genético, fenotípico y ambiental (CVg, CVf y CVe) siguen a Burton y DeVane (1953); CVf se da en base de medias, igual que la heredabilidad. El avance genético AG (Johnson, Robinson y Comstock, 1955) es lo que subiría la media si se seleccionara la proporción elegida por su media fenotípica: en KW, 15.29&nbsp;g, un 10.4&nbsp;%.</p>
+  <div class="caja nota">
+    <div class="caja-t"><span class="ico">✓</span>Comprobado · dos cálculos independientes</div>
+    <p>Los componentes, heredabilidades, intervalos y coeficientes de variación de las 15 variables, en un ambiente y en cuatro, son iguales a los de una reconstrucción independiente hasta 3.5 × 10<sup>−10</sup>, y los de KW coinciden con los de otra implementación por máxima verosimilitud restringida (σ²<sub>G</sub> = 180.97188, σ²<sub>e</sub> = 280.40877). En 3000 simulaciones con H² = 0.75, el intervalo de Knapp al 95&nbsp;% cubrió el valor verdadero el 95.07&nbsp;% de las veces.</p>
+  </div>
+  <p>La columna <span class="ui">H² Cullis (REML)</span> es la heredabilidad de Cullis, Smith y Coombes (2006), que el Bloque 3 calcula con la varianza promedio de las diferencias entre medias. En bloques completos balanceados es igual a H² en medias; con bloques incompletos, en los que los componentes por momentos son aproximados, es la recomendable, y un aviso lo dice. Con solo medias y un error externo, la varianza entre medias hace el papel de CM<sub>G</sub>.</p>
+
+  <!-- ====================================================================== 8.3 -->
+  <h2 id="s8-3"><span class="num">8.3</span>Heredabilidad e intensidad de selección</h2>
+  <p>Debajo de la tabla, una figura muestra la heredabilidad en medias de cada variable con su intervalo, sobre las clases habituales: baja por debajo de 0.3 y alta por encima de 0.6 (la franja gris). Los intervalos que bajan de −1 terminan en una flecha en el borde.</p>
+  <figure class="chica">
+    <div class="marco"><img src="../img/b8-fig-h2.png" alt="La heredabilidad en base de medias de cada variable con su intervalo de Knapp"></div>
+    <figcaption><b>Figura 8.2.</b> Heredabilidad en medias de las 15 variables. Con 13 genotipos y tres repeticiones los intervalos son anchos: el de KW va de 0.13 a 0.89.</figcaption>
+  </figure>
+  <p>La intensidad de selección <i>i</i> es la superioridad de los seleccionados en desviaciones estándar. Para una población infinita, <i>i</i> = φ(<i>x</i><sub><i>p</i></sub>)/<i>p</i>, donde <i>p</i> es la proporción seleccionada. Con pocos genotipos la intensidad real es menor: la opción <span class="ui">exacta para N de M genotipos</span> usa la media esperada de los <i>N</i> mejores de <i>M</i> valores normales. El recuadro plegado <span class="ui">Intensidad de selección exacta y finita</span> da la tabla de valores y compara, para el ensayo cargado, la intensidad exacta con las aproximaciones de Burrows (1972) y Bulmer (1980).</p>
+  <table class="compacta">
+    <caption><b>Tabla 8.2.</b> Intensidad de selección de una población infinita. Algunos libros la llaman <i>k</i> y llaman «intensidad» al porcentaje seleccionado.</caption>
+    <thead><tr><th>Proporción seleccionada</th><th class="n">1&nbsp;%</th><th class="n">2&nbsp;%</th><th class="n">5&nbsp;%</th><th class="n">10&nbsp;%</th><th class="n">15&nbsp;%</th><th class="n">20&nbsp;%</th><th class="n">30&nbsp;%</th><th class="n">50&nbsp;%</th></tr></thead>
+    <tbody><tr><td>Intensidad <i>i</i></td><td class="n">2.6652</td><td class="n">2.4209</td><td class="n">2.0627</td><td class="n">1.7550</td><td class="n">1.5544</td><td class="n">1.3998</td><td class="n">1.1590</td><td class="n">0.7979</td></tr></tbody>
+  </table>
+  <p>Con 13 híbridos y 20&nbsp;% seleccionado se eligen 3 genotipos: la intensidad exacta es 1.2273, contra 1.3183 de una población infinita con la misma fracción (3 de 13). Para elegir uno de 20 genotipos, la app da 1.8675 exacta, 1.8434 de Burrows y 1.8880 de Bulmer, los valores del ejemplo de Walsh y Lynch (2018).</p>
+
+  <!-- ====================================================================== 8.4 -->
+  <h2 id="s8-4"><span class="num">8.4</span>Varios ambientes</h2>
+  <p>Con datos de varios ambientes, el menú <span class="ui">Ambiente</span> permite analizar uno o <span class="ui">todos combinados</span>. En el análisis combinado la tabla añade σ²<sub>GA</sub>, la interacción genotipo × ambiente, y la heredabilidad en medias se vuelve H² = σ²<sub>G</sub>/(σ²<sub>G</sub> + σ²<sub>GA</sub>/<i>e</i> + σ²<sub>e</sub>/<i>re</i>) = 1 − CM<sub>GA</sub>/CM<sub>G</sub>, con <i>e</i> ambientes: los genotipos se prueban contra su interacción con los ambientes, no contra el error.</p>
+  <p>El contraste con un solo ambiente es la lección de la figura 8.3. KW pasa de H² = 0.659 a 0.204: su σ²<sub>G</sub> entre ambientes es 30.3 ± 66.6 y su σ²<sub>GA</sub>, 343.0. Lo que en una localidad parecía genético era, en buena parte, respuesta de cada híbrido a esa localidad. Con σ²<sub>G</sub> negativa la heredabilidad se informa tal cual, pero el avance genético se toma como cero y el aviso de la tarjeta enumera las variables afectadas. El Bloque 9 analiza esa interacción a fondo.</p>
+  <figure>
+    <div class="marco"><img src="../img/b8-amb.png" alt="Los parámetros genéticos de los mismos híbridos en cuatro ambientes combinados"></div>
+    <figcaption><b>Figura 8.3.</b> Los mismos 13 híbridos en cuatro ambientes. La interacción con el ambiente supera a la varianza genética en todas las variables, y diez de ellas tienen σ²<sub>G</sub> negativa.</figcaption>
+  </figure>
+
+  <!-- ====================================================================== 8.5 -->
+  <h2 id="s8-5"><span class="num">8.5</span>Correlaciones</h2>
+  <p>La tarjeta <span class="ui">2 · Correlaciones y análisis de sendas</span> empieza con las casillas de las variables que entran en las correlaciones y en los índices; al cargar un ensayo vienen marcadas las seis primeras. La tabla reúne dos matrices: arriba de la diagonal, las correlaciones genotípicas; abajo, en cursiva, las fenotípicas en base de medias, cada una con su error estándar.</p>
+  <figure>
+    <div class="marco"><img src="../img/b8-corr.png" alt="Las correlaciones genotípicas y fenotípicas de cinco variables del maíz"></div>
+    <figcaption><b>Figura 8.4.</b> Las correlaciones de las cinco variables elegidas. Arriba de la diagonal, genotípicas; abajo, fenotípicas en base de medias.</figcaption>
+  </figure>
+  <p>Las covarianzas se obtienen del análisis de la suma de cada par de variables, en el mismo diseño que las variables: el producto cruzado medio es PCM = (CM<sub><i>x</i>+<i>y</i></sub> − CM<sub><i>x</i></sub> − CM<sub><i>y</i></sub>)/2, y de él salen las covarianzas genotípica, fenotípica y ambiental como de los cuadrados medios salen las varianzas. Los errores estándar se calculan por el método delta, con los momentos de los cuadrados medios y productos cruzados. Las correlaciones ambientales (residuales) están en un recuadro plegado.</p>
+  <p>En el maíz, las dos alturas van casi juntas (<i>r</i><sub>G</sub> = 0.96) y las dos se asocian con el peso de grano por mazorca (0.87 y 0.86): los híbridos altos rinden más por mazorca. El peso de mil granos y los granos por mazorca se oponen (−0.49): las mazorcas con muchos granos los tienen más chicos, el clásico intercambio entre componentes del rendimiento.</p>
+  <figure class="angosta">
+    <div class="marco"><img src="../img/b8-fig-corr.png" alt="El mapa de calor de las correlaciones genotípicas"></div>
+    <figcaption><b>Figura 8.5.</b> Las correlaciones genotípicas como mapa de calor. El menú <span class="ui">Figura</span> cambia a las fenotípicas o a las ambientales.</figcaption>
+  </figure>
+  <p>Con pocos genotipos, una correlación genotípica puede salir fuera de [−1, 1]: los estimadores por momentos no están acotados cuando σ²<sub>G</sub> es pequeña. La app no la trunca; la marca y lo avisa. Si σ²<sub>G</sub> es negativa, la correlación genotípica no existe y la casilla queda vacía. Los registros a los que les falta alguna de las variables elegidas quedan fuera, para que todas las covarianzas usen las mismas parcelas.</p>
+
+  <!-- ====================================================================== 8.6 -->
+  <h2 id="s8-6"><span class="num">8.6</span>Análisis de sendas</h2>
+  <p>El análisis de sendas de Wright descompone la correlación de cada variable con una variable dependiente en un efecto directo y efectos indirectos a través de las demás: <i>r</i><sub><i>iy</i></sub> = <i>p</i><sub><i>i</i></sub> + Σ<i>r</i><sub><i>ij</i></sub><i>p</i><sub><i>j</i></sub>. Los efectos directos resuelven <b>p</b> = <b>R</b><sup>−1</sup><b>r</b>. Se elige la variable dependiente, la base (correlaciones genotípicas o fenotípicas) y, si hace falta, una constante de cresta <i>k</i> (Carvalho y Cruz, 1996).</p>
+  <figure>
+    <div class="marco"><img src="../img/b8-sendas.png" alt="El análisis de sendas del peso de grano por mazorca con correlaciones fenotípicas"></div>
+    <figcaption><b>Figura 8.6.</b> Sendas del peso de grano por mazorca (KW) con correlaciones fenotípicas. En negritas, los efectos directos; a la derecha, la correlación total y el factor de inflación de la varianza (VIF).</figcaption>
+  </figure>
+  <p>El resultado se lee casi como una identidad: el peso de grano por mazorca es el número de granos por el peso de cada uno, y NKE y TKW tienen efectos directos de 0.94 y 0.90, con R² = 0.997. Sus correlaciones totales con KW son menores (0.56 y 0.49) porque cada una arrastra un efecto indirecto negativo a través de la otra (−0.41 y −0.42). La altura de planta, en cambio, se correlaciona con KW (0.71) casi solo a través de los granos por mazorca (0.59): su efecto directo es 0.04. El número de condición, 41.1, indica colinealidad débil.</p>
+  <figure>
+    <div class="marco"><img src="../img/b8-sendas-error.png" alt="El aviso cuando las correlaciones genotípicas no admiten un análisis de sendas"></div>
+    <figcaption><b>Figura 8.7.</b> Las mismas sendas con correlaciones genotípicas. R² saldría mayor que 1, y la app muestra el aviso en lugar de la tabla.</figcaption>
+  </figure>
+  <div class="caja importante">
+    <div class="caja-t"><span class="ico">!</span>Importante · cuándo las sendas no tienen sentido</div>
+    <p>Los efectos directos solo significan algo si la matriz de correlaciones es posible, es decir, definida positiva. Con correlaciones genotípicas de pocos genotipos eso falla a menudo, de dos maneras: entre las explicativas hay correlaciones imposibles (fuera de [−1, 1], o incompatibles entre sí), o las correlaciones con la variable dependiente no concuerdan con las que hay entre las explicativas, y R² sale mayor que 1. En el maíz ocurre lo segundo: R² = 1.044. En los dos casos la app no muestra la tabla y dice qué hacer: usar las correlaciones fenotípicas, quitar variables con σ²<sub>G</sub> pequeña o aumentar la constante de cresta. Con colinealidad fuerte (número de condición mayor que 100 o VIF grandes), los efectos directos son inestables aunque la matriz sea válida.</p>
+  </div>
+
+  <!-- ====================================================================== 8.7 -->
+  <h2 id="s8-7"><span class="num">8.7</span>Índices de selección</h2>
+  <p>Un índice de selección combina las variables en un solo valor, <i>I</i> = <b>b</b>′<b>y</b>, para elegir los genotipos que más mejoran el valor genético agregado <i>H</i> = <b>w</b>′<b>g</b>, donde <b>w</b> son los pesos económicos. La tarjeta <span class="ui">3 · Índices de selección</span> empieza con una tabla para definir el objetivo: la dirección de cada variable, su peso económico, si debe quedar sin cambio (índice restringido) y la ganancia deseada. Los pesos por omisión valen ±1/σ<sub>F</sub>: la misma importancia para una desviación estándar fenotípica de cada variable.</p>
+  <p>Todos los índices trabajan en base de medias, con la matriz fenotípica <b>P</b> = PCM<sub>G</sub>/<i>r</i> y la genotípica <b>G</b>. Para cada uno, la tabla da σ<sub><i>I</i></sub>, la respuesta en <i>H</i>, la correlación ρ<sub><i>HI</i></sub> entre el índice y el valor agregado, la heredabilidad del índice, su eficiencia frente a Smith–Hazel y la ganancia esperada en cada variable, Δ<i>G</i> = <i>i</i>·<b>Gb</b>/σ<sub><i>I</i></sub>.</p>
+  <table class="compacta">
+    <caption><b>Tabla 8.3.</b> Los índices del Bloque 8.</caption>
+    <thead><tr><th style="width:24%">Índice</th><th style="width:30%">Coeficientes</th><th>Cuándo usarlo</th></tr></thead>
+    <tbody>
+      <tr><td>Smith–Hazel</td><td><b>b</b> = <b>P</b><sup>−1</sup><b>Gw</b></td><td>El óptimo para <i>H</i> si <b>P</b>, <b>G</b> y <b>w</b> están bien estimados</td></tr>
+      <tr><td>Base (Williams, 1962)</td><td><b>b</b> = <b>w</b></td><td>Cuando <b>G</b> y <b>P</b> son poco confiables</td></tr>
+      <tr><td>Restringido (Kempthorne y Nordskog, 1959)</td><td>Smith–Hazel con Δ<i>G</i> = 0 en las variables marcadas</td><td>Para mejorar sin mover ciertas variables</td></tr>
+      <tr><td>Ganancias proporcionales (Mallard, 1972; Tallis, 1985)</td><td>Smith–Hazel con las ganancias en la proporción pedida</td><td>Cuando importa la proporción entre ganancias, con su θ</td></tr>
+      <tr><td>Ganancias deseadas (Pesek y Baker, 1969)</td><td><b>b</b> = <b>P</b><sup>−1</sup><b>G</b>(<b>G</b>′<b>P</b><sup>−1</sup><b>G</b>)<sup>−1</sup><b>d</b></td><td>Sin pesos económicos: se pide la ganancia de cada variable</td></tr>
+      <tr><td>Propio, ESIM (Cerón-Rojas y colaboradores, 2006)</td><td><b>Gb</b> = λ²<b>Pb</b> con el mayor λ²</td><td>Sin pesos: la combinación más heredable</td></tr>
+    </tbody>
+  </table>
+  <figure>
+    <div class="marco"><img src="../img/b8-indices.png" alt="La tabla de objetivos de selección y la comparación de índices"></div>
+    <figcaption><b>Figura 8.8.</b> El objetivo del ejemplo: bajar la altura de planta y de mazorca y subir el peso de grano, el peso de mil granos y los granos por mazorca, con la altura de planta restringida. Debajo, la comparación de los índices.</figcaption>
+  </figure>
+  <p>En el ejemplo, Smith–Hazel logra ρ<sub><i>HI</i></sub> = 0.778 y el índice base, 0.576 (eficiencia 0.740). Con la altura de planta restringida, el índice pierde casi nada (eficiencia 0.999): la altura apenas cambiaba con Smith–Hazel (+0.006&nbsp;m).</p>
+  <p>Los dos índices suben TKW en 33&nbsp;g y KW en 8 a 9&nbsp;g, pero bajan los granos por mazorca en 19 a 21: por la correlación negativa entre TKW y NKE, el índice prefiere granos más pesados a más granos. El índice propio, que no usa los pesos, busca otra cosa (su precisión respecto a su propio objetivo es λ = 0.923); respecto al objetivo de los pesos, ρ<sub><i>HI</i></sub> = 0.319.</p>
+  <figure class="media">
+    <div class="marco"><img src="../img/b8-fig-indices.png" alt="La ganancia esperada en cada variable con cada índice, en porcentaje de la media"></div>
+    <figcaption><b>Figura 8.9.</b> Ganancia esperada en cada variable, en porcentaje de su media, con cada índice.</figcaption>
+  </figure>
+  <p>Al escribir una ganancia deseada en alguna variable aparecen los índices de ganancias proporcionales y deseadas. Si θ, que mide si el índice de ganancias proporcionales mueve las variables en la dirección pedida, sale negativa o cero, un aviso lo dice (Itoh y Yamada, 1987).</p>
+  <div class="caja teoria">
+    <div class="caja-t"><span class="ico">θ</span>Teoría en breve · G tiene que caber dentro de P</div>
+    <p>La varianza genética de cualquier combinación de variables no puede superar su varianza fenotípica. En la escala en que <b>P</b> es la identidad, los valores propios de <b>G</b> son heredabilidades canónicas y deben estar entre 0 y 1. Con pocos genotipos o con variables casi redundantes salen fuera: en el ejemplo, una vale −5.95. Si no se corrige, Smith–Hazel da precisiones mayores que 1. La app lleva esas heredabilidades al intervalo [0, 1] antes de calcular los índices, la idea de Hayes y Hill (1981), y dice cuántas cambió; si <b>P</b> misma no es definida positiva, antes la dobla con el método de Schaeffer (2014). Una variable con σ²<sub>G</sub> ≤ 0 conserva su información fenotípica, pero su fila y su columna genotípicas valen cero.</p>
+  </div>
+  <p>El recuadro plegado <span class="ui">Coeficientes de cada índice y detalle de Smith–Hazel</span> da los coeficientes <b>b</b> de todos los índices y, para Smith–Hazel, la parte del valor económico que aporta cada variable y lo que se perdería de precisión si se quitara.</p>
+  <figure>
+    <div class="marco"><img src="../img/b8-sh.png" alt="Los coeficientes de cada índice y el detalle del índice de Smith–Hazel"></div>
+    <figcaption><b>Figura 8.10.</b> Coeficientes de los índices y detalle de Smith–Hazel. TKW aporta 89&nbsp;% del valor económico y KW 49&nbsp;%; NKE resta 33&nbsp;%. Quitar cualquiera de las cinco variables cuesta menos de 1&nbsp;% de precisión.</figcaption>
+  </figure>
+  <p>Un coeficiente puede tener signo contrario a su peso: el de KW es negativo aunque se quiera subir el peso de grano, porque TKW y NKE ya llevan esa información y el índice corrige lo que KW añade. Por eso los coeficientes no se interpretan uno por uno; lo que importa son las ganancias esperadas.</p>
+  <div class="caja nota">
+    <div class="caja-t"><span class="ico">✓</span>Comprobado · lo publicado</div>
+    <p>Con las matrices del libro de Cerón-Rojas y Crossa (2018), el índice de Smith–Hazel da <b>b</b> = (0.555, −1.063, 1.087), <i>R</i> = 19.21 y ρ = 0.894; el restringido y el de ganancias proporcionales reproducen sus ejemplos (<i>R</i> = 6.87 y 16.717, θ = 6.213). Los índices del maíz, incluido el propio medido contra el mismo <i>H</i>, coinciden con una reconstrucción independiente, y ninguno de 2000 índices al azar supera la precisión de Smith–Hazel.</p>
+  </div>
+
+  <!-- ====================================================================== 8.8 -->
+  <h2 id="s8-8"><span class="num">8.8</span>Los genotipos seleccionados</h2>
+  <p>La tarjeta <span class="ui">4 · Genotipos seleccionados</span> ordena los genotipos con el índice que se elija en <span class="ui">Ordenar con</span>: cualquiera de los de la tarjeta anterior, la suma de rangos de Mulamba y Mock (1978) o el índice multiplicativo de Elston (1963), que no necesitan <b>P</b> ni <b>G</b>. Se seleccionan tantos como indique la proporción elegida; los testigos no entran en la selección.</p>
+  <figure>
+    <div class="marco"><img src="../img/b8-seleccion.png" alt="El orden de los 13 híbridos con el índice de Smith–Hazel y la ganancia realizada"></div>
+    <figcaption><b>Figura 8.11.</b> Los 13 híbridos ordenados con Smith–Hazel. Con 20&nbsp;%, se seleccionan H1, H7 y H2. Debajo, el diferencial de selección y la ganancia realizada en cada variable.</figcaption>
+  </figure>
+  <p>Los tres híbridos elegidos tienen mazorcas con granos pesados (358&nbsp;g por mil granos contra 318 de la media) y altura promedio. H13, el de mayor peso de grano por mazorca (181.6&nbsp;g), queda séptimo porque es el más alto (2.60&nbsp;m de planta y 1.31&nbsp;m de mazorca): el índice cobra la altura que se quiso bajar. La tabla de debajo da, para cada variable, el diferencial de selección y la ganancia realizada DS·H²: KW sube 7.1&nbsp;g (4.8&nbsp;%) y TKW 28.4&nbsp;g (8.9&nbsp;%), mientras NKE baja 17.0 granos.</p>
+  <p>Estas ganancias son empíricas: el diferencial de los genotipos que de verdad se eligieron, multiplicado por la heredabilidad. No son las predicciones del índice, que suponen una población normal e infinita; con 13 genotipos es normal que difieran.</p>
+
+  <!-- ====================================================================== 8.9 -->
+  <h2 id="s8-9"><span class="num">8.9</span>Métodos de selección recurrente</h2>
+  <p>La tarjeta <span class="ui">5 · Ganancia esperada de los métodos de selección recurrente</span> compara siete métodos de selección recurrente en una población alógama con la fórmula general G<sub>c</sub> = <i>i</i>·<i>c</i>·Cov/σ<sub>F</sub> (Sprague y Eberhart, 1977; Fehr, 1987): la covarianza entre la unidad que se evalúa y la que se recombina, sobre la desviación estándar fenotípica de la unidad de selección, con el control parental <i>c</i> (½ si solo se selecciona un progenitor, 2 si se recombina semilla autofecundada de los seleccionados).</p>
+  <figure>
+    <div class="marco"><img src="../img/b8-fehr.png" alt="Los valores de entrada y la tabla de ganancia por ciclo y por año de siete métodos"></div>
+    <figcaption><b>Figura 8.12.</b> La tarjeta 5 con los valores del ejemplo de Fehr (1987) para rendimiento de maíz y 10&nbsp;% seleccionado. Cada método es una secuencia de estaciones: M en el ambiente de evaluación, A en cualquier estación.</figcaption>
+  </figure>
+  <p>Los valores de entrada son σ²<sub>A</sub>, σ²<sub>D</sub>, sus interacciones con el ambiente, el error de parcela, la varianza fenotípica entre parcelas y la varianza entre plantas dentro de parcela, con las repeticiones, los ambientes, la endogamia de los progenitores de las líneas y las estaciones de recombinación. Si el Bloque 6 estimó σ²<sub>A</sub> y σ²<sub>D</sub>, la tarjeta los toma de ahí; los demás valores iniciales son los del ejemplo de Fehr y conviene cambiarlos por los propios. <span class="ui">Volver a los valores iniciales</span> los restituye.</p>
+  <p>La ganancia por año resulta de acomodar la secuencia de cada método, ciclo tras ciclo, en el calendario: una estación al año, dos estaciones iguales, dos distintas (una en el ambiente de evaluación y otra de contraestación) o tres. Por ciclo ganan más los métodos con autofecundación (16.2 las líneas de progenitores con F = 0.875, 10.8 las S<sub>0:1</sub>), pero necesitan más estaciones; por año, con dos estaciones distintas, gana más la selección de hermanos completos (6.86).</p>
+  <figure class="media">
+    <div class="marco"><img src="../img/b8-fig-fehr.png" alt="La ganancia por año de cada método con dos estaciones distintas"></div>
+    <figcaption><b>Figura 8.13.</b> La ganancia por año de cada método con dos estaciones distintas; en otro color, la mayor. El panel de la figura cambia a la ganancia por ciclo.</figcaption>
+  </figure>
+  <div class="caja nota">
+    <div class="caja-t"><span class="ico">✓</span>Comprobado · lo publicado</div>
+    <p>Con 10&nbsp;% seleccionado, las ganancias por ciclo son 1.97, 2.39, 4.79, 9.58, 6.86, 10.83 y 16.21&nbsp;q/ha; Fehr (1987, cuadro 17-9) publica 2.0, 2.4, 4.8, 9.6, 6.8, 10.8 y 16.2 con <i>k</i> = 1.75 (la app usa 1.7550). Las ganancias por año con una, dos iguales, dos distintas y tres estaciones concuerdan con las del mismo cuadro.</p>
+  </div>
+  <p>Es una predicción. La respuesta real es menor si hay epistasis, efecto Bulmer (la selección reduce la varianza aditiva), deriva en poblaciones pequeñas o interacción con el ambiente que no se estimó.</p>
+
+  <!-- ====================================================================== 8.10 -->
+  <h2 id="s8-10"><span class="num">8.10</span>Descargas y siguiente paso</h2>
+  <p>La tarjeta <span class="ui">6 · Supuestos, fórmulas y referencias</span> resume las fórmulas de cada tarjeta con sus referencias. <span class="ui">Resultados (.xlsx)</span> descarga los parámetros, las matrices de correlaciones y las <b>P</b> y <b>G</b>, los índices, el orden de selección y los métodos de selección recurrente, cada uno en su hoja. Cada figura tiene su panel de descarga.</p>
+  <p><span class="ui">Continuar</span> lleva al Bloque 9 (genotipo × ambiente) si hay varios ambientes, o al 10 (BLUP) si hay uno solo. El botón de regreso vuelve al bloque que analizó el diseño: Hayman–Jinks en los dialelos de Griffing, Apareamiento en las Carolinas, la cruza triple, la línea × probador y los dialelos parciales, y Datos en los ensayos de genotipos.</p>
+</section>
+
+</body>
+</html>

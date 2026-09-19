@@ -1,0 +1,676 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>BreedingPro · Manual de usuario · Preliminares e introducción</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,500;0,600;1,500&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../interior.css">
+<!-- reparte el contenido en hojas tamaño carta, con encabezados, números de página e índice -->
+<script src="../paginar.js"></script>
+<style>
+  .k11 { background: var(--b11); } .k12 { background: var(--b12); }
+  .bloques-12 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.06in 0.22in; }
+  figure.reducida { width: 72%; margin-left: auto; margin-right: auto; }
+</style>
+</head>
+<body>
+
+<!-- ====================================================================== CRÉDITOS -->
+<section class="preliminares creditos" id="creditos">
+  <div class="cred-titulo">BreedingPro</div>
+  <div class="cred-sub">Manual de usuario · Mejoramiento genético de plantas y animales</div>
+
+  <dl>
+    <dt>Autor</dt><dd><b>Luis Ángel Barrera-Guzmán</b><br><span class="small">ORCID 0000-0001-8057-2583 · lbarrerag@chapingo.mx</span></dd>
+    <dt>Programa</dt><dd>BreedingPro, versión 1.0 (septiembre de 2026)</dd>
+    <dt>Manual</dt><dd>Primera edición en español, 2026. Describe la versión 1.0 del programa.</dd>
+    <dt>Licencia del programa</dt><dd>Licencia Pública General de GNU, versión 3 o posterior (GPL-3.0-or-later).</dd>
+    <dt>Derechos del manual</dt><dd>© 2026 Luis Ángel Barrera-Guzmán. Todos los derechos reservados.</dd>
+    <dt>Idioma de la interfaz</dt><dd>Español o inglés, con el botón <span class="ui">ES</span> · <span class="ui">EN</span>. En este manual los nombres de botones y menús se escriben como aparecen en la interfaz en español, por ejemplo <span class="ui">Armar el informe</span>.</dd>
+  </dl>
+
+  <h4>Cómo citar el programa</h4>
+  <div class="cita">Barrera-Guzmán, L. Á. (2026). <i>BreedingPro: plataforma en el navegador para el análisis de cruzas dialélicas, diseños de apareamiento, parámetros genéticos y predicción en el mejoramiento de plantas y animales</i> (versión 1.0) [Programa de cómputo].</div>
+  <h4>Cómo citar este manual</h4>
+  <div class="cita">Barrera-Guzmán, L. Á. (2026). <i>BreedingPro. Manual de usuario</i> (1.ª ed.). Distribuido con BreedingPro, versión 1.0.</div>
+  <p class="small">El identificador de objeto digital (DOI) se añadirá a ambas citas cuando la versión 1.0 se archive. Mientras tanto, la cita del programa aparece al final de cada informe del Bloque 12 y en la sección <span class="ui">Cómo citar</span> de la portada de la app.</p>
+
+  <div class="caja nota">
+    <div class="caja-t"><span class="ico">i</span>Privacidad</div>
+    <p>BreedingPro funciona por completo dentro de tu navegador. Los archivos que abres se leen en tu computadora y <b>nunca se envían a ningún servidor</b>. Puedes analizar ensayos inéditos, datos de tesis en curso o materiales protegidos por convenios sin riesgo de que salgan de tu equipo.</p>
+  </div>
+
+  <p class="small" style="margin-top:0.4in;color:#625d6c">Las ilustraciones, diagramas y capturas de pantalla de este manual son originales y se generaron con el propio programa o con código escrito para el manual. Los conjuntos de datos de ejemplo se describen en la sección I.7, cada uno con su fuente; los simulados se generaron con semillas fijas y se conocen sus valores verdaderos.</p>
+</section>
+
+<!-- ====================================================================== ÍNDICE -->
+<section class="preliminares indice" id="indice" data-nueva-hoja>
+  <h1>Índice</h1>
+  <div class="indice-sub">Contenido general del manual</div>
+
+  <ol class="toc">
+    <li>
+      <div class="toc-cap"><span class="chip k0">P</span><a href="#como-leer">Cómo leer este manual</a><a class="pag" href="#como-leer"></a></div>
+    </li>
+    <li>
+      <div class="toc-cap"><span class="chip k0">In</span><a href="#cap-intro">Introducción a BreedingPro</a><a class="pag" href="#cap-intro"></a></div>
+      <ul>
+        <li><span class="n">I.1</span><a href="#si-1"><span class="t">¿Qué es BreedingPro?</span></a></li>
+        <li><span class="n">I.2</span><a href="#si-2"><span class="t">Preguntas que responde</span></a></li>
+        <li><span class="n">I.3</span><a href="#si-3"><span class="t">Cinco ideas clave del mejoramiento</span></a></li>
+        <li><span class="n">I.4</span><a href="#si-4"><span class="t">Datos que acepta</span></a></li>
+        <li><span class="n">I.5</span><a href="#si-5"><span class="t">Qué necesitas y cómo abrirlo</span></a></li>
+        <li><span class="n">I.6</span><a href="#si-6"><span class="t">Recorrido por la interfaz</span></a></li>
+        <li><span class="n">I.7</span><a href="#si-7"><span class="t">Los ejemplos incluidos</span></a></li>
+        <li><span class="n">I.8</span><a href="#si-8"><span class="t">Flujo de trabajo recomendado</span></a></li>
+        <li><span class="n">I.9</span><a href="#si-9"><span class="t">Valores P, errores estándar e intervalos</span></a></li>
+      </ul>
+    </li>
+    <li><div class="toc-cap"><span class="chip k1">B1</span><a href="#cap-b1">Inicio, laboratorios y teoría</a><a class="pag" href="#cap-b1"></a></div></li>
+    <li><div class="toc-cap"><span class="chip k2">B2</span><a href="#cap-b2">Planear cruzas, ensayo y potencia</a><a class="pag" href="#cap-b2"></a></div></li>
+    <li><div class="toc-cap"><span class="chip k3">B3</span><a href="#cap-b3">Datos, diseño reconocido y análisis de campo</a><a class="pag" href="#cap-b3"></a></div></li>
+    <li><div class="toc-cap"><span class="chip k4">B4</span><a href="#cap-b4">Dialelos de Griffing</a><a class="pag" href="#cap-b4"></a></div></li>
+    <li><div class="toc-cap"><span class="chip k5">B5</span><a href="#cap-b5">Hayman–Jinks y Gardner–Eberhart</a><a class="pag" href="#cap-b5"></a></div></li>
+    <li><div class="toc-cap"><span class="chip k6">B6</span><a href="#cap-b6">Diseños de apareamiento</a><a class="pag" href="#cap-b6"></a></div></li>
+    <li><div class="toc-cap"><span class="chip k7">B7</span><a href="#cap-b7">Generaciones y heterosis</a><a class="pag" href="#cap-b7"></a></div></li>
+    <li><div class="toc-cap"><span class="chip k8">B8</span><a href="#cap-b8">Parámetros genéticos y selección</a><a class="pag" href="#cap-b8"></a></div></li>
+    <li><div class="toc-cap"><span class="chip k9">B9</span><a href="#cap-b9">Interacción genotipo × ambiente</a><a class="pag" href="#cap-b9"></a></div></li>
+    <li><div class="toc-cap"><span class="chip k10">B10</span><a href="#cap-b10">Modelos mixtos, BLUP y cruzamiento</a><a class="pag" href="#cap-b10"></a></div></li>
+    <li><div class="toc-cap"><span class="chip k11">B11</span><a href="#cap-b11">Selección genómica y predicción de híbridos</a><a class="pag" href="#cap-b11"></a></div></li>
+    <li><div class="toc-cap"><span class="chip k12">B12</span><a href="#cap-b12">Informe, figuras y paquete de resultados</a><a class="pag" href="#cap-b12"></a></div></li>
+    <li><div class="toc-cap"><span class="chip kx">A</span><a href="#apendices">Apéndices</a><a class="pag" href="#apendices"></a></div></li>
+  </ol>
+</section>
+
+<!-- ====================================================================== CÓMO LEER ESTE MANUAL -->
+<section class="preliminares" id="como-leer" data-nueva-hoja style="--acento: var(--b0)">
+  <h2 style="margin-top:0.2in">Cómo leer este manual</h2>
+  <p class="lead">El manual sigue el mismo orden que la app: doce bloques numerados que se recorren de izquierda a derecha en la barra superior. Cada capítulo explica un bloque y lleva su mismo número: el capítulo 3 es el Bloque 3, y sus secciones, figuras y tablas se numeran 3.1, 3.2… Empieza con la teoría indispensable, describe lo que calcula y cómo leerlo, y termina con ejemplos paso a paso con los datos que ya vienen dentro del programa. La introducción va antes de los bloques y se numera aparte: I.1, I.2…</p>
+
+  <h3>Un color para cada bloque</h3>
+  <p>El color del bloque aparece en la apertura de su capítulo, en los números de sección, en la pestaña del borde de la hoja y en el índice, y es el mismo de la franja de la portada. Así sabes de un vistazo en qué parte de la app estás.</p>
+  <table class="compacta">
+    <thead><tr><th style="width:0.6in">Bloque</th><th style="width:1.35in">Nombre en la app</th><th>Qué hace</th></tr></thead>
+    <tbody>
+      <tr><td><span class="chip k1">1</span></td><td><span class="ui">Inicio</span></td><td>Portada, dos laboratorios con genética simulada, teoría en lenguaje claro, referencias y cómo citar</td></tr>
+      <tr><td><span class="chip k2">2</span></td><td><span class="ui">Planear</span></td><td>Plan de cruzas, semilla y polinizaciones, croquis del ensayo, libreta de campo y potencia antes de sembrar</td></tr>
+      <tr><td><span class="chip k3">3</span></td><td><span class="ui">Datos</span></td><td>Carga de archivos, papel de cada columna, diseño reconocido, calidad de los datos y análisis de campo</td></tr>
+      <tr><td><span class="chip k4">4</span></td><td><span class="ui">Griffing</span></td><td>Aptitud combinatoria general y específica con los cuatro métodos de Griffing</td></tr>
+      <tr><td><span class="chip k5">5</span></td><td><span class="ui">Hayman–Jinks</span></td><td>Partición de Hayman, componentes genéticos, gráfico Wr–Vr, Gardner–Eberhart y heterosis</td></tr>
+      <tr><td><span class="chip k6">6</span></td><td><span class="ui">Apareamiento</span></td><td>Carolina del Norte I, II y III, cruza triple de prueba, línea × probador y dialelos parciales</td></tr>
+      <tr><td><span class="chip k7">7</span></td><td><span class="ui">Generaciones</span></td><td>Pruebas de escala, modelos de medias generacionales, varianzas, heterosis y factores efectivos</td></tr>
+      <tr><td><span class="chip k8">8</span></td><td><span class="ui">Selección</span></td><td>Heredabilidad, correlaciones y sendas, índices de selección y ganancia de la selección recurrente</td></tr>
+      <tr><td><span class="chip k9">9</span></td><td><span class="ui">G×A</span></td><td>Interacción genotipo × ambiente: regresiones, estadísticas de estabilidad, AMMI y biplot GGE</td></tr>
+      <tr><td><span class="chip k10">10</span></td><td><span class="ui">BLUP</span></td><td>Pedigrí, modelo animal y de padres, valores genéticos, REML y parámetros de cruzamiento de razas</td></tr>
+      <tr><td><span class="chip k11">11</span></td><td><span class="ui">Genómica</span></td><td>Marcadores, parentesco genómico, GBLUP, validación cruzada y predicción de híbridos</td></tr>
+      <tr><td><span class="chip k12">12</span></td><td><span class="ui">Informe</span></td><td>Informe con métodos redactados y referencias, PDF, HTML y paquete ZIP de resultados</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Tipos de recuadros</h3>
+  <div class="dos">
+    <div class="caja nota" style="margin:0"><div class="caja-t"><span class="ico">i</span>Nota</div><p>Aclaraciones y consejos prácticos que ahorran tiempo.</p></div>
+    <div class="caja importante" style="margin:0"><div class="caja-t"><span class="ico">!</span>Importante</div><p>Lo que puede cambiar tus conclusiones si se pasa por alto.</p></div>
+    <div class="caja teoria" style="margin:0"><div class="caja-t"><span class="ico">θ</span>Teoría en breve</div><p>La idea detrás de un análisis, sin fórmulas innecesarias.</p></div>
+    <div class="caja ejemplo" style="margin:0"><div class="caja-t"><span class="ico">▸</span>Ejemplo</div><p>Un caso con los datos incluidos en el programa, paso a paso.</p></div>
+  </div>
+  <div class="caja regla" style="margin-top:0.18in">
+    <div class="caja-t"><span class="ico">✓</span>Regla de decisión</div>
+    <table class="compacta"><tbody>
+      <tr><td style="width:40%"><b>Si</b> el resultado cae en este caso…</td><td><b>entonces</b> esta es la lectura recomendada.</td></tr>
+    </tbody></table>
+    <p class="regla-pie">Son guías para interpretar, no leyes: el conocimiento de tu especie y de tu programa siempre manda.</p>
+  </div>
+  <div class="caja dato">
+    <div class="dato-cifra">900 ppp</div>
+    <div class="dato-txt"><div class="caja-t">Dato clave</div>Una cifra o un hecho que conviene recordar; por ejemplo, la resolución máxima a la que se exportan las figuras.</div>
+  </div>
+
+  <h3>Convenciones de escritura</h3>
+  <table class="compacta">
+    <thead><tr><th style="width:38%">Así se escribe</th><th>Significa</th></tr></thead>
+    <tbody>
+      <tr><td><span class="ui">Ajustar el modelo</span></td><td>Un botón, casilla o menú de la app, con su texto tal como aparece en pantalla en español.</td></tr>
+      <tr><td><span class="ruta">Editar figura<span class="sep">›</span>Estilo y tipografía</span></td><td>Una ruta: abre el primer elemento y luego el segundo.</td></tr>
+      <tr><td><code>Rendimiento</code>, <code>.xlsx</code></td><td>Un nombre de columna, archivo o valor que se escribe tal cual.</td></tr>
+      <tr><td>σ²<sub>A</sub>, h², ĝ<sub>i</sub>, ŝ<sub>ij</sub></td><td>Parámetros y estimadores; su significado se explica la primera vez que aparecen y se reúne en el glosario.</td></tr>
+      <tr><td>ACG, ACE · GCA, SCA</td><td>Siglas en español; entre paréntesis, cuando ayuda, la sigla inglesa de la literatura.</td></tr>
+      <tr><td><span class="si">●</span> <span class="parcial">◐</span> <span class="no">—</span></td><td>Disponible · disponible en parte o con condiciones · no aplica.</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ====================================================================== INTRODUCCIÓN -->
+<section class="capitulo" id="cap-intro" data-pestana="In" data-orden="1" style="--acento: var(--b0)">
+  <div class="cap-apertura">
+    <div class="cap-num">In</div>
+    <div class="cap-etiqueta">Introducción · Antes de los bloques</div>
+    <h1>Introducción a BreedingPro</h1>
+    <div class="cap-regla"></div>
+    <p class="cap-resumen">Qué es el programa, qué preguntas de un programa de mejoramiento responde, qué datos acepta y cómo se recorre de principio a fin. Incluye las cinco ideas de genética cuantitativa que sostienen el resto del manual.</p>
+    <div class="cap-franja"><span class="k1"></span><span class="k2"></span><span class="k3"></span><span class="k4"></span><span class="k5"></span><span class="k6"></span><span class="k7"></span><span class="k8"></span><span class="k9"></span><span class="k10"></span><span class="k11"></span><span class="k12"></span></div>
+    <ul class="cap-contenido">
+      <li><b>I.1</b>¿Qué es BreedingPro?</li>
+      <li><b>I.2</b>Preguntas que responde</li>
+      <li><b>I.3</b>Cinco ideas clave del mejoramiento</li>
+      <li><b>I.4</b>Datos que acepta</li>
+      <li><b>I.5</b>Qué necesitas y cómo abrirlo</li>
+      <li><b>I.6</b>Recorrido por la interfaz</li>
+      <li><b>I.7</b>Los ejemplos incluidos</li>
+      <li><b>I.8</b>Flujo de trabajo recomendado</li>
+      <li><b>I.9</b>Valores P, errores estándar e intervalos</li>
+    </ul>
+  </div>
+
+  <!-- 1.1 -->
+  <h2 id="si-1"><span class="num">I.1</span>¿Qué es BreedingPro?</h2>
+  <p class="lead">BreedingPro es una plataforma para analizar los experimentos de un programa de mejoramiento genético <b>de la cruza a la decisión</b>: ayuda a planear las cruzas y el ensayo, reconoce el diseño de la tabla que sale del campo, estima la aptitud combinatoria, la acción génica, la heredabilidad y la estabilidad, predice valores genéticos con pedigrí o con marcadores, y entrega un informe con figuras, métodos redactados y referencias.</p>
+  <p>Todo ocurre dentro del navegador de internet. No hay que instalar nada, no se necesita saber programar y los datos no salen de la computadora. El mismo flujo sirve para plantas y para animales: dialelos y diseños de apareamiento de fitomejoramiento, y modelo animal y cruzamiento de razas de zootecnia.</p>
+
+  <figure>
+    <svg viewBox="0 0 700 290" xmlns="http://www.w3.org/2000/svg" font-family="Jost, sans-serif" role="img" aria-label="El ciclo de mejoramiento recorrido por los bloques de BreedingPro">
+      <defs>
+        <marker id="fl" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#625d6c"/></marker>
+        <marker id="flm" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#5e2e8c"/></marker>
+      </defs>
+      <!-- the loop of a breeding cycle -->
+      <path d="M612 150 C 660 150 672 40 560 34 L 150 34 C 40 38 40 150 86 150" fill="none" stroke="#5e2e8c" stroke-width="2" stroke-dasharray="6 4" marker-end="url(#flm)"/>
+      <text x="350" y="26" text-anchor="middle" font-size="11" fill="#5e2e8c" font-weight="500">los mejores progenitores y cruzas inician el siguiente ciclo</text>
+      <!-- stations -->
+      <g font-size="10.5" text-anchor="middle">
+        <rect x="18" y="120" width="120" height="62" rx="9" fill="#e7f3ec" stroke="#2e8556"/>
+        <text x="78" y="143" font-weight="600" fill="#1f5e3c" font-size="12">Planear</text>
+        <text x="78" y="160" fill="#2e4d3d">cruzas, croquis</text><text x="78" y="173" fill="#2e4d3d">y potencia</text>
+        <rect x="160" y="120" width="112" height="62" rx="9" fill="#e3f1ef" stroke="#0f766e"/>
+        <text x="216" y="143" font-weight="600" fill="#0b4f4a" font-size="12">Datos</text>
+        <text x="216" y="160" fill="#244d4a">diseño reconocido</text><text x="216" y="173" fill="#244d4a">y análisis de campo</text>
+        <rect x="294" y="84" width="120" height="136" rx="9" fill="#faeee6" stroke="#c2410c"/>
+        <text x="354" y="106" font-weight="600" fill="#8a2f08" font-size="12">Genética</text>
+        <text x="354" y="124" fill="#5a3a2a">aptitud combinatoria</text><text x="354" y="138" fill="#5a3a2a">acción génica</text><text x="354" y="152" fill="#5a3a2a">heterosis</text><text x="354" y="166" fill="#5a3a2a">componentes σ²A, σ²D</text>
+        <rect x="436" y="84" width="112" height="62" rx="9" fill="#e8f1f9" stroke="#1d74b5"/>
+        <text x="492" y="106" font-weight="600" fill="#14507d" font-size="12">Seleccionar</text>
+        <text x="492" y="122" fill="#2c4a63">heredabilidad, índices</text><text x="492" y="136" fill="#2c4a63">y estabilidad G×A</text>
+        <rect x="436" y="158" width="112" height="62" rx="9" fill="#f3ece5" stroke="#8a5a2b"/>
+        <text x="492" y="180" font-weight="600" fill="#5c3b1b" font-size="12">Predecir</text>
+        <text x="492" y="196" fill="#5a4535">BLUP con pedigrí</text><text x="492" y="210" fill="#5a4535">o marcadores</text>
+        <rect x="570" y="120" width="112" height="62" rx="9" fill="#eceef2" stroke="#334155"/>
+        <text x="626" y="143" font-weight="600" fill="#1e2a3a" font-size="12">Publicar</text>
+        <text x="626" y="160" fill="#3a4556">informe, figuras</text><text x="626" y="173" fill="#3a4556">y paquete ZIP</text>
+      </g>
+      <g fill="none" stroke="#625d6c" stroke-width="1.5">
+        <path d="M138 151 L 157 151" marker-end="url(#fl)"/><path d="M272 151 L 291 151" marker-end="url(#fl)"/>
+        <path d="M414 118 L 433 116" marker-end="url(#fl)"/><path d="M414 184 L 433 188" marker-end="url(#fl)"/>
+        <path d="M548 116 L 567 138" marker-end="url(#fl)"/><path d="M548 188 L 567 166" marker-end="url(#fl)"/>
+      </g>
+      <!-- the blocks under every station -->
+      <g font-size="9" font-weight="600" fill="#fff" text-anchor="middle">
+        <rect x="64" y="190" width="28" height="15" rx="3" fill="#2e8556"/><text x="78" y="201">B2</text>
+        <rect x="202" y="190" width="28" height="15" rx="3" fill="#0f766e"/><text x="216" y="201">B3</text>
+        <rect x="294" y="228" width="28" height="15" rx="3" fill="#c2410c"/><text x="308" y="239">B4</text>
+        <rect x="325" y="228" width="28" height="15" rx="3" fill="#b7791f"/><text x="339" y="239">B5</text>
+        <rect x="356" y="228" width="28" height="15" rx="3" fill="#b4234a"/><text x="370" y="239">B6</text>
+        <rect x="387" y="228" width="28" height="15" rx="3" fill="#7e3fb0"/><text x="401" y="239">B7</text>
+        <rect x="554" y="84" width="28" height="15" rx="3" fill="#1d74b5"/><text x="568" y="95">B8</text>
+        <rect x="554" y="102" width="28" height="15" rx="3" fill="#4d7c0f"/><text x="568" y="113">B9</text>
+        <rect x="444" y="228" width="30" height="15" rx="3" fill="#8a5a2b"/><text x="459" y="239">B10</text>
+        <rect x="478" y="228" width="30" height="15" rx="3" fill="#0e7490"/><text x="493" y="239">B11</text>
+        <rect x="611" y="190" width="30" height="15" rx="3" fill="#334155"/><text x="626" y="201">B12</text>
+      </g>
+      <g font-size="10.5" fill="#625d6c" text-anchor="middle">
+        <rect x="236" y="256" width="228" height="26" rx="13" fill="#f1ebf6" stroke="#5e2e8c"/>
+        <text x="350" y="273"><tspan font-weight="600" fill="#5e2e8c">B1 Inicio</tspan>: laboratorios, teoría y referencias</text>
+      </g>
+    </svg>
+    <figcaption><b>Figura I.1.</b> Un ciclo de mejoramiento recorrido por los bloques de BreedingPro. Los bloques de genética (4 a 7) se eligen según el diseño de apareamiento; los de selección (8 y 9) y predicción (10 y 11) según la pregunta. El Bloque 1 acompaña todo el recorrido con laboratorios y teoría, y el Bloque 12 reúne los resultados de todos.</figcaption>
+  </figure>
+
+  <h3>Qué hace, en una tabla</h3>
+  <table class="compacta">
+    <caption><b>Tabla I.1.</b> Los doce bloques y lo que calcula cada uno.</caption>
+    <thead><tr><th style="width:0.5in">Bloque</th><th>Calcula o entrega</th></tr></thead>
+    <tbody>
+      <tr><td><span class="chip k1">1</span></td><td>Laboratorio de dialelos (progenitores con genes concretos, parcelas con error y análisis de Griffing y Hayman) y laboratorio de selección (respuesta observada contra R = h²S); teoría y 63 referencias.</td></tr>
+      <tr><td><span class="chip k2">2</span></td><td>Plan de cruzas para 11 diseños, plantas por progenitor, semilla y polinizaciones, calendario de ciclos; croquis aleatorizado en bloques completos, látice α, completamente al azar o bloques aumentados; libreta de campo; errores estándar, diferencias detectables y potencia de las pruebas F.</td></tr>
+      <tr><td><span class="chip k3">3</span></td><td>Lectura de hojas de cálculo y texto, papel de cada columna, reconocimiento del diseño de apareamiento y del de campo, calidad y valores atípicos, análisis de varianza o REML por ambiente y combinado, medias ajustadas y heredabilidad del ensayo.</td></tr>
+      <tr><td><span class="chip k4">4</span></td><td>Métodos 1 a 4 de Griffing, modelos I y II, ACG, ACE y efectos recíprocos (maternos y no maternos) con errores estándar exactos, σ²A, σ²D, razón de Baker, mejores progenitores y cruzas, varios ambientes.</td></tr>
+      <tr><td><span class="chip k5">5</span></td><td>Partición de Hayman (a, b₁, b₂, b₃, c, d) o de Morley Jones, componentes D, H₁, H₂, F, h² y E, gráfico Wr–Vr y orden de dominancia, análisis II y III de Gardner–Eberhart, heterosis de cada cruza e identidades entre metodologías.</td></tr>
+      <tr><td><span class="chip k6">6</span></td><td>Carolina del Norte I, II y III, cruza triple de prueba, línea × probador y dialelos parciales, con cuadrados medios esperados calculados para el diseño real, efectos, componentes y epistasis.</td></tr>
+      <tr><td><span class="chip k7">7</span></td><td>Pruebas de escala A, B, C y D, prueba conjunta de escala y modelos de medias con epistasis, componentes D, H, F y E de las varianzas, heterosis, depresión endogámica y número de factores efectivos.</td></tr>
+      <tr><td><span class="chip k8">8</span></td><td>Varianzas, heredabilidad con intervalo exacto, coeficientes de variación y ganancia esperada; correlaciones genéticas y análisis de sendas; ocho índices de selección; ganancia por ciclo y por año de siete métodos de selección recurrente.</td></tr>
+      <tr><td><span class="chip k9">9</span></td><td>Regresión sobre el índice ambiental, ecovalencia, varianza de estabilidad, superioridad, confiabilidad, rangos, rendimiento–estabilidad, AMMI con WAAS, biplot GGE en siete vistas y varianza de la interacción por REML.</td></tr>
+      <tr><td><span class="chip k10">10</span></td><td>Pedigrí con autofecundación, consanguinidad y parentesco; modelo animal o de padres con ambiente permanente y efecto materno; valores genéticos con su confiabilidad; BLUP de los genotipos del ensayo; parámetros de cruzamiento de razas de Dickerson.</td></tr>
+      <tr><td><span class="chip k11">11</span></td><td>Control de calidad de marcadores, matriz de parentesco genómico, estructura, GBLUP y efectos de marcadores, validación cruzada, respuesta por año y predicción de cruzas simples no evaluadas, triples y dobles.</td></tr>
+      <tr><td><span class="chip k12">12</span></td><td>Informe con los resultados de cada bloque, métodos redactados con los ajustes usados y referencias; PDF, HTML y paquete ZIP con tablas, libros de resultados, figuras hasta 900 ppp y datos.</td></tr>
+    </tbody>
+  </table>
+
+  <h3>¿Para quién es?</h3>
+  <p>Para <b>fitomejoradores y zootecnistas</b> que necesitan analizar sus ensayos con los métodos clásicos y modernos sin depender de un programa distinto para cada diseño; para <b>estudiantes de posgrado</b> que preparan una tesis y quieren entender lo que calculan; y para <b>docentes</b> de genética cuantitativa, que encuentran en los laboratorios del Bloque 1 y en los ejemplos simulados, con sus valores verdaderos conocidos, un apoyo para la clase.</p>
+
+  <!-- 1.2 -->
+  <h2 id="si-2"><span class="num">I.2</span>Preguntas que responde</h2>
+  <p>Un programa de mejoramiento se hace preguntas concretas. La tabla I.2 muestra cuáles resuelve BreedingPro y en qué bloque.</p>
+  <table>
+    <caption><b>Tabla I.2.</b> Preguntas frecuentes de un programa de mejoramiento y dónde se responden.</caption>
+    <thead><tr><th>Pregunta</th><th style="width:0.7in">Bloque</th><th style="width:2.3in">Lo que entrega</th></tr></thead>
+    <tbody>
+      <tr><td>¿Cuántas cruzas, plantas, repeticiones y localidades necesito para detectar las diferencias que me interesan?</td><td><span class="chip k2">2</span></td><td>Plan de cruzas, semilla, croquis y potencia</td></tr>
+      <tr><td>¿Mis datos tienen errores? ¿Qué diseño tiene la tabla?</td><td><span class="chip k3">3</span></td><td>Diseño reconocido, calidad y atípicos</td></tr>
+      <tr><td>¿Qué progenitores combinan mejor? ¿Cuál es la mejor cruza?</td><td><span class="chip k4">4</span> <span class="chip k6">6</span></td><td>ACG, ACE y su significancia</td></tr>
+      <tr><td>¿La herencia es aditiva o dominante? ¿Hay epistasis o efectos maternos?</td><td><span class="chip k5">5</span> <span class="chip k6">6</span> <span class="chip k7">7</span></td><td>Componentes, grado de dominancia y pruebas de escala</td></tr>
+      <tr><td>¿Cuánta heterosis hay y de dónde viene?</td><td><span class="chip k5">5</span> <span class="chip k7">7</span></td><td>Heterosis media, de variedad y específica</td></tr>
+      <tr><td>¿Cuánto avanzaré si selecciono? ¿Con qué método y qué índice?</td><td><span class="chip k8">8</span></td><td>Heredabilidad, ganancia e índices</td></tr>
+      <tr><td>¿Qué variedad es estable y cuál gana en cada ambiente?</td><td><span class="chip k9">9</span></td><td>Estabilidad, AMMI y GGE</td></tr>
+      <tr><td>¿Qué animal o línea tiene mejor valor genético, aun sin registros propios?</td><td><span class="chip k10">10</span> <span class="chip k11">11</span></td><td>BLUP con pedigrí o con marcadores</td></tr>
+      <tr><td>¿Qué cruza de razas o sistema de cruzamiento conviene?</td><td><span class="chip k10">10</span></td><td>Parámetros de Dickerson y predicciones</td></tr>
+      <tr><td>¿Qué híbridos no evaluados serán los mejores?</td><td><span class="chip k11">11</span></td><td>Predicción de cruzas simples, triples y dobles</td></tr>
+      <tr><td>¿Cómo lo escribo en la tesis o el artículo?</td><td><span class="chip k12">12</span></td><td>Informe con métodos y referencias</td></tr>
+    </tbody>
+  </table>
+
+  <!-- 1.3 -->
+  <h2 id="si-3"><span class="num">I.3</span>Cinco ideas clave del mejoramiento</h2>
+  <p>Todo lo que calcula BreedingPro descansa en cinco ideas de la genética cuantitativa. Vale la pena tenerlas presentes; cada capítulo las retoma con más detalle.</p>
+
+  <figure>
+    <svg viewBox="0 0 700 352" xmlns="http://www.w3.org/2000/svg" font-family="Jost, sans-serif" role="img" aria-label="Cinco ideas clave: partición de la varianza, valores genotípicos aditivo y de dominancia, aptitud combinatoria, respuesta a la selección y parentesco">
+      <g font-size="10" fill="#221f28">
+        <!-- 1 · P = G + E -->
+        <g transform="translate(10 10)">
+          <text x="0" y="12" font-weight="600" font-size="11.5" fill="#5e2e8c">1 · Fenotipo = genotipo + ambiente</text>
+          <rect x="0" y="30" width="200" height="26" fill="#ece6f3"/>
+          <rect x="0" y="30" width="86" height="26" fill="#5e2e8c"/><text x="43" y="47" text-anchor="middle" fill="#fff" font-weight="600">σ²G</text>
+          <rect x="86" y="30" width="36" height="26" fill="#b7791f"/><text x="104" y="47" text-anchor="middle" fill="#fff" font-weight="600">σ²GA</text>
+          <rect x="122" y="30" width="78" height="26" fill="#9e97aa"/><text x="161" y="47" text-anchor="middle" fill="#fff" font-weight="600">σ²e</text>
+          <text x="0" y="74" fill="#625d6c">σ²F = σ²G + σ²GA + σ²e</text>
+          <text x="0" y="90" fill="#625d6c">H² = σ²G / σ²F  (en medias: σ²e/r)</text>
+          <rect x="0" y="100" width="86" height="10" fill="#5e2e8c" opacity="0.35"/><text x="92" y="109" fill="#625d6c" font-size="9">σ²G = σ²A + σ²D (+ epistasis)</text>
+        </g>
+        <!-- 2 · additive and dominance -->
+        <g transform="translate(250 10)">
+          <text x="0" y="12" font-weight="600" font-size="11.5" fill="#5e2e8c">2 · Aditivo y dominancia</text>
+          <path d="M10 70 L 200 70" stroke="#625d6c" stroke-width="1.2"/>
+          <circle cx="20" cy="70" r="6" fill="#e3a41c"/><text x="20" y="92" text-anchor="middle">aa</text><text x="20" y="104" text-anchor="middle" fill="#625d6c">−a</text>
+          <circle cx="190" cy="70" r="6" fill="#5e2e8c"/><text x="190" y="92" text-anchor="middle">AA</text><text x="190" y="104" text-anchor="middle" fill="#625d6c">+a</text>
+          <path d="M105 60 L 105 80" stroke="#625d6c" stroke-dasharray="2 2"/><text x="105" y="104" text-anchor="middle" fill="#625d6c">m</text>
+          <circle cx="150" cy="70" r="6" fill="#b4234a"/><text x="150" y="92" text-anchor="middle">Aa</text>
+          <path d="M105 44 L 146 44" stroke="#b4234a" stroke-width="1.4"/><path d="M146 40 l6 4 l-6 4 Z" fill="#b4234a"/><text x="126" y="38" text-anchor="middle" fill="#b4234a">d</text>
+          <text x="0" y="122" fill="#625d6c">Los hijos heredan genes, no genotipos:</text>
+          <text x="0" y="136" fill="#625d6c">la selección aprovecha σ²A; los híbridos, también σ²D.</text>
+        </g>
+        <!-- 3 · combining ability -->
+        <g transform="translate(490 10)">
+          <text x="0" y="12" font-weight="600" font-size="11.5" fill="#5e2e8c">3 · Aptitud combinatoria</text>
+          <g transform="translate(6 24)">
+            <rect x="0" y="0" width="22" height="22" fill="#ece6f3" stroke="#fff"/><rect x="22" y="0" width="22" height="22" fill="#b89bd6" stroke="#fff"/><rect x="44" y="0" width="22" height="22" fill="#e3a41c" stroke="#fff"/><rect x="66" y="0" width="22" height="22" fill="#5e2e8c" stroke="#fff"/>
+            <rect x="22" y="22" width="22" height="22" fill="#ece6f3" stroke="#fff"/><rect x="44" y="22" width="22" height="22" fill="#7e3fb0" stroke="#fff"/><rect x="66" y="22" width="22" height="22" fill="#b89bd6" stroke="#fff"/>
+            <rect x="44" y="44" width="22" height="22" fill="#ece6f3" stroke="#fff"/><rect x="66" y="44" width="22" height="22" fill="#5e2e8c" stroke="#fff"/>
+            <rect x="66" y="66" width="22" height="22" fill="#ece6f3" stroke="#fff"/>
+            <path d="M88 0 l3 3" stroke="#e3a41c"/>
+          </g>
+          <text x="104" y="40" fill="#625d6c">ŷᵢⱼ = μ + ĝᵢ + ĝⱼ + ŝᵢⱼ</text>
+          <text x="104" y="60" fill="#625d6c">ACG (ĝ): valor medio</text>
+          <text x="104" y="73" fill="#625d6c">de un progenitor en</text>
+          <text x="104" y="86" fill="#625d6c">sus cruzas.</text>
+          <text x="104" y="104" fill="#625d6c">ACE (ŝ): lo propio</text>
+          <text x="104" y="117" fill="#625d6c">de una cruza.</text>
+        </g>
+        <!-- 4 · response to selection: normal curves drawn to scale (threshold 1.43 SD, h² = ½) -->
+        <g transform="translate(40 180)">
+          <text x="0" y="12" font-weight="600" font-size="11.5" fill="#5e2e8c">4 · Respuesta a la selección</text>
+          <path d="M0 120 L 228 120" stroke="#625d6c"/>
+          <path d="M150 120 L 150.0 92.6 L 152.0 95.3 L 154.0 97.9 L 156.0 100.3 L 158.0 102.5 L 160.0 104.6 L 162.0 106.5 L 164.0 108.2 L 166.0 109.7 L 168.0 111.1 L 170.0 112.3 L 172.0 113.5 L 174.0 114.4 L 176.0 115.3 L 178.0 116.0 L 180.0 116.7 L 182.0 117.2 L 184.0 117.7 L 186.0 118.1 L 188.0 118.4 L 190.0 118.7 L 192.0 119.0 L 194.0 119.2 L 196.0 119.3 L 198.0 119.5 L 200.0 119.6 L 202.0 119.7 L 204.0 119.7 L 206.0 119.8 L 208.0 119.8 L 210.0 119.9 L 212.0 119.9 L 214.0 119.9 L 216.0 119.9 L 218.0 120.0 L 220.0 120.0 L 222.0 120.0 L 224.0 120.0 L 226.0 120.0 L 228.0 120.0 L 228 120 Z" fill="#5e2e8c" opacity="0.45"/>
+          <path d="M0.0 120.0 L 4.0 119.9 L 8.0 119.9 L 12.0 119.8 L 16.0 119.7 L 20.0 119.6 L 24.0 119.3 L 28.0 119.0 L 32.0 118.4 L 36.0 117.7 L 40.0 116.7 L 44.0 115.3 L 48.0 113.5 L 52.0 111.1 L 56.0 108.2 L 60.0 104.6 L 64.0 100.3 L 68.0 95.3 L 72.0 89.7 L 76.0 83.6 L 80.0 77.2 L 84.0 70.6 L 88.0 64.2 L 92.0 58.2 L 96.0 52.9 L 100.0 48.7 L 104.0 45.7 L 108.0 44.2 L 112.0 44.2 L 116.0 45.7 L 120.0 48.7 L 124.0 52.9 L 128.0 58.2 L 132.0 64.2 L 136.0 70.6 L 140.0 77.2 L 144.0 83.6 L 148.0 89.7 L 152.0 95.3 L 156.0 100.3 L 160.0 104.6 L 164.0 108.2 L 168.0 111.1 L 172.0 113.5 L 176.0 115.3 L 180.0 116.7 L 184.0 117.7 L 188.0 118.4 L 192.0 119.0 L 196.0 119.3 L 200.0 119.6 L 204.0 119.7 L 208.0 119.8 L 212.0 119.9 L 216.0 119.9 L 220.0 120.0 L 224.0 120.0 L 228.0 120.0" fill="none" stroke="#5e2e8c" stroke-width="1.6"/>
+          <path d="M0.0 120.0 L 4.0 120.0 L 8.0 120.0 L 12.0 120.0 L 16.0 120.0 L 20.0 120.0 L 24.0 120.0 L 28.0 120.0 L 32.0 119.9 L 36.0 119.9 L 40.0 119.8 L 44.0 119.7 L 48.0 119.5 L 52.0 119.2 L 56.0 118.8 L 60.0 118.1 L 64.0 117.3 L 68.0 116.1 L 72.0 114.6 L 76.0 112.5 L 80.0 109.9 L 84.0 106.7 L 88.0 102.8 L 92.0 98.3 L 96.0 93.0 L 100.0 87.2 L 104.0 80.9 L 108.0 74.4 L 112.0 67.8 L 116.0 61.6 L 120.0 55.8 L 124.0 51.0 L 128.0 47.3 L 132.0 44.9 L 136.0 44.0 L 140.0 44.7 L 144.0 46.8 L 148.0 50.4 L 152.0 55.1 L 156.0 60.7 L 160.0 66.9 L 164.0 73.4 L 168.0 80.0 L 172.0 86.3 L 176.0 92.2 L 180.0 97.5 L 184.0 102.2 L 188.0 106.2 L 192.0 109.5 L 196.0 112.2 L 200.0 114.3 L 204.0 115.9 L 208.0 117.1 L 212.0 118.0 L 216.0 118.7 L 220.0 119.1 L 224.0 119.4 L 228.0 119.6" fill="none" stroke="#2e8556" stroke-width="1.6" stroke-dasharray="4 3"/>
+          <path d="M110 44 L 110 122 M162.6 44 L 162.6 122" stroke="#625d6c" stroke-width="0.7" stroke-dasharray="2 2"/>
+          <path d="M110 34 L 156.6 34" stroke="#5e2e8c" stroke-width="1.3"/><path d="M156.6 30 l6 4 l-6 4 Z" fill="#5e2e8c"/><text x="136" y="28" text-anchor="middle" fill="#5e2e8c" font-style="italic">S</text>
+          <path d="M110 136 L 130.3 136" stroke="#2e8556" stroke-width="1.3"/><path d="M130.3 132 l6 4 l-6 4 Z" fill="#2e8556"/><text x="123" y="150" text-anchor="middle" fill="#2e8556" font-style="italic">R</text>
+          <text x="244" y="58" fill="#625d6c">R = h² S = i h σA</text>
+          <text x="244" y="74" fill="#625d6c">Se avanza tanto como lo que se</text>
+          <text x="244" y="88" fill="#625d6c">selecciona se hereda.</text>
+        </g>
+        <!-- 5 · relationship -->
+        <g transform="translate(430 180)">
+          <text x="0" y="12" font-weight="600" font-size="11.5" fill="#5e2e8c">5 · Lo que se comparte predice</text>
+          <g stroke="#221f28" stroke-width="0.9">
+            <path d="M18 34 L 48 34 M33 34 L 33 48 M 8 48 L 58 48 M8 48 L8 56 M58 48 L58 56 M26 76 L 46 76 M36 76 L36 90" fill="none"/>
+            <rect x="11" y="27" width="14" height="14" fill="#ece6f3"/><circle cx="48" cy="34" r="7" fill="#ece6f3"/>
+            <circle cx="8" cy="63" r="7" fill="#f7e3b7"/><rect x="51" y="56" width="14" height="14" fill="#d7c4ea"/>
+            <rect x="29" y="90" width="14" height="14" fill="#5e2e8c"/>
+          </g>
+          <g transform="translate(96 30)">
+            <rect x="0" y="0" width="16" height="16" fill="#5e2e8c"/><rect x="16" y="0" width="16" height="16" fill="#a57ccf"/><rect x="32" y="0" width="16" height="16" fill="#e6dcf0"/><rect x="48" y="0" width="16" height="16" fill="#f5f1f9"/>
+            <rect x="0" y="16" width="16" height="16" fill="#a57ccf"/><rect x="16" y="16" width="16" height="16" fill="#5e2e8c"/><rect x="32" y="16" width="16" height="16" fill="#c9b4e0"/><rect x="48" y="16" width="16" height="16" fill="#e6dcf0"/>
+            <rect x="0" y="32" width="16" height="16" fill="#e6dcf0"/><rect x="16" y="32" width="16" height="16" fill="#c9b4e0"/><rect x="32" y="32" width="16" height="16" fill="#5e2e8c"/><rect x="48" y="32" width="16" height="16" fill="#a57ccf"/>
+            <rect x="0" y="48" width="16" height="16" fill="#f5f1f9"/><rect x="16" y="48" width="16" height="16" fill="#e6dcf0"/><rect x="32" y="48" width="16" height="16" fill="#a57ccf"/><rect x="48" y="48" width="16" height="16" fill="#5e2e8c"/>
+            <text x="32" y="80" text-anchor="middle" fill="#625d6c">A o G</text>
+          </g>
+          <text x="0" y="128" fill="#625d6c">Pedigrí (A) o marcadores (G) dicen cuánto</text>
+          <text x="0" y="142" fill="#625d6c">comparten dos individuos: BLUP predice</text>
+          <text x="0" y="156" fill="#625d6c">incluso a los que no tienen registros.</text>
+        </g>
+      </g>
+    </svg>
+    <figcaption><b>Figura I.2.</b> Las cinco ideas de genética cuantitativa en las que descansa el programa.</figcaption>
+  </figure>
+
+  <ol class="pasos">
+    <li><b>Fenotipo = genotipo + ambiente.</b> Lo que se mide en una parcela mezcla el valor genético del material, el efecto del ambiente, su interacción y el error. Los diseños de campo (Bloque 3) y los modelos del resto de los bloques separan esas partes. La heredabilidad H² = σ²G/σ²F dice qué fracción de la variación observada es genética.</li>
+    <li><b>Aditivo y dominancia.</b> En un locus, el heterocigoto puede quedar en medio de los homocigotos (acción aditiva) o desplazado hacia uno de ellos (dominancia, d). Los hijos heredan genes y no genotipos, por eso la selección aprovecha sobre todo la varianza aditiva σ²A, mientras que los híbridos explotan también la de dominancia σ²D.</li>
+    <li><b>Aptitud combinatoria.</b> En un dialelo, el desempeño de una cruza se descompone en la aptitud combinatoria general de sus dos progenitores (ACG, ligada a σ²A) y en la específica de la cruza (ACE, ligada a σ²D y a la epistasis). Es la base de los Bloques 4 a 6.</li>
+    <li><b>Respuesta a la selección.</b> Si se seleccionan los mejores con un diferencial S, la generación siguiente avanza R = h²S. Con la intensidad de selección i, la exactitud h y la desviación aditiva σ<sub>A</sub>, la misma idea da la ganancia por ciclo y por año de los Bloques 8 y 11.</li>
+    <li><b>Lo que se comparte predice.</b> Dos parientes se parecen en proporción a los genes que comparten. El pedigrí (matriz A) o los marcadores (matriz G) miden ese parentesco, y el BLUP lo usa para predecir el valor genético de todos, incluidos los que no tienen registros propios (Bloques 10 y 11).</li>
+  </ol>
+
+  <!-- 1.4 -->
+  <h2 id="si-4"><span class="num">I.4</span>Datos que acepta</h2>
+  <p>La mayoría de los análisis parten de una <b>tabla de parcelas</b> que se carga en el Bloque 3: una fila por parcela (o por planta) y una columna por dato. La app reconoce el diseño a partir de los nombres y del contenido de las columnas, en español o en inglés, y te muestra lo que supuso antes de analizar.</p>
+  <table class="compacta">
+    <caption><b>Tabla I.3.</b> Diseños que el Bloque 3 reconoce en una tabla de parcelas.</caption>
+    <thead><tr><th style="width:1.45in">Diseño de apareamiento</th><th>Columnas que lo identifican</th><th style="width:0.9in">Se analiza en</th></tr></thead>
+    <tbody>
+      <tr><td>Dialelo (métodos 1 a 4)</td><td>Hembra y macho de cada cruza; progenitores con hembra = macho; recíprocas si aparecen las dos orientaciones</td><td><span class="chip k4">4</span> <span class="chip k5">5</span> <span class="chip k8">8</span></td></tr>
+      <tr><td>Dialelo parcial</td><td>Cada progenitor cruzado con s de los demás</td><td><span class="chip k6">6</span></td></tr>
+      <tr><td>Carolina del Norte I y II</td><td>Machos y hembras (anidadas o cruzadas) y conjuntos</td><td><span class="chip k6">6</span> <span class="chip k8">8</span></td></tr>
+      <tr><td>Carolina del Norte III y cruza triple de prueba</td><td>Plantas F₂ o líneas cruzadas con P₁, P₂ (y F₁)</td><td><span class="chip k6">6</span></td></tr>
+      <tr><td>Línea × probador</td><td>Líneas, probadores y, si se evaluaron, los progenitores</td><td><span class="chip k6">6</span> <span class="chip k8">8</span></td></tr>
+      <tr><td>Medias generacionales</td><td>Una columna de generación: P₁, P₂, F₁, F₂, RC₁, RC₂…</td><td><span class="chip k7">7</span></td></tr>
+      <tr><td>Ensayo de genotipos</td><td>Entradas (variedades, líneas, clones, híbridos) sin progenitores</td><td><span class="chip k8">8</span> <span class="chip k9">9</span> <span class="chip k10">10</span></td></tr>
+    </tbody>
+  </table>
+  <p>El diseño de campo se reconoce igual: completamente al azar, bloques completos al azar, látice α y bloques incompletos, bloques aumentados con testigos repetidos, filas y columnas, o medias sin repeticiones. Con una columna de localidad o de año la tabla es multiambiente, y con una columna de planta se analizan las medias de parcela y el error de muestreo aparte.</p>
+  <p>Otros bloques reciben tablas propias: el <b>Bloque 10</b>, registros con individuo, padre y madre (y un pedigrí aparte si hace falta); el <b>Bloque 11</b>, una matriz de marcadores (en dosis 0/1/2, −1/0/1, presencia o ausencia, o letras) con fenotipos por individuo o con una tabla de híbridos.</p>
+  <div class="dos">
+    <div>
+      <h4>Formatos de archivo</h4>
+      <ul>
+        <li>Hojas de cálculo <code>.xlsx</code>, <code>.xls</code>, <code>.xlsm</code> y <code>.ods</code> (se elige la hoja).</li>
+        <li>Texto delimitado <code>.csv</code>, <code>.tsv</code> y <code>.txt</code>, con coma, punto y coma o tabulador.</li>
+        <li>Pegar un bloque copiado de una hoja de cálculo en la <span class="ui">Hoja de datos</span>.</li>
+        <li>La libreta de campo del Bloque 2, con o sin valores simulados.</li>
+      </ul>
+    </div>
+    <div>
+      <h4>Datos faltantes</h4>
+      <ul>
+        <li>Celdas vacías y códigos como <code>NA</code>, <code>.</code>, <code>-</code>, <code>?</code> o <code>faltante</code> se leen como faltantes.</li>
+        <li>Cruzas perdidas y repeticiones desiguales se analizan sin rellenar: los errores estándar se ajustan.</li>
+        <li>El decimal puede ser punto o coma; la app lo detecta.</li>
+      </ul>
+    </div>
+  </div>
+  <div class="caja importante">
+    <div class="caja-t"><span class="ico">!</span>Importante</div>
+    <p>El papel de cada columna decide el análisis. Una columna de progenitores leída como variable, o una repetición leída como localidad, cambia los resultados. El Bloque 3 asigna los papeles automáticamente, pero <b>siempre te muestra lo que supuso</b> en <span class="ruta">Datos<span class="sep">›</span>Papel de cada columna</span> y te deja corregirlo antes de analizar.</p>
+  </div>
+
+  <!-- 1.5 -->
+  <h2 id="si-5"><span class="num">I.5</span>Qué necesitas y cómo abrir el programa</h2>
+  <div class="dos">
+    <div>
+      <h4>Requisitos</h4>
+      <ul>
+        <li>Una computadora de escritorio o portátil con un <b>navegador de internet moderno y actualizado</b>.</li>
+        <li>Pantalla de al menos 1280 píxeles de ancho; la app se adapta a pantallas menores y a teléfonos, pero las tablas y figuras se aprovechan mejor en una grande.</li>
+        <li>4 GB de memoria bastan para casi todo; la genómica con miles de individuos agradece 8 GB.</li>
+        <li><b>No</b> se necesita conexión a internet, instalación ni permisos de administrador.</li>
+      </ul>
+    </div>
+    <div>
+      <h4>Contenido de la carpeta</h4>
+      <table class="compacta" style="margin-top:0.04in">
+        <tbody>
+          <tr><td><code>index.html</code></td><td>La app. Ábrela con doble clic.</td></tr>
+          <tr><td><code>Open BreedingPro.bat</code></td><td>Arranque opcional con servidor local.</td></tr>
+          <tr><td><code>js/</code>, <code>css/</code></td><td>El código del programa, con los ejemplos incluidos.</td></tr>
+          <tr><td><code>vendor/</code></td><td>El lector de hojas de cálculo y su licencia.</td></tr>
+          <tr><td><code>tests/</code></td><td>Las pruebas del programa: ábrelas con doble clic y todas deben salir en verde.</td></tr>
+          <tr><td><code>manual/</code></td><td>Este manual.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <h3>Abrir BreedingPro en tres pasos</h3>
+  <ol class="pasos">
+    <li><b>Copia la carpeta</b> <code>BreedingPro</code> completa a tu computadora, por ejemplo a Documentos. No separes <code>index.html</code> del resto de las carpetas.</li>
+    <li><b>Haz doble clic en</b> <code>index.html</code>. Se abre en tu navegador predeterminado, en la portada del Bloque 1.</li>
+    <li><b>Pulsa</b> <span class="ui">Empezar con mis datos →</span> para ir al Bloque 3 y cargar un archivo o un ejemplo, o recorre la portada, los laboratorios y la teoría.</li>
+  </ol>
+
+  <div class="caja nota">
+    <div class="caja-t"><span class="ico">i</span>Nota · abrir con servidor local</div>
+    <p>Con doble clic todo funciona. Si tu institución bloquea páginas abiertas como archivo local, usa <code>Open BreedingPro.bat</code>: inicia un pequeño servidor en tu propia computadora (puerto 9200) y abre la misma app en el navegador. Nada sale de tu equipo.</p>
+  </div>
+  <div class="caja nota">
+    <div class="caja-t"><span class="ico">i</span>Nota · qué se recuerda y qué no</div>
+    <p>La app recuerda en tu navegador el idioma, el tema claro u oscuro, el estilo de las figuras y la hoja de datos del Bloque 3. <b>Los datos cargados y los resultados no se guardan</b>: al recargar la página hay que volver a cargar el archivo. Descarga los resultados de cada bloque (<span class="ui">Resultados (.xlsx)</span>) o el paquete del Bloque 12 antes de cerrar.</p>
+  </div>
+
+  <!-- 1.6 -->
+  <h2 id="si-6"><span class="num">I.6</span>Recorrido por la interfaz</h2>
+  <p>La barra superior acompaña a todos los bloques. Debajo, cada bloque ocupa una sola página que se lee de arriba abajo.</p>
+  <figure class="reducida">
+    <div class="marco" style="position:relative">
+      <img src="../img/inicio.png" alt="Portada de BreedingPro con la barra de bloques">
+      <span class="marca" style="left:4.4%;top:3.2%">1</span>
+      <span class="marca" style="left:4.4%;top:10.2%">2</span>
+      <span class="marca" style="left:76.6%;top:3.2%">3</span>
+      <span class="marca" style="left:93.8%;top:8.8%">4</span>
+      <span class="marca" style="left:7%;top:62.7%">5</span>
+      <span class="marca" style="left:7%;top:79.2%">6</span>
+      <span class="marca" style="left:57.5%;top:29.6%">7</span>
+    </div>
+    <figcaption><b>Figura I.3.</b> La portada de la app (Bloque 1) con la barra de bloques.</figcaption>
+  </figure>
+  <ul class="leyenda-marcas">
+    <li><span class="n">1</span>Nombre del programa: un clic regresa a la portada.</li>
+    <li><span class="n">2</span>La barra de los doce bloques. El bloque activo se resalta; cualquiera se abre con un clic.</li>
+    <li><span class="n">3</span><span class="ui">ES</span> · <span class="ui">EN</span>: cambia el idioma de toda la app, incluidas las figuras y los informes.</li>
+    <li><span class="n">4</span>Tema claro u oscuro. Las figuras exportadas conservan su propio fondo.</li>
+    <li><span class="n">5</span>Empezar con tus datos, probar los laboratorios, leer la teoría o ver cómo citar.</li>
+    <li><span class="n">6</span>Lo que la app garantiza: sin instalar, sin enviar datos, dos idiomas, cruzas perdidas y figuras hasta 900 ppp.</li>
+    <li><span class="n">7</span>Ilustración viva: un dialelo con sus ACG y ACE, un gráfico Wr–Vr y la respuesta a la selección.</li>
+  </ul>
+
+  <h3>La página de un bloque</h3>
+  <p>Todos los bloques de análisis comparten la misma organización, así que basta aprenderla una vez:</p>
+  <table>
+    <thead><tr><th style="width:24%">Parte</th><th>Qué contiene</th></tr></thead>
+    <tbody>
+      <tr><td><b>Tarjetas numeradas</b></td><td>Cada bloque se divide en tarjetas (<span class="ui">1 · Datos y modelo</span>, <span class="ui">2 · Análisis de varianza</span>…). Las primeras piden los ajustes y las siguientes muestran los resultados.</td></tr>
+      <tr><td><b>Mensajes de color</b></td><td>Morado informa, verde confirma, ámbar advierte y rojo detiene: por ejemplo, un diseño que no admite el análisis o una varianza que se estimó negativa.</td></tr>
+      <tr><td><b>Recuadros de resumen</b></td><td>Los números principales en grande, con una línea de contexto debajo.</td></tr>
+      <tr><td><b>Tablas</b></td><td>Con los valores P y sus asteriscos. Las tablas largas muestran las primeras filas y descargan todas.</td></tr>
+      <tr><td><b>Figuras</b></td><td>Editables y exportables (figura I.5).</td></tr>
+      <tr><td><b>Tarjeta final y barra</b></td><td>La última tarjeta reúne supuestos, fórmulas y referencias, y el botón <span class="ui">Resultados (.xlsx)</span> con todas las tablas del bloque; la barra de abajo regresa al bloque anterior o continúa al siguiente.</td></tr>
+    </tbody>
+  </table>
+  <figure>
+    <div class="marco"><img src="../img/bloque.png" alt="Tarjeta del análisis de varianza del dialelo en el Bloque 4"></div>
+    <figcaption><b>Figura I.4.</b> Una tarjeta de resultados del Bloque 4 con el dialelo 8 × 8 del ejemplo de libro de texto: el análisis de varianza del dialelo con las pruebas F del modelo I (contra el error) y del modelo II (con el denominador que corresponde), el valor P con su marca de significancia y una nota sobre la escala de las sumas de cuadrados.</figcaption>
+  </figure>
+
+  <h3>El editor de figuras</h3>
+  <p>Cada figura tiene debajo un editor plegado. Todo cambio redibuja la figura al instante, y el estilo que elijas (tema, letra, tamaños) se recuerda para las demás figuras de todos los bloques.</p>
+  <figure class="media">
+    <div class="marco" style="position:relative">
+      <img src="../img/figura.png" alt="Figura de efectos de ACG del Bloque 4 con su editor abierto">
+      <span class="marca" style="left:36.5%;top:21.5%">1</span>
+      <span class="marca" style="left:9.6%;top:67.2%">2</span>
+      <span class="marca" style="left:31.8%;top:71.6%">3</span>
+      <span class="marca" style="left:9.6%;top:81%">4</span>
+      <span class="marca" style="left:26%;top:89.6%">5</span>
+      <span class="marca" style="left:57.4%;top:92.2%">6</span>
+    </div>
+    <figcaption><b>Figura I.5.</b> La figura de los efectos de ACG del Bloque 4 con su editor abierto.</figcaption>
+  </figure>
+  <ul class="leyenda-marcas">
+    <li><span class="n">1</span>La figura, con asteriscos de significancia e intervalos de confianza.</li>
+    <li><span class="n">2</span><span class="ui">Editar figura</span> abre y cierra el editor.</li>
+    <li><span class="n">3</span>Dos pestañas: <span class="ui">Contenido y colores</span> y <span class="ui">Estilo y tipografía</span>.</li>
+    <li><span class="n">4</span>Opciones propias de la figura: girar los ejes, estilo, orden, bandas e intervalos.</li>
+    <li><span class="n">5</span>Paleta de colores; la segunda pestaña cambia tema, letra y tamaños.</li>
+    <li><span class="n">6</span>Formato (PNG, TIFF, SVG, JPG o WEBP), resolución hasta 900 ppp, fondo y descarga, con el tamaño en píxeles y centímetros.</li>
+  </ul>
+
+  <h3>Idioma y tema</h3>
+  <p>El botón <span class="ui">EN</span> cambia al inglés toda la app: los textos, las tablas, los títulos y ejes de las figuras y el informe del Bloque 12. Así puedes preparar las figuras de un artículo en inglés sin volver a analizar. El tema oscuro descansa la vista en sesiones largas; las figuras conservan su propio fondo blanco para exportarlas.</p>
+  <figure class="reducida">
+    <div class="marco"><img src="../img/figura-oscuro-en.png" alt="La misma figura con la app en inglés y tema oscuro"></div>
+    <figcaption><b>Figura I.6.</b> La misma figura de la figura I.5 con la app en inglés y en tema oscuro.</figcaption>
+  </figure>
+
+  <!-- 1.7 -->
+  <h2 id="si-7"><span class="num">I.7</span>Los ejemplos incluidos</h2>
+  <p>El programa trae 21 conjuntos de datos en el Bloque 3 y otros en los Bloques 2, 10 y 11. Están incrustados en la app, así que cargan sin conexión. Los <b>publicados</b> reproducen tablas de artículos y libros; los <b>simulados</b> se generaron con semillas fijas y traen sus valores verdaderos, de modo que puedes comprobar qué tan bien estima cada método.</p>
+  <table class="compacta">
+    <caption><b>Tabla I.4.</b> Ejemplos del Bloque 3, por familia. <b>P</b> = publicado, <b>S</b> = simulado.</caption>
+    <thead><tr><th style="width:1.2in">Familia</th><th>Ejemplo en la app</th><th style="width:0.3in"></th><th style="width:0.95in">Bloques</th></tr></thead>
+    <tbody>
+      <tr><td rowspan="6">Dialelos</td><td>Maíz: dialelo completo 4 × 4</td><td>P</td><td><span class="chip k4">4</span> <span class="chip k5">5</span></td></tr>
+      <tr><td><i>Nicotiana rustica</i>: dialelo 8 × 8 de Hayman</td><td>P</td><td><span class="chip k4">4</span> <span class="chip k5">5</span></td></tr>
+      <tr><td>Dialelo completo 8 × 8 (libro de texto)</td><td>P</td><td><span class="chip k4">4</span> <span class="chip k5">5</span> <span class="chip k8">8</span></td></tr>
+      <tr><td>Dialelo con progenitores en dos ambientes</td><td>P</td><td><span class="chip k4">4</span> <span class="chip k5">5</span></td></tr>
+      <tr><td>Maíz: medias de 36 cruzas simples</td><td>P</td><td><span class="chip k4">4</span></td></tr>
+      <tr><td>Cruzas entre variedades de maíz</td><td>P</td><td><span class="chip k5">5</span></td></tr>
+      <tr><td>Parciales</td><td>Maíz: dialelo parcial de 8 líneas</td><td>P</td><td><span class="chip k6">6</span></td></tr>
+      <tr><td rowspan="4">Carolina del Norte</td><td>Carolina del Norte I</td><td>P</td><td><span class="chip k6">6</span></td></tr>
+      <tr><td>Papa: Carolina del Norte II</td><td>P</td><td><span class="chip k6">6</span> <span class="chip k8">8</span></td></tr>
+      <tr><td>Carolina del Norte III</td><td>P</td><td><span class="chip k6">6</span></td></tr>
+      <tr><td>Simulado: cruza triple de prueba</td><td>S</td><td><span class="chip k6">6</span></td></tr>
+      <tr><td>Línea × probador</td><td>Línea × probador con progenitores</td><td>P</td><td><span class="chip k6">6</span></td></tr>
+      <tr><td>Genotipos y variables</td><td>Maíz: 13 híbridos y 15 variables</td><td>P</td><td><span class="chip k8">8</span></td></tr>
+      <tr><td rowspan="6">Multiambiente</td><td>Maíz: 13 híbridos en 4 ambientes</td><td>P</td><td><span class="chip k8">8</span> <span class="chip k9">9</span></td></tr>
+      <tr><td>Avena: 10 genotipos en 14 ambientes</td><td>P</td><td><span class="chip k9">9</span></td></tr>
+      <tr><td>Papa: 28 clones en 6 localidades</td><td>P</td><td><span class="chip k9">9</span></td></tr>
+      <tr><td>Medias de 17 genotipos en 12 ambientes</td><td>P</td><td><span class="chip k9">9</span></td></tr>
+      <tr><td>Simulado: líneas endogámicas con pedigrí</td><td>S</td><td><span class="chip k9">9</span> <span class="chip k10">10</span></td></tr>
+      <tr><td>Simulado: dialelo en látice α, 3 localidades</td><td>S</td><td><span class="chip k3">3</span> <span class="chip k4">4</span></td></tr>
+      <tr><td rowspan="2">Generaciones</td><td><i>Nicotiana rustica</i>: seis generaciones</td><td>P</td><td><span class="chip k7">7</span></td></tr>
+      <tr><td>Simulado: medias generacionales por planta</td><td>S</td><td><span class="chip k7">7</span></td></tr>
+    </tbody>
+  </table>
+  <figure class="media">
+    <div class="marco"><img src="../img/ejemplos.png" alt="Tarjeta de carga del Bloque 3 con los ejemplos publicados y simulados"></div>
+    <figcaption><b>Figura I.7.</b> La tarjeta <span class="ui">1 · Cargar datos</span> del Bloque 3: archivo, hoja de datos o libreta del Bloque 2, y debajo los ejemplos, filtrados por familia. Cada ejemplo muestra su diseño, su fuente y su licencia.</figcaption>
+  </figure>
+  <p>Además, el <b>Bloque 2</b> genera el plan de cualquiera de sus 11 diseños con los progenitores que escribas; el <b>Bloque 10</b> trae cinco ejemplos publicados de modelos animales y de padres, un rebaño ovino simulado, el pedigrí de las líneas simuladas y cinco ejemplos de cruzamiento de razas; y el <b>Bloque 11</b>, dos conjuntos publicados (líneas de trigo con marcadores DArT e híbridos de maíz dentado × cristalino) y dos simulados. Las fuentes completas están en el apéndice de referencias y en la tarjeta de cada ejemplo.</p>
+
+  <div class="caja ejemplo">
+    <div class="caja-t"><span class="ico">▸</span>Tu primer análisis en dos minutos</div>
+    <ol class="pasos" style="margin-bottom:0">
+      <li>Abre la app y pulsa <span class="ui">Empezar con mis datos →</span>.</li>
+      <li>En <span class="ui">Ejemplos publicados y simulados</span>, pulsa <span class="ui">Cargar</span> en <span class="ui">Dialelo completo 8 × 8 (libro de texto)</span>. La app reconoce un dialelo del método 1 de Griffing con 8 progenitores, 64 entradas y 4 repeticiones en bloques completos al azar.</li>
+      <li>Revisa el diseño reconocido y la calidad de los datos, y pulsa <span class="ui">4 Griffing</span> en la barra de bloques.</li>
+      <li>En la tarjeta <span class="ui">2 · Análisis de varianza del dialelo</span> verás que la ACG (F = 18.89) y la ACE (F = 27.38) son significativas (P &lt; 0.0001) y los efectos recíprocos no (P = 0.99), como en la figura I.4. En <span class="ui">3 · Efectos</span>, los progenitores 3 y 7 tienen las mayores ACG (9.03 y 7.24), que se ven también en la figura I.5.</li>
+    </ol>
+  </div>
+
+  <!-- 1.8 -->
+  <h2 id="si-8"><span class="num">I.8</span>Flujo de trabajo recomendado</h2>
+  <p>Los bloques están ordenados como se hace un programa de mejoramiento, pero no todos aplican a todos los datos. Cada tipo de experimento recorre su propia ruta, como líneas de metro que se detienen solo en algunas estaciones (figura I.8). El Bloque 3 es la estación común: ahí se reconoce el diseño y se revisa la calidad antes de cualquier análisis genético.</p>
+  <figure>
+    <svg viewBox="0 0 700 312" xmlns="http://www.w3.org/2000/svg" font-family="Jost, sans-serif" role="img" aria-label="Rutas de análisis por tipo de experimento a través de los bloques">
+      <!-- columnas: bloques 2..12 -->
+      <g font-size="9" text-anchor="middle" fill="#fff" font-weight="600">
+        <rect x="150" y="8" width="36" height="18" rx="3" fill="#2e8556"/><text x="168" y="21">2</text>
+        <rect x="197" y="8" width="36" height="18" rx="3" fill="#0f766e"/><text x="215" y="21">3</text>
+        <rect x="244" y="8" width="36" height="18" rx="3" fill="#c2410c"/><text x="262" y="21">4</text>
+        <rect x="291" y="8" width="36" height="18" rx="3" fill="#b7791f"/><text x="309" y="21">5</text>
+        <rect x="338" y="8" width="36" height="18" rx="3" fill="#b4234a"/><text x="356" y="21">6</text>
+        <rect x="385" y="8" width="36" height="18" rx="3" fill="#7e3fb0"/><text x="403" y="21">7</text>
+        <rect x="432" y="8" width="36" height="18" rx="3" fill="#1d74b5"/><text x="450" y="21">8</text>
+        <rect x="479" y="8" width="36" height="18" rx="3" fill="#4d7c0f"/><text x="497" y="21">9</text>
+        <rect x="526" y="8" width="36" height="18" rx="3" fill="#8a5a2b"/><text x="544" y="21">10</text>
+        <rect x="573" y="8" width="36" height="18" rx="3" fill="#0e7490"/><text x="591" y="21">11</text>
+        <rect x="620" y="8" width="36" height="18" rx="3" fill="#334155"/><text x="638" y="21">12</text>
+      </g>
+      <g stroke="#ece6f3" stroke-width="1">
+        <path d="M168 30 V 304 M215 30 V 304 M262 30 V 304 M309 30 V 304 M356 30 V 304 M403 30 V 304 M450 30 V 304 M497 30 V 304 M544 30 V 304 M591 30 V 304 M638 30 V 304"/>
+      </g>
+      <g font-size="10.5" fill="#221f28">
+        <text x="6" y="52">Dialelo</text>
+        <text x="6" y="86">Dialelo parcial, CN, L × P</text>
+        <text x="6" y="120">Generaciones</text>
+        <text x="6" y="154">Ensayo multiambiente</text>
+        <text x="6" y="188">Registros con pedigrí</text>
+        <text x="6" y="222">Marcadores y fenotipos</text>
+        <text x="6" y="256">Híbridos con marcadores</text>
+        <text x="6" y="290">Antes de sembrar</text>
+      </g>
+      <g fill="none" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M168 48 H 309 M 309 48 H 450 M 450 48 H 638" stroke="#c2410c"/>
+        <path d="M168 82 H 215 H 356 H 450 H 638" stroke="#b4234a"/>
+        <path d="M168 116 H 215 H 403 H 638" stroke="#7e3fb0"/>
+        <path d="M168 150 H 215 H 450 H 497 H 544 H 638" stroke="#4d7c0f"/>
+        <path d="M544 184 H 638" stroke="#8a5a2b"/>
+        <path d="M591 218 H 638" stroke="#0e7490"/>
+        <path d="M591 252 H 638" stroke="#0e7490"/>
+        <path d="M168 286 H 215" stroke="#2e8556"/>
+      </g>
+      <g stroke="#221f28" stroke-width="1.6" fill="#fff">
+        <!-- dialelo: 2 3 4 5 8 (9 si hay ambientes) 12 -->
+        <circle cx="168" cy="48" r="5.5"/><circle cx="215" cy="48" r="5.5"/><circle cx="262" cy="48" r="5.5"/><circle cx="309" cy="48" r="5.5"/><circle cx="450" cy="48" r="5.5"/><circle cx="638" cy="48" r="5.5"/>
+        <!-- CN, L×T -->
+        <circle cx="168" cy="82" r="5.5"/><circle cx="215" cy="82" r="5.5"/><circle cx="356" cy="82" r="5.5"/><circle cx="450" cy="82" r="5.5"/><circle cx="638" cy="82" r="5.5"/>
+        <!-- generaciones -->
+        <circle cx="168" cy="116" r="5.5"/><circle cx="215" cy="116" r="5.5"/><circle cx="403" cy="116" r="5.5"/><circle cx="638" cy="116" r="5.5"/>
+        <!-- multiambiente -->
+        <circle cx="168" cy="150" r="5.5"/><circle cx="215" cy="150" r="5.5"/><circle cx="450" cy="150" r="5.5"/><circle cx="497" cy="150" r="5.5"/><circle cx="544" cy="150" r="5.5"/><circle cx="638" cy="150" r="5.5"/>
+        <!-- pedigrí -->
+        <circle cx="544" cy="184" r="5.5"/><circle cx="638" cy="184" r="5.5"/>
+        <!-- marcadores -->
+        <circle cx="591" cy="218" r="5.5"/><circle cx="638" cy="218" r="5.5"/>
+        <circle cx="591" cy="252" r="5.5"/><circle cx="638" cy="252" r="5.5"/>
+        <!-- antes de sembrar -->
+        <circle cx="168" cy="286" r="5.5"/><circle cx="215" cy="286" r="5.5" stroke-dasharray="2 2"/>
+      </g>
+      <g font-size="8.5" fill="#625d6c">
+        <text x="226" y="290">libreta simulada para practicar</text>
+      </g>
+    </svg>
+    <figcaption><b>Figura I.8.</b> Rutas de análisis por tipo de experimento. Cada círculo es una estación donde ese experimento tiene algo que calcular. Un dialelo o un diseño de apareamiento en varios ambientes también pasa por el Bloque 9; los registros con pedigrí y los marcadores se cargan en sus propios bloques y no necesitan el Bloque 3; un ensayo con pedigrí o con marcadores une su ruta con la de los Bloques 10 y 11 para predecir en una etapa.</figcaption>
+  </figure>
+
+  <div class="caja regla">
+    <div class="caja-t"><span class="ico">✓</span>Regla de decisión · qué bloque usar</div>
+    <table class="compacta"><tbody>
+      <tr><td style="width:44%"><b>Si</b> la tabla tiene hembra y macho de un grupo de progenitores cruzados entre sí…</td><td><b>entonces</b> Griffing (4), Hayman–Jinks (5) y parámetros (8).</td></tr>
+      <tr><td><b>Si</b> los machos y las hembras son grupos distintos (CN, L × P) o el dialelo es parcial…</td><td><b>entonces</b> diseños de apareamiento (6) y parámetros (8).</td></tr>
+      <tr><td><b>Si</b> hay una columna de generación (P₁, P₂, F₁, F₂…)…</td><td><b>entonces</b> generaciones (7).</td></tr>
+      <tr><td><b>Si</b> son genotipos en varias localidades o años…</td><td><b>entonces</b> parámetros (8), estabilidad (9) y, con pedigrí, BLUP (10).</td></tr>
+      <tr><td><b>Si</b> tienes pedigrí o marcadores…</td><td><b>entonces</b> BLUP (10) o genómica (11).</td></tr>
+    </tbody></table>
+    <p class="regla-pie">El Bloque 3 hace esta elección por ti al reconocer el diseño y lo indica en la tarjeta <span class="ui">3 · Diseño reconocido</span>.</p>
+  </div>
+
+  <!-- 1.9 -->
+  <h2 id="si-9"><span class="num">I.9</span>Valores P, errores estándar e intervalos</h2>
+  <p>Las tablas de BreedingPro acompañan cada estimación con su <b>error estándar</b> (EE) y cada prueba con su <b>valor P</b>, escrito con cuatro decimales (o «&lt; 0.0001») y con la marca de significancia de la literatura agronómica:</p>
+  <table class="compacta" style="width:70%">
+    <thead><tr><th>Marca</th><th>Valor P</th><th>Lectura</th></tr></thead>
+    <tbody>
+      <tr><td><b>***</b></td><td>P &lt; 0.001</td><td>Evidencia muy fuerte</td></tr>
+      <tr><td><b>**</b></td><td>0.001 ≤ P &lt; 0.01</td><td>Evidencia fuerte</td></tr>
+      <tr><td><b>*</b></td><td>0.01 ≤ P &lt; 0.05</td><td>Evidencia moderada</td></tr>
+      <tr><td><b>ns</b></td><td>P ≥ 0.05</td><td>No significativo al 5&nbsp;%</td></tr>
+    </tbody>
+  </table>
+  <ul>
+    <li><b>Un valor P no mide la importancia de un efecto.</b> Con muchas repeticiones, un efecto pequeño resulta significativo; con pocas, uno grande puede no serlo. Mira siempre también la magnitud y su error estándar.</li>
+    <li><b>Los intervalos de confianza</b> se dan al 95&nbsp;% salvo que el bloque diga otra cosa. La heredabilidad usa el intervalo exacto de Knapp, Stroup y Ross, que no es simétrico.</li>
+    <li><b>Los componentes de varianza</b> pueden estimarse negativos por momentos; la app lo advierte y los interpreta como cero. Los que estima por máxima verosimilitud restringida (REML) quedan en la frontera, en cero, y se informan así, sin error estándar.</li>
+    <li><b>Las diferencias mínimas significativas</b> (DMS) que acompañan a los efectos permiten comparar pares; para muchas comparaciones a la vez conviene ser más exigente con el nivel de significancia.</li>
+  </ul>
+  <div class="caja importante">
+    <div class="caja-t"><span class="ico">!</span>Importante · modelo fijo o aleatorio</div>
+    <p>La misma tabla da pruebas distintas según el modelo. Si los progenitores o los ambientes son los únicos que interesan, son <b>fijos</b> y se prueban contra el error; si son una muestra de una población, son <b>aleatorios</b>, se estiman sus varianzas y algunas pruebas usan otro denominador. Los Bloques 4 y 9 muestran ambas lecturas y dicen cuál corresponde a cada caso.</p>
+  </div>
+</section>
+
+</body>
+</html>

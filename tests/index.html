@@ -1,0 +1,1351 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>BreedingPro — tests</title>
+<link rel="stylesheet" href="../css/style.css">
+<script src="../js/i18n.js"></script>
+<style>
+  body { padding: 20px; }
+  .t { font-family: var(--mono); font-size: .8rem; padding: 2px 0; }
+  .ok { color: var(--success); } .bad { color: var(--danger); font-weight: 700; }
+  h2 { margin: 18px 0 4px; font-size: 1rem; }
+</style>
+</head>
+<body>
+<h1>BreedingPro · <span id="sum">…</span></h1>
+<div id="out"></div>
+<script src="../js/core.js"></script>
+<script src="../js/art.js"></script>
+<script src="../js/playground.js"></script>
+<script src="../js/stats.js"></script>
+<script src="../js/mating.js"></script>
+<script src="../js/fielddesign.js"></script>
+<script src="../js/precision.js"></script>
+<script src="../js/figure.js"></script>
+<script src="../js/plots2.js"></script>
+<script src="../js/linmod.js"></script>
+<script src="../js/assump.js"></script>
+<script src="../js/data.js"></script>
+<script src="../js/trial.js"></script>
+<script src="../js/exdata.js"></script>
+<script src="../js/examples.js"></script>
+<script src="../js/griffing.js"></script>
+<script src="../js/plots3.js"></script>
+<script src="../js/plots4.js"></script>
+<script src="../js/hayman.js"></script>
+<script src="../js/plots5.js"></script>
+<script src="../js/mating6.js"></script>
+<script src="../js/plots6.js"></script>
+<script src="../js/gener7.js"></script>
+<script src="../js/plots7.js"></script>
+<script src="../js/select8.js"></script>
+<script src="../js/plots8.js"></script>
+<script src="../js/gxe9.js"></script>
+<script src="../js/plots9.js"></script>
+<script src="../js/pedigree10.js"></script>
+<script src="../js/animal10.js"></script>
+<script src="../js/cross10.js"></script>
+<script src="../js/exdata10.js"></script>
+<script src="../js/plots10.js"></script>
+<script src="../js/exdata11.js"></script>
+<script src="../js/genomic11.js"></script>
+<script src="../js/plots11.js"></script>
+<script src="../js/zip.js"></script>
+<script src="../js/methods12.js"></script>
+<script src="../js/report12.js"></script>
+<script>
+/* Unit tests for Block 1. Open this page (double click or server) — every line must be green.
+   Numerical references: normal quantiles and truncation intensities from standard tables;
+   Hayman–Jinks and Griffing values were cross-checked by an independent reconstruction (validation/block1). */
+(async function () {
+  const out = document.getElementById('out');
+  let pass = 0, fail = 0;
+  const section = t => out.insertAdjacentHTML('beforeend', `<h2>${t}</h2>`);
+  function check(name, cond, detail) {
+    if (cond) pass++; else fail++;
+    out.insertAdjacentHTML('beforeend', `<div class="t ${cond ? 'ok' : 'bad'}">${cond ? '✓' : '✗'} ${name}${detail != null ? ' — ' + detail : ''}</div>`);
+  }
+  const near = (a, b, tol) => Math.abs(a - b) <= (tol == null ? 1e-9 : tol);
+
+  section('Language and theme');
+  /* remember the stored preferences so the tests leave the app exactly as they found it */
+  const saved = {};
+  try { saved.lang = localStorage.getItem('breedingpro:lang'); saved.theme = localStorage.getItem('breedingpro:theme'); } catch (e) { /* ignore */ }
+  const savedAttr = document.documentElement.getAttribute('data-theme');
+  window.addEventListener('load', () => {
+    try {
+      saved.lang == null ? localStorage.removeItem('breedingpro:lang') : localStorage.setItem('breedingpro:lang', saved.lang);
+      saved.theme == null ? localStorage.removeItem('breedingpro:theme') : localStorage.setItem('breedingpro:theme', saved.theme);
+    } catch (e) { /* ignore */ }
+    savedAttr == null ? document.documentElement.removeAttribute('data-theme') : document.documentElement.setAttribute('data-theme', savedAttr);
+  });
+  I18N.set('en'); check('T() returns English after I18N.set("en")', T('hola', 'hello') === 'hello');
+  check('<html lang> follows the language', document.documentElement.lang === 'en');
+  I18N.set('es'); check('T() returns Spanish after I18N.set("es")', T('hola', 'hello') === 'hola');
+  check('T() accepts {es, en} objects', T({ es: 'uno', en: 'one' }) === 'uno');
+  const before = Theme.current(); Theme.toggle(); const after = Theme.current(); Theme.toggle();
+  check('Theme.toggle switches light/dark', before !== after && Theme.current() === before);
+
+  check('p values in running text: "p = 0.0123", and "p < 0.0001" without an equals sign',
+    pEq(0.012345) === 'p = 0.0123' && pEq(0.00001) === 'p < 0.0001' && pEq(NaN) === 'p = —');
+
+  section('Random numbers');
+  const r1 = rng(42), r2 = rng(42), a = [], b = [];
+  for (let i = 0; i < 5; i++) { a.push(r1()); b.push(r2()); }
+  check('seeded generator is reproducible', a.every((x, i) => x === b[i]));
+  const r3 = rng(7); let m = 0, v = 0; const N = 200000;
+  for (let i = 0; i < N; i++) { const z = randn(r3); m += z; v += z * z; }
+  m /= N; v = v / N - m * m;
+  check('randn mean ≈ 0 and variance ≈ 1', Math.abs(m) < 0.01 && Math.abs(v - 1) < 0.015, `mean ${m.toFixed(4)}, var ${v.toFixed(4)}`);
+
+  section('Normal quantile and selection intensity');
+  check('qnorm(0.975) = 1.959964', near(Playground.qnorm(0.975), 1.959964, 1e-6));
+  check('qnorm(0.001) = −3.090232', near(Playground.qnorm(0.001), -3.090232, 1e-6));
+  [[0.5, 0.7979], [0.2, 1.3998], [0.1, 1.7550], [0.05, 2.0627], [0.01, 2.6652]].forEach(([p, i]) =>
+    check(`i(${p}) = ${i} (Falconer & Mackay, Appendix Table A)`, near(Playground.intensity(p), i, 5e-4), Playground.intensity(p).toFixed(4)));
+
+  section('Additive variance of the selection lab');
+  check('one additive locus at p = ½: σ²A = 2pq·a² = 0.5', near(Playground.additiveVariance([0.5], 0), 0.5));
+  check('complete dominance, p = 0.3: α = a + d(q − p) = 1.4, σ²A = 2·0.3·0.7·1.96', near(Playground.additiveVariance([0.3], 1), 2 * 0.3 * 0.7 * 1.96));
+  check('fixed loci contribute nothing', near(Playground.additiveVariance([0, 1], 0.5), 0));
+
+  section('Diallel lab (Hayman–Jinks and Griffing Method 2)');
+  const d = Playground.simulateDiallel({ n: 7, loci: 12, da: 0.6, dir: 0.8, u: 0.45, eps: 0, err: 0.8 }, 12345);
+  check('same numbers as the R validation: D', near(d.D, 17.081163999542614, 1e-8), d.D);
+  check('H₁ (half-diallel correction)', near(d.H1, 7.665324034187725, 1e-8), d.H1);
+  check('H₂ (half-diallel correction)', near(d.H2, 7.073228125092531, 1e-8), d.H2);
+  check('b of Wr on Vr', near(d.b, 1.0901710281107029, 1e-9), d.b);
+  check('MS GCA equals the least-squares fit', near(d.msG, 34.11732291701709, 1e-8), d.msG);
+  check('GCA effects sum to zero', near(d.gca.reduce((s, x) => s + x, 0), 0, 1e-9));
+  const d0 = Playground.simulateDiallel({ n: 6, loci: 10, da: 0, dir: 1, u: 0.5, eps: 0, err: 0 }, 99);
+  check('no error, no dominance: E = 0 and H₁ ≈ 0', d0.E === 0 && Math.abs(d0.H1) < 1e-9, `H₁ = ${d0.H1}`);
+  check('additive model: Baker ratio = 1', near(d0.baker, 1, 1e-9), d0.baker);
+  const sym = d.M.every((row, i) => row.every((x, j) => x === d.M[j][i]));
+  check('the table of means is symmetric', sym);
+
+  section('Block 2 · crossing plans');
+  const pnames = n => Array.from({ length: n }, (_, i) => 'P' + (i + 1));
+  const counts = { 1: 36, 2: 21, 3: 30, 4: 15 };
+  [1, 2, 3, 4].forEach(m => { const pl = Mating.build({ design: 'griffing', method: m, parents: pnames(6), checks: [] }); check(`Griffing method ${m} with 6 parents has ${counts[m]} entries`, pl.entries.length === counts[m], pl.entries.length); });
+  [[8, 3], [9, 4], [10, 5], [11, 4], [12, 5], [13, 6]].forEach(([p, s]) => {
+    const pl = Mating.build({ design: 'partial', parents: pnames(p), s, checks: [] });
+    const per = pnames(p).map(x => pl.crosses.filter(c => c.female === x || c.male === x).length);
+    const uniq = new Set(pl.crosses.map(c => [c.female, c.male].sort().join('|'))).size;
+    check(`partial diallel p = ${p}, s = ${s}: ${p * s / 2} distinct crosses, every parent in ${s}`, pl.crosses.length === p * s / 2 && uniq === p * s / 2 && per.every(c => c === s));
+  });
+  check('partial diallel rejects p and s of the same parity', Mating.build({ design: 'partial', parents: pnames(8), s: 4, checks: [] }).errors.length > 0);
+  const n2 = Mating.build({ design: 'nc2', m: 4, f: 5, sets: 2, checks: [] });
+  check('North Carolina II, 2 sets of 4 × 5, gives 40 families', n2.entries.length === 40);
+  const tt = Mating.build({ design: 'ttc', p1: 'A', p2: 'B', n: 10, source: 'F2', checks: [] });
+  check('triple test cross with 10 F₂ plants gives 30 families, 10 per tester', tt.entries.length === 30 && ['L1', 'L2', 'L3'].every(k => tt.entries.filter(e => e.type === k).length === 10));
+  const bud = Mating.budget(Mating.build({ design: 'griffing', method: 2, parents: pnames(4), checks: [] }), { seedsPerPlot: 50, reps: 2, locations: 2, safety: 0, seedsPerPollination: 100, success: 1, femaleUnitsPerPlant: 1, pollinationsPerMale: 5 });
+  check('seed budget: 50 seeds × 2 reps × 2 locations = 200 seeds per entry, 2 pollinations per cross', bud.perEntry.every(x => x.seed === 200) && bud.totals.crossPollinations === 12 && bud.totals.selfPollinations === 8);
+
+  section('Block 2 · field designs');
+  const ent = Mating.build({ design: 'griffing', method: 2, parents: pnames(5), checks: ['C1'] }).entries;
+  const rc = Field.generate(ent, { design: 'rcbd', reps: 3, locations: ['A', 'B'], seed: 5, plotsPerRow: 0, arrangement: 'stacked', numbering: 'serpentine' });
+  const loc = rc.locations[0];
+  const perRep = [1, 2, 3].every(rr => { const codes = loc.plots.filter(p => p.rep === rr).map(p => p.code); return codes.length === ent.length && new Set(codes).size === ent.length; });
+  check('RCBD: every replicate holds every entry exactly once', perRep);
+  check('plot numbers are unique and consecutive', new Set(loc.plots.map(p => p.plot)).size === loc.plots.length && Math.max(...loc.plots.map(p => p.plot)) === loc.plots.length);
+  check('locations are randomised independently', rc.locations[0].plots.map(p => p.code).join() !== rc.locations[1].plots.map(p => p.code).join());
+  check('RCBD error df = (r − 1)(t − 1)', rc.errorDf === 2 * (ent.length - 1));
+  const rc2 = Field.generate(ent, { design: 'rcbd', reps: 3, locations: ['A', 'B'], seed: 5, plotsPerRow: 0, arrangement: 'stacked', numbering: 'serpentine' });
+  check('the same seed reproduces the same field', rc2.locations[1].plots.map(p => p.code).join() === rc.locations[1].plots.map(p => p.code).join());
+  const lat = Field.alphaDesign(25, 2, 5, 1);
+  check('simple lattice 25 × 5 × 2: E = (k + 1)/(k + 3) = 0.75 and reaches the bound', Math.abs(lat.efficiency - 0.75) < 1e-9 && Math.abs(lat.upperBound - 0.75) < 1e-9, lat.efficiency);
+  const lat3 = Field.alphaDesign(49, 3, 7, 1);
+  check('triple lattice 49 × 7 × 3: E = 2(k + 1)/(2k + 5) = 16/19', Math.abs(lat3.efficiency - 16 / 19) < 1e-9, lat3.efficiency);
+  const al = Field.alphaDesign(30, 3, 5, 11);
+  check('alpha 30 × 5 × 3 at least as efficient as the reference series (0.784346, reference series)', al.efficiency >= 0.784346, al.efficiency);
+  const aug = Field.generate(Mating.build({ design: 'lxt', lines: pnames(12), testers: ['T1', 'T2'], includeParents: false, checks: ['C1', 'C2', 'C3'] }).entries, { design: 'augmented', reps: 1, blocks: 4, locations: ['A'], seed: 3, plotsPerRow: 0, arrangement: 'stacked', numbering: 'rowwise' });
+  const augOk = [1, 2, 3, 4].every(b => ['C1', 'C2', 'C3'].every(c => aug.locations[0].plots.filter(p => p.rep === b && p.code === c).length === 1));
+  check('augmented design: every check in every block, new entries once', augOk && aug.locations[0].plots.filter(p => p.type !== 'check').length === 24);
+
+  section('Block 2 · precision and power (values from R: pf with ncp, and linear algebra)');
+  check('non-central F power d1 = 5, d2 = 40, λ = 12.5 equals R 0.7217577', Math.abs(S.powerF(12.5, 5, 40, 0.05) - 0.7217577143) < 1e-6);
+  check('non-central F cdf d1 = 28, d2 = 100, λ = 60 at 2.5 equals R 0.1823168', Math.abs(S.pnf(2.5, 28, 100, 60) - 0.1823167738) < 1e-6);
+  const T6 = Precision.griffingTable(6);
+  check('Griffing method 2, p = 6: Var(ŝᵢⱼ) = (p² + p + 2)/((p + 1)(p + 2)) σ²', Math.abs(T6[2].vsij - 44 / 56) < 1e-12);
+  check('Griffing method 3, p = 6: Var(ŝᵢⱼ − ŝₖₗ) = (p − 4)/(p − 2) σ²', Math.abs(T6[3].dskl - 0.5) < 1e-12);
+  const pd = Precision.partial({ p: 8, s: 3, r: 2, L: 1, sigma2e: 2, alpha: 0.05 });
+  check('partial diallel p = 8, s = 3: Var(ĝᵢ − ĝⱼ) = 0.875, 1.25, 1.875, 2.0 σ² by distance', [0.875, 1.25, 1.875, 2].every((vv, i) => Math.abs(pd.distances[i].se * pd.distances[i].se - vv) < 1e-9));
+  const lx = Precision.lxt({ l: 8, t: 3, r: 3, L: 1, sigma2e: 2, alpha: 0.05 });
+  check('line × tester exact SE of a line GCA = √[(l − 1)σ²/(rlt)]', Math.abs(lx.effects[0].se - Math.sqrt(7 * 2 / 72)) < 1e-12);
+  const al2 = Precision.generationAllocation({ gens: ['P1', 'P2', 'F1', 'F2', 'BC1', 'BC2'], total: 6000, h2F2: 0.6, dominanceRatio: 1 });
+  const ses = Object.keys(al2.plants).map(g => al2.variances[g] / al2.plants[g]);
+  check('plant allocation equalises the variances of the generation means (within rounding)', Math.max(...ses) / Math.min(...ses) < 1.02, ses.map(x => x.toFixed(5)).join(' '));
+
+  section('Block 3 · reading and column roles');
+  const tb = Data.table([['#BreedingPro fieldbook, mating=griffing, method=2, field=alpha, reps=2, k=6'], ['Localidad', 'Parcela', 'Repetición', 'Bloque', 'Fila', 'Columna', 'Entrada', 'Genotipo', 'Hembra', 'Macho', 'Tipo', 'Rendimiento'], ['A', 1, 1, 1, 1, 1, 3, 'P1 × P2', 'P1', 'P2', 'F₁ directa', '5,6']]);
+  check('declaration line of a Block 2 field book is read', tb.meta && tb.meta.mating === 'griffing' && tb.meta.method === 2 && tb.meta.field === 'alpha' && tb.meta.k === 6);
+  const gr = Data.guessRoles(tb).roles;
+  check('Spanish field-book headers get their roles (entry number ignored, genotype kept)', gr.join(',') === 'env,plot,rep,block,row,col,ignore,entry,female,male,type,trait', gr.join(','));
+  const grEn = Data.guessRoles(Data.table([['Location', 'Plot', 'Replicate', 'Block', 'Row', 'Column', 'Entry', 'Genotype', 'Female', 'Male', 'Type', 'Yield'], ['A', 1, 1, 1, 1, 1, 1, 'X', 'a', 'b', 'parent', 3]])).roles;
+  check('English field-book headers get the same roles', grEn.join(',') === 'env,plot,rep,block,row,col,ignore,entry,female,male,type,trait', grEn.join(','));
+  check('decimal comma is detected and read', Data.decimalOf(['5,6', '7,25', 'NA']) === 'comma' && Data.toNumber('5,6', 'comma') === 5.6 && Data.toNumber('1.234,5', 'comma') === 1234.5);
+  check('missing-value tokens are missing, text is not a number', Data.toNumber('NA', 'point') === null && Data.toNumber('.', 'point') === null && isNaN(Data.toNumber('abc', 'point')));
+  check('cross names are split: "1x3", "A × B", "L1/L2"; words with x are not', String(Data.splitCross('1x3')) === '1,3' && String(Data.splitCross('A × B')) === 'A,B' && String(Data.splitCross('L1/L2')) === 'L1,L2' && Data.splitCross('Maxima') === null);
+  check('generation codes in Spanish and English', Data.genCode('RC1') === 'BC1' && Data.genCode('F₂') === 'F2' && Data.genCode('bc2') === 'BC2' && Data.genCode('P1') === 'P1');
+  const wide = Data.reshapeLong({ header: ['Par1', 'Par2', 'E1B1', 'E1B2', 'E2B1', 'E2B2'], rows: [['1', '2', 10, 11, 12, 13]] }, [2, 3, 4, 5], { valueName: 'Yield' });
+  check('wide → long splits names like E1B2 into two factors', wide.header.join(',') === 'Par1,Par2,E,B,Yield' && wide.rows.length === 4 && wide.rows[3].join(',') === '1,2,E2,2,13', wide.header.join(','));
+
+  section('Block 3 · design recognition on the examples');
+  const loadEx = id => {
+    const ex = Examples.get(id), src = Examples.rows(id), table = Data.table(src.rows);
+    const roles = Data.guessRoles(table).roles;
+    if (ex.roles) Object.entries(ex.roles).forEach(([h, r]) => { const j = table.header.indexOf(h); if (j >= 0) roles[j] = r; });
+    const ov = Object.assign({}, ex.override || {});
+    if (table.meta) { ov.mating = ov.mating || table.meta.mating; ov.method = ov.method || table.meta.method; ov.field = ov.field || table.meta.field; }
+    const ds = Data.build(table, roles, { separateSexes: ov.mating ? ['nc1', 'nc2', 'nc3', 'ttc', 'lxt'].includes(ov.mating) : undefined, nestFemales: ov.mating === 'nc1' });
+    return { ex, ds, rec: Data.recognize(ds, ov), src };
+  };
+  const loaded = {};
+  Examples.LIST.forEach(ex => {
+    const L = loaded[ex.id] = loadEx(ex.id), x = ex.expect, m = L.rec.mating, f = L.rec.field;
+    const ok = m.design === x.mating && f.design === x.field && (x.method == null || m.method === x.method) && (x.s == null || m.s === x.s) && (x.multiEnv == null || f.multiEnv === x.multiEnv) && (x.plantLevel == null || f.plantLevel === x.plantLevel);
+    check(`${ex.id}: ${x.mating}${x.method ? ' ' + x.method : ''} in ${x.field}`, ok, `${m.design} ${m.method || ''} ${f.design}`);
+  });
+  check('partial diallel of the example is recognised as circulant (Kempthorne–Curnow, k = 2)', loaded.partial8.rec.mating.circulant === true && loaded.partial8.rec.mating.k === 2);
+  check('nc2: males and females with the same codes stay different plants', loaded.nc2.rec.mating.females.length === 10 && loaded.nc2.rec.mating.males.length === 10 && loaded.nc2.ds.records.every(r => r.type !== 'parent'));
+  check('lxt: 5 lines, 3 testers and 8 parents evaluated', loaded.lxt.rec.mating.lines.length === 5 && loaded.lxt.rec.mating.testers.length === 3 && loaded.lxt.rec.mating.parentsEvaluated === 8);
+  check('simAlpha: 5 checks outside the diallel', loaded.simAlpha.rec.mating.checks.length === 5);
+
+  section('Block 3 · field-design analysis against published values and R');
+  const ss = (res, src) => { const r = res.anova.find(a => a.source === src); return r ? r.ss : NaN; };
+  ['maize4', 'hayman54', 'partial8', 'lxt'].forEach(id => {
+    const L = loaded[id], res = Trial.analyseEnv(L.ds, L.rec.field.envs[0], L.ds.traits[0], { heritability: false }), x = L.ex.expect.anova;
+    const refEntry = id === 'lxt' ? 32552.93739 : x.entry, refRes = id === 'lxt' ? 6010.29798 : x.residual;
+    const tol = L.ex.expect.tol || 1e-4;
+    check(`${id}: replicates, entries and error sums of squares`, near(ss(res, 'rep'), x.rep, tol) && near(ss(res, 'entry'), refEntry, tol) && near(res.sse = res.anova.find(a => a.source === 'residual').ss, refRes, tol), `${ss(res, 'rep').toFixed(5)} / ${ss(res, 'entry').toFixed(5)} / ${res.sse.toFixed(5)}`);
+  });
+  const nc2r = Trial.analyseEnv(loaded.nc2.ds, loaded.nc2.rec.field.envs[0], loaded.nc2.ds.traits[0], { heritability: false });
+  check('nc2: sets 847 836 and replicates within sets 144 345 (published ANOVA)', near(ss(nc2r, 'set'), 847836, 1) && near(ss(nc2r, 'repSet'), 144345, 1) && near(nc2r.mse, 18581, 1));
+  const nc1r = Trial.analyseEnv(loaded.nc1.ds, loaded.nc1.rec.field.envs[0], loaded.nc1.ds.traits[0], { heritability: false });
+  check('nc1 (plants within plots): plot error × 3 = 3.2072 and within-plot SS = 3.5533 (published)', near(nc1r.sse = nc1r.anova.find(a => a.source === 'residual').ss * 3, 3.2072, 1e-3) && near(nc1r.within.ss, 3.5533, 1e-3) && near(nc1r.within.F, 4.3325, 1e-3));
+  check('nc1: entries nested in sets have estimable means', nc1r.means.every(m => m.estimable));
+  const zr = Trial.run(loaded.dial2env.ds, loaded.dial2env.rec, 0, { heritability: false });
+  check('dial2env per environment: blocks 1.587 and 7.400, error 8.708 and 4.535 (published)', near(ss(zr.envs[0], 'rep'), 1.587, 1e-3) && near(zr.envs[0].anova.find(a => a.source === 'residual').ss, 8.708, 1e-3) && near(ss(zr.envs[1], 'rep'), 7.4, 1e-3) && near(zr.envs[1].anova.find(a => a.source === 'residual').ss, 4.535, 1e-3));
+  check('dial2env combined: blocks(env) 8.99, entries 981.53, entries × env 5.614, pooled error 13.24 with 28 df', near(ss(zr.combined, 'repEnv'), 8.9873, 1e-3) && near(ss(zr.combined, 'entry'), 981.5283, 1e-3) && near(ss(zr.combined, 'entryEnv'), 5.6143, 1e-3) && near(zr.combined.mse * 28, 13.2427, 1e-3) && zr.combined.dfe === 28);
+  const mz = Trial.analyseEnv(loaded.maize4.ds, loaded.maize4.rec.field.envs[0], loaded.maize4.ds.traits[0], {});
+  check('maize4: Tukey non-additivity SS 1249.998, F 4.98602 (independent reconstruction)', mz.tukey && near(mz.tukey.ss, 1249.997903, 1e-4) && near(mz.tukey.F, 4.986024, 1e-5));
+  check('maize4: Shapiro–Wilk of residuals W 0.97607375, p 0.0761325 (independent reconstruction)', near(mz.shapiro.W, 0.97607375, 1e-7) && near(mz.shapiro.p, 0.07613249, 1e-6));
+  check('maize4: REML with random entries σ²g 487.39028, σ²e 264.02431 (independent REML); balanced → Cullis H² = standard H²', near(mz.h2.sigma2g, 487.390281, 1e-3) && near(mz.h2.sigma2e, 264.024305, 1e-4) && near(mz.h2.cullis, mz.h2.standard, 1e-9));
+  const sa = loaded.simAlpha, saE = sa.rec.field.envs.find(e => e.key === 'Chapultepec');
+  const ar = Trial.analyseEnv(sa.ds, saE, sa.ds.traits[0], {});
+  check('α-lattice REML: σ²blocks 0.14616857, σ²e 0.32537085 (independent REML)', near(ar.reml.components[0].sigma2, 0.1461685744, 1e-6) && near(ar.reml.sigma2e, 0.3253708462, 1e-6));
+  const p1 = ar.means.find(m => m.entry === 'P1');
+  check('α-lattice: BLUE of P1 4.4447815, SE 0.4471559, average SED 0.6215266 (independent REML, asymptotic)', near(p1.mean, 4.444781495, 1e-6) && near(p1.se, 0.4471559, 1e-6) && near(ar.sed, 0.6215266, 1e-6));
+  check('α-lattice: intra-block and complete-block SEDs 0.6651348 and 0.6784254 (independent reconstruction)', near(ar.efficiency.sedIntra, 0.6651348129, 1e-7) && near(ar.efficiency.sedRcbd, 0.6784253536, 1e-7));
+  check('α-lattice: entries random + blocks random, σ²g 2.353096 (independent REML)', near(ar.h2.sigma2g, 2.3530956978, 1e-4) && near(ar.h2.others[0].sigma2, 0.1616084818, 1e-5));
+  const saRC = Data.recognize(sa.ds, { field: 'rowcol' });
+  const rcr = Trial.analyseEnv(sa.ds, saRC.field.envs.find(e => e.key === 'Chapultepec'), sa.ds.traits[0], { heritability: false });
+  check('rows and columns random: σ²rows 0.1461686, σ²columns at the boundary 0 (independent REML, singular fit)', near(rcr.reml.components[0].sigma2, 0.1461686, 1e-6) && rcr.reml.components[1].sigma2 === 0 && rcr.reml.components[1].boundary);
+  const saAll = Trial.run(sa.ds, sa.rec, 0, { heritability: false });
+  check('α-lattice combined (intra-block): locations 324.0421, blocks 166.7182, entries × locations 58.3497, error 37.9142 (independent reconstruction)', near(ss(saAll.combined, 'env'), 324.0421, 1e-3) && near(ss(saAll.combined, 'block'), 166.7182, 1e-3) && near(ss(saAll.combined, 'entryEnv'), 58.3497, 1e-3) && near(saAll.combined.mse * saAll.combined.dfe, 37.9142, 1e-3));
+  const augText = 'block,entry,y\n1,C1,52\n1,C2,61\n1,C3,47\n1,N1,55\n1,N2,70\n1,N3,49\n2,C1,55\n2,C2,63\n2,C3,50\n2,N4,58\n2,N5,66\n2,N6,44\n3,C1,50\n3,C2,58\n3,C3,45\n3,N7,62\n3,N8,53\n3,N9,57\n4,C1,57\n4,C2,66\n4,C3,52\n4,N10,49\n4,N11,71\n4,N12,60';
+  const augT = Data.table(Data.parseDelimited(augText)), augDs = Data.build(augT, Data.guessRoles(augT).roles), augRec = Data.recognize(augDs);
+  const augR = Trial.analyseEnv(augDs, augRec.field.envs[0], augDs.traits[0], { heritability: false });
+  check('augmented blocks recognised with checks C1–C3', augRec.field.design === 'augmented' && augR.checks.join() === 'C1,C2,C3');
+  check('augmented: blocks 79.5, entries adjusted 1234.333, checks 372.667, blocks adjusted 91.333 (independent reconstruction)', near(ss(augR, 'blockOnly'), 79.5, 1e-6) && near(ss(augR, 'entryAdj'), 1234.333333, 1e-5) && near(ss(augR, 'checks'), 372.666667, 1e-5) && near(augR.blocksAdjusted.ss, 91.333333, 1e-5));
+  const n1 = augR.means.find(m => m.entry === 'N1'), c1 = augR.means.find(m => m.entry === 'C1');
+  check('augmented: adjusted means C1 53.5 (SE 0.16667) and N1 56.3333 (SE 0.37268) (independent reconstruction)', near(c1.mean, 53.5, 1e-9) && near(c1.se, 0.1666667, 1e-6) && near(n1.mean, 56.333333, 1e-6) && near(n1.se, 0.3726780, 1e-6));
+  const gen = Trial.analyseEnv(loaded.simGen.ds, loaded.simGen.rec.field.envs[0], loaded.simGen.ds.traits[0], { heritability: false });
+  check('plant-level generations with a check: blocks 29.983, entries 503.571, within plots 2756.282 with 339 df (independent reconstruction)', near(ss(gen, 'rep'), 29.98319, 1e-4) && near(ss(gen, 'entry'), 503.57055, 1e-4) && near(gen.within.ss, 2756.282, 1e-3) && gen.within.df === 339);
+
+  section('Block 3 · outliers and exclusions');
+  const mzY = loaded.maize4.ds.traits[0].y, keep = mzY[40];
+  mzY[40] = keep + 120;
+  const mzOut = Trial.analyseEnv(loaded.maize4.ds, loaded.maize4.rec.field.envs[0], loaded.maize4.ds.traits[0], { heritability: false });
+  check('a value shifted by 120 g/L is flagged by the Bonferroni test', mzOut.outliers.length >= 1 && mzOut.outliers[0].ks.includes(40) && mzOut.outliers[0].level === 'outlier');
+  const mzEx = Trial.analyseEnv(loaded.maize4.ds, loaded.maize4.rec.field.envs[0], loaded.maize4.ds.traits[0], { heritability: false, excluded: new Set([40]) });
+  check('excluding it leaves 95 plots and the ANOVA is still computed (unbalanced)', mzEx.nPlots === 95 && mzEx.dfe === 74 && mzEx.means.every(m => m.estimable));
+  mzY[40] = keep;
+
+  section('Block 4 · Griffing: variance coefficients of the four methods (Griffing 1956, §1.5 of the notes)');
+  /* a balanced complete diallel with arbitrary values: the standard errors must follow
+     Griffing's coefficients exactly, whatever the data */
+  const gcells = (p, method, seed) => {
+    const r = rng(seed || 7), out = [];
+    const M = Griffing.METHODS[method];
+    for (let i = 0; i < p; i++) for (let j = 0; j < p; j++) {
+      if (i === j && !M.selfs) continue;
+      if (i > j && !M.recip) continue;
+      out.push({ env: '', i, j, y: 50 + 10 * randn(r), w: 3 });
+    }
+    return out;
+  };
+  [5, 6, 8].forEach(p => [1, 2, 3, 4].forEach(method => {
+    const mse = 6, r = 3, sigma = mse / r;
+    const res = Griffing.analyse({ parents: pnames(p), cells: gcells(p, method, 11 * p + method), method, envs: [{ key: '', name: 'A', mse, dfe: 40, r }], F: 1 });
+    const eff = res.main.effects;
+    const v = x => (x.se * x.se) / sigma;
+    const exp = {
+      1: { g: (p - 1) / (2 * p * p), sii: (p - 1) * (p - 1) / (p * p), sij: (p * p - 2 * p + 2) / (2 * p * p), r: 0.5, mu: 1 / (p * p), m: (p - 1) / (2 * p * p), n: (p - 2) / (2 * p), dg: 1 / p, dsShare: (p - 1) / p, dsApart: (p - 2) / p, dm: 1 / p },
+      2: { g: (p - 1) / (p * (p + 2)), sii: p * (p - 1) / ((p + 1) * (p + 2)), sij: (p * p + p + 2) / ((p + 1) * (p + 2)), mu: 2 / (p * (p + 1)), dg: 2 / (p + 2), dsShare: 2 * (p + 1) / (p + 2), dsApart: 2 * p / (p + 2) },
+      3: { g: (p - 1) / (2 * p * (p - 2)), sij: (p - 3) / (2 * (p - 1)), r: 0.5, mu: 1 / (p * (p - 1)), m: (p - 1) / (2 * p * p), n: (p - 2) / (2 * p), dg: 1 / (p - 2), dsShare: (p - 3) / (p - 2), dsApart: (p - 4) / (p - 2), dm: 1 / p },
+      4: { g: (p - 1) / (p * (p - 2)), sij: (p - 3) / (p - 1), mu: 2 / (p * (p - 1)), dg: 2 / (p - 2), dsShare: 2 * (p - 3) / (p - 2), dsApart: 2 * (p - 4) / (p - 2) },
+    }[method];
+    const sij = eff.sca.find(s => !s.self), sii = eff.sca.find(s => s.self);
+    const dif = k => { const d = eff.diffs.find(x => x.key === k); return d ? d.se * d.se / sigma : NaN; };
+    const checks = [['Var(ĝ)', v(eff.gca[0]), exp.g], ['Var(ŝᵢⱼ)', v(sij), exp.sij], ['Var(μ̂)', v(eff.mu), exp.mu],
+      ['Var(ĝᵢ − ĝⱼ)', dif('gca'), exp.dg], ['Var(ŝᵢⱼ − ŝᵢₖ)', dif('scaShare'), exp.dsShare], ['Var(ŝᵢⱼ − ŝₖₗ)', dif('scaApart'), exp.dsApart]];
+    if (exp.sii) checks.push(['Var(ŝᵢᵢ)', v(sii), exp.sii]);
+    if (exp.r) checks.push(['Var(r̂ᵢⱼ)', v(eff.recip[0]), exp.r], ['Var(m̂ᵢ)', v(eff.maternal[0]), exp.m], ['Var(n̂ᵢⱼ)', v(eff.nonmaternal[0]), exp.n], ['Var(m̂ᵢ − m̂ⱼ)', dif('mat'), exp.dm]);
+    const bad = checks.filter(c => !near(c[1], c[2], 1e-9));
+    check(`method ${method}, p = ${p}: ${checks.length} variances follow Griffing's coefficients`, bad.length === 0, bad.map(c => `${c[0]} ${c[1].toFixed(6)} ≠ ${c[2].toFixed(6)}`).join('; '));
+    /* the restrictions hold exactly */
+    const sumG = eff.gca.reduce((s, g) => s + g.est, 0);
+    let worst = 0;
+    for (let i = 0; i < p; i++) {
+      let s = 0;
+      eff.sca.forEach(x => { if (x.i === i && x.j === i) s += (method === 2 ? 2 : 1) * x.est; else if (x.i === i || x.j === i) s += x.est; });
+      worst = Math.max(worst, Math.abs(s));
+    }
+    check(`method ${method}, p = ${p}: Σĝᵢ = 0 and the SCA restriction hold`, Math.abs(sumG) < 1e-8 && worst < 1e-8, `${sumG.toExponential(1)} / ${worst.toExponential(1)}`);
+  }));
+
+  section('Block 4 · Griffing on the published examples');
+  const gbuild = (id, method, opts) => {
+    opts = opts || {};
+    const L = loaded[id], D = L.ds, rec = L.rec;
+    const M = Griffing.METHODS[method];
+    const parents = rec.mating.parents, ix = new Map(parents.map((x, k) => [x, k]));
+    const ent = new Map();
+    D.records.forEach(r => { const i = ix.get(r.female), j = ix.get(r.male); if (i == null || j == null) return; if (!ent.has(r.entry)) ent.set(r.entry, { i, j }); });
+    const cnt = new Map();
+    ent.forEach(v => { if (v.i === v.j) return; const k = Math.min(v.i, v.j) + '|' + Math.max(v.i, v.j); cnt.set(k, (cnt.get(k) || 0) + 1); });
+    const keep = new Set();
+    ent.forEach((v, name) => {
+      if (v.i === v.j) { if (M.selfs) keep.add(name); return; }
+      const k = Math.min(v.i, v.j) + '|' + Math.max(v.i, v.j);
+      if (M.recip || cnt.get(k) === 1 || v.i < v.j) keep.add(name);
+    });
+    const drop = opts.drop || [];
+    const sub = Object.assign({}, D, { records: D.records.filter(r => keep.has(r.entry) && !drop.includes(r.entry)) });
+    const t = D.traits[opts.trait || 0];
+    const envs = [], cells = [];
+    rec.field.envs.forEach(E => {
+      const res = Trial.analyseEnv(sub, E, t, { heritability: false, externalError: L.ex.external });
+      if (res.error) return;
+      const hasError = res.mse != null && res.dfe > 0;
+      envs.push({ key: E.key, name: res.env, mse: hasError ? res.mse : res.mseMeans, dfe: res.dfe, r: hasError ? res.harmonicReps : 1 });
+      res.means.forEach(m => { const v = ent.get(m.entry); if (!v || !isFinite(m.mean)) return; cells.push({ env: E.key, i: v.i, j: v.j, y: m.mean, w: hasError ? (m.n || 1) : 1 }); });
+    });
+    return Griffing.analyse(Object.assign({ parents, cells, envs, method, F: 1, alpha: 0.05, byEnv: envs.length > 1 }, opts.analyse || {}));
+  };
+  const gss = (res, src, scale) => { const x = res.main.anova.find(a => a.source === src); return x ? x.ss / (scale === 'mean' ? res.main.r : 1) : NaN; };
+
+  const mz4 = gbuild('maize4', 1);
+  check('maize4, Method 1: GCA 30162.396, SCA 14715.594, reciprocal 2947.5, maternal 240.75, non-maternal 2706.75 (published)',
+    near(gss(mz4, 'gca'), 30162.39583, 1e-4) && near(gss(mz4, 'sca'), 14715.59375, 1e-4) && near(gss(mz4, 'rec'), 2947.5, 1e-4) && near(gss(mz4, 'mat'), 240.75, 1e-4) && near(gss(mz4, 'nonmat'), 2706.75, 1e-4),
+    [gss(mz4, 'gca'), gss(mz4, 'sca'), gss(mz4, 'rec')].map(x => x.toFixed(3)).join(' / '));
+  check('maize4: F = 38.08 (GCA), 9.29 (SCA), 1.86 (reciprocal), 0.30 (maternal), 3.42 (non-maternal) (published)',
+    ['gca', 'sca', 'rec', 'mat', 'nonmat'].map(k => mz4.main.anova.find(a => a.source === k).FI).every((f, i) => near(f, [38.08, 9.29, 1.86, 0.30, 3.42][i], 0.005)));
+  const mzE = mz4.main.effects;
+  check('maize4: ĝ = −6.0729167, −13.8229167, 20.0104167, −0.1145833 with SE 2.03110309 (published)',
+    [-6.0729167, -13.8229167, 20.0104167, -0.1145833].every((v, i) => near(mzE.gca[i].est, v, 1e-6)) && near(mzE.gca[0].se, 2.03110309, 1e-7));
+  check('maize4: ŝ₁₂ = 5.5520833, ŝ₃₄ = 14.7604167 with SE 3.70826994; m̂ = −1.1875 (SE 2.03110309); r̂₁₄ = −10.9166667 (SE 4.69063167) (published)',
+    near(mzE.sca.find(s => s.i === 0 && s.j === 1).est, 5.5520833, 1e-6) && near(mzE.sca.find(s => s.i === 2 && s.j === 3).est, 14.7604167, 1e-6)
+    && near(mzE.sca.find(s => s.i === 0 && s.j === 1).se, 3.70826994, 1e-7) && near(mzE.maternal[0].est, -1.1875, 1e-6) && near(mzE.maternal[0].se, 2.03110309, 1e-7)
+    && near(mzE.recip.find(x => x.i === 0 && x.j === 3).est, -10.9166667, 1e-6) && near(mzE.recip[0].se, 4.69063167, 1e-7));
+  check('maize4: ŝᵢᵢ = −20.697917, −1.864583, −27.197917, −13.78125 (recomputed independently)',
+    [-20.697917, -1.864583, -27.197917, -13.78125].every((v, i) => near(mzE.sca.find(s => s.self && s.i === i).est, v, 1e-5)));
+  const mzComp = k => mz4.main.components.find(c => c.key === k).value;
+  check('maize4, Model II: σ²GCA 161.8726, σ²SCA 224.4692, σ²reciprocal 18.9355, σ²maternal −17.125 (moment estimators)',
+    near(mzComp('g'), 161.8726, 1e-3) && near(mzComp('s'), 224.4692, 1e-3) && near(mzComp('r'), 18.9355, 1e-3) && near(mzComp('m'), -17.125, 1e-3));
+
+  const h1 = gbuild('hayman54', 1);
+  check('hayman54, Method 1: GCA 277716.73, SCA 102238.45, reciprocal 19112, maternal 6739.125, non-maternal 12372.875 (published)',
+    near(gss(h1, 'gca'), 277716.734, 0.01) && near(gss(h1, 'sca'), 102238.445, 0.01) && near(gss(h1, 'rec'), 19112, 0.01) && near(gss(h1, 'mat'), 6739.125, 0.01) && near(gss(h1, 'nonmat'), 12372.875, 0.01));
+  const h1e = h1.main.effects;
+  check('hayman54: ĝ_A 46.195312 (SE 3.376036), ŝ_AA 33.710937 (SE 12.631971), ŝ_AB −31.507812 (SE 9.022836), μ̂ 162.898437 (SE 1.804567) (published)',
+    near(h1e.gca[0].est, 46.195312, 1e-5) && near(h1e.gca[0].se, 3.376036, 1e-5) && near(h1e.sca[0].est, 33.710937, 1e-5) && near(h1e.sca[0].se, 12.631971, 1e-5)
+    && near(h1e.sca[1].est, -31.507812, 1e-5) && near(h1e.sca[1].se, 9.022836, 1e-5) && near(h1e.mu.est, 162.898437, 1e-5) && near(h1e.mu.se, 1.804567, 1e-5));
+  const h3 = gbuild('hayman54', 3);
+  check('hayman54 as Method 3 (selfs dropped): GCA 168923, SCA 37288.86, error 21634.9 with 55 df (published)',
+    near(gss(h3, 'gca'), 168923, 1) && near(gss(h3, 'sca'), 37288.857, 0.01) && near(h3.main.mse * h3.main.dfe, 21634.9, 0.5) && h3.main.dfe === 55);
+
+  [[1, 3804.643, 22060.788, 365.537, 28.777729, -14.4404522, 426.1656570, [0.061875, 0.467969, 9.026719, -3.437969, -2.325469, -1.934844, 7.2375, -9.095781]],
+   [2, 1850.9, 12529.1, null, 27.92161709, -18.30547704, 419.54647702, [-0.3135, 2.380250, 5.930250, -2.653250, -4.705750, -0.718250, 7.605000, -7.524750]],
+   [3, 5612.4, 18336.3, 365.537, 30.33073115, -9.58679273, 443.24335872, [-0.08609375, -1.647135, 13.796198, -5.751719, 1.987865, -5.205885, 8.595573, -11.68880]],
+   [4, 3126.9, 9304.6, null, 31.187045285, -3.088483348, 434.040775861, [-0.8596875, -0.5751042, 13.404896, -6.757604, 2.334063, -6.449271, 10.566146, -11.663437]],
+  ].forEach(([m, ssG, ssS, ssR, mse, cg, cs, g]) => {
+    const res = gbuild('singh8', m);
+    const comp = k => { const c = res.main.components.find(x => x.key === k); return c ? c.value : NaN; };
+    const ok = near(gss(res, 'gca', 'mean'), ssG, 0.06) && near(gss(res, 'sca', 'mean'), ssS, 0.06) && (ssR == null || near(gss(res, 'rec', 'mean'), ssR, 0.01))
+      && near(res.main.mse / res.main.r, mse, 1e-6) && near(comp('g'), cg, 1e-5) && near(comp('s'), cs, 1e-5)
+      && g.every((v, i) => near(res.main.effects.gca[i].est, v, 1e-5));
+    check(`singh8 as Method ${m}: SS, error MS, Model-II components and the 8 GCA effects (published output for these data)`, ok,
+      `${gss(res, 'gca', 'mean').toFixed(2)} / ${gss(res, 'sca', 'mean').toFixed(2)} / ${(res.main.mse / res.main.r).toFixed(5)} / ${comp('g').toFixed(5)}`);
+  });
+
+  const lon = gbuild('lonnquist61', 2);
+  check('lonnquist61, Method 2 (entry means, external error 7.10/60 df): GCA 234.23, SCA 238.94; ĝ = −1.463, −0.200, −2.163, 1.487, −1.788, 4.125 (published)',
+    near(gss(lon, 'gca'), 234.23, 0.01) && near(gss(lon, 'sca'), 238.941, 0.01)
+    && [1.4875, -2.1625, -0.2, -1.7875, 4.125, -1.4625].every((v, i) => near(lon.main.effects.gca[i].est, v, 1e-4))
+    && near(lon.main.components.find(c => c.key === 'g').value, 3.8646, 1e-3));
+  const g56 = gbuild('griffing56', 4);
+  check('griffing56, Method 4: GCA 18606.0, SCA 9164.9; ĝ₁ 9.3508, ĝ₇ 28.1222 (computed independently)',
+    near(gss(g56, 'gca'), 18605.977, 0.05) && near(gss(g56, 'sca'), 9164.851, 0.05) && near(g56.main.effects.gca[0].est, 9.3508, 1e-3) && near(g56.main.effects.gca[6].est, 28.1222, 1e-3));
+
+  const zh = gbuild('dial2env', 2);
+  check('dial2env, Method 2 in two environments: GCA 630.14, SCA 351.39, GCA×E 2.085, SCA×E 3.530, error 13.24/28 df (published)',
+    near(gss(zh, 'gca'), 630.14, 0.01) && near(gss(zh, 'sca'), 351.388, 0.01) && near(gss(zh, 'gcaEnv'), 2.0846, 0.01) && near(gss(zh, 'scaEnv'), 3.5298, 0.01)
+    && near(zh.main.mse * zh.main.dfe, 13.2427, 0.01) && zh.main.dfe === 28);
+  check('dial2env: pooled ĝ = −3.72857, −0.71429, 2.03571, 0.47857, 1.92857 and σ²GCA 4.3653, σ²SCA 8.6965, σ²GCA×E 0.0120 (computed independently)',
+    [-3.72857, -0.71429, 2.03571, 0.47857, 1.92857].every((v, i) => near(zh.main.effects.gca[i].est, v, 1e-4))
+    && near(zh.main.components.find(c => c.key === 'g').value, 4.3653, 1e-3) && near(zh.main.components.find(c => c.key === 's').value, 8.6965, 1e-3)
+    && near(zh.main.components.find(c => c.key === 'ge').value, 0.0120, 1e-3));
+  check('dial2env: the per-environment analyses give GCA 348.400 and 283.823 (computed independently)',
+    near(zh.envs[0].anova.find(a => a.source === 'gca').ss, 348.400, 0.01) && near(zh.envs[1].anova.find(a => a.source === 'gca').ss, 283.823, 0.01));
+
+  section('Block 4 · Griffing with subsets, missing crosses and predictions');
+  const mz2 = gbuild('maize4', 2), mz4b = gbuild('maize4', 4);
+  check('maize4 analysed as Method 2 and Method 4: 10 and 6 entries with their own error (45 and 25 df)',
+    mz2.cells.length === 10 && mz2.main.dfe === 45 && mz4b.cells.length === 6 && mz4b.main.dfe === 25);
+  const mzMiss = gbuild('maize4', 1, { drop: ['L1 × L2', 'L2 × L1'] });
+  const sumG2 = mzMiss.main.effects.gca.reduce((s, g) => s + g.est, 0);
+  check('maize4 with a cross (both directions) removed: the analysis runs with SCA assumed zero there, Σĝ = 0 and the GCA standard error grows',
+    !mzMiss.complete && mzMiss.omitted.sca.length === 1 && Math.abs(sumG2) < 1e-8 && mzMiss.main.effects.gca[0].se > mzE.gca[0].se, `SE ${mzMiss.main.effects.gca[0].se.toFixed(4)} > ${mzE.gca[0].se.toFixed(4)}`);
+  const pr4 = g56.predictions.filter(x => x.tested);
+  check('griffing56: μ̂ + ĝᵢ + ĝⱼ + ŝᵢⱼ reproduces every cross mean (balanced Method 4)',
+    pr4.length === 36 && pr4.every(x => near(x.predicted, x.observed, 1e-8)));
+  const prAll = gbuild('maize4', 4).predictions;
+  check('maize4 as Method 4 with 4 parents: 6 crosses, all tested, and the GCA prediction differs from the observed mean',
+    prAll.length === 6 && prAll.every(x => x.tested) && prAll.some(x => Math.abs(x.predictedGca - x.observed) > 1e-6));
+  const mzMissPred = mzMiss.predictions.find(x => !x.tested);
+  check('with a missing cross its value is predicted from the GCA, with a standard error',
+    !!mzMissPred && isFinite(mzMissPred.predictedGca) && mzMissPred.seGca > 0, mzMissPred ? `${mzMissPred.predictedGca.toFixed(2)} ± ${mzMissPred.seGca.toFixed(2)}` : '');
+  const genM = mz4.main.genetic;
+  check('maize4: σ²A = 4σ²GCA/(1 + F) = 323.745 and Baker ratio 0.5905 with F = 1',
+    near(genM.s2A, 2 * mzComp('g'), 1e-9) && near(genM.s2A, 323.7452, 1e-3) && near(genM.baker, 0.5905, 1e-4));
+  const genF0 = Griffing.genetic(mz4.main.components, { F: 0, r: 6, e: 1, plotMse: mz4.main.mse });
+  check('with F = 0 the additive variance doubles and the dominance variance quadruples',
+    near(genF0.s2A, 4 * mzComp('g'), 1e-9) && near(genF0.s2D, 4 * mzComp('s'), 1e-9));
+
+  section('Block 5 · Hayman, Morley Jones and Gardner–Eberhart');
+  /* the diallel table and the per-block tables of an example, as Block 5 builds them */
+  const hjBuild = (id, opts) => {
+    opts = opts || {};
+    const L = loaded[id], D = L.ds, rec = L.rec;
+    const parents = rec.mating.parents, ix = new Map(parents.map((x, k) => [x, k]));
+    const ent = new Map();
+    D.records.forEach(r => { const i = ix.get(r.female), j = ix.get(r.male); if (i == null || j == null) return; if (!ent.has(r.entry)) ent.set(r.entry, { i, j }); });
+    const t = D.traits[opts.trait || 0];
+    const E = rec.field.envs[0];
+    const res = Trial.analyseEnv(D, E, t, { heritability: false, externalError: L.ex.external });
+    const cells = [];
+    res.means.forEach(m => { const v = ent.get(m.entry); if (v && isFinite(m.mean)) cells.push({ i: v.i, j: v.j, y: m.mean, w: res.mse != null ? (m.n || 1) : 1 }); });
+    const blocks = [];
+    if (res.mse != null) {
+      const byRep = new Map();
+      D.records.forEach(r => {
+        if ((r.env || '') !== E.key) return;
+        const v = ent.get(r.entry); if (!v) return;
+        const y = t.y[r.k]; if (!isFinite(y)) return;
+        const key = (E.blockAsRep ? r.block : r.rep) || '1';
+        if (!byRep.has(key)) byRep.set(key, []);
+        byRep.get(key).push({ i: v.i, j: v.j, y, w: 1 });
+      });
+      byRep.forEach((cs, key) => blocks.push({ key, cells: cs }));
+    }
+    return HJ.analyse(Object.assign({ cells, parents, mse: res.mse != null ? res.mse : res.mseMeans, dfe: res.dfe, r: res.mse != null ? res.harmonicReps : 1, blocks, alpha: 0.05 }, opts.analyse || {}));
+  };
+
+  const H = hjBuild('hayman54');
+
+  const rHay = 2;
+  const it = k => H.anova.items[k] * rHay;                  /* plot scale */
+  check('hayman54: Hayman items a 277716.73, b1 30796.89, b2 34152.70, b3 37288.86, c 6739.13, d 12372.88 (published)',
+    near(it('a'), 277716.734, 0.01) && near(it('b1'), 30796.885, 0.01) && near(it('b2'), 34152.703, 0.01) && near(it('b3'), 37288.857, 0.01) && near(it('c'), 6739.125, 0.01) && near(it('d'), 12372.875, 0.01),
+    [it('a'), it('b1'), it('b2'), it('b3'), it('c'), it('d')].map(x => x.toFixed(2)).join(' / '));
+  check('hayman54: b = b1 + b2 + b3 = 102238.44 and the degrees of freedom 7, 1, 7, 20, 7, 21',
+    near(it('b'), 102238.445, 0.01) && [7, 1, 7, 20, 7, 21].every((v, i) => ['a', 'b1', 'b2', 'b3', 'c', 'd'].map(k => H.anova.df[k])[i] === v));
+  const bl = k => H.anova.blockRows.find(x => x.item === k).ss;
+  check('hayman54: the item × blocks interactions 10015.86, 389.82, 1803.25, 3241.19, 3625.38, 7184.63 add up to the blocks × entries error 26260.12 (computed independently)',
+    near(bl('a'), 10015.859, 0.01) && near(bl('b1'), 389.823, 0.01) && near(bl('b2'), 1803.245, 0.01) && near(bl('b3'), 3241.190, 0.01) && near(bl('c'), 3625.375, 0.01) && near(bl('d'), 7184.625, 0.01)
+    && near(['a', 'b1', 'b2', 'b3', 'c', 'd'].reduce((s, k) => s + bl(k), 0), 26260.117, 0.02));
+  check('hayman54: F of the items against the pooled error 95.18 (a), 2.31 (c) and 1.41 (d) (published)',
+    near(H.anova.rows[0].F, 95.1805, 0.001) && near(H.anova.rows.find(x => x.item === 'c').F, 2.3097, 0.001) && near(H.anova.rows.find(x => x.item === 'd').F, 1.4135, 0.001));
+  check('hayman54: Hayman–Jinks statistics V0L0 10210.46, V1L1 2152.65, V0L1 1239.81, W0L01 3335.02 (computed independently)',
+    near(H.stats.V0L0, 10210.46, 0.01) && near(H.stats.V1L1, 2152.65, 0.01) && near(H.stats.V0L1, 1239.81, 0.01) && near(H.stats.W0L01, 3335.02, 0.01));
+  check('hayman54: E = MSE/r = 208.41 and components D 10002.05, F 6768.22, H1 4907.84, H2 3234.55, h² 6645.64 (computed independently)',
+    near(H.E, 208.414, 0.01) && near(H.components.D, 10002.05, 0.01) && near(H.components.F, 6768.22, 0.01) && near(H.components.H1, 4907.84, 0.01) && near(H.components.H2, 3234.55, 0.01) && near(H.components.h2, 6645.64, 0.01));
+  check('hayman54: Wr and Vr of the eight arrays (computed independently)',
+    [4002.15, 1515.99, 7392.43, 3642.73, 1459.96, 3289.49, 3946.55, 1430.86].every((v, i) => near(H.stats.Wr[i], v, 0.01))
+    && [3076.89, 571.50, 6657.72, 2652.88, 530.11, 1321.39, 2062.57, 348.14].every((v, i) => near(H.stats.Vr[i], v, 0.01)));
+  check('hayman54: regression b = 0.931 (SE 0.087), t(b = 1) not significant, t² = 0.249 (computed independently)',
+    near(H.regression.b, 0.931, 0.001) && near(H.regression.seb, 0.087, 0.001) && H.regression.p1 > 0.05 && near(H.regression.t2, 0.249, 0.001));
+  check('hayman54: the full-table components are exactly Griffing Method 1 (a = GCA, b = SCA, c = maternal, d = non-maternal)', (() => {
+    const g1 = gbuild('hayman54', 1), g3 = gbuild('hayman54', 3);
+    const gs = (g, k) => { const x = g.main.anova.find(z => z.source === k); return x ? x.ss / g.main.r : NaN; };
+    return near(H.anova.items.a, gs(g1, 'gca'), 1e-6) && near(H.anova.items.b, gs(g1, 'sca'), 1e-6)
+      && near(H.anova.items.c, gs(g1, 'mat'), 1e-6) && near(H.anova.items.d, gs(g1, 'nonmat'), 1e-6)
+      && near(H.anova.items.b3, gs(g3, 'sca'), 1e-6);
+  })());
+
+  /* Morley Jones (1965) Table 1: 4 × 4 half diallel of wheat yield */
+  const JT = [[33.9, 42.0, 35.6, 38.7], [42.0, 31.0, 36.7, 39.1], [35.6, 36.7, 30.0, 34.5], [38.7, 39.1, 34.5, 32.8]];
+  const jones = HJ.jonesItems(Float64Array.from(JT.flat()), 4);
+  check('Morley Jones (1965) Table 1: a 27.17, b1 81.90, b2 18.31, b3 0.82, total 128.20 (published)',
+    near(jones.a, 27.17, 0.005) && near(jones.b1, 81.90, 0.005) && near(jones.b2, 18.31, 0.005) && near(jones.b3, 0.82, 0.005) && near(jones.total, 128.20, 0.005),
+    [jones.a, jones.b1, jones.b2, jones.b3].map(x => x.toFixed(3)).join(' / '));
+
+  /* Gardner & Eberhart on lonnquist61 (entry means, error 7.10 with 60 df) */
+  const GEx = hjBuild('lonnquist61');
+  const geSS = (rows, k) => { const x = rows.find(z => z.source === k); return x ? x.ss : NaN; };
+  check('lonnquist61: Analysis II gives h̄ 115.440, varieties 234.230, variety heterosis 59.720 and specific heterosis 63.781 (published)',
+    near(geSS(GEx.ge2Anova, 'hbar'), 115.440, 0.001) && near(geSS(GEx.ge2Anova, 'v'), 234.230, 0.001) && near(geSS(GEx.ge2Anova, 'h'), 59.720, 0.001) && near(geSS(GEx.ge2Anova, 's'), 63.781, 0.001));
+  check('lonnquist61: Analysis III gives parents 55.975 and GCA among crosses 237.975 (published)',
+    near(geSS(GEx.ge3Anova, 'sp'), 55.975, 0.001) && near(geSS(GEx.ge3Anova, 'g'), 237.975, 0.001));
+  const namesL = GEx.parents;
+  const vOf = nm => GEx.ge2.v[namesL.indexOf(nm)].est, hOf = nm => GEx.ge2.h[namesL.indexOf(nm)].est, gOf = nm => GEx.ge3.g[namesL.indexOf(nm)].est;
+  check('lonnquist61: μ̂_v 92.45 (SE 1.088), h̄ 5.19 (SE 1.287), v̂ and ĥ of the six varieties with SE 2.432 and 1.720 (published)',
+    near(GEx.ge2.mu.est, 92.45, 1e-6) && near(GEx.ge2.mu.se, 1.087811, 1e-5) && near(GEx.ge2.hbar.est, 5.19, 1e-6) && near(GEx.ge2.hbar.se, 1.287116, 1e-5)
+    && near(vOf('M'), -1.45, 1e-6) && near(vOf('B'), 4.15, 1e-6) && near(vOf('K2'), 3.75, 1e-6) && near(GEx.ge2.v[0].se, 2.432420, 1e-5)
+    && near(hOf('M'), -1.475, 1e-6) && near(hOf('K2'), 4.5, 1e-6) && near(GEx.ge2.h[0].se, 1.719981, 1e-5));
+  check('lonnquist61: ŝ_B:G = 4.81 with SE 2.064, and ĝ of Analysis III = −2.2, −0.025, −2.05, 0.9, −3.0, 6.375 with SE 1.216 (published)',
+    near(GEx.ge2.s.find(s => namesL[s.i] === 'B' && namesL[s.j] === 'G').est, 4.81, 1e-6) && near(GEx.ge2.s[0].se, 2.063977, 1e-5)
+    && near(gOf('M'), -2.2, 1e-6) && near(gOf('H'), -0.025, 1e-6) && near(gOf('G'), -2.05, 1e-6) && near(gOf('B'), 0.9, 1e-6) && near(gOf('K'), -3.0, 1e-6) && near(gOf('K2'), 6.375, 1e-6)
+    && near(GEx.ge3.g[0].se, 1.216, 1e-3));
+  check('the identity ĝⱼ = ½v̂ⱼ + ĥⱼ holds exactly, and b₂ = SS(parents) + GCA(Method 4) − GCA(Method 2)', (() => {
+    const g2 = Griffing.analyse({ parents: namesL, cells: GEx.geCells.map(c => ({ env: '', i: c.i, j: c.j, y: c.y, w: 1 })), envs: [{ key: '', mse: GEx.E, dfe: 60, r: 1 }], method: 2, F: 1 });
+    const g4 = Griffing.analyse({ parents: namesL, cells: GEx.geCells.map(c => ({ env: '', i: c.i, j: c.j, y: c.y, w: 1 })), envs: [{ key: '', mse: GEx.E, dfe: 60, r: 1 }], method: 4, F: 1 });
+    const gss = (g, k) => { const x = g.main.anova.find(z => z.source === k); return x ? x.ss : NaN; };
+    const rhs = GEx.anova.items.genic + gss(g4, 'gca') - gss(g2, 'gca');
+    return GEx.geIdentity < 1e-10 && near(GEx.anova.items.b2, rhs, 1e-6) && near(gss(g2, 'gca'), GEx.anova.items.a, 1e-6) && near(gss(g4, 'sca'), GEx.anova.items.b3, 1e-6);
+  })());
+
+  /* the half-diallel error corrections, by simulation */
+  check('half-diallel error corrections: with only error in the data the derived corrections leave H₁ and H₂ unbiased and the classical ones inflate them', (() => {
+    const p = 6, E = 1, reps = 3000;
+    const rr = rng(20260918);
+    let sumDer = 0, sumCla = 0, sumDer2 = 0, sumCla2 = 0;
+    for (let k = 0; k < reps; k++) {
+      const sym = new Float64Array(p * p);
+      for (let i = 0; i < p; i++) for (let j = i; j < p; j++) { const v = 50 + randn(rr) * Math.sqrt(E); sym[i * p + j] = v; sym[j * p + i] = v; }
+      const st = HJ.stats(sym, p);
+      const cd = HJ.components(st, E, { half: true });
+      const cc = HJ.components(st, E, { half: true, classic: true });
+      sumDer += cd.H1; sumCla += cc.H1; sumDer2 += cd.H2; sumCla2 += cc.H2;
+    }
+    const mDer = sumDer / reps, mCla = sumCla / reps, mDer2 = sumDer2 / reps, mCla2 = sumCla2 / reps;
+    const biasH1 = 2 * E * (p - 1) / p, biasH2 = E * (2 - 4 * (p - 1) / (p * p));
+    window.__halfCheck = { mDer, mCla, mDer2, mCla2, biasH1, biasH2 };
+    return Math.abs(mDer) < 0.12 && Math.abs(mCla - biasH1) < 0.12 && Math.abs(mDer2) < 0.12 && Math.abs(mCla2 - biasH2) < 0.12;
+  })(), (() => { const c = window.__halfCheck; return `H1: ${c.mDer.toFixed(3)} vs ${c.mCla.toFixed(3)} (bias ${c.biasH1.toFixed(3)}) · H2: ${c.mDer2.toFixed(3)} vs ${c.mCla2.toFixed(3)} (bias ${c.biasH2.toFixed(3)})`; })());
+  check('with a full table (reciprocals averaged) the classical corrections are the unbiased ones', (() => {
+    const p = 6, E = 1, reps = 3000;
+    const rr = rng(777);
+    let s1 = 0, s2 = 0;
+    for (let k = 0; k < reps; k++) {
+      const sym = new Float64Array(p * p);
+      for (let i = 0; i < p; i++) for (let j = i; j < p; j++) {
+        /* a self has variance E, a cross is the mean of two reciprocals: variance E/2 */
+        const v = 50 + randn(rr) * Math.sqrt(i === j ? E : E / 2);
+        sym[i * p + j] = v; sym[j * p + i] = v;
+      }
+      const st = HJ.stats(sym, p);
+      const c = HJ.components(st, E, { half: false });
+      s1 += c.H1; s2 += c.H2;
+    }
+    return Math.abs(s1 / reps) < 0.1 && Math.abs(s2 / reps) < 0.1;
+  })());
+
+  section('Block 6 · mating designs (North Carolina, triple test cross, line × tester, partial diallel)');
+  /* the plot values of an example with the role of every entry, as Block 6 builds them */
+  const mdBuild = (id, opts) => {
+    opts = opts || {};
+    const L = loaded[id], D = L.ds, rec = L.rec, M = rec.mating;
+    const t = D.traits[opts.trait || 0];
+    const ent = new Map(Data.entryTable(D).map(e => [e.name, e]));
+    const E = rec.field.envs[0];
+    const res = Trial.analyseEnv(D, E, t, { heritability: false, externalError: L.ex.external });
+    const design = opts.design || M.design;
+    const obs = [];
+    res.plots.forEach(pl => {
+      const e = ent.get(pl.entry);
+      if (!e || e.type === 'check') return;
+      const row = { env: '', set: pl.set || '', rep: pl.repKey, block: pl.blockKey, y: pl.y, n: pl.n, entry: pl.entry };
+      if (design === 'nc1' || design === 'nc2') { if (!e.female || !e.male) return; row.male = e.male; row.female = e.female; }
+      else if (design === 'lxt') { if (e.female && e.male && e.female !== e.male) { row.line = e.female; row.tester = e.male; } else row.parent = e.female || e.male || e.name; }
+      else if (design === 'nc3' || design === 'ttc') { if (!e.female || !e.male) return; row.tester = M.testerIsFemale ? e.female : e.male; row.plant = M.testerIsFemale ? e.male : e.female; }
+      else if (design === 'partial') { if (!e.female || !e.male || e.female === e.male) return; row.female = e.female; row.male = e.male; }
+      if (opts.drop && opts.drop(row)) return;
+      obs.push(row);
+    });
+    return MD.analyse(Object.assign({
+      design, obs, parents: M.parents, testers: M.testers ? MD.orderTesters(M.testers) : null,
+      strata: { rep: !(res.design === 'crd' || res.design === 'means'), block: ['alpha', 'ibd', 'augmented'].includes(res.design) },
+      F: 0, alpha: 0.05, r: res.harmonicReps, e: 1,
+    }, opts.analyse || {}));
+  };
+  const mdRow = (r, src) => r.rows.find(x => x.source === src) || {};
+  const mdComp = (r, key) => (r.components || []).find(x => x.key === key) || {};
+  const mdCoef = (r, src, key) => (r.coef && r.coef[src] && r.coef[src][key] != null ? r.coef[src][key] / mdRow(r, src).df : NaN);
+
+  /* ---------------- North Carolina I ---------------- */
+  const N1 = mdBuild('nc1');
+  check('nc1: degrees of freedom 1 sets, 2 replicates, 4 males, 6 females within males, 10 error',
+    mdRow(N1, 'set').df === 1 && mdRow(N1, 'rep').df === 2 && mdRow(N1, 'male').df === 4 && mdRow(N1, 'female').df === 6 && N1.dfe === 10,
+    [mdRow(N1, 'set').df, mdRow(N1, 'rep').df, mdRow(N1, 'male').df, mdRow(N1, 'female').df, N1.dfe].join('/'));
+  check('nc1: sums of squares 0.177963 sets, 0.996481 replicates, 7.390370 males, 1.608333 females, 1.069074 error (computed independently)',
+    near(mdRow(N1, 'set').ss, 0.17796296, 1e-6) && near(mdRow(N1, 'rep').ss, 0.99648148, 1e-6) && near(mdRow(N1, 'male').ss, 7.39037037, 1e-6)
+    && near(mdRow(N1, 'female').ss, 1.60833333, 1e-6) && near(N1.mse * N1.dfe, 1.06907407, 1e-6));
+  check('nc1: expected mean squares σ²e + 2σ²f + 4σ²m for males and σ²e + 2σ²f for females (r = 2, f = 2)',
+    near(mdCoef(N1, 'male', 'male'), 4, 1e-9) && near(mdCoef(N1, 'male', 'female'), 2, 1e-9)
+    && near(mdCoef(N1, 'female', 'female'), 2, 1e-9) && Math.abs(mdCoef(N1, 'female', 'male')) < 1e-9);
+  check('nc1: males are tested against females within males, and the sets against the males',
+    mdRow(N1, 'male').denom === 'female' && mdRow(N1, 'female').denom === 'error' && mdRow(N1, 'set').denom === 'male');
+  check('nc1: σ²m = (M_m − M_f)/4 and σ²f = (M_f − M_e)/2, with σ²A = 4σ²m and σ²D = 4(σ²f − σ²m)',
+    near(mdComp(N1, 'male').value, (mdRow(N1, 'male').ms - mdRow(N1, 'female').ms) / 4, 1e-12)
+    && near(mdComp(N1, 'female').value, (mdRow(N1, 'female').ms - N1.mse) / 2, 1e-12)
+    && near(N1.genetic.s2A, 4 * mdComp(N1, 'male').value, 1e-12)
+    && near(N1.genetic.s2D, 4 * (mdComp(N1, 'female').value - mdComp(N1, 'male').value), 1e-12));
+  const N1F = mdBuild('nc1', { analyse: { F: 1 } });
+  check('nc1: with inbred parents (F = 1) σ²A = 2σ²m and σ²D = σ²f − σ²m',
+    near(N1F.genetic.s2A, 2 * mdComp(N1F, 'male').value, 1e-12) && near(N1F.genetic.s2D, mdComp(N1F, 'female').value - mdComp(N1F, 'male').value, 1e-12));
+
+  /* ---------------- North Carolina II ---------------- */
+  const N2 = mdBuild('nc2');
+  check('nc2: degrees of freedom 1 set, 4 replicates, 8 males, 8 females, 32 interaction, 96 error',
+    mdRow(N2, 'set').df === 1 && mdRow(N2, 'rep').df === 4 && mdRow(N2, 'male').df === 8 && mdRow(N2, 'female').df === 8 && mdRow(N2, 'maleFemale').df === 32 && N2.dfe === 96,
+    [mdRow(N2, 'set').df, mdRow(N2, 'rep').df, mdRow(N2, 'male').df, mdRow(N2, 'female').df, mdRow(N2, 'maleFemale').df, N2.dfe].join('/'));
+  check('nc2: error sum of squares 1 783 762.45 (published with the data) and sets 847 836.44',
+    near(N2.mse * N2.dfe, 1783762.4535, 1e-3) && near(mdRow(N2, 'set').ss, 847836.4359, 1e-3),
+    `${(N2.mse * N2.dfe).toFixed(4)} / ${mdRow(N2, 'set').ss.toFixed(4)}`);
+  check('nc2: expected mean squares σ²e + 3σ²mf + 15σ²m for males and 15σ²f for females (r = 3, 5 × 5 inside each set)',
+    near(mdCoef(N2, 'male', 'male'), 15, 1e-9) && near(mdCoef(N2, 'male', 'maleFemale'), 3, 1e-9)
+    && near(mdCoef(N2, 'female', 'female'), 15, 1e-9) && Math.abs(mdCoef(N2, 'male', 'female')) < 1e-9);
+  check('nc2: males and females against the interaction, and the sets against a Satterthwaite combination',
+    mdRow(N2, 'male').denom === 'maleFemale' && mdRow(N2, 'female').denom === 'maleFemale' && mdRow(N2, 'set').denom === 'quasi' && near(mdRow(N2, 'set').dfDen, 12.8931468, 1e-4));
+  check('nc2: σ²A = 2(σ²m + σ²f) and σ²D = 4σ²mf with F = 0',
+    near(N2.genetic.s2A, 2 * (mdComp(N2, 'male').value + mdComp(N2, 'female').value), 1e-9)
+    && near(N2.genetic.s2D, 4 * mdComp(N2, 'maleFemale').value, 1e-9));
+  check('nc2: the general effects of every set add up to zero and share one standard error',
+    N2.effects.every(e => Math.abs(e.rows.reduce((s, x) => s + x.est, 0)) < 1e-8 && Math.abs(e.cols.reduce((s, x) => s + x.est, 0)) < 1e-8)
+    && near(N2.effects[0].rows[0].se, Math.sqrt(N2.mse * (1 / 15 - 1 / 75)), 1e-9),
+    N2.effects[0].rows[0].se.toFixed(6));
+  /* one missing cross: the analysis stays exact and the coefficients change */
+  const N2miss = mdBuild('nc2', { drop: r => r.set === '1' && r.male === '♂1' && r.female === '♀1' });
+  check('nc2 with one cross removed: 31 degrees of freedom for the interaction and coefficients that are no longer whole numbers',
+    mdRow(N2miss, 'maleFemale').df === 31 && Math.abs(mdCoef(N2miss, 'male', 'male') - 15) > 1e-6 && isFinite(mdComp(N2miss, 'maleFemale').value),
+    `${mdRow(N2miss, 'maleFemale').df} · ${mdCoef(N2miss, 'male', 'male').toFixed(6)}`);
+
+  /* ---------------- North Carolina III ---------------- */
+  const N3 = mdBuild('nc3');
+  check('nc3: degrees of freedom 3 sets, 4 replicates, 12 plants, 1 tester, 3 testers × sets, 12 plants × testers, 28 error',
+    mdRow(N3, 'set').df === 3 && mdRow(N3, 'rep').df === 4 && mdRow(N3, 'plant').df === 12 && mdRow(N3, 'tester').df === 1
+    && mdRow(N3, 'testerSet').df === 3 && mdRow(N3, 'plantTester').df === 12 && N3.dfe === 28,
+    [mdRow(N3, 'set').df, mdRow(N3, 'plant').df, mdRow(N3, 'tester').df, mdRow(N3, 'testerSet').df, mdRow(N3, 'plantTester').df, N3.dfe].join('/'));
+  check('nc3: the mean square of plants × testers is the variance of the differences and that of plants is the variance of the sums (r = 2)',
+    near(mdRow(N3, 'plantTester').ms, N3.sd.varDiff, 1e-10) && near(mdRow(N3, 'plant').ms, N3.sd.varSum, 1e-10));
+  check('nc3: σ²A = 2(M_plants − M_e)/r and σ²D = (M_pt − M_e)/r from the analysis of variance',
+    near(N3.sd.s2A, 2 * (mdRow(N3, 'plant').ms - N3.mse) / N3.sd.r, 1e-10)
+    && near(N3.sd.s2D, (mdRow(N3, 'plantTester').ms - N3.mse) / N3.sd.r, 1e-10),
+    `${N3.sd.s2A.toFixed(6)} / ${N3.sd.s2D.toFixed(6)}`);
+  check('nc3: the testers are fixed (restricted model), so the plants are tested against the error and σ²plants = σ²A/4 agrees with the sums',
+    mdRow(N3, 'plant').denom === 'error' && Math.abs(mdCoef(N3, 'plant', 'plantTester')) < 1e-9
+    && near(mdComp(N3, 'plant').value, N3.sd.s2A / 4, 1e-10),
+    `${mdRow(N3, 'plant').denom} · ${mdComp(N3, 'plant').value.toFixed(6)} vs ${(N3.sd.s2A / 4).toFixed(6)}`);
+  check('nc3: D = 2σ²A, H = 4σ²D and the degree of dominance is (H/D)^½',
+    near(N3.sd.D, 2 * N3.sd.s2A, 1e-12) && near(N3.sd.H, 4 * N3.sd.s2D, 1e-12)
+    && (!isFinite(N3.sd.dominance) || near(N3.sd.dominance, Math.sqrt(N3.sd.H / N3.sd.D), 1e-12)));
+
+  /* ---------------- triple test cross (simulated with known parameters) ---------------- */
+  const TT = mdBuild('simTTC');
+  const truthTTC = Examples.simTTC().truth;
+  check('simTTC: the testers are ordered P₁, P₂, F₁ and the epistasis contrast has 1 + 29 degrees of freedom',
+    TT.sd.testers[2] === 'F1' && mdRow(TT, 'testerEpi').df === 1 && mdRow(TT, 'plantEpi').df === 29 && mdRow(TT, 'testerAdd').df === 1 && mdRow(TT, 'plantAdd').df === 29,
+    TT.sd.testers.join(','));
+  check('simTTC: no epistasis is detected in data simulated without it (both p > 0.05)',
+    TT.sd.epistasis.pOverall > 0.05 && TT.sd.epistasis.among.p > 0.05 && mdRow(TT, 'testerEpi').p > 0.05,
+    `${TT.sd.epistasis.pOverall.toFixed(3)} / ${TT.sd.epistasis.among.p.toFixed(3)}`);
+  check('simTTC: the mean square of individuals × (L₁ − L₂) is (r/2)·Var(differences)',
+    near(mdRow(TT, 'plantAdd').ms, (TT.sd.r / 2) * TT.sd.varDiff, 1e-9));
+  check(`simTTC: σ²A ${TT.sd.s2A.toFixed(2)} and σ²D ${TT.sd.s2D.toFixed(2)} are within two standard errors of the true 5.76 and 2`,
+    Math.abs(TT.sd.s2A - truthTTC.sigma2A) < 2 * TT.sd.seA && Math.abs(TT.sd.s2D - truthTTC.sigma2D) < 2 * TT.sd.seD,
+    `${TT.sd.s2A.toFixed(3)} ± ${TT.sd.seA.toFixed(3)} · ${TT.sd.s2D.toFixed(3)} ± ${TT.sd.seD.toFixed(3)}`);
+  check('simTTC: the additive contrast between the testers is tested against its interaction with the individuals',
+    mdRow(TT, 'testerAdd').denom === 'plantAdd' && mdRow(TT, 'testerEpi').denom === 'plantEpi' && mdRow(TT, 'testerAdd').p < 0.001);
+
+  /* ---------------- line × tester ---------------- */
+  const LT = mdBuild('lxt');
+  check('lxt: the entries split into 1 + 7 + 4 + 2 + 8 degrees of freedom and their sums of squares add up to 32 552.937',
+    mdRow(LT, 'pvc').df === 1 && mdRow(LT, 'parents').df === 7 && mdRow(LT, 'line').df === 4 && mdRow(LT, 'tester').df === 2 && mdRow(LT, 'lineTester').df === 8
+    && near(['pvc', 'parents', 'line', 'tester', 'lineTester'].reduce((s, k) => s + mdRow(LT, k).ss, 0), 32552.93739, 1e-3));
+  check('lxt: lines 10 318.361, testers 1 718.926 and lines × testers 14 162.367 (computed independently)',
+    near(mdRow(LT, 'line').ss, 10318.3614, 1e-3) && near(mdRow(LT, 'tester').ss, 1718.92577, 1e-3) && near(mdRow(LT, 'lineTester').ss, 14162.36716, 1e-3),
+    [mdRow(LT, 'line').ss, mdRow(LT, 'tester').ss, mdRow(LT, 'lineTester').ss].map(x => x.toFixed(3)).join(' / '));
+  check('lxt: expected mean squares σ²e + 4σ²lt + 12σ²l for lines and + 20σ²t for testers (r = 4, l = 5, t = 3)',
+    near(mdCoef(LT, 'line', 'line'), 12, 1e-9) && near(mdCoef(LT, 'line', 'lineTester'), 4, 1e-9) && near(mdCoef(LT, 'tester', 'tester'), 20, 1e-9));
+  check('lxt: the general effects add up to zero and Var(ĝ of a line) = σ²(1/rt − 1/rlt)',
+    Math.abs(LT.effects[0].rows.reduce((s, x) => s + x.est, 0)) < 1e-8
+    && near(LT.effects[0].rows[0].se, Math.sqrt(LT.mse * (1 / 12 - 1 / 60)), 1e-9)
+    && near(LT.effects[0].cols[0].se, Math.sqrt(LT.mse * (1 / 20 - 1 / 60)), 1e-9),
+    `${LT.effects[0].rows[0].se.toFixed(6)} / ${LT.effects[0].cols[0].se.toFixed(6)}`);
+  const LTF = mdBuild('lxt', { analyse: { F: 1 } });
+  check('lxt: σ²D = 4σ²ACE/(1+F)² gives σ²ACE with inbred parents, not 2σ²ACE',
+    near(LT.genetic.s2D, 4 * mdComp(LT, 'lineTester').value, 1e-9) && near(LTF.genetic.s2D, mdComp(LTF, 'lineTester').value, 1e-9));
+  check('lxt: heterosis of L3 × T8 is 39.700 with a standard error of 5.84375 (contrast of three means)',
+    (() => {
+      const h = LT.heterosis.find(x => x.row === 'L3' && x.col === 'T8');
+      return h && near(h.mph, 39.7, 1e-6) && near(h.seMph, Math.sqrt(LT.mse * (1 / 4 + 0.25 / 4 + 0.25 / 4)), 1e-9);
+    })());
+
+  /* ---------------- partial diallel ---------------- */
+  const PD = mdBuild('partial8');
+  check('partial8: replicates 17.0744 (published) and the 20 crosses split into 7 + 12 degrees of freedom adding to 22.4388',
+    near(mdRow(PD, 'rep').ss, 17.07441375, 1e-6) && mdRow(PD, 'gca').df === 7 && mdRow(PD, 'sca').df === 12
+    && near(mdRow(PD, 'gca').ss + mdRow(PD, 'sca').ss, 22.43881375, 1e-6),
+    `${mdRow(PD, 'gca').ss.toFixed(6)} + ${mdRow(PD, 'sca').ss.toFixed(6)}`);
+  check('partial8: the coefficient of σ²ACG is 120/7 = 17.142857 and that of σ²ACE is r = 4 (traces of the circulant design)',
+    near(mdCoef(PD, 'gca', 'gca'), 120 / 7, 1e-8) && near(mdCoef(PD, 'gca', 'sca'), 4, 1e-8) && near(mdCoef(PD, 'sca', 'sca'), 4, 1e-8),
+    mdCoef(PD, 'gca', 'gca').toFixed(8));
+  check('partial8: σ²A = 4σ²ACG and the Baker ratio is 2σ²ACG/(2σ²ACG + σ²ACE)',
+    near(PD.genetic.s2A, 4 * mdComp(PD, 'gca').value, 1e-12)
+    && (!isFinite(PD.genetic.baker) || near(PD.genetic.baker, 2 * mdComp(PD, 'gca').value / (2 * mdComp(PD, 'gca').value + mdComp(PD, 'sca').value), 1e-12)));
+
+  /* ---------------- the coefficients of a balanced design built by hand ---------------- */
+  check('the traces reproduce the classical coefficients of a balanced factorial: r·f, r·m and r', (() => {
+    const obs = [];
+    const m = 4, f = 3, r = 5;
+    for (let i = 1; i <= m; i++) for (let j = 1; j <= f; j++) for (let k = 1; k <= r; k++) obs.push({ env: '', set: '', rep: 'R' + k, male: 'M' + i, female: 'F' + j, y: i + 0.5 * j + 0.1 * k });
+    const L = MD.layout('nc2', obs, {});
+    const A = MD.anova(L, obs.map(x => x.y), {});
+    const C = MD.emsCoefficients(L, L.sources, {});
+    const cf = (a, b) => C[a][b] / A.rows.find(x => x.source === a).df;
+    return near(cf('male', 'male'), r * f, 1e-9) && near(cf('female', 'female'), r * m, 1e-9)
+      && near(cf('maleFemale', 'maleFemale'), r, 1e-9) && Math.abs(cf('female', 'male')) < 1e-9
+      && near(cf('male', 'maleFemale'), r, 1e-9);
+  })());
+
+  section('Block 7 · generation means, variances and heterosis');
+  /* statistics typed from a published table: n, mean and variance among individuals */
+  const genStats = tab => tab.map(([gen, n, mean, v]) => ({ gen, n, mean, varWithin: v, dfWithin: n - 1, varMean: v / n, seMean: Math.sqrt(v / n), dfMean: n - 1, basis: 'plants' }));
+  const gale1 = genStats([['P1', 10, 13.955, 1.6686], ['P2', 10, 7.575, 0.6596], ['F1', 20, 11.570, 0.5630], ['F2', 40, 11.501, 2.1184], ['BC1', 40, 13.603, 3.0806], ['BC2', 40, 9.219, 1.2957]]);
+  const gale2 = genStats([['P1', 10, 11.877, 0.2044], ['P2', 10, 12.910, 0.9454], ['F1', 20, 13.547, 0.6403], ['F2', 40, 12.217, 2.0899], ['BC1', 20, 11.840, 2.5109], ['BC2', 20, 13.015, 2.1087]]);
+  const G3 = GEN.fit(gale1, ['m', 'd', 'h'], 'MJ');
+  const est3 = k => G3.est.find(e => e.key === k);
+  check('Gale et al. (1977) set 1: joint scaling test χ²₃ = 9.4378, P = 2.40 % (published)',
+    near(G3.chi2, 9.4381, 5e-4) && G3.df === 3 && near(G3.p, 0.0240, 2e-4), `${G3.chi2.toFixed(4)} · ${G3.p.toFixed(4)}`);
+  check('Gale et al. (1977) set 1: m 11.0036 ± 0.1914, [d] 3.6349 ± 0.1924, [h] 0.5937 ± 0.2813 (published)',
+    near(est3('m').value, 11.0036, 1e-4) && near(est3('m').se, 0.1914, 1e-4) && near(est3('d').value, 3.6349, 1e-4) && near(est3('d').se, 0.1924, 1e-4)
+    && near(est3('h').value, 0.5937, 1e-4) && near(est3('h').se, 0.2813, 1e-4));
+  check('Gale et al. (1977) set 2: χ²₃ = 12.5731, P = 0.57 % (published)',
+    (() => { const f = GEN.fit(gale2, ['m', 'd', 'h'], 'MJ'); return near(f.chi2, 12.5731, 1e-4) && near(f.p, 0.00566, 1e-4); })());
+  const PMJ = GEN.fit(gale1, GEN.PARAMS, 'MJ'), PH = GEN.fit(gale1, GEN.PARAMS, 'H');
+  const pv = (f, k) => f.est.find(e => e.key === k).value;
+  check('set 1, perfect fit in the F∞ metric: m 11.125, [d] 3.190, [h] 1.059, [i] −0.360, [j] 2.388, [l] −0.614',
+    [['m', 11.125], ['d', 3.19], ['h', 1.059], ['i', -0.36], ['j', 2.388], ['l', -0.614]].every(([k, v]) => near(pv(PMJ, k), v, 1e-9)) && PMJ.df === 0);
+  check('set 1, perfect fit in Hayman\'s F₂ metric: m 11.501, d 4.384, h 0.445, i −0.360, j 1.194, l −0.614',
+    [['m', 11.501], ['d', 4.384], ['h', 0.445], ['i', -0.36], ['j', 1.194], ['l', -0.614]].every(([k, v]) => near(pv(PH, k), v, 1e-9)));
+  check('the two metrics are one reparametrisation: same χ² and m_F∞ = m − ½h + ¼l, [d] = d − j, [h] = h − l, [j] = 2j',
+    near(GEN.fit(gale1, ['m', 'd', 'h'], 'H').chi2, G3.chi2, 1e-9)
+    && (() => { const t = GEN.toMJ(PH.est); return near(t.m, pv(PMJ, 'm'), 1e-9) && near(t.d, pv(PMJ, 'd'), 1e-9) && near(t.h, pv(PMJ, 'h'), 1e-9) && near(t.j, pv(PMJ, 'j'), 1e-9) && near(t.l, pv(PMJ, 'l'), 1e-9); })());
+  check('perfect fit in closed form: [h] = 6B₁ + 6B₂ − 8F₂ − F₁ − 1.5P₁ − 1.5P₂ and [l] = P₁ + P₂ + 2F₁ + 4F₂ − 4B₁ − 4B₂',
+    (() => { const m = k => gale1.find(s => s.gen === k).mean; return near(pv(PMJ, 'h'), 6 * m('BC1') + 6 * m('BC2') - 8 * m('F2') - m('F1') - 1.5 * m('P1') - 1.5 * m('P2'), 1e-9) && near(pv(PMJ, 'l'), m('P1') + m('P2') + 2 * m('F1') + 4 * m('F2') - 4 * m('BC1') - 4 * m('BC2'), 1e-9); })());
+  const SC = GEN.scaling(gale1);
+  const sc = k => SC.find(x => x.key === k);
+  check('scaling tests: A = 2B₁ − P₁ − F₁ = 1.681, D = 2F₂ − B₁ − B₂ = 0.180, and V_A = 4V(B̄₁) + V(P̄₁) + V(F̄₁)',
+    near(sc('A').value, 1.681, 1e-9) && near(sc('D').value, 0.18, 1e-9) && near(sc('A').se * sc('A').se, 4 * 3.0806 / 40 + 1.6686 / 10 + 0.5630 / 20, 1e-12));
+  check('scaling tests estimate their epistatic combinations: D = −½[i], C − 4D = −[l] and A − B = [j] (F∞ metric, perfect fit)',
+    near(sc('D').value, -0.5 * pv(PMJ, 'i'), 1e-9) && near(sc('C').value - 4 * sc('D').value, -pv(PMJ, 'l'), 1e-9) && near(sc('A').value - sc('B').value, pv(PMJ, 'j'), 1e-9));
+  /* Mather (1949) Table 6: tomato loculus number, test A */
+  const mat49 = genStats([['P1', 1, 5.5, 0.08 * 0.08], ['F1', 1, 5.475, 0.067 * 0.067], ['BC1', 1, 5.575, 0.064 * 0.064]]);
+  check('Mather (1949) Table 6: A = 0.175 with SE 0.164 from the rounded errors (published)',
+    (() => { const a = GEN.scaling(mat49).find(x => x.key === 'A'); return near(a.value, 0.175, 1e-9) && near(a.se, 0.1643, 2e-3); })());
+
+  /* Lande (1981) Table 3: tomato fruit weight on log scale (Powers 1942) */
+  const lande = genStats([['P1', 420, -0.137, 0.0165], ['BC1', 932, 0.249, 0.0339], ['F1', 475, 0.710, 0.0144], ['F2', 932, 0.653, 0.0570], ['BC2', 931, 1.163, 0.0344], ['P2', 456, 1.689, 0.0165]]);
+  const LF = GEN.factors(lande);
+  const lf = k => LF.list.find(x => x.key === k);
+  check('Lande (1981) Table 3: effective factors 9.8 ± 0.6, 10.0 ± 0.7, 9.1 ± 1.1 and 11.1 ± 0.8 (published)',
+    near(lf('a').n, 9.784, 2e-3) && near(lf('b').n, 10.031, 2e-3) && near(lf('c').n, 9.120, 2e-3) && near(lf('d').n, 11.144, 2e-3)
+    && near(lf('a').se, 0.650, 2e-3) && near(lf('b').se, 0.661, 2e-3) && near(lf('c').se, 1.148, 2e-3) && near(lf('d').se, 0.767, 2e-3),
+    LF.list.map(x => `${x.n.toFixed(3)} ± ${x.se.toFixed(3)}`).join(' / '));
+  check('Cockerham (1986): the unweighted combined σ²s = 0.2(4V_F₂ + V_B₁ + V_B₂) − 0.4(V_P₁ + V_P₂ + V_F₁)',
+    near(LF.cockerham.sigma2s, 0.2 * (4 * 0.0570 + 0.0339 + 0.0344) - 0.4 * (0.0165 + 0.0165 + 0.0144), 1e-12));
+
+  /* the variance components against their expectations */
+  check('variances: with V_F₂, V_B₁, V_B₂ and E known the perfect fit is D = 4V_F₂ − 2(V_B₁ + V_B₂), H = 4(V_B₁ + V_B₂ − V_F₂ − E), F = V_B₂ − V_B₁', (() => {
+    const st = genStats([['P1', 50, 10, 2], ['P2', 50, 8, 2], ['F1', 50, 9.5, 2], ['F2', 200, 9.2, 6], ['BC1', 100, 9.8, 4.5], ['BC2', 100, 8.6, 5.3]]);
+    const V = GEN.varComponents(st, { weighted: false });
+    /* E is the mean of the three non-segregating variances, all equal to 2 here */
+    return near(V.D, 4 * 6 - 2 * (4.5 + 5.3), 1e-9) && near(V.H, 4 * (4.5 + 5.3 - 6 - 2), 1e-9) && near(V.F, 5.3 - 4.5, 1e-9) && near(V.E, 2, 1e-9);
+  })());
+  check('Warner (1952): narrow-sense h² = [2V_F₂ − (V_B₁ + V_B₂)]/V_F₂ equals ½D/V_F₂ of the same fit', (() => {
+    const st = genStats([['P1', 50, 10, 2], ['P2', 50, 8, 2], ['F1', 50, 9.5, 2], ['F2', 200, 9.2, 6], ['BC1', 100, 9.8, 4.5], ['BC2', 100, 8.6, 5.3]]);
+    const V = GEN.varComponents(st, { weighted: false });
+    return near(V.warner, (2 * 6 - 4.5 - 5.3) / 6, 1e-12) && near(V.warner, 0.5 * V.D / 6, 1e-12);
+  })());
+
+  /* heterosis */
+  const HT = GEN.heterosis(gale1);
+  const ht = k => HT.list.find(x => x.key === k);
+  check('heterosis: F₁ − MP = 0.805 with SE √[V(F̄₁) + ¼V(P̄₁) + ¼V(P̄₂)], and the potence ratio (2F₁ − P₁ − P₂)/|P₁ − P₂|',
+    near(ht('mph').value, 11.570 - (13.955 + 7.575) / 2, 1e-12) && near(ht('mph').se, Math.sqrt(0.5630 / 20 + 0.25 * 1.6686 / 10 + 0.25 * 0.6596 / 10), 1e-12)
+    && near(HT.potence.value, (2 * 11.570 - 13.955 - 7.575) / Math.abs(13.955 - 7.575), 1e-12));
+  check('heterosis in terms of the model: F₁ − MP = [h] + [l] − [i] in the F∞ metric and h − i in Hayman\'s',
+    near(ht('mph').value, pv(PMJ, 'h') + pv(PMJ, 'l') - pv(PMJ, 'i'), 1e-9) && near(ht('mph').value, pv(PH, 'h') - pv(PH, 'i'), 1e-9));
+
+  /* the example rebuilt from the published moments, through the whole pipeline */
+  const galeEx = loaded.gale77;
+  const galeRows = [];
+  (() => {
+    const t = galeEx.ds.traits[0];
+    const ent = new Map(Data.entryTable(galeEx.ds).map(e => [e.name, e]));
+    const E = galeEx.rec.field.envs[0];
+    Trial.plots(galeEx.ds, E.key, t, {}).plots.forEach(p => { const e = ent.get(p.entry); if (e && e.generation) p.vals.forEach(v => galeRows.push({ gen: e.generation, block: '', plot: p.key, y: v })); });
+  })();
+  const GA = GEN.analyse({ rows: galeRows, metric: 'MJ', order: Data.GEN_ORDER });
+  check('gale77 example: the rebuilt plants keep n, mean and variance of every generation and give χ² = 9.4381',
+    GA.stats.length === 6 && gale1.every(s => { const x = GA.stats.find(y => y.gen === s.gen); return x && x.n === s.n && near(x.mean, s.mean, 1e-10) && near(x.varWithin, s.varWithin, 1e-10); })
+    && near(GA.models.list[0].chi2, 9.4381, 5e-4));
+
+  /* the simulated generations: the truth is inside the confidence region */
+  const simEx = loaded.simGen;
+  const simRows = [];
+  (() => {
+    const t = simEx.ds.traits[0];
+    const ent = new Map(Data.entryTable(simEx.ds).map(e => [e.name, e]));
+    const E = simEx.rec.field.envs[0];
+    Trial.plots(simEx.ds, E.key, t, {}).plots.forEach(p => { const e = ent.get(p.entry); if (e && e.generation) p.vals.forEach(v => simRows.push({ gen: e.generation, block: (E.blockAsRep ? p.block : p.rep) || '', plot: p.key, y: v })); });
+  })();
+  const SA = GEN.analyse({ rows: simRows, metric: 'MJ', order: Data.GEN_ORDER });
+  check('simGen: with replicated plots the variance of a mean comes from the plot means (3 per generation)',
+    SA.stats.every(s => s.basis === 'plots' && s.nPlots === 3));
+  check('simGen: [d] of the perfect fit is within two standard errors of the true 8, and E within two of 4',
+    (() => { const d = SA.perfect.est.find(e => e.key === 'd'); const E = SA.variances.list.find(c => c.key === 'E'); return Math.abs(d.value - 8) < 2 * d.se && Math.abs(E.value - 4) < 2 * E.se; })());
+  /* the blocks are shared by every generation: they must not enter the variances of the means */
+  check('simGen: V(mean) = σ²p·Σk²/n² + s²/n with σ²p = 1.30328 − 0.37505 from the plot means without blocks: P₁ 0.44496, F₂ 0.40723 (R, and REML 0.44484, 0.40838)',
+    near(SA.stats.find(s => s.gen === 'P1').varMean, 0.4449588824640538, 1e-9) && near(SA.stats.find(s => s.gen === 'F2').varMean, 0.40723470155237285, 1e-9)
+    && near(SA.stats.find(s => s.gen === 'P1').dfMean, 10.207453799155669, 1e-7));
+  check('adding 10 to every plant of one block changes no variance of a mean, no χ² and no estimate but m',
+    (() => { const shifted = simRows.map(r => Object.assign({}, r, { y: r.y + (r.block === simRows[0].block ? 10 : 0) }));
+      const B = GEN.analyse({ rows: shifted, metric: 'MJ', order: Data.GEN_ORDER });
+      return B.stats.every((s, k) => near(s.varMean, SA.stats[k].varMean, 1e-9)) && B.models.list.every((m, k) => near(m.chi2, SA.models.list[k].chi2, 1e-7)); })());
+  check('simGen: with plot means the p of m, [d], [h] is Welch–James (Johansen 1980): χ² 12.4645, p 0.019460 (R)',
+    (() => { const m = SA.models.list[0]; return m.test === 'WJ' && near(m.chi2, 12.464452646636873, 1e-7) && near(m.p, 0.019459691033056781, 1e-8); })());
+  /* standard heterosis: the check written in the generation column enters only that contrast */
+  const ckRows = simRows.slice();
+  (() => {
+    const t = simEx.ds.traits[0], E = simEx.rec.field.envs[0];
+    Trial.plots(simEx.ds, E.key, t, {}).plots.forEach(p => { if (p.entry === 'Testigo') p.vals.forEach(v => ckRows.push({ gen: 'CK:Testigo', block: (E.blockAsRep ? p.block : p.rep) || '', plot: p.key, y: v })); });
+  })();
+  const SK = GEN.analyse({ rows: ckRows, metric: 'MJ', order: Data.GEN_ORDER });
+  const shK = SK.heterosis.list.find(x => x.check === 'Testigo');
+  check('a check written in the generation column is an entry of type check (simGen: «Testigo»)', simEx.rec.mating.design === 'generations' && simEx.rec.mating.checks.join() === 'Testigo');
+  check('standard heterosis F₁ − Testigo = 3.24667 ± 0.91378 (6.389 %), 12.404 df, p 0.0037856, with the plot error of the whole trial (R, and REML ± 0.9186)',
+    !!shK && near(shK.value, 3.2466666666666697, 1e-9) && near(shK.se, 0.91377761058906615, 1e-9) && near(shK.df, 12.403649623484545, 1e-7) && near(shK.p, 0.0037856454808502527, 1e-9) && near(shK.pct, 6.3893991078457146, 1e-8));
+  check('the check changes neither the scaling tests, the models nor the heterosis over the parents',
+    SK.stats.length === SA.stats.length && SK.models.list.every((m, k) => near(m.chi2, SA.models.list[k].chi2, 1e-12)) && SK.scaling.every((x, k) => near(x.value, SA.scaling[k].value, 1e-12) && near(x.se, SA.scaling[k].se, 1e-12))
+    && ['mph', 'bph', 'id'].every(key => { const a = SK.heterosis.list.find(x => x.key === key), b = SA.heterosis.list.find(x => x.key === key); return a && b && near(a.se, b.se, 1e-12) && near(a.df, b.df, 1e-12); }));
+  check('Satterthwaite df of a contrast: A of Gale et al. has 45.447 df and p 0.02208 (R); χ² of m, [d], [h] keeps P = 2.40 %',
+    (() => { const a = GA.scaling.find(x => x.key === 'A'); return near(a.df, 45.4471865567709, 1e-6) && near(GA.models.list[0].p, 0.0240, 2e-4) && GA.models.list[0].test === 'chi2'; })());
+  check('one value per plot: every mean uses the plot error (10 df), χ²/q is exactly F(q, 10), and D, H, F, E are left out',
+    (() => { const pm = new Map(); simRows.forEach(r => { const k = r.plot; if (!pm.has(k)) pm.set(k, { gen: r.gen, block: r.block, plot: k, s: 0, n: 0 }); const x = pm.get(k); x.s += r.y; x.n++; });
+      const rows = [...pm.values()].map(x => ({ gen: x.gen, block: x.block, plot: x.plot, y: x.s / x.n }));
+      const P = GEN.analyse({ rows, metric: 'MJ', order: Data.GEN_ORDER }); const m = P.models.list[0];
+      return P.plotLevel && P.stats.every(s => s.basis === 'plots' && s.dfMean === 10) && m.test === 'F' && near(m.p, 1 - S.pf(m.chi2 / 3, 3, 10), 1e-12) && !P.variances && !P.factors.list.length; })());
+  check('the coefficients of the model follow α = f(AA) − f(aa) and β = f(Aa): F₃ = m + ¼[h] + ¹⁄₁₆[l] and selfed BC₁ = m + ½[d] + ¼[h] + ¼[i] + ⅛[j] + ¹⁄₁₆[l]',
+    GEN.row('F3', 'MJ').every((v, k) => near(v, [1, 0, 0.25, 0, 0, 1 / 16][k], 1e-15))
+    && GEN.row('BC1S', 'MJ').every((v, k) => near(v, [1, 0.5, 0.25, 0.25, 0.125, 1 / 16][k], 1e-15))
+    && GEN.row('BC1S', 'H').every((v, k) => near(v, [1, 0.5, -0.25, 0.25, -0.25, 1 / 16][k], 1e-15)));
+
+  section('Block 8 · genetic parameters, correlations, selection indices and response');
+  /* selection intensity (Walsh & Lynch 2018, ch. 14; exact values computed independently) */
+  check('intensity i = φ(x_p)/p: 2.6652, 2.4209, 2.0627, 1.7550, 1.5544, 1.3998, 1.1590, 0.7979 for p = 1 % … 50 %',
+    [[0.01, 2.6652], [0.02, 2.4209], [0.05, 2.0627], [0.1, 1.7550], [0.15, 1.5544], [0.2, 1.3998], [0.3, 1.1590], [0.5, 0.7979]].every(([p, i]) => near(SEL.intensity(p), i, 1e-4)));
+  const fin1 = SEL.intensityFinite(1, 20), fin2 = SEL.intensityFinite(10, 100), fin3 = SEL.intensityFinite(5, 50);
+  check('finite intensity, 1 of 20: exact 1.8675, Burrows 1.8434, Bulmer 1.8880 (Walsh & Lynch Example 14.2: 1.87, 1.84, 1.89)',
+    near(fin1.exact, 1.8675, 2e-4) && near(fin1.burrows, 1.8434, 2e-4) && near(fin1.bulmer, 1.8880, 2e-4), `${fin1.exact.toFixed(4)} / ${fin1.burrows.toFixed(4)} / ${fin1.bulmer.toFixed(4)}`);
+  check('finite intensity: 10 of 100 exact 1.7298 (Burrows 1.7296) and 5 of 50 exact 1.7055 (Burrows 1.7047)',
+    near(fin2.exact, 1.7298, 2e-4) && near(fin2.burrows, 1.7296, 2e-4) && near(fin3.exact, 1.7055, 2e-4) && near(fin3.burrows, 1.7047, 2e-4));
+
+  /* Knapp, Stroup & Ross (1985) */
+  const kn = SEL.knapp(40, 12, 10, 24, 0.05);
+  check('Knapp interval: limits 1 − q_F(0.975)/F and 1 − q_F(0.025)/F bracket H² = 1 − M₂/M₁',
+    near(kn.lo, 1 - S.qf(0.975, 12, 24) / 4, 1e-10) && near(kn.hi, 1 - S.qf(0.025, 12, 24) / 4, 1e-10) && kn.lo < 0.75 && kn.hi > 0.75);
+
+  /* the maize trial against an independent implementation (computed independently) */
+  const m13Ex = loaded.maize13;
+  const mzAna = j => Trial.analyseEnv(m13Ex.ds, m13Ex.rec.field.envs[0], m13Ex.ds.traits[j], { heritability: false });
+  const mzPar = j => {
+    const a = mzAna(j), g = a.anova.find(r => r.source === 'entry'), e = a.anova.find(r => r.source === 'residual');
+    return SEL.parameters({ ms: { G: g.ms, E: e.ms }, df: { G: g.df, E: e.df }, r: a.harmonicReps, e: 1, mean: a.mean, p: 0.05 });
+  };
+  const jOf = nm => m13Ex.ds.traits.findIndex(t => t.name === nm);
+  const kw = mzPar(jOf('KW')), ph = mzPar(jOf('PH'));
+  check('maize13, KW: σ²G 181, σ²e 280, H² plot 0.392, H² means 0.659, CVg 9.16 %, CVe 11.4 % (computed independently)',
+    near(kw.s2g, 180.97, 0.01) && near(kw.s2e, 280.41, 0.01) && near(kw.h2plot, 0.3922, 1e-3) && near(kw.h2mean, 0.6594, 1e-3) && near(kw.gcv, 9.163, 1e-3) && near(kw.ecv, 11.406, 1e-3),
+    `${kw.s2g.toFixed(3)} / ${kw.s2e.toFixed(3)} / ${kw.h2plot.toFixed(4)} / ${kw.h2mean.toFixed(4)}`);
+  check('maize13, PH: σ²G 0.0171, σ²e 0.0328, H² plot 0.343, H² means 0.610 (computed independently)',
+    near(ph.s2g, 0.0171, 1e-3) && near(ph.s2e, 0.03275, 1e-3) && near(ph.h2plot, 0.343, 1e-3) && near(ph.h2mean, 0.610, 1e-3));
+  /* correlations from the analysis of the sums of traits */
+  const mzCor = names => {
+    const js = names.map(jOf), t = js.length;
+    const A = js.map(j => { const a = mzAna(j); return { g: a.anova.find(r => r.source === 'entry'), e: a.anova.find(r => r.source === 'residual'), r: a.harmonicReps }; });
+    const MG = js.map(() => new Array(t).fill(0)), ME = js.map(() => new Array(t).fill(0));
+    for (let x = 0; x < t; x++) { MG[x][x] = A[x].g.ms; ME[x][x] = A[x].e.ms; for (let y = x + 1; y < t; y++) {
+      const s = { name: 's', y: Float64Array.from(m13Ex.ds.traits[js[x]].y, (v, k) => v + m13Ex.ds.traits[js[y]].y[k]) };
+      const as = Trial.analyseEnv(m13Ex.ds, m13Ex.rec.field.envs[0], s, { heritability: false });
+      const gs = as.anova.find(r => r.source === 'entry').ms, es = as.anova.find(r => r.source === 'residual').ms;
+      MG[x][y] = MG[y][x] = (gs - A[x].g.ms - A[y].g.ms) / 2; ME[x][y] = ME[y][x] = (es - A[x].e.ms - A[y].e.ms) / 2;
+    } }
+    return SEL.correlations({ G: { m: MG, df: A[0].g.df }, D: { m: ME, df: A[0].e.df }, E: { m: ME, df: A[0].e.df } }, A[0].r);
+  };
+  const CM = mzCor(['PH', 'EH', 'NKE', 'TKW']);
+  check('maize13 genotypic correlations: PH·EH 0.9603, PH·NKE 0.8764, PH·TKW −0.0557, EH·NKE 0.7766, EH·TKW 0.0069, NKE·TKW −0.4860 (computed independently)',
+    [[0, 1, 0.9603], [0, 2, 0.8764], [0, 3, -0.0557], [1, 2, 0.7766], [1, 3, 0.0069], [2, 3, -0.4860]].every(([a, b, v]) => near(CM.rG[a][b], v, 1e-4)));
+  check('maize13 phenotypic correlations of means: 0.8916, 0.6301, 0.0791, 0.4195, 0.1074, −0.4504 (computed independently)',
+    [[0, 1, 0.8916], [0, 2, 0.6301], [0, 3, 0.0791], [1, 2, 0.4195], [1, 3, 0.1074], [2, 3, -0.4504]].every(([a, b, v]) => near(CM.rP[a][b], v, 1e-4)));
+  check('the entry-mean matrices of the indices: P = MCP_G/r and G = (MCP_G − MCP_E)/r, symmetric',
+    CM.P.every((row, i) => row.every((v, j) => near(v, CM.P[j][i], 1e-12))) && near(CM.Gm[0][0], ph.s2g, 1e-9));
+
+  /* path analysis (Wright 1921): the plot correlations of the four-environment trial */
+  const ge2 = loaded.maize13env.ds;
+  const pcol = nm => ge2.traits.find(t => t.name === nm).y;
+  const pear = (a, b) => { const ma = S.mean(Array.from(a)), mb = S.mean(Array.from(b)); let sab = 0, saa = 0, sbb = 0; for (let k = 0; k < a.length; k++) { sab += (a[k] - ma) * (b[k] - mb); saa += (a[k] - ma) ** 2; sbb += (b[k] - mb) ** 2; } return sab / Math.sqrt(saa * sbb); };
+  const pathX = ['PH', 'EH', 'NKE', 'TKW'].map(pcol), yv = pcol('KW');
+  const PA = SEL.path(pathX.map(a => pathX.map(b => pear(a, b))), pathX.map(a => pear(a, yv)));
+  check('path analysis on KW: direct effects −0.018282, 0.044869, 0.717978, 0.704983, R² 0.981242, residual 0.136959 (computed independently)',
+    near(PA.direct[0], -0.018282, 1e-5) && near(PA.direct[1], 0.044869, 1e-5) && near(PA.direct[2], 0.717978, 1e-5) && near(PA.direct[3], 0.704983, 1e-5)
+    && near(PA.r2, 0.981242, 1e-5) && near(PA.residual, 0.136959, 1e-5), PA.direct.map(v => v.toFixed(6)).join(', '));
+  check('path analysis: every correlation splits into its direct and indirect effects, r_iy = p_i + Σ r_ij p_j',
+    PA.check.every((v, i) => near(v, pear(pathX[i], yv), 1e-10)));
+  /* an impossible correlation matrix (r = −1.64, as moment estimators give with few genotypes) */
+  const Rbad = [[1, 0.96, 0.11], [0.96, 1, -1.64], [0.11, -1.64, 1]];
+  const PB = SEL.path(Rbad, [0.5, 0.4, 0.3]), PBk = SEL.path(Rbad, [0.5, 0.4, 0.3], { ridge: 2 });
+  check('path analysis: a correlation matrix that is not positive definite is flagged (no VIF, no condition number); a large enough ridge makes it usable',
+    PA.pd && !PB.pd && PB.minEigen < 0 && PB.vif === null && PB.condition === Infinity && PBk.pd && isFinite(PBk.condition),
+    `${PB.minEigen.toFixed(4)} · ${PBk.minEigen.toFixed(4)}`);
+
+  /* selection indices: Cerón-Rojas & Crossa (2018), chapters 2 and 3 */
+  const Pm3 = [[62.50, -12.74, 8.53], [-12.74, 17.52, -3.38], [8.53, -3.38, 12.31]];
+  const Gm3 = [[36.21, -12.93, 8.35], [-12.93, 13.04, -3.40], [8.35, -3.40, 9.96]];
+  const SH = SEL.smithHazel(Pm3, Gm3, [1, -1, 1], 2.063);
+  check('Smith–Hazel (3 traits): b = (0.555, −1.063, 1.087), b′Pb = 86.72, R = 19.21, ΔG = (9.51, −5.48, 4.23), ρ = 0.894, h²_I = 0.817 (published)',
+    near(SH.b[0], 0.555, 1e-3) && near(SH.b[1], -1.063, 1e-3) && near(SH.b[2], 1.087, 1e-3) && near(SH.sI * SH.sI, 86.72, 0.01) && near(SH.R, 19.21, 0.01)
+    && near(SH.E[0], 9.51, 0.01) && near(SH.E[1], -5.48, 0.01) && near(SH.E[2], 4.23, 0.01) && near(SH.rho, 0.894, 1e-3) && near(SH.h2I, 0.817, 1e-3),
+    SH.b.map(v => v.toFixed(3)).join(', '));
+  const BI = SEL.baseIndex(Pm3, Gm3, [1, -1, 1], 2.063);
+  check('base index: ρ = 0.876 and efficiency of Smith–Hazel against it λ = 1.0208 (recomputed independently; the book rounds to 0.875 and 1.0217)',
+    near(BI.rho, 0.876, 1e-3) && near(SH.rho / BI.rho, 1.0208, 1e-3));
+  const P4 = [[62.50, -12.74, 8.53, 2.73], [-12.74, 17.52, -3.38, -2.28], [8.53, -3.38, 12.31, 0.16], [2.73, -2.28, 0.16, 7.27]];
+  const G4 = [[36.21, -12.93, 8.35, 2.74], [-12.93, 13.04, -3.40, -2.24], [8.35, -3.40, 9.96, 0.16], [2.74, -2.24, 0.16, 6.64]];
+  const w4 = [1, -1, 1, 1];
+  const RI1 = SEL.restricted(P4, G4, w4, [0], 1.755), RI2 = SEL.restricted(P4, G4, w4, [0, 1], 1.755), RI3 = SEL.restricted(P4, G4, w4, [0, 1, 2], 1.755);
+  check('restricted index, T1 restricted: b_R = (−0.352, −0.414, 0.594, 0.886), R = 6.87, ΔG = (0, −2.177, 2.029, 2.665) (published)',
+    near(RI1.b[0], -0.352, 1e-3) && near(RI1.b[1], -0.414, 1e-3) && near(RI1.b[2], 0.594, 1e-3) && near(RI1.b[3], 0.886, 1e-3)
+    && near(RI1.R, 6.87, 0.01) && Math.abs(RI1.E[0]) < 1e-9 && near(RI1.E[1], -2.177, 1e-3) && near(RI1.E[2], 2.029, 1e-3) && near(RI1.E[3], 2.665, 1e-3));
+  check('restricted index with two and three restrictions: R = 5.54 and 4.13, and the restricted traits do not move (published)',
+    near(RI2.R, 5.54, 0.01) && near(RI3.R, 4.13, 0.01) && Math.abs(RI2.E[0]) < 1e-9 && Math.abs(RI2.E[1]) < 1e-9 && [0, 1, 2].every(q => Math.abs(RI3.E[q]) < 1e-9));
+  const PP = SEL.ppg(P4, G4, w4, [0, 1], [7, -3], 1.755);
+  check('proportional gains d = (7, −3): b = (0.793, −0.159, 1.194, 1.004), σ_I = 9.526, R = 16.717, ΔG = (8.013, −3.434, 3.541, 1.730), θ = 6.213 (published)',
+    near(PP.b[0], 0.793, 1e-3) && near(PP.b[1], -0.159, 1e-3) && near(PP.b[2], 1.194, 1e-3) && near(PP.b[3], 1.004, 1e-3) && near(PP.sI, 9.526, 1e-3)
+    && near(PP.R, 16.717, 1e-3) && near(PP.E[0], 8.013, 1e-3) && near(PP.E[1], -3.434, 1e-3) && near(PP.theta, 6.213, 1e-3),
+    `${PP.b.map(v => v.toFixed(3)).join(', ')} · θ ${PP.theta.toFixed(3)}`);
+  check('proportional gains keep the requested proportion: ΔG₁/ΔG₂ = 7/(−3)', near(PP.E[0] / PP.E[1], 7 / -3, 1e-9));
+  const DG = SEL.desiredGains(P4, G4, [0, 1, 2], [2, -1, 1], 1.755);
+  check('desired gains (Pesek & Baker): the gains of the three target traits are proportional to d = (2, −1, 1)',
+    near(DG.E[0] / DG.E[2], 2, 1e-9) && near(DG.E[1] / DG.E[2], -1, 1e-9));
+  const Pp = [[240.57, -95.62, 2.07], [-95.62, 167.20, 4.58], [2.07, 4.58, 22.80]], Cp = [[29.86, -17.90, -4.13], [-17.90, 18.56, 1.49], [-4.13, 1.49, 9.24]];
+  const ES = SEL.esim(Pp, Cp, 1.755);
+  check('eigen index on the poultry matrices: λ² = 0.4245 and b ∝ (0.0830, 0.0446, −0.9956) from the eigenproblem Gb = λ²Pb (the book prints a singular-vector solution)',
+    near(ES.lambda2, 0.4245, 1e-4) && near(Math.abs(ES.b[0]), 0.0830, 1e-3) && near(Math.abs(ES.b[1]), 0.0446, 1e-3) && near(Math.abs(ES.b[2]), 0.9956, 1e-3) && near(ES.rho, 0.6515, 1e-3),
+    `${ES.lambda2.toFixed(4)} · ${ES.b.map(v => v.toFixed(4)).join(', ')}`);
+  const BD = SEL.bend([[100, 95, 80, 40, 40], [95, 100, 95, 80, 40], [80, 95, 100, 95, 80], [40, 80, 95, 100, 95], [40, 40, 80, 95, 100]]);
+  check('Schaeffer (2014) bending: G*₁₁ = 103.18978, G*₁₂ = 90.82704, G*₁₅ = 37.06769, G*₃₃ = 102.4643 (published; the book gives 102.46432 from rounded eigenvalues, R gives 102.46429)',
+    BD.bent && near(BD.matrix[0][0], 103.18978, 1e-5) && near(BD.matrix[0][1], 90.82704, 1e-5) && near(BD.matrix[0][4], 37.06769, 1e-5) && near(BD.matrix[2][2], 102.4643, 5e-5));
+  check('rank sum of Mulamba & Mock: ties get the average rank and the direction of every trait is respected',
+    (() => { const s = SEL.rankSum([[10, 5], [12, 5], [8, 7]], [1, -1]); return near(s[0], -(2 + 1.5), 1e-12) && near(s[1], -(1 + 1.5), 1e-12) && near(s[2], -(3 + 3), 1e-12); })());
+
+  /* gain per cycle: Fehr (1987) Table 17-9, maize yield, k = 1.75 */
+  const fv = { s2A: 68, s2D: 42, s2AE: 70, s2DE: 42, s2e: 96, s2plot: 46, s2w: 700, r: 2, t: 3, k: 1.75 };
+  const gcs = SEL.METHODS.map(m => SEL.gainPerCycle(fv, m.key, { F: 0.875, grid: true }));
+  check('Fehr (1987) Table 17-9: gain per cycle 2.0, 2.4, 4.8, 9.6, 6.8, 10.8, 16.2 (published; exact 1.96, 2.39, 4.77, 9.55, 6.84, 10.80, 16.16)',
+    [1.96, 2.39, 4.77, 9.55, 6.84, 10.80, 16.16].every((v, q) => near(gcs[q], v, 6e-3)), gcs.map(v => v.toFixed(3)).join(', '));
+  const perYear = SEL.METHODS.map((m, q) => ['one', 'twoSimilar', 'twoDifferent', 'three'].map(cal => gcs[q] / SEL.yearsPerCycle(SEL.sequenceOf(m.key, { F: 0.875, recomb: 3 }), cal)));
+  const fehrYear = [[2.0, 4.0, 2.0, 2.0], [2.4, 4.8, 2.4, 2.4], [2.4, 4.8, 4.8, 4.8], [3.2, 6.4, 4.8, 9.6], [3.4, 6.8, 6.8, 6.8], [3.6, 7.2, 5.4, 10.8], [2.0, 4.0, 4.0, 5.4]];
+  check('Fehr (1987) Table 17-9: gain per year with one season, two similar, two different and three seasons (published, rounded to 0.1)',
+    [2.0, 2.4, 4.8, 9.6, 6.8, 10.8, 16.2].every((gcPub, q) => fehrYear[q].every((gy, c) => Math.abs(gcs[q] / perYear[q][c] - gcPub / gy) < 0.02 * gcPub / gy)), perYear.map(r => r.map(v => v.toFixed(2)).join('/')).join(' · '));
+
+  section('Block 9 · genotype × environment interaction and stability');
+  const gxTab = id => { const L = loaded[id]; return GXE.prune(GXE.fromTrial(L.ds, L.rec.field, L.ds.traits[0], { external: L.ex.external })); };
+  const kTab = gxTab('stb17'), kRes = GXE.run(kTab, {});
+  const kIdx = n => kTab.genos.indexOf(n);
+  check('stb17: 17 genotypes × 12 environments, pooled error 1.8 with 576 df on the plot scale, r = 4',
+    kRes.g === 17 && kRes.e === 12 && kTab.mse === 1.8 && kTab.dfe === 576 && kTab.r === 4);
+  const kA = key => kRes.anova.rows.find(r => r.key === key);
+  const kR = key => kRes.reg.rows.find(r => r.key === key);
+  check('stb17 (Kang 1993): genotypes 186.9082 (16), environments 2284.0116 (11), interaction 493.2518 (176), heterogeneity 44.8576 (16), residual 448.3942 (160)',
+    near(kA('geno').ss, 186.9082, 1e-4) && near(kA('env').ss, 2284.0116, 1e-4) && near(kA('ge').ss, 493.2518, 1e-4) && near(kR('geLin').ss, 44.8576, 1e-4) && near(kR('pooledDev').ss, 448.3942, 1e-4)
+    && kA('ge').df === 176 && kR('geLin').df === 16 && kR('pooledDev').df === 160);
+  const kb = ['A', 'B', 'C', 'D', 'E'].map(n => kRes.reg.geno[kIdx(n)]);
+  check('stb17: b of A–E 0.8617, 1.1505, 0.9755, 1.2230, 0.9641 and S²d 0.1314, −0.0923, −0.2689, 0.0621, 0.0429',
+    [0.8617, 1.1505, 0.9755, 1.2230, 0.9641].every((v, q) => near(kb[q].b, v, 5e-5)) && [0.1314, -0.0923, -0.2689, 0.0621, 0.0429].every((v, q) => near(kb[q].s2d, v, 5e-5)));
+  const kv = ['A', 'B', 'C', 'D', 'E'].map(n => kRes.vars[kIdx(n)]);
+  check('stb17: ecovalence 25.8266, 17.3513, 7.3230, 27.1630, 19.8893 and Shukla 2.4741, 1.6009, 0.5677, 2.6118, 1.8624; mean σ²ᵢ = MS of the interaction',
+    [25.8266, 17.3513, 7.3230, 27.1630, 19.8893].every((v, q) => near(kv[q].W, v, 5e-5)) && [2.4741, 1.6009, 0.5677, 2.6118, 1.8624].every((v, q) => near(kv[q].sigma2, v, 5e-5))
+    && near(kRes.vars.reduce((s, x) => s + x.sigma2, 0) / 17, kA('ge').ms, 1e-10));
+  check('stb17: Lin–Binns Pᵢ of A–E 1.1358, 2.0942, 1.3642, 2.3333, 1.7867',
+    [1.1358, 2.0942, 1.3642, 2.3333, 1.7867].every((v, q) => near(kRes.sup.rows[kIdx(['A', 'B', 'C', 'D', 'E'][q])].P, v, 5e-5)));
+  const ky = n => kRes.kang.rows[kIdx(n)];
+  check('stb17: Kang YSᵢ of A, B, C, D 14, 3, 12, 3 (B ties with another genotype in its mean); selected A C E G H J N O',
+    ky('A').ysi === 14 && ky('B').ysi === 3 && ky('C').ysi === 12 && ky('D').ysi === 3 && kRes.kang.rows.filter(x => x.selected).map(x => kTab.genos[x.i]).join(' ') === 'A C E G H J N O',
+    ['A', 'B', 'C', 'D'].map(n => ky(n).ysi).join(','));
+  check('ranks take values equal to 12 significant digits as ties: 0.1 + 0.2 and 0.3', GXE.ranks([0.1 + 0.2, 0.3, 0.5]).join(',') === '1.5,1.5,3');
+
+  const pTab = gxTab('plrv28'), pRes = GXE.run(pTab, {}), pA = pRes.ammi;
+  check('plrv28: 28 clones × 6 localities × 3 replicates, pooled error 37.0315 with 324 df', pRes.g === 28 && pRes.e === 6 && pTab.dfe === 324 && near(pTab.mse, 37.03149272, 1e-7));
+  check('plrv28 AMMI: SS of the axes 13368.60, 6427.58, 2241.94, 1027.58, 696.10 with Gollob df 31, 29, 27, 25, 23 and F 11.645, 5.985, 2.242, 1.110, 0.817',
+    [13368.5954, 6427.5799, 2241.9398, 1027.5785, 696.1012].every((v, q) => near(pA.axes[q].ss, v, 1e-3)) && [31, 29, 27, 25, 23].every((v, q) => pA.axes[q].df === v)
+    && [11.645, 5.985, 2.242, 1.110, 0.817].every((v, q) => near(pA.axes[q].F, v, 5e-4)));
+  check('plrv28 F_R of Cornelius: 4.753 (135 df), 2.699 (104), 1.428 (75, p 0.019), 0.970 (48, p 0.534); AMMI3 is enough',
+    [[4.753, 135], [2.699, 104], [1.428, 75], [0.970, 48]].every(([F, d], n) => near(pA.FR[n].F, F, 5e-4) && pA.FR[n].df === d) && near(pA.FR[2].p, 0.0191, 1e-4) && near(pA.FR[3].p, 0.5341, 1e-4) && pA.nFR === 3);
+  const pI = n => pTab.genos.indexOf(n);
+  check('plrv28: ASV of 102.18, 104.22, 121.31, 141.28 = 3.3802, 1.4628, 2.2938, 4.4672 and WAAS (3 axes) 1.3016, 0.6403, 1.0445, 1.6675',
+    [3.3802, 1.4628, 2.2938, 4.4672].every((v, q) => near(pA.asv[pI(['102.18', '104.22', '121.31', '141.28'][q])], v, 5e-5))
+    && [1.3016, 0.6403, 1.0445, 1.6675].every((v, q) => near(pA.waas[pI(['102.18', '104.22', '121.31', '141.28'][q])], v, 5e-5)) && pA.p === 3);
+  const Zp = GXE.additive(pRes.Y).Z, sv = GXE.svd(Zp);
+  let recon = 0, orth = 0;
+  Zp.forEach((row, i) => row.forEach((v, j) => { let s = 0; sv.d.forEach((d, k) => { s += d * sv.U[i][k] * sv.V[j][k]; }); recon = Math.max(recon, Math.abs(s - v)); }));
+  sv.d.forEach((_, a) => sv.d.forEach((_, b) => { orth = Math.max(orth, Math.abs(sv.V.reduce((s, r) => s + r[a] * r[b], 0) - (a === b ? 1 : 0)), Math.abs(sv.U.reduce((s, r) => s + r[a] * r[b], 0) - (a === b ? 1 : 0))); }));
+  check('one-sided Jacobi SVD: UDVʹ rebuilds the interaction and U, V are orthonormal (to 1e-12)', recon < 1e-10 && orth < 1e-12, `${recon.toExponential(2)} / ${orth.toExponential(2)}`);
+  const pg = GXE.gge(pRes.Y, {}), pc = pg.coords('symmetric'), pw = GXE.whichWon(pc.G.map(s => [s[0], s[1]]), pc.E.map(s => [s[0], s[1]]));
+  const megaOf = n => pw.mega.find(m => pTab.genos[m.winner] === n);
+  check('plrv28 which won where: Unica wins Hyo-02, LM-02, SR-02, SR-03 and 319.20 wins Ayac, LM-03',
+    megaOf('Unica') && megaOf('Unica').envs.map(j => pTab.envs[j]).join(',') === 'Hyo-02,LM-02,SR-02,SR-03' && megaOf('319.20') && megaOf('319.20').envs.map(j => pTab.envs[j]).join(',') === 'Ayac,LM-03');
+  check('plrv28 stage two: REML σ²GE 39.3776277 (the score is zero there), likelihood ratio 272.284',
+    pRes.stage2 && near(pRes.stage2.s2GE, 39.377627733, 1e-6) && Math.abs(pRes.stage2.score) < 1e-6 && near(pRes.stage2.lrt, 272.2838791, 1e-5));
+
+  const oTab = gxTab('oat14'), oRes = GXE.run(oTab, {}), oI = n => oTab.genos.indexOf(n);
+  check('oat14: b of G1, G2, G3, G10 1.062832, 1.054449, 1.030615, 1.121582 and S²d −0.001424, 0.049689, −0.012822, 0.177271',
+    [1.062832, 1.054449, 1.030615, 1.121582].every((v, q) => near(oRes.reg.geno[oI(['G1', 'G2', 'G3', 'G10'][q])].b, v, 5e-7))
+    && [-0.001424, 0.049689, -0.012822, 0.177271].every((v, q) => near(oRes.reg.geno[oI(['G1', 'G2', 'G3', 'G10'][q])].s2d, v, 5e-7)));
+  check('oat14: ecovalence 1.2194255, 3.0320131, 0.7249454, 7.9553383; Shukla on the means scale 0.02796607, 0.08606183, 0.01211735, 0.24386071',
+    [1.2194255, 3.0320131, 0.7249454, 7.9553383].every((v, q) => near(oRes.vars[oI(['G1', 'G2', 'G3', 'G10'][q])].W, v, 5e-8))
+    && [0.02796607, 0.08606183, 0.01211735, 0.24386071].every((v, q) => near(oRes.vars[oI(['G1', 'G2', 'G3', 'G10'][q])].sigma2 / 3, v, 5e-9)));
+  check('oat14: Lin–Binns 0.16908, 0.12559, 0.04099, 0.34369; GGE singular values 2.4785, 1.8277, 1.4346, 1.1514 (41.68, 22.67, 13.96, 8.99 %)',
+    [0.16908, 0.12559, 0.04099, 0.34369].every((v, q) => near(oRes.sup.rows[oI(['G1', 'G2', 'G3', 'G10'][q])].P, v, 5e-6))
+    && [2.4785, 1.8277, 1.4346, 1.1514].every((v, q) => near(oRes.gge.sv.d[q], v, 5e-5)) && [41.68, 22.67, 13.96, 8.99].every((v, q) => near(oRes.gge.pct[q], v, 6e-3)));
+  check('oat14 AMMI: Gollob declares 4 axes, F_R 3; WAAS uses the F_R count unless asked', oRes.ammi.nGollob === 4 && oRes.ammi.nFR === 3 && oRes.ammi.p === 3 && GXE.ammi(oRes.Y, { r: 3, mse: oTab.mse, dfe: oTab.dfe, axesRule: 'gollob' }).p === 4);
+  check('oat14 stage two: REML σ²GE 0.0540725611 with a zero score', oRes.stage2 && near(oRes.stage2.s2GE, 0.05407256107, 1e-9) && Math.abs(oRes.stage2.score) < 1e-6);
+  /* EM with the additive model: its fixed point is the least-squares fit of the additive model to the observed cells */
+  const Ym = oRes.Y.map(r => r.slice()), gone = [[0, 0], [4, 6], [9, 13], [2, 2], [7, 10]];
+  gone.forEach(([i, j]) => { Ym[i][j] = NaN; });
+  const im0 = GXE.impute(Ym, { axes: 0 }), im1 = GXE.impute(Ym, { axes: 1 });
+  check('EM imputation of five removed cells matches the independent reconstruction: additive model 2.465305, 1.890131, 1.518660, 4.387266, 1.698344; with one axis 2.547531, 2.114497, 1.731703, 4.408238, 1.718240',
+    im0.converged && im1.converged && im0.n === 5 && [2.46530546944392, 1.89013146137431, 1.51865977772270, 4.38726572698370, 1.69834384749493].every((v, q) => near(im0.Y[gone[q][0]][gone[q][1]], v, 1e-7)) && [2.54753125314030, 2.11449678756804, 1.73170342608347, 4.40823832155170, 1.71824046609253].every((v, q) => near(im1.Y[gone[q][0]][gone[q][1]], v, 1e-7)));
+  const imA = GXE.anova(im1.Y, { r: 3, mse: oTab.mse, dfe: oTab.dfe, nMissing: 5 });
+  check('an imputed cell costs the interaction one degree of freedom: 117 − 5 = 112', imA.rows.find(r => r.key === 'ge').df === 112);
+  const Kh = 10, Nh = 14;
+  check('Nassar & Huehn (1987) moments for 10 genotypes in 14 environments: E(S1) 3.3, V(S1) 0.200901, E(S2) 8.25, V(S2) 4.519368 (exact U-statistic moments)',
+    near(oRes.huehn.E1, 3.3, 1e-12) && near(oRes.huehn.V1, (Kh * Kh - 1) * ((Kh * Kh - 4) * (Nh + 3) + 30) / (45 * Kh * Kh * Nh * (Nh - 1)), 1e-12) && near(oRes.huehn.V1, 0.2009011, 1e-7) && near(oRes.huehn.E2, 8.25, 1e-12) && near(oRes.huehn.V2, 4.5193681, 1e-7));
+  check('normal distribution to double precision: Φ(−8) = 6.220960574271785e−16, Φ(1.96) = 0.9750021048517795, Φ⁻¹(0.975) = 1.959963984540054',
+    Math.abs(S.pnorm(-8) / 6.220960574271785e-16 - 1) < 1e-12 && near(S.pnorm(1.96), 0.9750021048517795, 1e-15) && near(S.qnorm(0.975), 1.959963984540054, 1e-12));
+
+  section('Block 10 · pedigree, BLUP, REML and crossbreeding');
+  const pedOf = list => PED.build(list.map(([id, s, d, t, F0]) => ({ id, sire: s, dam: d, t, F0 })), { selfing: true }).ped;
+  const amFit = (text, roles, opts, theta) => {
+    const tab = Data.table(Data.parseDelimited(text));
+    const col = r => tab.header.indexOf(Object.keys(roles).find(k => roles[k] === r));
+    const fx = Object.keys(roles).filter(k => roles[k] === 'fixed'), rn = Object.keys(roles).filter(k => roles[k] === 'random');
+    const P = PED.build(tab.rows.map(r => ({ id: r[col('animal')], sire: r[col('sire')], dam: r[col('dam')] }))).ped;
+    const recs = tab.rows.map(r => ({ animal: String(r[col('animal')]), y: +r[col('trait')], fixed: Object.fromEntries(fx.map(f => [f, String(r[tab.header.indexOf(f)])])), covs: {}, random: Object.fromEntries(rn.map(f => [f, String(r[tab.header.indexOf(f)])])) }));
+    return AM.fit(AM.prepare(recs, P, Object.assign({ fixed: fx, random: rn }, opts)), theta ? { theta } : {});
+  };
+  const ebvOf = (fit, id) => fit.ebv.find(e => e.id === String(id));
+  const lsmOf = (fit, name, lev) => fit.lsm.find(L => L.name === name).means.find(m => m && m.level === String(lev)).mean;
+
+  /* Schaeffer (2019), Tables 2.8–2.14 */
+  const sP = pedOf([[1, 0, 0], [2, 0, 0], [3, 1, 0], [4, 1, 2], [5, 3, 4], [6, 1, 4], [7, 5, 6]]);
+  const sAi = PED.AinvDense(sP), sA = PED.A(sP);
+  check('Schaeffer Tables 2.9–2.14: F = 0, 0, 0, 0, 0.125, 0.25, 0.28125; b₇ = 0.40625; A₇₇ = 1.28125; A⁻¹ row 7 = (0, 0, 0, 0, −1.23077, −1.23077, 2.46154)',
+    [0, 0, 0, 0, 0.125, 0.25, 0.28125].every((v, k) => near(sP.F[sP.index.get(String(k + 1))], v, 1e-12)) && near(sP.b[sP.index.get('7')], 0.40625, 1e-12)
+    && near(sA[48], 1.28125, 1e-12) && [0, 0, 0, 0, -1.2307692, -1.2307692, 2.4615385].every((v, k) => near(sAi[6 * 7 + k], v, 1e-6)));
+  const m21 = pedOf([[1, 0, 0], [2, 0, 0], [3, 1, 2], [4, 1, 0], [5, 4, 3], [6, 5, 2]]);
+  const m21i = PED.AinvDense(m21), m21A = PED.A(m21);
+  let m21err = 0; for (let i = 0; i < 6; i++) for (let j = 0; j < 6; j++) { let s = 0; for (let k = 0; k < 6; k++) s += m21A[i * 6 + k] * m21i[k * 6 + j]; m21err = Math.max(m21err, Math.abs(s - (i === j ? 1 : 0))); }
+  check('Mrode Table 2.1 pedigree: F₅ = F₆ = 0.125, A⁻¹ row 2 = (0.5, 2.0333, −1, 0, 0.5333, −1.0667) and A·A⁻¹ = I', near(m21.F[4], 0.125, 1e-12) && near(m21.F[5], 0.125, 1e-12) && [0.5, 2.0333333, -1, 0, 0.5333333, -1.0666667].every((v, k) => near(m21i[6 + k], v, 1e-6)) && m21err < 1e-12, m21err.toExponential(2));
+  const selfP = pedOf([['P1', 0, 0, 0, 1], ['P2', 0, 0, 0, 1], ['L', 'P1', 'P2', 5, 0], ['S', 'L', 'L', 0, 0]]);
+  check('plants: a line from two unrelated pure lines after 5 selfings has F = 1 − ½⁵ = 0.96875; its selfed progeny F = ½(1 + F) = 0.984375; pure-line founders a = 2',
+    near(selfP.F[selfP.index.get('L')], 0.96875, 1e-12) && near(selfP.F[selfP.index.get('S')], 0.984375, 1e-12) && near(PED.A(selfP)[0], 2, 1e-12));
+
+  /* Mrode (2014) Example 3.1 and 3.2 (published solutions) */
+  const r31 = { Calf: 'animal', Sire: 'sire', Dam: 'dam', Sex: 'fixed', WWG: 'trait' };
+  const M31 = amFit(EXDATA10.mrode31, r31, {}, [20, 40]);
+  check('Mrode Example 3.1: sex 4.35850233 and 3.40443010; EBV 1…8 = 0.09844, −0.01877, −0.04108, −0.00866, −0.18573, 0.17687, −0.24946, 0.18261',
+    near(lsmOf(M31, 'Sex', 'Male'), 4.35850233, 1e-7) && near(lsmOf(M31, 'Sex', 'Female'), 3.40443010, 1e-7)
+    && [0.09844458, -0.01877010, -0.04108420, -0.00866312, -0.18573210, 0.17687209, -0.24945855, 0.18261469].every((v, k) => near(ebvOf(M31, k + 1).ebv, v, 1e-7)));
+  check('Mrode Example 3.1: SEP 4.34094 … 4.11030 and animal 1 PEV 18.84, r² 0.058',
+    [4.34094096, 4.43664612, 4.27297922, 4.13608581, 4.13814812, 4.20610397, 4.20407502, 4.11029997].every((v, k) => near(ebvOf(M31, k + 1).sep, v, 1e-7)) && near(ebvOf(M31, 1).pev, 18.84, 0.005) && near(ebvOf(M31, 1).rel, 0.058, 5e-4));
+  const M32 = amFit(EXDATA10.mrode31, r31, { model: 'sire' }, [5, 55]);
+  check('Mrode Example 3.2 (sire model): sex 4.33567107, 3.38198579; sires 1, 3, 4 = 0.02200220, 0.01402640, −0.04304180 (breeding value = 2 ×)',
+    near(lsmOf(M32, 'Sex', 'Male'), 4.33567107, 1e-7) && near(lsmOf(M32, 'Sex', 'Female'), 3.38198579, 1e-7)
+    && [[1, 0.02200220], [3, 0.01402640], [4, -0.04304180]].every(([id, v]) => near(ebvOf(M32, id).u, v, 1e-7) && near(ebvOf(M32, id).ebv, 2 * v, 1e-7)));
+  check('sire model: records and mean of each sire are those of its progeny (sire 1: calves 4 and 6, mean 4.2; sire 4: calf 7, 3.5)',
+    ebvOf(M32, 1).nrec === 2 && near(ebvOf(M32, 1).own, 4.2, 1e-12) && ebvOf(M32, 3).nrec === 2 && near(ebvOf(M32, 3).own, 3.95, 1e-12) && ebvOf(M32, 4).nrec === 1 && near(ebvOf(M32, 4).own, 3.5, 1e-12));
+
+  /* Schaeffer (2019) Table 3.1 and Tables 6.1–6.2 */
+  const S31 = amFit(EXDATA10.schaeffer31, { Animal: 'animal', Sire: 'sire', Dam: 'dam', Year: 'fixed', CG: 'random', y: 'trait' }, {}, [64, 36, 144]);
+  const cg31 = S31.others[0].levels;
+  check('Schaeffer Table 3.1: years 94.82039, 87.13676; CG −2.065268, −3.668846, 2.065268, 3.668846; EBV 25 = 7.8180, 28 = 7.3074, 17 = −6.4880',
+    near(lsmOf(S31, 'Year', 1), 94.82039, 1e-5) && near(lsmOf(S31, 'Year', 2), 87.13676, 1e-5) && [-2.065268, -3.668846, 2.065268, 3.668846].every((v, k) => near(cg31[k].u, v, 1e-6))
+    && near(ebvOf(S31, 25).ebv, 7.8180, 1e-4) && near(ebvOf(S31, 28).ebv, 7.3074, 1e-4) && near(ebvOf(S31, 17).ebv, -6.4880, 1e-4));
+  check('Schaeffer Table 3.1, animal 25: C_ii = PEV/σ²e = 0.3359 and reliability 1 − C_ii·σ²e/σ²a = 0.2442 (printed from the rounded C_ii; exact 0.24414)', near(ebvOf(S31, 25).pev / 144, 0.3359, 5e-5) && near(ebvOf(S31, 25).rel, 0.2442, 1e-4), ebvOf(S31, 25).rel.toFixed(6));
+  const S61 = amFit(EXDATA10.schaeffer61, { Animal: 'animal', Sire: 'sire', Dam: 'dam', Year: 'fixed', CG: 'random', y: 'trait' }, { pe: true }, [36, 16, 20, 100]);
+  const pe61 = id => S61.pe.find(p => p.id === String(id)).u;
+  check('Schaeffer Tables 6.1–6.2 (repeatability): years 52.90, 57.61, 74.67; EBV 7 = 1.3535, 11 = 3.2348, 21 = 6.8624; PE 7 = −0.0910, 11 = 2.5214, 21 = 3.0512',
+    [52.90, 57.61, 74.67].every((v, k) => near(lsmOf(S61, 'Year', k + 1), v, 0.005)) && near(ebvOf(S61, 7).ebv, 1.3535, 1e-4) && near(ebvOf(S61, 11).ebv, 3.2348, 1e-4) && near(ebvOf(S61, 21).ebv, 6.8624, 1e-4)
+    && near(pe61(7), -0.0910, 1e-4) && near(pe61(11), 2.5214, 1e-4) && near(pe61(21), 3.0512, 1e-4));
+  check('Schaeffer Tables 6.1–6.2, animal 11: C_ii = 0.2885 and reliability 0.1980 (printed with α rounded to 2.78; exact 1 − 0.2885 × 100/36 = 0.1986)', near(ebvOf(S61, 11).pev / 100, 0.2885, 5e-5) && near(ebvOf(S61, 11).rel, 0.1986, 2e-4), (ebvOf(S61, 11).pev / 100).toFixed(6) + ' / ' + ebvOf(S61, 11).rel.toFixed(6));
+  /* Schaeffer Table 17.1 */
+  const t171 = 'Animal,Sire,Dam,Period,y\n5,1,3,2,250\n6,1,3,2,198\n7,2,4,2,245\n8,2,4,2,260\n9,2,4,2,235\n4,0,0,1,255\n3,0,0,1,200\n2,0,0,1,225';
+  const S17 = amFit(t171, { Animal: 'animal', Sire: 'sire', Dam: 'dam', Period: 'fixed', y: 'trait' }, {}, [1, 2]);
+  check('Schaeffer Table 17.1 (α = 2): periods 225.8641, 236.3366; a₁…a₉ = −2.4078, 1.3172, −10.2265, 11.3172, −2.3210, −12.7210, 6.7864, 9.7864, 4.7864',
+    near(lsmOf(S17, 'Period', 1), 225.8641, 1e-4) && near(lsmOf(S17, 'Period', 2), 236.3366, 1e-4) && [-2.4078, 1.3172, -10.2265, 11.3172, -2.3210, -12.7210, 6.7864, 9.7864, 4.7864].every((v, k) => near(ebvOf(S17, k + 1).ebv, v, 1e-4)));
+
+  /* REML (independent reconstruction) */
+  const fl = Examples.simFlock();
+  const flP = PED.build(fl.rows.slice(1).map(r => ({ id: r[0], sire: r[1], dam: r[2] }))).ped;
+  const flPrep = AM.prepare(fl.rows.slice(1).map(r => ({ animal: r[0], y: r[5], fixed: { Sexo: r[3], Anio: String(r[4]) }, covs: {}, random: {} })), flP, { fixed: ['Sexo', 'Anio'] });
+  const flFit = AM.fit(flPrep, {});
+  check('simulated flock (439 lambs, pedigree of 610): REML σ²a 20.7920, σ²e 84.3221, restricted log L −1634.094943 (the independent maximisation of the likelihood in V form gives the same)',
+    near(flFit.res.theta[0], 20.79204507, 1e-4) && near(flFit.res.theta[1], 84.32205007, 1e-4) && near(flFit.res.logLikREML, -1634.094943455, 1e-6) && Math.abs(flFit.res.score[0]) < 1e-4, `${flFit.res.theta[0].toFixed(5)} / ${flFit.res.logLikREML.toFixed(6)}`);
+  const lines = Examples.simLines(), lTab = Data.table(lines.rows), lDs = Data.build(lTab, Data.guessRoles(lTab).roles, {}), lRec = Data.recognize(lDs, {});
+  const lPed = lines.pedigree.slice(1).map(r => ({ id: r[0], sire: r[1], dam: r[2], t: r[3], F0: r[4] }));
+  const lAI = AM.trial(lDs, lRec.field, lDs.traits[0], { genetic: 'AI', pedRows: lPed });
+  check('simulated lines, additive (A) + non-additive (I) + G × E: REML 0.090774, 0.239417, 0.060342, 0.461013; Cullis H² 0.819122 (independent reconstruction)',
+    [0.0907735864, 0.2394166484, 0.0603421677, 0.4610130429].every((v, k) => near(lAI.comp[k].sigma2, v, 2e-5)) && near(lAI.H2cullis, 0.819122136, 1e-5) && near(lAI.logLik, -502.949619, 1e-5));
+  const lA = AM.trial(lDs, lRec.field, lDs.traits[0], { genetic: 'A', pedRows: lPed });
+  check('simulated lines, additive only: REML σ²a 0.333320 (true 0.3), Cullis H² 0.889496', near(lA.comp[0].sigma2, 0.33331957, 2e-5) && near(lA.H2cullis, 0.889496479, 1e-5));
+  /* a relationship matrix equal to I gives the same fit as no matrix */
+  const m52tab = Data.table(Data.parseDelimited(EXDATA10.mrode52));
+  const m52y = Float64Array.from(m52tab.rows, r => +r[5]);
+  const m52L = LM.factor(m52tab.rows.map(r => r[4]));
+  const I3 = new Float64Array(9); I3[0] = I3[4] = I3[8] = 1;
+  const rA = LM.reml([{ kind: 'intercept' }], [{ f: m52L }], m52y, { fixedTheta: [15, 65] }), rB = LM.reml([{ kind: 'intercept' }], [{ f: m52L, Kinv: I3, logdetK: 0 }], m52y, { fixedTheta: [15, 65] });
+  check('LM.reml: a random term with K⁻¹ = I equals one without K (solutions and likelihood)', near(rA.blups[0][1].u, rB.blups[0][1].u, 1e-12) && near(rA.logLikREML, rB.logLikREML, 1e-10));
+
+  /* crossbreeding */
+  const vdw = XB.estimate([{ expr: '1', mean: 294 }, { expr: '1×2', mean: 309 }, { expr: '2×1', mean: 304 }, { expr: '2', mean: 279 }], ['1', '2'], { hM: false, rI: false });
+  const vk = k => vdw.par.find(p => p.key === k).est;
+  check('van der Werf two-breed diallel: g^I₁ − g^I₂ = 20, g^M₁ = −2.5, g^M₂ = 2.5, direct heterosis 20 (exact fit)', near(vk('gI:1') - vk('gI:2'), 20, 1e-10) && near(vk('gM:1'), -2.5, 1e-10) && near(vk('hI'), 20, 1e-10) && vdw.df === 0);
+  check('crossbreeding weights: equal without n or SE, n when given, 1/SE² with SE', vdw.wKind === 'equal' && XB.estimate([{ expr: '1', n: 10, mean: 294 }, { expr: '1×2', n: 12, mean: 309 }, { expr: '2×1', n: 8, mean: 304 }, { expr: '2', n: 9, mean: 279 }], ['1', '2'], { hM: false, rI: false }).wKind === 'n' && XB.estimate([{ expr: '1', n: 10, mean: 294, se: 2 }, { expr: '1×2', n: 12, mean: 309, se: 2 }, { expr: '2×1', n: 8, mean: 304, se: 3 }, { expr: '2', n: 9, mean: 279, se: 2 }], ['1', '2'], { hM: false, rI: false }).wKind === 'se');
+  const xcf = e => XB.coefficients(e, ['A', 'B', 'C']);
+  check('Dickerson coefficients: A×(A×B) p = ¾, ¼, h^I = ½, h^M = 1, r^I = ¼; F₂ r^I = ½; C×(A×B) h^I = h^M = 1; "AxB" = "A × B"',
+    near(xcf('A×(A×B)').p[0], 0.75, 1e-12) && near(xcf('A×(A×B)').hI, 0.5, 1e-12) && near(xcf('A×(A×B)').hM, 1, 1e-12) && near(xcf('A×(A×B)').rI, 0.25, 1e-12) && near(xcf('(A×B)×(A×B)').rI, 0.5, 1e-12)
+    && near(xcf('C×(A×B)').hI, 1, 1e-12) && near(xcf('C×(A×B)').hM, 1, 1e-12) && xcf('AxB').hI === 1 && xcf('A x B').p[1] === 0.5);
+  check('rotations at equilibrium: two breeds h^I = h^M = ⅔, r^I = ⅙; three breeds 6/7 and 3/14; composite of three h = ⅔',
+    near(xcf('rot(A,B)').hI, 2 / 3, 1e-12) && near(xcf('rot(A,B)').hM, 2 / 3, 1e-12) && near(xcf('rot(A,B)').rI, 1 / 6, 1e-12) && near(xcf('rot(A,B,C)').hI, 6 / 7, 1e-12) && near(xcf('rot(A,B,C)').rI, 3 / 14, 1e-12) && near(xcf('comp(A,B,C)').hI, 2 / 3, 1e-12));
+  const bn = XB.predictPercent({ means: { A: 460, B: 480, C: 500 }, HI: 4.7, HM: 4.2 }, ['A×B', 'C×(A×B)'], ['A', 'B', 'C']);
+  const bn3 = XB.predictPercent({ mode: 'effects', mu: 500, gI: { A: -50, B: -40, C: 30, D: 60 }, gM: { A: 10, B: -15, C: 30, D: -25 }, HI: 4.7, HM: 4.2 }, ['D', 'B×A', 'D×(A×C)'], ['A', 'B', 'C', 'D']);
+  check('Buchanan & Northcutt: A×B 492.09; C×(A×B) 485 → 507.80 → 529.13; example 3: D 535, B×A 486.86, D×(A×C) 570.62 → 594.58 (published to 2 decimals)',
+    near(bn[0].final, 492.09, 0.006) && near(bn[1].base, 485, 1e-9) && near(bn[1].afterI, 507.80, 0.006) && near(bn[1].final, 529.13, 0.01)
+    && near(bn3[0].final, 535, 1e-9) && near(bn3[1].final, 486.86, 0.006) && near(bn3[2].afterI, 570.62, 0.006) && near(bn3[2].final, 594.58, 0.006), [bn[1].afterI, bn[1].final, bn3[1].final, bn3[2].afterI, bn3[2].final].map(v => v.toFixed(4)).join(' '));
+  const tes = XB.predictGiven({ mu: 14.3, 'gI:B': -3.18, hI: -0.04, rI: -6.20 }, ['CH', 'B×CH', 'B×(B×CH)', '(B×CH)×CH', '(B×CH)×(B×CH)'], ['B', 'CH']);
+  check('Tesema et al. (2023) Table 4, litter weaning weight: 14.30, 12.67, 10.35, 11.94, 9.59 from the Table 3 estimates', [14.30, 12.67, 10.35, 11.94, 9.59].every((v, k) => near(tes[k].est, v, 0.006)));
+  const d4 = XB.simulate('dial4'), d4g = d4.list.map(g => ({ expr: g.expr, n: g.n, mean: +g.mean.toFixed(3), se: +g.se.toFixed(3) }));
+  const d4r = XB.estimate(d4g, ['A', 'B', 'C', 'D'], { hM: false, rI: false, pairs: true });
+  const sp = d4r.diallel.specific.map(s => s.est);
+  check('breed diallel: pair heterosis = h̄ + ½(h_k + h_l) + s_kl with Σ_k h_k = 0 and Σ_l s_kl = 0 (Eisen et al. 1983)',
+    near(d4r.diallel.breed.reduce((s, b) => s + b.est, 0), 0, 1e-10) && near(sp[0] + sp[1] + sp[2], 0, 1e-10) && near(sp[0] + sp[3] + sp[4], 0, 1e-10)
+    && d4r.par.filter(p => p.kind === 'hPair').every((p, q) => near(p.est, d4r.diallel.mean.est + 0.5 * (d4r.diallel.breed[p.a].est + d4r.diallel.breed[p.c].est) + sp[q], 1e-10)));
+
+  section('Block 11 · genomic relationships, GBLUP, cross-validation and hybrids');
+  const inv11 = (A, n) => {                                  /* Gauss–Jordan with pivoting, for the checks only */
+    const M = Array.from({ length: n }, (_, i) => Array.from({ length: 2 * n }, (_, j) => (j < n ? A[i * n + j] : j - n === i ? 1 : 0)));
+    for (let c = 0; c < n; c++) {
+      let p = c; for (let r = c + 1; r < n; r++) if (Math.abs(M[r][c]) > Math.abs(M[p][c])) p = r;
+      [M[c], M[p]] = [M[p], M[c]];
+      const d = M[c][c]; for (let j = 0; j < 2 * n; j++) M[c][j] /= d;
+      for (let r = 0; r < n; r++) if (r !== c) { const f = M[r][c]; if (f) for (let j = 0; j < 2 * n; j++) M[r][j] -= f * M[c][j]; }
+    }
+    return Float64Array.from({ length: n * n }, (_, t) => M[Math.floor(t / n)][n + (t % n)]);
+  };
+  const tab11 = rows => Data.table(rows);
+
+  /* reading markers */
+  const lt11 = GS.fromTable(tab11([['id', 'm1', 'm2', 'm3', 'm4'], ['a', 'AA', 'A/G', 'CC', 'R'], ['b', 'AB', 'GG', 'C T', 'AA'], ['c', 'BB', 'AA', 'TT', 'GG'], ['d', 'NA', '-', 'CT', 'AG']]));
+  check('markers as letters: the count is of the second allele in alphabetical order; AB, A/G, "C T", IUPAC R (A/G) are heterozygotes; NA and "-" missing',
+    lt11.coding === 'letters' && [0, 1, 0, 1].every((v, j) => lt11.M[j] === v) && [1, 2, 1, 0].every((v, j) => lt11.M[4 + j] === v) && [2, 0, 2, 2].every((v, j) => lt11.M[8 + j] === v)
+    && isNaN(lt11.M[12]) && isNaN(lt11.M[13]) && lt11.M[14] === 1 && lt11.M[15] === 1, Array.from(lt11.M).join(' '));
+  const mn11 = GS.fromTable(tab11([['id', 'x', 'y'], ['a', '-1', '1'], ['b', '0', '-1'], ['c', '1', '']]));
+  const bi11 = GS.fromTable(tab11([['id', 'x', 'y'], ['a', '0', '1'], ['b', '1', '1'], ['c', '1', '0']]));
+  const bd11 = GS.fromTable(tab11([['id', 'x', 'y'], ['a', '0', '1'], ['b', '1', '1'], ['c', '1', '0']]), { binaryAs: 'dosage' });
+  const tr11 = GS.fromTable(tab11([['marker', 'a', 'b', 'c'], ['x', '0', '1', '2'], ['y', '2', '2', '0']]), { transpose: true });
+  check('numeric codings: −1/0/1 → 0/1/2; 0/1 of pure lines → 0/2 (or kept as dosage); markers in rows transposed',
+    mn11.coding === 'minus1' && [0, 2, 1, 0, 2].every((v, t) => mn11.M[t] === v) && isNaN(mn11.M[5])
+    && bi11.coding === 'binary' && [0, 2, 2, 2, 2, 0].every((v, t) => bi11.M[t] === v) && [0, 1, 1, 1, 1, 0].every((v, t) => bd11.M[t] === v)
+    && tr11.ids.join() === 'a,b,c' && tr11.markers.join() === 'x,y' && [0, 2, 1, 2, 2, 0].every((v, t) => tr11.M[t] === v));
+  const qD11 = { ids: ['i1', 'i2', 'i3', 'i4', 'i5'], markers: ['k1', 'k2', 'k3', 'k4', 'k5'], n: 5, m: 5, coding: 'dosage',
+    M: Float64Array.from([0, 2, 1, 2, NaN, 2, 2, 0, 2, NaN, 1, 2, NaN, 0, 0, 2, 2, 2, 0, 0, NaN, NaN, NaN, NaN, 2]) };
+  const qQ11 = GS.qc(qD11, { maxMissMarker: 0.3, maxMissInd: 0.2, minMAF: 0.05 });
+  check('quality control: an individual with 80 % missing and a marker with 50 % missing are left out (thresholds 20 % and 30 %), a monomorphic marker too; a missing dosage becomes 2p',
+    qQ11.ids.join() === 'i1,i2,i3,i4' && qQ11.markers.join() === 'k1,k3,k4' && qQ11.dropped.individuals === 1 && qQ11.dropped.missing === 1 && qQ11.dropped.mono === 1
+    && near(qQ11.M[2 * 3 + 1], 2 * (1 + 0 + 2) / 6, 1e-12) && qQ11.imputed === 1, `${qQ11.ids} | ${qQ11.markers} | ${JSON.stringify(qQ11.dropped)}`);
+
+  /* genomic relationships on a small example written out by hand */
+  const sm11 = { ids: ['a', 'b', 'c', 'd'], n: 4, m: 3, M: Float64Array.from([0, 2, 2, 2, 0, 1, 1, 1, 0, 2, 2, 2]) };
+  sm11.p = Float64Array.from([5 / 8, 5 / 8, 5 / 8]);
+  const smG11 = GS.G(sm11, { method: 'vr1' });
+  /* Z = M − 2p = M − 1.25; 2Σpq = 3 × 2 × 5/8 × 3/8 = 1.40625 */
+  const z11 = [[-1.25, 0.75, 0.75], [0.75, -1.25, -0.25], [-0.25, -0.25, -1.25], [0.75, 0.75, 0.75]];
+  check('VanRaden method 1 by hand: G = ZZ′/(2Σpq) with Z = M − 2P (4 individuals, 3 markers), and 1′G1 = 0 with the frequencies of the data',
+    [0, 1, 2, 3].every(i => [0, 1, 2, 3].every(j => near(smG11.G[i * 4 + j], z11[i].reduce((s, v, k) => s + v * z11[j][k], 0) / 1.40625, 1e-14)))
+    && near(Array.from(smG11.G).reduce((s, v) => s + v, 0), 0, 1e-12) && near(GS.stats(smG11.G, 4).asv, GS.stats(smG11.G, 4).meanDiag, 1e-14));
+  const smG211 = GS.G(sm11, { method: 'vr2' });
+  check('VanRaden method 2: every marker standardized by √(2pq), G = Z*Z*′/m', [0, 1, 2, 3].every(i => [0, 1, 2, 3].every(j => near(smG211.G[i * 4 + j], z11[i].reduce((s, v, k) => s + v * z11[j][k], 0) / (2 * 5 / 8 * 3 / 8) / 3, 1e-14))));
+
+  /* GBLUP on the wheat example against the independent maximisation of the restricted likelihood */
+  const wD11 = GS.fromCompact(EXDATA11.wheatMarkers), wQ11 = GS.qc(wD11, {});
+  const wG11 = GS.G(wQ11, {}), wK11 = GS.kernel(wG11.G, wQ11.n, { ridge: 0.001 }), wI11 = GS.invert(wK11.K, wQ11.n);
+  check('wheat (Crossa et al. 2010): 1183 of 1279 DArT markers with MAF ≥ 0.05; mean diagonal of G exactly 2 = 1 + F (homozygous lines coded 0/2), log|G + λI| = −609.4845 (R: the same to 1e-13)',
+    wQ11.m === 1183 && wQ11.n === 599 && near(GS.stats(wG11.G, 599).meanDiag, 2, 1e-12) && near(wI11.logdet, -609.4845, 5e-4), `${wQ11.m} ${GS.stats(wG11.G, 599).meanDiag} ${wI11.logdet}`);
+  const wP11 = Data.table(Data.parseDelimited(EXDATA11.wheatPheno));
+  const wR11 = wP11.rows.map(r => ({ id: String(r[0]), y: parseFloat(r[1]), fixed: {}, random: {} }));
+  const wF11 = GS.gblup(wR11, wQ11.ids, wK11.K, wI11.Kinv, wI11.logdet, {});
+  check('wheat E1 GBLUP by REML: σ²g = 0.294240, σ²e = 0.554556, restricted log L = −794.471356 (independent reconstruction with a general optimiser: 0.294240, 0.554556, −794.471356); genomic h² = 0.5151',
+    near(wF11.s2g, 0.294240, 2e-6) && near(wF11.s2e, 0.554556, 2e-6) && near(wF11.res.logLikREML, -794.471356, 1e-5) && near(wF11.h2, 0.5151, 1e-4), `${wF11.s2g} ${wF11.s2e} ${wF11.res.logLikREML} ${wF11.h2}`);
+  const gOf11 = id => wF11.gebv.find(e => e.id === id).g;
+  check('wheat E1 genomic values: lines 775, 2166, 2465 = 0.439504, −0.251823, 0.500183 (R, Henderson\'s equations)', near(gOf11('775'), 0.439504, 2e-6) && near(gOf11('2166'), -0.251823, 2e-6) && near(gOf11('2465'), 0.500183, 2e-6));
+  const wB11 = GS.markerEffects(wG11, wI11.Kinv, wF11.gebv.map(e => e.g), 599);
+  let rr11 = 0;
+  for (let i = 0; i < 599; i++) {
+    let zb = 0; for (let j = 0; j < 1183; j++) zb += wG11.Z[i * 1183 + j] * wB11[j];
+    let kg = 0; for (let k = 0; k < 599; k++) kg += wI11.Kinv[i * 599 + k] * wF11.gebv[k].g;
+    rr11 = Math.max(rr11, Math.abs(zb - (wF11.gebv[i].g - wK11.ridge * kg)));
+  }
+  check('RR-BLUP equivalence: marker effects β̂ = Z′K⁻¹ĝ/(2Σpq) give Zβ̂ = ĝ − λK⁻¹ĝ exactly', rr11 < 1e-10, rr11.toExponential(2));
+
+  /* GBLUP at given variances against the equations solved directly */
+  const tn11 = 6, tK11 = Float64Array.from({ length: 36 }, (_, t) => { const i = Math.floor(t / 6), j = t % 6; return i === j ? 2 : 0.3 * Math.cos(i + j); });
+  const tKi11 = inv11(tK11, 6);
+  let tld11 = 0; { const L = Float64Array.from(tK11); for (let c = 0; c < 6; c++) { for (let r = c + 1; r < 6; r++) { const f = L[r * 6 + c] / L[c * 6 + c]; for (let j = c; j < 6; j++) L[r * 6 + j] -= f * L[c * 6 + j]; } tld11 += Math.log(L[c * 6 + c]); } }
+  const tY11 = [3.1, 2.4, 4.0, 3.3, 2.2];                       /* individual 6 without a record */
+  const tF11 = GS.gblup(tY11.map((y, i) => ({ id: 'n' + (i + 1), y, fixed: {}, random: {} })), ['n1', 'n2', 'n3', 'n4', 'n5', 'n6'], tK11, tKi11, tld11, { theta: [0.8, 0.5] });
+  /* MME: [1′1  1′Z; Z′1  Z′Z + K⁻¹ σ²e/σ²g] with Z = [I₅ | 0] */
+  const al11 = 0.5 / 0.8, C11 = new Float64Array(49), r11 = new Float64Array(7);
+  C11[0] = 5; tY11.forEach((y, i) => { C11[i + 1] = C11[(i + 1) * 7] = 1; C11[(i + 1) * 7 + i + 1] = 1; r11[0] += y; r11[i + 1] = y; });
+  for (let i = 0; i < 6; i++) for (let j = 0; j < 6; j++) C11[(i + 1) * 7 + j + 1] += al11 * tKi11[i * 6 + j];
+  const Ci11 = inv11(C11, 7), s11 = Array.from({ length: 7 }, (_, i) => r11.reduce((s, v, j) => s + Ci11[i * 7 + j] * v, 0));
+  check('GBLUP at given variances = Henderson\'s equations solved directly; the individual without a record is predicted through K; PEV = C⁻¹ᵢᵢσ²e',
+    [0, 1, 2, 3, 4, 5].every(i => near(tF11.gebv[i].g, s11[i + 1], 1e-12) && near(tF11.gebv[i].pev, Ci11[(i + 1) * 8] * 0.5, 1e-12)) && tF11.gebv[5].nrec === 0 && Math.abs(tF11.gebv[5].g) > 0);
+
+  /* cross-validation: a line's own record never enters its prediction */
+  const sl11 = GS.simLines(), sQ11 = GS.qc(GS.fromCompact(sl11.markersText), {});
+  const sK11 = GS.kernel(GS.G(sQ11, {}).G, sQ11.n, { ridge: 0.001 }), sI11 = GS.invert(sK11.K, sQ11.n);
+  const sR11 = sl11.pheno.slice(1).map(r => ({ id: String(r[0]), y: +r[1], fixed: {}, random: {} }));
+  const sR211 = sR11.map((r, i) => (i === 0 ? Object.assign({}, r, { y: r.y + 100 }) : r));
+  const cvA11 = await GS.cv(sR11, sQ11.ids, sK11.K, sI11.Kinv, sI11.logdet, { folds: 5, reps: 1, seed: 7, refit: true });
+  const cvB11 = await GS.cv(sR211, sQ11.ids, sK11.K, sI11.Kinv, sI11.logdet, { folds: 5, reps: 1, seed: 7, refit: true });
+  const id011 = sR11[0].id, f011 = cvA11.reps[0].fold.get(id011);
+  const moved11 = sQ11.ids.filter(id => id !== id011 && Math.abs(cvA11.reps[0].pred.get(id) - cvB11.reps[0].pred.get(id)) > 1e-9);
+  check('cross-validation: changing the record of a line leaves its own prediction unchanged and moves only the predictions of lines in other folds; 5 folds of 60',
+    near(cvA11.reps[0].pred.get(id011), cvB11.reps[0].pred.get(id011), 1e-12) && moved11.length > 0 && moved11.every(id => cvA11.reps[0].fold.get(id) !== f011)
+    && [0, 1, 2, 3, 4].every(f => sQ11.ids.filter(id => cvA11.reps[0].fold.get(id) === f).length === 60));
+  check('simulated lines (300 DH lines, 1000 SNPs, 60 QTL off the panel): true genetic variance 1, REML h² = 0.385 (R: the same optimum), CV accuracy r/√h² close to the true one',
+    near(S.variance(Object.values(sl11.truth)), 1, 0.15) && near(GS.gblup(sR11, sQ11.ids, sK11.K, sI11.Kinv, sI11.logdet, {}).h2, 0.385023, 2e-6), S.variance(Object.values(sl11.truth)).toFixed(3));
+
+  /* hybrids: with unrelated lines and a complete two-way table, REML = the ANOVA estimators and the GCA BLUPs shrink the marginal means */
+  const hy11 = [[12.1, 10.4, 9.8], [9.2, 8.1, 7.9], [11.0, 10.9, 8.6], [8.3, 7.0, 6.9], [13.0, 11.1, 10.2]];
+  const hr11 = []; hy11.forEach((row, i) => row.forEach((y, j) => hr11.push({ p1: 'A' + i, p2: 'B' + j, y })));
+  const I5h11 = Float64Array.from({ length: 25 }, (_, t) => (t % 6 === 0 ? 1 : 0)), I3h11 = Float64Array.from({ length: 9 }, (_, t) => (t % 4 === 0 ? 1 : 0));
+  const hF11 = GS.hybrid(hr11, ['A0', 'A1', 'A2', 'A3', 'A4'], I5h11, ['B0', 'B1', 'B2'], I3h11, {});
+  const gm11 = S.mean(hr11.map(h => h.y)), rm11 = hy11.map(r => S.mean(r)), cm11 = [0, 1, 2].map(j => S.mean(hy11.map(r => r[j])));
+  const ssr11 = 3 * rm11.reduce((s, v) => s + (v - gm11) ** 2, 0), ssc11 = 5 * cm11.reduce((s, v) => s + (v - gm11) ** 2, 0);
+  const sse11 = hr11.reduce((s, h) => s + h.y * h.y, 0) - 15 * gm11 * gm11 - ssr11 - ssc11;
+  const mse11 = sse11 / 8, v111 = (ssr11 / 4 - mse11) / 3, v211 = (ssc11 / 2 - mse11) / 5;
+  check('hybrids with K₁ = K₂ = I on a complete 5 × 3 table: REML σ²GCA₁, σ²GCA₂, σ²e = ANOVA estimators (MS₁ − MSE)/3, (MS₂ − MSE)/5, MSE',
+    near(hF11.theta[0], v111, 1e-6) && near(hF11.theta[1], v211, 1e-6) && near(hF11.theta[2], mse11, 1e-6), `${Array.from(hF11.theta).map(v => v.toFixed(6))} vs ${[v111, v211, mse11].map(v => v.toFixed(6))}`);
+  const sh11 = hF11.theta[0] * 3 / (3 * hF11.theta[0] + hF11.theta[2]);
+  check('…and the GCA of line i is the shrunken deviation of its mean, 3σ²₁/(3σ²₁ + σ²e) · (ȳᵢ. − ȳ..); an untested cross is μ + GCAᵢ + GCAⱼ',
+    rm11.every((m, i) => near(hF11.g1[i], sh11 * (m - gm11), 1e-10)) && near(hF11.predict('A0', 'B0').pred, hF11.mu + hF11.g1[0] + hF11.g2[0], 1e-12));
+  const TQ11 = GS.qc(GS.fromCompact(EXDATA11.technowMarkers), {}), TP11 = Data.table(Data.parseDelimited(EXDATA11.technowPheno));
+  const Th11 = TP11.rows.map(r => ({ p1: String(r[0]), p2: String(r[1]), y: +r[2] }));
+  const Tsub11 = ids => { const idx = new Map(TQ11.ids.map((id, i) => [id, i])), m = TQ11.m, n = ids.length, M = new Float64Array(n * m), p = new Float64Array(m); ids.forEach((id, r) => { for (let j = 0; j < m; j++) { M[r * m + j] = TQ11.M[idx.get(id) * m + j]; p[j] += M[r * m + j] / (2 * n); } }); return GS.kernel(GS.G({ n, m, M, p, ids }, {}).G, n, { ridge: 0.001 }).K; };
+  const T1i11 = [...new Set(Th11.map(h => h.p1))], T2i11 = [...new Set(Th11.map(h => h.p2))];
+  const TH11 = GS.hybrid(Th11, T1i11, Tsub11(T1i11), T2i11, Tsub11(T2i11), {});
+  check('Technow et al. (2014), 1254 Dent × Flint hybrids, grain yield: σ²GCA dent 16.6942, flint 10.6027, σ²e 17.7859 (R, general optimiser: the same to 1e-4)',
+    near(TH11.theta[0], 16.6942, 1e-3) && near(TH11.theta[1], 10.6027, 1e-3) && near(TH11.theta[2], 17.7859, 1e-3), Array.from(TH11.theta).map(v => v.toFixed(4)).join(' '));
+  const hcv11 = await GS.hybridCV(Th11, T1i11, Tsub11(T1i11), T2i11, Tsub11(T2i11), { folds: 5, reps: 1, seed: 3 });
+  check('hybrid cross-validation: both schemes predict every hybrid once; the classes T2 + T1 + T0 add up to both schemes; T2 > T1 in predictive ability',
+    hcv11.hybrids.n === 1254 && hcv11.lines.n === 1254 && hcv11.T2.n + hcv11.T1.n + hcv11.T0.n === 2508 && hcv11.T2.r > hcv11.T1.r, `${hcv11.T2.n} ${hcv11.T1.n} ${hcv11.T0.n} r ${hcv11.T2.r.toFixed(3)} ${hcv11.T1.r.toFixed(3)} ${hcv11.T0.r.toFixed(3)}`);
+
+  /* Jenkins (1934) and the response per year */
+  const jl11 = ['A', 'B', 'C', 'D'], js11 = { AC: 100, AD: 104, BC: 96, BD: 110 };
+  const jsc11 = (a, b) => (js11[a + b] != null ? js11[a + b] : js11[b + a] != null ? js11[b + a] : NaN);
+  check('Jenkins (1934): (A×B)×C = ½(AC + BC) = 98; (A×B)×(C×D) = ¼(AC + AD + BC + BD) = 102.5; (A×C)×(B×D) needs AB and CD → not predictable',
+    near(GS.jenkins('(A×B)×C', jl11, jsc11), 98, 1e-12) && near(GS.jenkins('(A×B)×(C×D)', jl11, jsc11), 102.5, 1e-12) && isNaN(GS.jenkins('(A×C)×(B×D)', jl11, jsc11)));
+  const rp11 = GS.response({ i: 1.755, h: 0.6, r: 0.5, sigmaA: 2, Lp: 4, Lg: 1.5 });
+  check('gain per year i·r·σA/L (Heffner et al. 2010): phenotypic 1.755 × 0.6 × 2/4 = 0.5265, genomic 1.755 × 0.5 × 2/1.5 = 1.17', near(rp11.pheno, 0.5265, 1e-12) && near(rp11.genomic, 1.17, 1e-12));
+
+  const fc11 = { width: 700, height: 520, theme: 'light', palette: 'breeding', font: 'sans', colormap: 'heat' };
+  const figs11 = [
+    ['MAF histogram', () => P11.hist(fc11, wQ11.maf, { titleEs: 'MAF', titleEn: 'MAF', xlab: 'MAF', lo: 0, hi: 0.5, bins: 25 })],
+    ['principal components', () => P11.pca(fc11, GS.pca(smG11.G, 4, 2), sm11.ids, ['g1', 'g1', 'g2', 'g2'])],
+    ['relationship matrix', () => P11.matrix(fc11, { M: smG11.G, rows: sm11.ids, cols: sm11.ids, titleEs: 'G', titleEn: 'G', colormap: 'heat', barLabel: 'G' })],
+    ['scatter with 1:1 line', () => P11.scatter(fc11, { x: [1, 2, 3, 4], y: [1.2, 1.9, 3.3, 3.8], labels: ['a', 'b', 'c', 'd'], xlab: 'x', ylab: 'y', sameScale: true, titleEs: 'x', titleEn: 'x' })],
+    ['marker effects', () => P11.effects(fc11, wB11, wQ11.markers)],
+    ['cross-validation', () => P11.cv(fc11, [{ name: 'GBLUP', cv: cvA11 }])],
+  ];
+  const badFig11 = figs11.filter(([, f]) => { try { const s = f(); const h = s.outerHTML || String(s); return !/^<svg/.test(h) || /NaN|undefined/.test(h); } catch (e) { return true; } }).map(x => x[0]);
+  check('Block 11 figures draw without NaN or undefined (histogram, components, matrix, scatter, marker effects, cross-validation)', !badFig11.length, badFig11.join(', '));
+
+  section('Block 12 · report, methods and package');
+  const enc12 = new TextEncoder();
+  check('ZIP: CRC-32 of the standard check strings ("The quick brown fox…" = 414FA339, "123456789" = CBF43926, empty = 0)',
+    Zip.crc32(enc12.encode('The quick brown fox jumps over the lazy dog')) === 0x414FA339 && Zip.crc32(enc12.encode('123456789')) === 0xCBF43926 && Zip.crc32(new Uint8Array(0)) === 0);
+  const zb12 = new Uint8Array(await (await Zip.build([{ name: 'a/tabla ñ.csv', data: 'x,y\n1,2\n' }, { name: 'b.bin', data: new Uint8Array([0, 255, 7]) }])).arrayBuffer());
+  const dv12 = new DataView(zb12.buffer), end12 = zb12.length - 22;
+  const nm12 = enc12.encode('a/tabla ñ.csv');
+  const cdOff12 = dv12.getUint32(end12 + 16, true), cdSize12 = dv12.getUint32(end12 + 12, true);
+  check('ZIP: local header, UTF-8 name (flag 0x0800), stored data, central directory and end record agree',
+    dv12.getUint32(0, true) === 0x04034b50 && dv12.getUint16(6, true) === 0x0800 && dv12.getUint16(26, true) === nm12.length
+    && new TextDecoder().decode(zb12.subarray(30, 30 + nm12.length)) === 'a/tabla ñ.csv' && new TextDecoder().decode(zb12.subarray(30 + nm12.length, 30 + nm12.length + 8)) === 'x,y\n1,2\n'
+    && dv12.getUint32(14, true) === Zip.crc32(enc12.encode('x,y\n1,2\n')) && dv12.getUint32(end12, true) === 0x06054b50 && dv12.getUint16(end12 + 10, true) === 2
+    && dv12.getUint32(cdOff12, true) === 0x02014b50 && cdOff12 + cdSize12 === end12, `${zb12.length} bytes`);
+
+  /* citations in both languages */
+  const lang12 = I18N.lang;
+  I18N.lang = 'es';
+  const es12 = [MT.c('tukey49'), MT.c('comstock48'), MT.c('knapp85'), MT.p('eberhart66', 'shukla72')];
+  I18N.lang = 'en';
+  const en12 = [MT.c('comstock48'), MT.cp('gollob68'), MT.cp('cornelius92'), MT.p('finlay63')];
+  I18N.lang = lang12;
+  check('citations: "Tukey (1949)", "Comstock y Robinson (1948)", "Knapp et al. (1985)", "(Eberhart y Russell 1966; Shukla 1972)"; in English "&" and possessives "Gollob\'s (1968)", "Cornelius et al.\'s (1992)"',
+    es12.join('|') === 'Tukey (1949)|Comstock y Robinson (1948)|Knapp et al. (1985)|(Eberhart y Russell 1966; Shukla 1972)'
+    && en12.join('|') === "Comstock & Robinson (1948)|Gollob's (1968)|Cornelius et al.'s (1992)|(Finlay & Wilkinson 1963)", es12.concat(en12).join(' | '));
+  /* a letter after the year only when two works of the same authors and year are both cited */
+  const saved12 = MT.blocks[2], lang12b = I18N.lang;
+  I18N.lang = 'es';
+  MT.blocks[2] = () => `<p>${MT.c('griffing56b')}; ${MT.p('hayman54a', 'hayman54b')}.</p>`;
+  const yr12 = MT.build([2]);
+  MT.blocks[2] = saved12; I18N.lang = lang12b;
+  check('citation years: "Griffing (1956)" alone loses its letter, text and list; "Hayman 1954a; Hayman 1954b" keep theirs; none uncited',
+    /Griffing \(1956\)/.test(yr12.html) && !/1956b/.test(yr12.html + yr12.refs.join('') + yr12.text) && /Hayman 1954a; Hayman 1954b/.test(yr12.html)
+    && yr12.refs.some(r => r.startsWith('Griffing B (1956).')) && yr12.refs.some(r => r.startsWith('Hayman BI (1954a)')) && MT.check(yr12).uncited.length === 0, yr12.html);
+  const regBad12 = Object.entries(MT.REF).filter(([k, r]) => !r.full.startsWith(r.a[0].split(' ').pop() === r.a[0] ? r.a[0] : r.a[0]) || !r.full.includes(`(${r.y})`)).map(([k]) => k);
+  const soft12 = Object.entries(MT.REF).filter(([k, r]) => /\b(software|package|paquete|macro)\b/i.test(r.full)).map(([k]) => k);
+  check(`reference registry: ${Object.keys(MT.REF).length} references, each starting with its first author and carrying its year; none cites a software package`, !regBad12.length && !soft12.length, regBad12.concat(soft12).join(', '));
+  const fake12 = { data: '', html: '<p>La prueba de Tukey (1949) y la ecovalencia (Wricke 1962).</p>', keys: ['tukey49', 'wricke62', 'bartlett37'] };
+  const chk12 = MT.check(fake12);
+  check('methods check: a reference in the list that the text never cites is caught (Bartlett 1937), the cited ones pass', chk12.uncited.length === 1 && chk12.uncited[0] === 'bartlett37', JSON.stringify(chk12));
+  check('software citation: author, year, version and kind', /^Barrera-Guzmán, L\.Á\. \(2026\)\. BreedingPro: .+ \((versión|Version) \d+\.\d+\.\d+\) \[(software|Computer software)\]\.$/.test(RP.citation()), RP.citation());
+
+  section('Illustrations');
+  const names = Object.keys(Art).filter(k => typeof Art[k] === 'function' && !['ear', 'cow'].includes(k));
+  let broken = names.filter(k => { try { const s = Art[k](); return !/^<svg[\s\S]*<\/svg>$/.test(s) || /NaN|undefined/.test(s); } catch (e) { return true; } });
+  check(`all ${names.length} illustrations return valid SVG without NaN`, broken.length === 0, broken.join(', '));
+
+  document.getElementById('sum').textContent = `${pass} passed, ${fail} failed`;
+  document.getElementById('sum').className = fail ? 'bad' : 'ok';
+  window.TEST_RESULT = { pass, fail };
+})();
+</script>
+</body>
+</html>

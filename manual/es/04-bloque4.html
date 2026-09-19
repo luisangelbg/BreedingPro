@@ -1,0 +1,408 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>BreedingPro · Manual de usuario · Bloque 4: dialelos de Griffing</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,500;0,600;1,500&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../interior.css">
+<!-- reparte el contenido en hojas tamaño carta, con encabezados y números de página -->
+<script src="../paginar.js"></script>
+<style>
+  figure.chica .marco, figure.chica > svg { width: 72%; margin: 0 auto; }
+  figure.chica figcaption { margin-left: 14%; margin-right: 14%; }
+  figure.angosta .marco { width: 58%; margin: 0 auto; }
+  figure.angosta figcaption { margin-left: 21%; margin-right: 21%; }
+  td.n, th.n { text-align: right; white-space: nowrap; }
+  td.c, th.c { text-align: center; }
+  .formula { font-family: var(--sans); font-size: 9pt; background: #f6f3fa; border-radius: 4px; padding: 0.07in 0.12in; margin: 0.06in 0 0.12in; line-height: 1.6; }
+</style>
+</head>
+<body>
+
+<section class="capitulo" id="cap-b4" data-pestana="B4" data-orden="5" style="--acento: var(--b4)">
+  <div class="cap-apertura">
+    <div class="cap-num">B4</div>
+    <div class="cap-etiqueta">Capítulo cuatro · Bloque 4 · Griffing</div>
+    <h1 data-corto="Bloque 4 · Dialelos de Griffing">Dialelos de Griffing</h1>
+    <div class="cap-regla"></div>
+    <p class="cap-resumen">El dialelo es el diseño clásico para elegir progenitores: cruza un grupo de líneas entre sí y separa lo que cada una transmite a todas sus cruzas (la aptitud combinatoria general) de lo que solo aparece en combinaciones particulares (la aptitud combinatoria específica). El Bloque 4 hace el análisis de Griffing (1956) con sus cuatro métodos y sus dos modelos, en uno o en varios ambientes, y ayuda a elegir los mejores progenitores y cruzas.</p>
+    <div class="cap-franja"><span class="k4"></span><span class="k4" style="opacity:.75"></span><span class="k4" style="opacity:.5"></span><span class="k4" style="opacity:.3"></span></div>
+    <ul class="cap-contenido">
+      <li><b>4.1</b>Los cuatro métodos y los dos modelos</li>
+      <li><b>4.2</b>Datos y modelo</li>
+      <li><b>4.3</b>El análisis de varianza del dialelo</li>
+      <li><b>4.4</b>Los efectos</li>
+      <li><b>4.5</b>Componentes de varianza y parámetros genéticos</li>
+      <li><b>4.6</b>Mejores progenitores y cruzas</li>
+      <li><b>4.7</b>Los cuatro métodos sobre los mismos datos</li>
+      <li><b>4.8</b>Varios ambientes</li>
+      <li><b>4.9</b>Casos especiales, descargas y paso al Bloque 5</li>
+    </ul>
+  </div>
+
+  <!-- ====================================================================== 4.1 -->
+  <h2 id="s4-1"><span class="num">4.1</span>Los cuatro métodos y los dos modelos</h2>
+  <p class="lead">Griffing (1956) distinguió cuatro formas de hacer un dialelo con <i>p</i> progenitores, según se evalúen o no los propios progenitores y las cruzas recíprocas, y dos formas de interpretar los resultados, según los progenitores interesen por sí mismos o representen a una población.</p>
+
+  <figure>
+    <svg viewBox="0 0 700 236" xmlns="http://www.w3.org/2000/svg" font-family="Jost, sans-serif" role="img" aria-label="Las celdas del dialelo que usa cada uno de los cuatro métodos de Griffing, con cinco progenitores">
+      <!-- method 1 -->
+      <g>
+        <text x="66" y="37" text-anchor="middle" font-size="9" fill="#625d6c">1</text>
+        <text x="86" y="37" text-anchor="middle" font-size="9" fill="#625d6c">2</text>
+        <text x="106" y="37" text-anchor="middle" font-size="9" fill="#625d6c">3</text>
+        <text x="126" y="37" text-anchor="middle" font-size="9" fill="#625d6c">4</text>
+        <text x="146" y="37" text-anchor="middle" font-size="9" fill="#625d6c">5</text>
+        <text x="51" y="55" text-anchor="end" font-size="9" fill="#625d6c">1</text>
+        <rect x="57" y="43" width="18" height="18" rx="2.5" fill="#e0a526"/>
+        <rect x="77" y="43" width="18" height="18" rx="2.5" fill="#5e2e8c"/>
+        <rect x="97" y="43" width="18" height="18" rx="2.5" fill="#5e2e8c"/>
+        <rect x="117" y="43" width="18" height="18" rx="2.5" fill="#5e2e8c"/>
+        <rect x="137" y="43" width="18" height="18" rx="2.5" fill="#5e2e8c"/>
+        <text x="51" y="75" text-anchor="end" font-size="9" fill="#625d6c">2</text>
+        <rect x="57" y="63" width="18" height="18" rx="2.5" fill="#c2567a"/>
+        <rect x="77" y="63" width="18" height="18" rx="2.5" fill="#e0a526"/>
+        <rect x="97" y="63" width="18" height="18" rx="2.5" fill="#5e2e8c"/>
+        <rect x="117" y="63" width="18" height="18" rx="2.5" fill="#5e2e8c"/>
+        <rect x="137" y="63" width="18" height="18" rx="2.5" fill="#5e2e8c"/>
+        <text x="51" y="95" text-anchor="end" font-size="9" fill="#625d6c">3</text>
+        <rect x="57" y="83" width="18" height="18" rx="2.5" fill="#c2567a"/>
+        <rect x="77" y="83" width="18" height="18" rx="2.5" fill="#c2567a"/>
+        <rect x="97" y="83" width="18" height="18" rx="2.5" fill="#e0a526"/>
+        <rect x="117" y="83" width="18" height="18" rx="2.5" fill="#5e2e8c"/>
+        <rect x="137" y="83" width="18" height="18" rx="2.5" fill="#5e2e8c"/>
+        <text x="51" y="115" text-anchor="end" font-size="9" fill="#625d6c">4</text>
+        <rect x="57" y="103" width="18" height="18" rx="2.5" fill="#c2567a"/>
+        <rect x="77" y="103" width="18" height="18" rx="2.5" fill="#c2567a"/>
+        <rect x="97" y="103" width="18" height="18" rx="2.5" fill="#c2567a"/>
+        <rect x="117" y="103" width="18" height="18" rx="2.5" fill="#e0a526"/>
+        <rect x="137" y="103" width="18" height="18" rx="2.5" fill="#5e2e8c"/>
+        <text x="51" y="135" text-anchor="end" font-size="9" fill="#625d6c">5</text>
+        <rect x="57" y="123" width="18" height="18" rx="2.5" fill="#c2567a"/>
+        <rect x="77" y="123" width="18" height="18" rx="2.5" fill="#c2567a"/>
+        <rect x="97" y="123" width="18" height="18" rx="2.5" fill="#c2567a"/>
+        <rect x="117" y="123" width="18" height="18" rx="2.5" fill="#c2567a"/>
+        <rect x="137" y="123" width="18" height="18" rx="2.5" fill="#e0a526"/>
+        <text x="106" y="164" text-anchor="middle" font-size="11.5" font-weight="600" fill="#2a1740">Método 1</text>
+        <text x="106" y="180" text-anchor="middle" font-size="9.5" fill="#2a1740">25 entradas · <tspan font-style="italic">p</tspan>²</text>
+        <text x="106" y="194" text-anchor="middle" font-size="9.5" fill="#625d6c">progenitores, F₁ y recíprocas</text>
+      </g>
+      <!-- method 2 -->
+      <g>
+        <text x="238" y="37" text-anchor="middle" font-size="9" fill="#625d6c">1</text>
+        <text x="258" y="37" text-anchor="middle" font-size="9" fill="#625d6c">2</text>
+        <text x="278" y="37" text-anchor="middle" font-size="9" fill="#625d6c">3</text>
+        <text x="298" y="37" text-anchor="middle" font-size="9" fill="#625d6c">4</text>
+        <text x="318" y="37" text-anchor="middle" font-size="9" fill="#625d6c">5</text>
+        <text x="223" y="55" text-anchor="end" font-size="9" fill="#625d6c">1</text>
+        <rect x="229" y="43" width="18" height="18" rx="2.5" fill="#e0a526"/>
+        <rect x="249" y="43" width="18" height="18" rx="2.5" fill="#5e2e8c"/>
+        <rect x="269" y="43" width="18" height="18" rx="2.5" fill="#5e2e8c"/>
+        <rect x="289" y="43" width="18" height="18" rx="2.5" fill="#5e2e8c"/>
+        <rect x="309" y="43" width="18" height="18" rx="2.5" fill="#5e2e8c"/>
+        <text x="223" y="75" text-anchor="end" font-size="9" fill="#625d6c">2</text>
+        <rect x="229" y="63" width="18" height="18" rx="2.5" fill="none" stroke="#c9c3d3" stroke-dasharray="2 2"/>
+        <rect x="249" y="63" width="18" height="18" rx="2.5" fill="#e0a526"/>
+        <rect x="269" y="63" width="18" height="18" rx="2.5" fill="#5e2e8c"/>
+        <rect x="289" y="63" width="18" height="18" rx="2.5" fill="#5e2e8c"/>
+        <rect x="309" y="63" width="18" height="18" rx="2.5" fill="#5e2e8c"/>
+        <text x="223" y="95" text-anchor="end" font-size="9" fill="#625d6c">3</text>
+        <rect x="229" y="83" width="18" height="18" rx="2.5" fill="none" stroke="#c9c3d3" stroke-dasharray="2 2"/>
+        <rect x="249" y="83" width="18" height="18" rx="2.5" fill="none" stroke="#c9c3d3" stroke-dasharray="2 2"/>
+        <rect x="269" y="83" width="18" height="18" rx="2.5" fill="#e0a526"/>
+        <rect x="289" y="83" width="18" height="18" rx="2.5" fill="#5e2e8c"/>
+        <rect x="309" y="83" width="18" height="18" rx="2.5" fill="#5e2e8c"/>
+        <text x="223" y="115" text-anchor="end" font-size="9" fill="#625d6c">4</text>
+        <rect x="229" y="103" width="18" height="18" rx="2.5" fill="none" stroke="#c9c3d3" stroke-dasharray="2 2"/>
+        <rect x="249" y="103" width="18" height="18" rx="2.5" fill="none" stroke="#c9c3d3" stroke-dasharray="2 2"/>
+        <rect x="269" y="103" width="18" height="18" rx="2.5" fill="none" stroke="#c9c3d3" stroke-dasharray="2 2"/>
+        <rect x="289" y="103" width="18" height="18" rx="2.5" fill="#e0a526"/>
+        <rect x="309" y="103" width="18" height="18" rx="2.5" fill="#5e2e8c"/>
+        <text x="223" y="135" text-anchor="end" font-size="9" fill="#625d6c">5</text>
+        <rect x="229" y="123" width="18" height="18" rx="2.5" fill="none" stroke="#c9c3d3" stroke-dasharray="2 2"/>
+        <rect x="249" y="123" width="18" height="18" rx="2.5" fill="none" stroke="#c9c3d3" stroke-dasharray="2 2"/>
+        <rect x="269" y="123" width="18" height="18" rx="2.5" fill="none" stroke="#c9c3d3" stroke-dasharray="2 2"/>
+        <rect x="289" y="123" width="18" height="18" rx="2.5" fill="none" stroke="#c9c3d3" stroke-dasharray="2 2"/>
+        <rect x="309" y="123" width="18" height="18" rx="2.5" fill="#e0a526"/>
+        <text x="278" y="164" text-anchor="middle" font-size="11.5" font-weight="600" fill="#2a1740">Método 2</text>
+        <text x="278" y="180" text-anchor="middle" font-size="9.5" fill="#2a1740">15 entradas · <tspan font-style="italic">p</tspan>(<tspan font-style="italic">p</tspan> + 1)/2</text>
+        <text x="278" y="194" text-anchor="middle" font-size="9.5" fill="#625d6c">progenitores y F₁</text>
+      </g>
+      <!-- method 3 -->
+      <g>
+        <text x="410" y="37" text-anchor="middle" font-size="9" fill="#625d6c">1</text>
+        <text x="430" y="37" text-anchor="middle" font-size="9" fill="#625d6c">2</text>
+        <text x="450" y="37" text-anchor="middle" font-size="9" fill="#625d6c">3</text>
+        <text x="470" y="37" text-anchor="middle" font-size="9" fill="#625d6c">4</text>
+        <text x="490" y="37" text-anchor="middle" font-size="9" fill="#625d6c">5</text>
+        <text x="395" y="55" text-anchor="end" font-size="9" fill="#625d6c">1</text>
+        <rect x="401" y="43" width="18" height="18" rx="2.5" fill="none" stroke="#c9c3d3" stroke-dasharray="2 2"/>
+        <rect x="421" y="43" width="18" height="18" rx="2.5" fill="#5e2e8c"/>
+        <rect x="441" y="43" width="18" height="18" rx="2.5" fill="#5e2e8c"/>
+        <rect x="461" y="43" width="18" height="18" rx="2.5" fill="#5e2e8c"/>
+        <rect x="481" y="43" width="18" height="18" rx="2.5" fill="#5e2e8c"/>
+        <text x="395" y="75" text-anchor="end" font-size="9" fill="#625d6c">2</text>
+        <rect x="401" y="63" width="18" height="18" rx="2.5" fill="#c2567a"/>
+        <rect x="421" y="63" width="18" height="18" rx="2.5" fill="none" stroke="#c9c3d3" stroke-dasharray="2 2"/>
+        <rect x="441" y="63" width="18" height="18" rx="2.5" fill="#5e2e8c"/>
+        <rect x="461" y="63" width="18" height="18" rx="2.5" fill="#5e2e8c"/>
+        <rect x="481" y="63" width="18" height="18" rx="2.5" fill="#5e2e8c"/>
+        <text x="395" y="95" text-anchor="end" font-size="9" fill="#625d6c">3</text>
+        <rect x="401" y="83" width="18" height="18" rx="2.5" fill="#c2567a"/>
+        <rect x="421" y="83" width="18" height="18" rx="2.5" fill="#c2567a"/>
+        <rect x="441" y="83" width="18" height="18" rx="2.5" fill="none" stroke="#c9c3d3" stroke-dasharray="2 2"/>
+        <rect x="461" y="83" width="18" height="18" rx="2.5" fill="#5e2e8c"/>
+        <rect x="481" y="83" width="18" height="18" rx="2.5" fill="#5e2e8c"/>
+        <text x="395" y="115" text-anchor="end" font-size="9" fill="#625d6c">4</text>
+        <rect x="401" y="103" width="18" height="18" rx="2.5" fill="#c2567a"/>
+        <rect x="421" y="103" width="18" height="18" rx="2.5" fill="#c2567a"/>
+        <rect x="441" y="103" width="18" height="18" rx="2.5" fill="#c2567a"/>
+        <rect x="461" y="103" width="18" height="18" rx="2.5" fill="none" stroke="#c9c3d3" stroke-dasharray="2 2"/>
+        <rect x="481" y="103" width="18" height="18" rx="2.5" fill="#5e2e8c"/>
+        <text x="395" y="135" text-anchor="end" font-size="9" fill="#625d6c">5</text>
+        <rect x="401" y="123" width="18" height="18" rx="2.5" fill="#c2567a"/>
+        <rect x="421" y="123" width="18" height="18" rx="2.5" fill="#c2567a"/>
+        <rect x="441" y="123" width="18" height="18" rx="2.5" fill="#c2567a"/>
+        <rect x="461" y="123" width="18" height="18" rx="2.5" fill="#c2567a"/>
+        <rect x="481" y="123" width="18" height="18" rx="2.5" fill="none" stroke="#c9c3d3" stroke-dasharray="2 2"/>
+        <text x="450" y="164" text-anchor="middle" font-size="11.5" font-weight="600" fill="#2a1740">Método 3</text>
+        <text x="450" y="180" text-anchor="middle" font-size="9.5" fill="#2a1740">20 entradas · <tspan font-style="italic">p</tspan>(<tspan font-style="italic">p</tspan> − 1)</text>
+        <text x="450" y="194" text-anchor="middle" font-size="9.5" fill="#625d6c">F₁ y recíprocas</text>
+      </g>
+      <!-- method 4 -->
+      <g>
+        <text x="582" y="37" text-anchor="middle" font-size="9" fill="#625d6c">1</text>
+        <text x="602" y="37" text-anchor="middle" font-size="9" fill="#625d6c">2</text>
+        <text x="622" y="37" text-anchor="middle" font-size="9" fill="#625d6c">3</text>
+        <text x="642" y="37" text-anchor="middle" font-size="9" fill="#625d6c">4</text>
+        <text x="662" y="37" text-anchor="middle" font-size="9" fill="#625d6c">5</text>
+        <text x="567" y="55" text-anchor="end" font-size="9" fill="#625d6c">1</text>
+        <rect x="573" y="43" width="18" height="18" rx="2.5" fill="none" stroke="#c9c3d3" stroke-dasharray="2 2"/>
+        <rect x="593" y="43" width="18" height="18" rx="2.5" fill="#5e2e8c"/>
+        <rect x="613" y="43" width="18" height="18" rx="2.5" fill="#5e2e8c"/>
+        <rect x="633" y="43" width="18" height="18" rx="2.5" fill="#5e2e8c"/>
+        <rect x="653" y="43" width="18" height="18" rx="2.5" fill="#5e2e8c"/>
+        <text x="567" y="75" text-anchor="end" font-size="9" fill="#625d6c">2</text>
+        <rect x="573" y="63" width="18" height="18" rx="2.5" fill="none" stroke="#c9c3d3" stroke-dasharray="2 2"/>
+        <rect x="593" y="63" width="18" height="18" rx="2.5" fill="none" stroke="#c9c3d3" stroke-dasharray="2 2"/>
+        <rect x="613" y="63" width="18" height="18" rx="2.5" fill="#5e2e8c"/>
+        <rect x="633" y="63" width="18" height="18" rx="2.5" fill="#5e2e8c"/>
+        <rect x="653" y="63" width="18" height="18" rx="2.5" fill="#5e2e8c"/>
+        <text x="567" y="95" text-anchor="end" font-size="9" fill="#625d6c">3</text>
+        <rect x="573" y="83" width="18" height="18" rx="2.5" fill="none" stroke="#c9c3d3" stroke-dasharray="2 2"/>
+        <rect x="593" y="83" width="18" height="18" rx="2.5" fill="none" stroke="#c9c3d3" stroke-dasharray="2 2"/>
+        <rect x="613" y="83" width="18" height="18" rx="2.5" fill="none" stroke="#c9c3d3" stroke-dasharray="2 2"/>
+        <rect x="633" y="83" width="18" height="18" rx="2.5" fill="#5e2e8c"/>
+        <rect x="653" y="83" width="18" height="18" rx="2.5" fill="#5e2e8c"/>
+        <text x="567" y="115" text-anchor="end" font-size="9" fill="#625d6c">4</text>
+        <rect x="573" y="103" width="18" height="18" rx="2.5" fill="none" stroke="#c9c3d3" stroke-dasharray="2 2"/>
+        <rect x="593" y="103" width="18" height="18" rx="2.5" fill="none" stroke="#c9c3d3" stroke-dasharray="2 2"/>
+        <rect x="613" y="103" width="18" height="18" rx="2.5" fill="none" stroke="#c9c3d3" stroke-dasharray="2 2"/>
+        <rect x="633" y="103" width="18" height="18" rx="2.5" fill="none" stroke="#c9c3d3" stroke-dasharray="2 2"/>
+        <rect x="653" y="103" width="18" height="18" rx="2.5" fill="#5e2e8c"/>
+        <text x="567" y="135" text-anchor="end" font-size="9" fill="#625d6c">5</text>
+        <rect x="573" y="123" width="18" height="18" rx="2.5" fill="none" stroke="#c9c3d3" stroke-dasharray="2 2"/>
+        <rect x="593" y="123" width="18" height="18" rx="2.5" fill="none" stroke="#c9c3d3" stroke-dasharray="2 2"/>
+        <rect x="613" y="123" width="18" height="18" rx="2.5" fill="none" stroke="#c9c3d3" stroke-dasharray="2 2"/>
+        <rect x="633" y="123" width="18" height="18" rx="2.5" fill="none" stroke="#c9c3d3" stroke-dasharray="2 2"/>
+        <rect x="653" y="123" width="18" height="18" rx="2.5" fill="none" stroke="#c9c3d3" stroke-dasharray="2 2"/>
+        <text x="622" y="164" text-anchor="middle" font-size="11.5" font-weight="600" fill="#2a1740">Método 4</text>
+        <text x="622" y="180" text-anchor="middle" font-size="9.5" fill="#2a1740">10 entradas · <tspan font-style="italic">p</tspan>(<tspan font-style="italic">p</tspan> − 1)/2</text>
+        <text x="622" y="194" text-anchor="middle" font-size="9.5" fill="#625d6c">solo F₁</text>
+      </g>
+
+      <!-- legend -->
+      <g font-size="9.5" fill="#2a1740">
+        <rect x="118" y="212" width="12" height="12" rx="2" fill="#e0a526"/><text x="135" y="222">progenitor (diagonal)</text>
+        <rect x="258" y="212" width="12" height="12" rx="2" fill="#5e2e8c"/><text x="275" y="222">F₁ directa (arriba)</text>
+        <rect x="384" y="212" width="12" height="12" rx="2" fill="#c2567a"/><text x="401" y="222">F₁ recíproca (abajo)</text>
+        <rect x="518" y="212" width="12" height="12" rx="2" fill="none" stroke="#c9c3d3" stroke-dasharray="2 2"/><text x="535" y="222">no se evalúa</text>
+      </g>
+    </svg>
+    <figcaption><b>Figura 4.1.</b> Las celdas del dialelo que usa cada método, con cinco progenitores. Las filas son la hembra y las columnas el macho. El Bloque 4 reconoce el método en los datos y permite analizar los mismos datos con cualquiera de los métodos que contienen.</figcaption>
+  </figure>
+
+  <p>El <b>modelo I</b> trata a los progenitores como fijos: son los que interesan y lo que se busca son sus efectos (cuál transmite más, qué cruza sobresale). El <b>modelo II</b> los trata como una muestra aleatoria de una población: lo que interesa son las varianzas de esa población, de las que salen la varianza aditiva, la de dominancia y las heredabilidades. En los dos modelos se ajusta la misma ecuación; cambian las pruebas <i>F</i> y la lectura.</p>
+  <div class="caja teoria">
+    <div class="caja-t"><span class="ico">θ</span>Teoría en breve · el modelo de Griffing</div>
+    <div class="formula" style="margin-bottom:0.04in"><i><span style="text-decoration: overline">x</span><sub>ij</sub></i> = μ + <i>g<sub>i</sub></i> + <i>g<sub>j</sub></i> + <i>s<sub>ij</sub></i> + <i>r<sub>ij</sub></i> + <i>ē<sub>ij</sub></i> &nbsp;·&nbsp; <i>s<sub>ij</sub></i> = <i>s<sub>ji</sub></i> &nbsp;·&nbsp; <i>r<sub>ij</sub></i> = −<i>r<sub>ji</sub></i> = <i>m<sub>i</sub></i> − <i>m<sub>j</sub></i> + <i>n<sub>ij</sub></i></div>
+    <p>La media de la cruza <i>i</i> × <i>j</i> es la media general más la aptitud combinatoria general (ACG) de cada progenitor, <i>g<sub>i</sub></i> y <i>g<sub>j</sub></i>, más la aptitud combinatoria específica (ACE) de la pareja, <i>s<sub>ij</sub></i>, más el efecto recíproco <i>r<sub>ij</sub></i>, que solo existe en los métodos 1 y 3. El recíproco se divide en una parte materna, <i>m<sub>i</sub></i> − <i>m<sub>j</sub></i>, que depende solo de quién fue la hembra, y una no materna, <i>n<sub>ij</sub></i> (Cockerham, 1963). Las restricciones de Griffing (Σ<i>g<sub>i</sub></i> = 0 y la suma de las ACE de cada progenitor igual a cero) hacen que los efectos se lean como desviaciones del promedio del grupo.</p>
+  </div>
+  <p>A lo largo del capítulo se usa el <b>dialelo completo 4 × 4 de maíz</b> de Pérez López y colaboradores (2020): cuatro líneas, L1 a L4, con sus 12 cruzas directas y recíprocas y las propias líneas, en bloques completos con seis repeticiones; la variable es el peso volumétrico del grano (PVG, en g/L). Es un método 1, con todo lo que el bloque puede mostrar, y sus resultados publicados permiten comprobar la app. La sección 4.8 usa el látice α simulado del capítulo 4 para el análisis en varios ambientes.</p>
+
+  <!-- ====================================================================== 4.2 -->
+  <h2 id="s4-2"><span class="num">4.2</span>Datos y modelo</h2>
+  <p>El Bloque 4 no lee archivos: toma las medias ajustadas de cada entrada y el error de cada ambiente del Bloque 3, con las observaciones que hayas excluido allí. Si los datos cargados no son un dialelo completo de Griffing, la tarjeta dice en qué bloque se analizan (los dialelos parciales, las Carolinas del Norte y la línea × probador en el 6; las generaciones en el 7; los ensayos de genotipos en el 8 o el 9). La tarjeta <span class="ui">1 · Datos y modelo</span> resume los datos en una línea y ofrece los controles de la tabla 4.1.</p>
+  <figure>
+    <div class="marco"><img src="../img/b4-modelo.png" alt="La tarjeta de datos y modelo con el dialelo de maíz 4 por 4"></div>
+    <figcaption><b>Figura 4.2.</b> La tarjeta 1 con el maíz 4 × 4. Los recuadros resumen el método, las entradas, la media general, el error, el reparto de la suma de cuadrados entre ACG y ACE y la razón de Baker.</figcaption>
+  </figure>
+  <table class="compacta">
+    <caption><b>Tabla 4.1.</b> Los controles de la tarjeta 1.</caption>
+    <thead><tr><th style="width:27%">Control</th><th style="width:26%">Opciones</th><th>Para qué sirve</th></tr></thead>
+    <tbody>
+      <tr><td><span class="ui">Variable</span></td><td>las del Bloque 3</td><td>Todo el bloque se recalcula para la variable elegida</td></tr>
+      <tr><td><span class="ui">Método de Griffing</span></td><td>los que los datos contienen</td><td>Analizar un subconjunto de las entradas, como si el experimento se hubiera diseñado con ese método; el reconocido va marcado</td></tr>
+      <tr><td><span class="ui">Al quitar las recíprocas</span></td><td>cruza directa · promedio de las dos orientaciones</td><td>Solo en los métodos 2 y 4 con datos que traen recíprocas: qué valor representa a cada pareja</td></tr>
+      <tr><td><span class="ui">Modelo</span></td><td>I · progenitores fijos · II · progenitores aleatorios</td><td>Qué pruebas <i>F</i> se muestran primero y cómo se leen los componentes</td></tr>
+      <tr><td><span class="ui">Ambientes</span></td><td>fijos · aleatorios</td><td>Con varios ambientes: contra qué se prueba cada efecto (sección 4.8)</td></tr>
+      <tr><td><span class="ui">Endogamia de los progenitores (F)</span></td><td>de 0 a 1; 1 por omisión</td><td>Convierte σ²<sub>ACG</sub> y σ²<sub>ACE</sub> en σ²<sub>A</sub> y σ²<sub>D</sub>: 1 para líneas endogámicas, 0 para plantas de una población</td></tr>
+      <tr><td><span class="ui">Escala de las sumas de cuadrados</span></td><td>medias de entrada · parcelas</td><td>Solo cambia la presentación; las pruebas <i>F</i> son las mismas</td></tr>
+      <tr><td><span class="ui">Nivel de significancia</span></td><td>0.05 · 0.01 · 0.10</td><td>Para las diferencias mínimas significativas y las lecturas</td></tr>
+    </tbody>
+  </table>
+  <p>Con el maíz, el bloque analiza las 16 entradas esperadas del método 1, con una media general de 792.01 g/L y un error de 44.0041 (el cuadrado medio del error del Bloque 3 dividido entre las seis repeticiones) con 75 grados de libertad. La ACG reúne 63&nbsp;% de la suma de cuadrados entre entradas y la ACE, 31&nbsp;%; el resto son efectos recíprocos. El recuadro de las entradas se pone en ámbar si falta alguna del diseño completo.</p>
+  <div class="caja nota">
+    <div class="caja-t"><span class="ico">i</span>Nota · un método distinto del diseño</div>
+    <p>Con los datos de un método 1 se pueden pedir los métodos 2, 3 o 4: el bloque toma solo las entradas que ese método usa (sin recíprocas, sin progenitores o sin ninguna de las dos), repite el análisis de campo del Bloque 3 con ellas y estima su propio error. Así se obtiene lo que habría dado un experimento diseñado con ese método. La sección 4.7 hace la comparación de los cuatro de una vez.</p>
+  </div>
+
+  <!-- ====================================================================== 4.3 -->
+  <h2 id="s4-3"><span class="num">4.3</span>El análisis de varianza del dialelo</h2>
+  <p>La tarjeta <span class="ui">2 · Análisis de varianza del dialelo</span> reparte la variación entre entradas en ACG, ACE y efectos recíprocos, y estos en maternos y no maternos. Tiene dos columnas <i>F</i>: la del modelo elegido, con su valor <i>p</i> y su denominador, y la del otro modelo, a la derecha, para comparar sin cambiar de modelo.</p>
+  <figure>
+    <div class="marco"><img src="../img/b4-anova.png" alt="El análisis de varianza del dialelo de maíz con efectos maternos y no maternos"></div>
+    <figcaption><b>Figura 4.3.</b> El análisis de varianza del maíz 4 × 4. La ACG y la ACE son muy significativas; los recíprocos no lo son en conjunto, pero su parte no materna sí (<i>p</i> = 0.0216).</figcaption>
+  </figure>
+  <table class="compacta" style="width:92%">
+    <caption><b>Tabla 4.2.</b> Contra qué se prueba cada fuente, según el modelo, en un ambiente.</caption>
+    <thead><tr><th style="width:30%">Fuente</th><th>Modelo I (progenitores fijos)</th><th>Modelo II (progenitores aleatorios)</th></tr></thead>
+    <tbody>
+      <tr><td>ACG</td><td>error experimental</td><td>ACE (aproximada en el método 1)</td></tr>
+      <tr><td>ACE</td><td>error experimental</td><td>error experimental</td></tr>
+      <tr><td>Recíprocos, maternos y no maternos</td><td>error experimental</td><td>error experimental</td></tr>
+    </tbody>
+  </table>
+  <p>En el maíz, la ACG tiene <i>F</i> = 38.08 contra el error (modelo I), pero solo <i>F</i> = 4.10 contra la ACE (modelo II), que no es significativa con 3 y 6 grados de libertad: con cuatro progenitores hay muy poca información para hablar de la varianza de una población. Es la diferencia de fondo entre los modelos. Con el I, la pregunta es si estas cuatro líneas difieren (sí, claramente); con el II, si la población de la que salieron tiene varianza aditiva, y cuatro líneas no bastan para afirmarlo.</p>
+  <div class="caja nota">
+    <div class="caja-t"><span class="ico">✓</span>Comprobado · lo publicado</div>
+    <p>Con <span class="ui">Escala de las sumas de cuadrados</span> en <span class="ui">parcelas</span>, las sumas de cuadrados son las del artículo de origen: 30&nbsp;162.40 para la ACG, 14&nbsp;715.59 para la ACE, 2947.50 para los recíprocos, 240.75 para los maternos y 2706.75 para los no maternos, con <i>F</i> = 38.08, 9.29, 1.86, 0.30 y 3.42. Los efectos de ACG y sus errores estándar (2.0311) también coinciden hasta el último decimal.</p>
+  </div>
+  <p>Con entradas faltantes, las sumas de cuadrados son secuenciales, en el orden ACG, ACE y recíprocos, y la nota bajo la tabla lo avisa. Con varios ambientes, la tabla añade los ambientes y las interacciones de cada fuente con ellos, y el recuadro plegado <span class="ui">Análisis dentro de cada ambiente</span> repite el análisis ambiente por ambiente (sección 4.8).</p>
+
+  <!-- ====================================================================== 4.4 -->
+  <h2 id="s4-4"><span class="num">4.4</span>Los efectos</h2>
+  <p>La tarjeta <span class="ui">3 · Efectos</span> presenta las estimaciones con su error estándar y su prueba <i>t</i>. A la izquierda, los efectos de ACG ordenados de mayor a menor; a la derecha, los errores estándar y las diferencias mínimas significativas de cada tipo de comparación, porque no todas las diferencias tienen la misma precisión: comparar dos ACE que comparten un progenitor no es lo mismo que comparar dos sin progenitor común.</p>
+  <figure>
+    <div class="marco"><img src="../img/b4-efectos.png" alt="La tabla de efectos de ACG y la de diferencias mínimas significativas"></div>
+    <figcaption><b>Figura 4.4.</b> Los efectos de ACG del maíz y las diferencias mínimas significativas. L3 transmite a sus cruzas 20 g/L más que el promedio; L2, 13.8 menos. Dos efectos de ACG difieren si se separan más de 6.61 g/L.</figcaption>
+  </figure>
+  <figure class="media">
+    <div class="marco"><img src="../img/b4-fig-gca.png" alt="La figura de efectos de ACG con intervalos de confianza"></div>
+    <figcaption><b>Figura 4.5.</b> La figura de los efectos de ACG, con intervalos de confianza de 95&nbsp;%, asteriscos de significancia y la banda gris de ± DMS/2 alrededor de cero. Los efectos positivos van en morado y los negativos en rosa; en el editor se pueden cambiar a barras, ordenar por nombre y quitar la banda o los intervalos.</figcaption>
+  </figure>
+  <p>La <b>aptitud combinatoria específica</b> se muestra como una matriz de colores: arriba de la diagonal, la ACE de cada cruza; en la diagonal, la de cada progenitor (ŝ<sub>ii</sub>, en los métodos 1 y 2); abajo, cuando existen, los efectos recíprocos. Rojo es positivo y azul negativo, con los asteriscos de significancia junto al valor. La tabla completa de ACE, con error estándar y <i>p</i>, está plegada bajo la figura.</p>
+  <figure class="angosta">
+    <div class="marco"><img src="../img/b4-matriz.png" alt="La matriz de efectos de ACE y efectos recíprocos"></div>
+    <figcaption><b>Figura 4.6.</b> ACE (arriba) y efectos recíprocos (abajo) del maíz. La mejor combinación específica es L3 × L4 (ŝ = 14.8); los valores de la diagonal, todos negativos, dicen que cada línea rinde menos como progenitor de lo que predice su ACG.</figcaption>
+  </figure>
+  <p>Con recíprocas (métodos 1 y 3) aparece además el recuadro de <b>efectos recíprocos, maternos y no maternos</b>: a la izquierda el efecto materno de cada progenitor, <i>m<sub>i</sub></i>; a la derecha, para cada pareja, el recíproco <i>r<sub>ij</sub></i> y su parte no materna <i>n<sub>ij</sub></i>, cada uno con su prueba.</p>
+  <figure>
+    <div class="marco"><img src="../img/b4-recip.png" alt="Las tablas de efectos maternos y de efectos recíprocos y no maternos"></div>
+    <figcaption><b>Figura 4.7.</b> Efectos maternos y recíprocos del maíz. Ningún progenitor tiene efecto materno; la única diferencia entre recíprocas está en la pareja L1 × L4 (<i>r</i> = −10.92, <i>p</i> = 0.0226), y es no materna.</figcaption>
+  </figure>
+  <div class="caja regla">
+    <div class="caja-t"><span class="ico">✓</span>Regla de lectura · qué efecto sirve para qué</div>
+    <table class="compacta"><tbody>
+      <tr><td style="width:40%"><b>ACG alta y significativa</b> (ĝ<sub>i</sub>)</td><td>El progenitor transmite su valor a todas sus cruzas: sirve para <b>formar poblaciones y sintéticos</b> y para elegir progenitores de un programa.</td></tr>
+      <tr><td><b>ACE alta y significativa</b> (ŝ<sub>ij</sub>)</td><td>La pareja rinde más de lo que predicen sus ACG: sirve para <b>híbridos</b> de esa combinación, no para elegir progenitores.</td></tr>
+      <tr><td><b>Efecto materno</b> (<i>m<sub>i</sub></i>)</td><td>Importa quién es la hembra: el progenitor debe usarse en la dirección favorable (citoplasma, endospermo, tamaño de semilla).</td></tr>
+      <tr><td><b>Recíproco no materno</b> (<i>n<sub>ij</sub></i>)</td><td>La dirección importa solo en esa pareja; conviene confirmarlo antes de sacar conclusiones.</td></tr>
+    </tbody></table>
+  </div>
+
+  <!-- ====================================================================== 4.5 -->
+  <h2 id="s4-5"><span class="num">4.5</span>Componentes de varianza y parámetros genéticos</h2>
+  <p>La tarjeta <span class="ui">4 · Componentes de varianza y parámetros genéticos</span> estima las varianzas del modelo II con los cuadrados medios esperados de Griffing (estimadores de momentos), con su error estándar y su porcentaje de la varianza genética. A la derecha las convierte en parámetros genéticos, y debajo los resume en cinco recuadros y una figura de barras con intervalos.</p>
+  <figure>
+    <div class="marco"><img src="../img/b4-param.png" alt="Los componentes de varianza y los parámetros genéticos del maíz"></div>
+    <figcaption><b>Figura 4.8.</b> Los componentes y parámetros del maíz. σ²<sub>maternos</sub> sale negativa y lleva una daga: se informa tal como resulta.</figcaption>
+  </figure>
+  <div class="caja teoria">
+    <div class="caja-t"><span class="ico">θ</span>Teoría en breve · de los componentes a los parámetros</div>
+    <div class="formula" style="margin-bottom:0.04in">σ²<sub>A</sub> = 4σ²<sub>ACG</sub>/(1 + <i>F</i>) &nbsp;·&nbsp; σ²<sub>D</sub> = 4σ²<sub>ACE</sub>/(1 + <i>F</i>)² &nbsp;·&nbsp; razón de Baker = 2σ²<sub>ACG</sub>/(2σ²<sub>ACG</sub> + σ²<sub>ACE</sub>)<br>grado medio de dominancia = √(2σ²<sub>D</sub>/σ²<sub>A</sub>) &nbsp;·&nbsp; <i>h</i>² = σ²<sub>A</sub>/(σ²<sub>A</sub> + σ²<sub>D</sub> + σ²<sub>e</sub>) &nbsp;·&nbsp; <i>H</i>² = (σ²<sub>A</sub> + σ²<sub>D</sub>)/(σ²<sub>A</sub> + σ²<sub>D</sub> + σ²<sub>e</sub>)</div>
+    <p>Las conversiones suponen que no hay epistasis, que los genes están en equilibrio de ligamiento y que los progenitores tienen la endogamia <i>F</i> indicada (Griffing, 1956; Wright, 1985). La razón de Baker (1978) va de 0 a 1: cerca de 1, la ACG predice bien las cruzas y domina la acción aditiva. Las heredabilidades se dan en base de parcela y en base de medias de entrada (con σ²<sub>e</sub> dividida entre las repeticiones y los ambientes). Los errores estándar de los componentes salen de la varianza de los cuadrados medios, 2CM²/gl.</p>
+  </div>
+  <p>En el maíz, σ²<sub>A</sub> = 323.75 y σ²<sub>D</sub> = 224.47; la razón de Baker es 0.59, con predominio aditivo, y el grado medio de dominancia, 1.18. La heredabilidad en sentido estrecho es 0.40 por parcela y 0.55 en medias de entrada. Pero los errores estándar dicen cuánto confiar en esos números: σ²<sub>ACG</sub> = 161.87 ± 173.18 no es distinta de cero. Con cuatro progenitores las varianzas son poco precisas, y los recuadros de mensajes lo recuerdan.</p>
+  <div class="caja importante">
+    <div class="caja-t"><span class="ico">!</span>Importante · lo que dicen los avisos de la tarjeta</div>
+    <ul>
+      <li><b>Componentes negativos:</b> son estimaciones de momentos y se informan como salen, marcadas con †. Indican un componente cercano a cero o un modelo que no describe bien los datos. Si σ²<sub>ACG</sub> o σ²<sub>ACE</sub> son negativas, las razones y las heredabilidades no se calculan.</li>
+      <li><b>Modelo I:</b> los progenitores se eligieron a propósito, así que σ²<sub>ACG</sub> y σ²<sub>ACE</sub> describen solo a este grupo. Leerlas como σ²<sub>A</sub> y σ²<sub>D</sub> de una población exige que los progenitores sean una muestra aleatoria de ella.</li>
+      <li><b>Métodos 1 y 2:</b> con los progenitores incluidos, los componentes describen la población descendiente; para la población ancestral de la que se tomaron los progenitores conviene usar los métodos 3 o 4 (Kuehl y colaboradores, 1968; Wright, 1985).</li>
+    </ul>
+  </div>
+
+  <!-- ====================================================================== 4.6 -->
+  <h2 id="s4-6"><span class="num">4.6</span>Mejores progenitores y cruzas</h2>
+  <p>La tarjeta <span class="ui">5 · Mejores progenitores y cruzas</span> ordena progenitores y cruzas según lo que interese: el menú <span class="ui">Interesa</span> elige <span class="ui">el valor más alto</span> (rendimiento, peso del grano) o <span class="ui">el valor más bajo</span> (días a floración, altura, incidencia de una enfermedad), y <span class="ui">Mostrar</span> limita la tabla de cruzas a 10, 20 o 50 filas, o todas.</p>
+  <figure>
+    <div class="marco"><img src="../img/b4-mejores.png" alt="Los progenitores ordenados por su ACG y las cruzas evaluadas"></div>
+    <figcaption><b>Figura 4.9.</b> Los progenitores del maíz por su ACG, con una lectura en palabras, y las cruzas evaluadas con su media, la predicción por la ACG (μ + ĝ<sub>i</sub> + ĝ<sub>j</sub>) y su ACE. Los progenitores aparecen entre las cruzas con su ŝ<sub>ii</sub>.</figcaption>
+  </figure>
+  <p>La columna <span class="ui">Lectura</span> marca cada progenitor como <i>favorable</i>, <i>desfavorable</i> o <i>sin diferencia</i>, según el signo de su ACG y su significancia en la dirección buscada. En la tabla de cruzas, la diferencia entre la media observada y la predicha por las ACG es la ACE: L3 × L4 promedia 826.67 g/L, 14.76 más de lo que predicen L3 y L4.</p>
+  <figure class="chica">
+    <div class="marco"><img src="../img/b4-obspred.png" alt="La figura de media observada contra predicha por la ACG"></div>
+    <figcaption><b>Figura 4.10.</b> Media observada contra la predicha por la ACG. Los puntos sobre la diagonal tienen ACE positiva; los progenitores (cuadros), todos debajo, rinden menos que lo que predicen sus ACG. En el maíz, la ACG explica 70&nbsp;% de la variación entre entradas (<i>r</i>² = 0.699).</figcaption>
+  </figure>
+  <p>Al final de la tarjeta, una lectura resume los resultados en palabras. Con el maíz dice que el progenitor con mejor ACG es L3, que las cruzas con el valor más alto son L3 × L4, L1 × L3 y L2 × L3, que las combinaciones específicas destacadas son L3 × L4 y L1 × L4 (interesan para híbridos, no para elegir progenitores) y que hay un efecto recíproco significativo, así que conviene cuidar qué progenitor se usa como hembra.</p>
+  <p>Si faltan cruzas del diseño, aparece además la tabla <span class="ui">Cruzas no evaluadas: predicción con la ACG</span>, con μ + ĝ<sub>i</sub> + ĝ<sub>j</sub> y su error estándar para cada cruza que no se hizo. Es el valor esperado promedio de la combinación, sin su ACE, que no se puede conocer sin evaluarla.</p>
+
+  <!-- ====================================================================== 4.7 -->
+  <h2 id="s4-7"><span class="num">4.7</span>Los cuatro métodos sobre los mismos datos</h2>
+  <p>La tarjeta <span class="ui">6 · Los cuatro métodos sobre los mismos datos</span> analiza los datos con cada método que contienen. Cada método usa su subconjunto de entradas y estima su propio error, como si el experimento se hubiera diseñado así. La tabla da el número de entradas, el error, las sumas de cuadrados de ACG, ACE y recíprocos, los componentes, la razón de Baker y qué estima cada método; la figura de debajo compara las sumas de cuadrados o los componentes.</p>
+  <figure>
+    <div class="marco"><img src="../img/b4-metodos.png" alt="La tabla de comparación de los cuatro métodos con el maíz"></div>
+    <figcaption><b>Figura 4.11.</b> Los cuatro métodos con los datos del maíz. Sin los progenitores (métodos 3 y 4), σ²<sub>ACE</sub> baja de 224–284 a 65–77 y la razón de Baker sube de 0.47–0.59 a 0.89–0.91.</figcaption>
+  </figure>
+  <p>La comparación enseña algo que un solo análisis esconde. En los métodos 1 y 2, los progenitores entran al análisis con ACE propias (ŝ<sub>ii</sub>) muy negativas: las líneas rinden mucho menos que sus cruzas (depresión endogámica o, visto desde las cruzas, heterosis), y el modelo de Griffing carga esa diferencia en la ACE. Por eso σ²<sub>ACE</sub> resulta mayor y la razón de Baker menor. Entre las cruzas solas (métodos 3 y 4), la ACG explica casi todo. Ninguno de los resultados está mal: describen poblaciones distintas, la descendiente con progenitores y la ancestral sin ellos.</p>
+  <div class="caja dato">
+    <div class="dato-cifra">4</div>
+    <div class="dato-txt"><div class="caja-t">Dato clave · los cuatro métodos, comprobados</div>Con el dialelo 8 × 8 del libro de Singh y Chaudhary (1979), el Bloque 4 reproduce exactamente, en los cuatro métodos, las sumas de cuadrados, los errores, los componentes del modelo II y los ocho efectos de ACG de una implementación independiente. Esos datos dan σ²<sub>ACG</sub> negativa en los cuatro métodos, el caso típico en que las razones no se calculan.</div>
+  </div>
+
+  <!-- ====================================================================== 4.8 -->
+  <h2 id="s4-8"><span class="num">4.8</span>Varios ambientes</h2>
+  <p>Con datos de varios ambientes, el Bloque 4 hace un análisis en dos etapas: toma las medias ajustadas de cada ambiente del Bloque 3 y analiza la tabla entradas × ambientes con el error combinado. La tabla de análisis de varianza añade los ambientes y la interacción de cada fuente con ellos (ACG × ambientes, ACE × ambientes y, en los métodos 1 y 3, recíprocos × ambientes). El control <span class="ui">Ambientes</span> decide contra qué se prueban los efectos: con ambientes <b>fijos</b>, contra el error; con ambientes <b>aleatorios</b>, cada efecto contra su interacción con los ambientes. En el modelo II con varios ambientes, la ACG se prueba con una cuasi-<i>F</i> y grados de libertad de Satterthwaite (Singh, 1973).</p>
+  <figure>
+    <div class="marco"><img src="../img/b4-amb-anova.png" alt="El análisis de varianza del dialelo en tres ambientes"></div>
+    <figcaption><b>Figura 4.12.</b> El látice α simulado (método 2) en tres localidades. La ACG cambia entre localidades (ACG × ambientes, <i>p</i> = 0.0003); la ACE, no (<i>p</i> = 0.145). La nota explica el error de la segunda etapa.</figcaption>
+  </figure>
+  <div class="caja nota">
+    <div class="caja-t"><span class="ico">i</span>Nota · el error cuando hay bloques incompletos</div>
+    <p>Las medias ajustadas de un látice α son menos precisas que CM<sub>error</sub>/<i>r</i>, así que el error de la segunda etapa es la varianza promedio de las medias ajustadas, en la escala de parcela (Möhring y Piepho, 2009): en el ejemplo, 0.2008 en lugar de 0.1583. Con bloques completos balanceados son iguales.</p>
+  </div>
+  <p>La figura <span class="ui">ACG en cada ambiente</span> muestra, para cada progenitor, su efecto en cada localidad. Líneas paralelas indican ACG estable; líneas que se cruzan, progenitores cuyo valor depende del ambiente. En el ejemplo, P5 es el mejor en Los Altos y en Valle Verde y el segundo en Chapultepec, mientras que P9 pasa de 0.15 en Los Altos a −0.55 en Valle Verde.</p>
+  <figure class="media">
+    <div class="marco"><img src="../img/b4-amb-gca.png" alt="La ACG de cada progenitor en las tres localidades"></div>
+    <figcaption><b>Figura 4.13.</b> La ACG de los diez progenitores en cada localidad del látice α simulado.</figcaption>
+  </figure>
+  <p>Como los datos son simulados, el bloque compara solo las estimaciones con la verdad: bajo la tabla de ACG, una nota da la correlación entre los ĝ<sub>i</sub> y los efectos verdaderos (0.863). Con el método 2, σ²<sub>ACG</sub> sale negativa (−0.145) y σ²<sub>ACE</sub> muy grande (2.34): las cruzas promedian 7.5 t/ha y los progenitores endogámicos 4.2, y esa heterosis se suma a la ACE, como en la sección 4.7. Con el método 4, solo con las cruzas, los componentes quedan cerca de lo simulado (tabla 4.3).</p>
+  <table class="compacta" style="width:86%">
+    <caption><b>Tabla 4.3.</b> Componentes del látice α simulado con el método 4 y valores con que se generaron los datos. σ²<sub>ACG</sub> se compara con la varianza de los diez efectos sorteados, no con la del modelo (0.16).</caption>
+    <thead><tr><th>Componente</th><th class="n">Estimación ± EE</th><th class="n">Verdadero</th></tr></thead>
+    <tbody>
+      <tr><td>σ²<sub>ACG</sub></td><td class="n">0.080 ± 0.051</td><td class="n">0.052</td></tr>
+      <tr><td>σ²<sub>ACE</sub></td><td class="n">0.037 ± 0.032</td><td class="n">0.069</td></tr>
+      <tr><td>σ²<sub>ACG × ambiente</sub></td><td class="n">0.037 ± 0.024</td><td class="n">0.029</td></tr>
+      <tr><td>σ²<sub>ACE × ambiente</sub></td><td class="n">0.063 ± 0.053</td><td class="n">0</td></tr>
+    </tbody>
+  </table>
+  <p>Con diez progenitores, las varianzas de ACG y ACE se estiman con pocos grados de libertad y sus errores estándar son del mismo orden que las propias estimaciones; es la limitación de cualquier dialelo pequeño, no del programa.</p>
+
+  <!-- ====================================================================== 4.9 -->
+  <h2 id="s4-9"><span class="num">4.9</span>Casos especiales, descargas y paso al Bloque 5</h2>
+  <h3>Medias con error externo</h3>
+  <p>Si el Bloque 3 recibió medias por entrada con el error del experimento original (sección 3.8), el Bloque 4 analiza esas medias con ese error. Es el caso del ejemplo de Griffing (1956), 36 cruzas simples de maíz de nueve líneas (método 4) con un error de 21.05 con 2558 grados de libertad en la escala de medias: la ACG tiene <i>F</i> = 110.49 y la ACE, 16.13; σ²<sub>ACG</sub> = 283.76 y σ²<sub>ACE</sub> = 318.39, con una razón de Baker de 0.64.</p>
+  <h3>Diseños incompletos o desbalanceados</h3>
+  <p>El bloque estima los efectos por mínimos cuadrados ponderados por el número de parcelas, con las restricciones de Griffing impuestas exactamente. Con datos completos y balanceados reproduce las fórmulas de Griffing; con cruzas faltantes o repeticiones desiguales sigue siendo válido y los errores estándar se ajustan a los datos que hay. Como el modelo de Griffing tiene tantos parámetros como celdas, algo tiene que suponerse para lo que falta, y los avisos de la tarjeta 1 lo dicen: se supone ACE = 0 en las cruzas que no se hicieron, y efecto no materno = 0 en las parejas evaluadas en un solo sentido. Con entradas de distinto número de parcelas, los componentes usan la media armónica de las repeticiones.</p>
+  <h3>Descargas y siguiente bloque</h3>
+  <p>Al final de la tarjeta 6, <span class="ui">Supuestos, fórmulas y referencias</span> resume el modelo, las restricciones, la estimación y las referencias, para la sección de métodos de un artículo. Las descargas son dos: <span class="ui">Resultados (.xlsx)</span>, con seis hojas (análisis de varianza, efectos, componentes, parámetros, cruzas con su media, predicción y ACE, y comparación de métodos), y <span class="ui">Efectos (.csv)</span>, con la media general y todos los efectos de ACG, ACE, maternos, recíprocos y no maternos con su error estándar, <i>t</i> y <i>p</i>. Cada figura tiene su propio panel de descarga.</p>
+  <p>El botón <span class="ui">Continuar: Hayman–Jinks →</span> lleva al Bloque 5, que analiza el mismo dialelo desde otro ángulo: el gráfico Wr–Vr, los parámetros genéticos de Hayman y Jinks y el análisis de Gardner y Eberhart para variedades y heterosis.</p>
+</section>
+
+</body>
+</html>

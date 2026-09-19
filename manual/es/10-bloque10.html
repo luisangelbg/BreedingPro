@@ -1,0 +1,267 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>BreedingPro · Manual de usuario · Bloque 10: modelos mixtos, BLUP y cruzamiento</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,500;0,600;1,500&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../interior.css">
+<!-- reparte el contenido en hojas tamaño carta, con encabezados y números de página -->
+<script src="../paginar.js"></script>
+<style>
+  figure.chica .marco, figure.chica > svg { width: 72%; margin: 0 auto; }
+  figure.chica figcaption { margin-left: 14%; margin-right: 14%; }
+  figure.angosta .marco { width: 58%; margin: 0 auto; }
+  figure.angosta figcaption { margin-left: 21%; margin-right: 21%; }
+  td.n, th.n { text-align: right; white-space: nowrap; }
+  td.c, th.c { text-align: center; }
+  .formula { font-family: var(--sans); font-size: 9pt; background: #f6f3fa; border-radius: 4px; padding: 0.07in 0.12in; margin: 0.06in 0 0.12in; line-height: 1.6; }
+  .sb { text-decoration: overline; }
+</style>
+</head>
+<body>
+
+<section class="capitulo" id="cap-b10" data-pestana="B10" data-orden="11" style="--acento: var(--b10)">
+  <div class="cap-apertura">
+    <div class="cap-num">B10</div>
+    <div class="cap-etiqueta">Capítulo diez · Bloque 10 · BLUP y cruzamiento</div>
+    <h1 data-corto="Bloque 10 · Modelos mixtos, BLUP y cruzamiento">Modelos mixtos, BLUP y cruzamiento</h1>
+    <div class="cap-regla"></div>
+    <p class="cap-resumen">El parentesco dice cuánto se parecen dos individuos, y con él un registro informa también sobre sus padres, sus hermanos y su descendencia. El Bloque 10 lee el pedigrí, calcula la consanguinidad y la matriz de parentesco, predice valores genéticos con el modelo animal o el de padres, estima los componentes de varianza por REML, predice los genotipos de un ensayo con su parentesco y, para el cruzamiento de razas, estima los parámetros de Dickerson y predice cruzas, rotaciones y compuestas.</p>
+    <div class="cap-franja"><span class="k10"></span><span class="k10" style="opacity:.75"></span><span class="k10" style="opacity:.5"></span><span class="k10" style="opacity:.3"></span></div>
+    <ul class="cap-contenido">
+      <li><b>10.1</b>Qué hace el bloque</li>
+      <li><b>10.2</b>Registros y pedigrí</li>
+      <li><b>10.3</b>El modelo animal</li>
+      <li><b>10.4</b>Padres, registros repetidos y otros efectos</li>
+      <li><b>10.5</b>BLUP de los genotipos de un ensayo</li>
+      <li><b>10.6</b>Cruzamiento de razas</li>
+      <li><b>10.7</b>Descargas y siguiente paso</li>
+    </ul>
+  </div>
+
+  <!-- ====================================================================== 10.1 -->
+  <h2 id="s10-1"><span class="num">10.1</span>Qué hace el bloque</h2>
+  <p class="lead">A diferencia de los bloques anteriores, el Bloque 10 trabaja casi siempre con datos propios: registros de individuos con su padre y su madre en las tarjetas 1 y 2, y medias de razas y de sus cruzas en la tarjeta 4. Solo la tarjeta 3 usa el ensayo cargado en el Bloque 3, al que le agrega el pedigrí de la tarjeta 1. Sirve para animales y para plantas: acepta autofecundación, progenitores que ya son líneas puras y líneas derivadas por varias generaciones de autofecundación.</p>
+  <table class="compacta">
+    <caption><b>Tabla 10.1.</b> Las tarjetas del Bloque 10.</caption>
+    <thead><tr><th style="width:36%">Tarjeta</th><th>Qué da</th></tr></thead>
+    <tbody>
+      <tr><td>1 · Registros y pedigrí</td><td>Lectura y revisión del pedigrí, consanguinidad, varianza del muestreo mendeliano y matriz de parentesco A</td></tr>
+      <tr><td>2 · Modelo animal: valores genéticos (BLUP) y componentes (REML)</td><td>Modelo animal o de padres, con ambiente permanente, efecto materno y otros factores aleatorios; valores genéticos con su confiabilidad; tendencia genética</td></tr>
+      <tr><td>3 · BLUP de los genotipos del ensayo (Bloque 3) con el pedigrí</td><td>Predicción de las entradas de un ensayo con genotipos independientes, con el parentesco o con una parte aditiva y otra no aditiva</td></tr>
+      <tr><td>4 · Cruzamiento: parámetros de Dickerson y predicción de sistemas</td><td>Efectos directos y maternos de raza, heterosis y pérdida por recombinación; predicción de cruzas, rotaciones y compuestas</td></tr>
+      <tr><td>5 · Supuestos, fórmulas y referencias</td><td>Los modelos, sus fórmulas y las referencias</td></tr>
+    </tbody>
+  </table>
+  <p>El hilo del capítulo es un rebaño ovino simulado: 439 corderos nacidos en tres años, hijos de 60 carneros y 320 ovejas, pesados al destete. Se simuló con σ²<sub>a</sub> = 30 y σ²<sub>e</sub> = 70 (<i>h</i>² = 0.30), un efecto de sexo y otro de año, y los reemplazos de cada año se tomaron al azar entre los corderos, sin selección. Los ejemplos de Mrode (2014) y de Schaeffer (2019) sirven para las comprobaciones; las plantas entran con el pedigrí de las 60 líneas del ensayo simulado del Bloque 3, y el cruzamiento, con un experimento simulado de tres razas y cuatro ejemplos publicados.</p>
+
+  <!-- ====================================================================== 10.2 -->
+  <h2 id="s10-2"><span class="num">10.2</span>Registros y pedigrí</h2>
+  <p>La tarjeta <span class="ui">1 · Registros y pedigrí</span> espera una fila por registro con el individuo, su padre y su madre; un progenitor desconocido se escribe 0, NA o se deja vacío. Los progenitores que no tienen fila propia se agregan como fundadores: en el rebaño son 170, los 20 carneros y las 150 ovejas del primer año. <span class="ui">Registros (archivo)</span> lee archivos .xlsx, .xls, .xlsm, .ods, .csv, .tsv y .txt; <span class="ui">Pedigrí aparte (opcional)</span> agrega un segundo archivo con ancestros que no tienen registros, para que el parentesco llegue más atrás. Siete ejemplos cargan datos listos (tabla 10.2).</p>
+  <figure>
+    <div class="marco"><img src="../img/b10-datos.png" alt="La tarjeta de registros y pedigrí con el rebaño ovino simulado"></div>
+    <figcaption><b>Figura 10.1.</b> La tarjeta 1 con el rebaño simulado: 609 individuos en cuatro generaciones, 21 de ellos consanguíneos, con F máxima de 0.1563.</figcaption>
+  </figure>
+  <table class="compacta">
+    <caption><b>Tabla 10.2.</b> Los ejemplos de las tarjetas 1 y 2.</caption>
+    <thead><tr><th style="width:36%">Ejemplo</th><th>Datos</th><th style="width:27%">Muestra</th></tr></thead>
+    <tbody>
+      <tr><td>Mrode: modelo animal (ej. 3.1)</td><td>5 terneros con registro, 8 individuos; σ²<sub>a</sub> = 20 y σ²<sub>e</sub> = 40</td><td>El modelo animal</td></tr>
+      <tr><td>Mrode: modelo de padres (ej. 3.2)</td><td>Los mismos datos, σ²<sub>s</sub> = 5 y σ²<sub>e</sub> = 55</td><td>El modelo de padres</td></tr>
+      <tr><td>Schaeffer: grupos contemporáneos aleatorios</td><td>15 registros, 29 individuos; año fijo, grupo contemporáneo aleatorio</td><td>Otros factores aleatorios</td></tr>
+      <tr><td>Schaeffer: registros repetidos</td><td>22 registros de 12 individuos</td><td>El ambiente permanente</td></tr>
+      <tr><td>Mrode: efecto de camada (ej. 5.2)</td><td>10 lechones de tres camadas, 15 individuos</td><td>La camada como efecto aleatorio</td></tr>
+      <tr><td>Simulado: rebaño ovino, <i>h</i>² = 0.3</td><td>439 corderos, 609 individuos</td><td>REML y el hilo del capítulo</td></tr>
+      <tr><td>Simulado: pedigrí de líneas endogámicas</td><td>8 progenitores y 60 líneas F<sub>6</sub></td><td>Autofecundación; la tarjeta 3</td></tr>
+    </tbody>
+  </table>
+  <p>El recuadro plegado <span class="ui">Papel de cada columna</span> tiene un menú para cada columna con los papeles de la tabla 10.3. La app los propone por el nombre: Animal, ID, Individuo o Genotipo es el individuo; Padre, Sire o Toro, el padre; Madre o Dam, la madre; CG, Camada, Litter o Grupo, un efecto aleatorio; una columna numérica con pocos valores enteros, un efecto fijo, y una con muchos valores, la variable respuesta. En plantas, el progenitor que da la semilla va como madre y el que da el polen como padre.</p>
+  <table class="compacta">
+    <caption><b>Tabla 10.3.</b> Los papeles de las columnas.</caption>
+    <thead><tr><th style="width:34%">Papel</th><th>Para qué</th></tr></thead>
+    <tbody>
+      <tr><td>Individuo</td><td>El identificador; se repite si el individuo tiene varios registros</td></tr>
+      <tr><td>Padre (o progenitor 1) · Madre (o progenitor 2)</td><td>Los progenitores</td></tr>
+      <tr><td>Variable respuesta</td><td>Las variables que se analizan; la tarjeta 2 elige una</td></tr>
+      <tr><td>Efecto fijo (factor)</td><td>Sexo, año, hato, época o tipo de parto</td></tr>
+      <tr><td>Covariable</td><td>Edad al pesaje o peso al nacer, con una regresión lineal</td></tr>
+      <tr><td>Efecto aleatorio (factor)</td><td>Grupo contemporáneo o camada, con su propia varianza</td></tr>
+      <tr><td>Generaciones de autofecundación</td><td>Las <i>t</i> generaciones de cada línea desde la cruza de sus progenitores</td></tr>
+      <tr><td>Consanguinidad del fundador</td><td>La F de un fundador: 1 para una línea pura</td></tr>
+      <tr><td>Año de nacimiento (tendencia)</td><td>Solo para la tendencia genética</td></tr>
+      <tr><td>Ignorar</td><td>La columna no entra</td></tr>
+    </tbody>
+  </table>
+  <p>La tarjeta revisa el pedigrí antes de usarlo y avisa de cada problema: un individuo que aparece dos veces con padres distintos (se conserva la primera fila), un individuo que es su propio progenitor (se borra ese progenitor), un ciclo en que alguien resulta ser su propio ancestro, y el mismo individuo como padre y como madre, que es normal en plantas monoicas y no en animales. Luego ordena el pedigrí de modo que los progenitores vayan antes que su descendencia y da un resumen, la consanguinidad por generación y, cuando el pedigrí tiene hasta 60 individuos, la matriz de parentesco A como mapa de calor.</p>
+  <figure class="chica">
+    <div class="marco"><img src="../img/b10-fig-ped.png" alt="La consanguinidad media y máxima por generación del rebaño"></div>
+    <figcaption><b>Figura 10.2.</b> Consanguinidad del rebaño por generación: las barras son la F media y los rombos, la máxima. La consanguinidad aparece en la segunda generación, por apareamientos entre medios hermanos.</figcaption>
+  </figure>
+  <p>El recuadro plegado <span class="ui">Individuos, consanguinidad y muestreo mendeliano</span> lista cada individuo con su generación, sus autofecundaciones, su F y su <i>b</i>, la varianza del muestreo mendeliano relativa a σ²<sub>a</sub>; un asterisco marca a los fundadores agregados. La consanguinidad sale de los vectores de trayectoria de Meuwissen y Luo (1992), y la inversa A<sup>−1</sup> se arma directamente con las reglas de Henderson (1976) y Quaas (1976): a cada individuo se le suma 1/<i>b</i> en su diagonal, −1/(2<i>b</i>) en las celdas con sus padres y 1/(4<i>b</i>) en la de los padres entre sí. Así, el modelo nunca necesita invertir A.</p>
+  <div class="formula"><span style="white-space:nowrap"><i>b</i> = ½ − ¼(F<sub>s</sub> + F<sub>d</sub>)</span> con los dos padres conocidos, <span style="white-space:nowrap">¾ − ¼F<sub>s</sub></span> con uno y 1 con ninguno; <span style="white-space:nowrap">log|A| = Σ log <i>b</i></span></div>
+  <figure class="angosta">
+    <div class="marco"><img src="../img/b10-fig-a.png" alt="La matriz de parentesco del ejemplo de Schaeffer como mapa de calor"></div>
+    <figcaption><b>Figura 10.3.</b> La matriz A del ejemplo de Schaeffer con grupos contemporáneos: 29 individuos, los 14 fundadores primero. Padre e hijo y los hermanos completos 15 y 16 tienen parentesco 0.5; los medios hermanos, como 22 y 23, 0.25.</figcaption>
+  </figure>
+  <p>En plantas se marca <span class="ui">Plantas: se permite autofecundación</span>, y un individuo con el mismo padre y madre es una autofecundación y no un error. El ejemplo de líneas trae el pedigrí de las 68 entradas del ensayo simulado del Bloque 3: 8 progenitores que son líneas puras (consanguinidad del fundador = 1) y 60 líneas, cinco de cada una de 12 cruzas simples, con cinco generaciones de autofecundación. Una línea con <i>t</i> autofecundaciones desde la cruza de sus progenitores <i>s</i> y <i>d</i> conserva el parentesco de su F<sub>1</sub> con todos los demás y tiene</p>
+  <div class="formula"><span style="white-space:nowrap">F = 1 − (½)<sup><i>t</i></sup>(1 − <i>f</i><sub>sd</sub>)</span>, con <i>f</i><sub>sd</sub> el coeficiente de coancestría de sus progenitores; su <span style="white-space:nowrap"><i>b</i> = (1 + F) − ¼(<i>a</i><sub>ss</sub> + <i>a</i><sub>dd</sub> + 2<i>a</i><sub>sd</sub>)</span> entra sin cambios en las reglas de Quaas.</div>
+  <p>Con progenitores puros y no emparentados, <i>f</i><sub>sd</sub> = 0 y cada línea F<sub>6</sub> tiene F = 1 − 1/32 = 0.9688; la F media de las 68 entradas es 0.9724 (figura 10.4).</p>
+  <figure>
+    <div class="marco"><img src="../img/b10-lineas.png" alt="El resumen del pedigrí de las líneas endogámicas"></div>
+    <figcaption><b>Figura 10.4.</b> El pedigrí de las líneas: 8 fundadores con F = 1 y 60 líneas con F = 0.9688.</figcaption>
+  </figure>
+  <div class="caja nota">
+    <div class="caja-t"><span class="ico">✓</span>Comprobado · lo publicado</div>
+    <p>En el pedigrí de siete animales de Schaeffer (2019, cuadros 2.9 a 2.14), las F son 0, 0, 0, 0, 0.125, 0.25 y 0.28125, <i>b</i><sub>7</sub> = 0.40625, y A y A<sup>−1</sup> coinciden con las publicadas; en el de Mrode (2014, cuadro 2.1), F<sub>5</sub> = F<sub>6</sub> = 0.125 y A·A<sup>−1</sup> es la identidad hasta 10<sup>−12</sup>. Para las 68 líneas, la A<sup>−1</sup> de la app es la inversa de la A calculada aparte por el método tabular, hasta 1.8 × 10<sup>−15</sup>.</p>
+  </div>
+
+  <!-- ====================================================================== 10.3 -->
+  <h2 id="s10-3"><span class="num">10.3</span>El modelo animal</h2>
+  <p>La tarjeta <span class="ui">2 · Modelo animal: valores genéticos (BLUP) y componentes (REML)</span> tiene tres menús: la <span class="ui">Variable</span>; el <span class="ui">Modelo</span>, <span class="ui">animal (todos los individuos)</span> o <span class="ui">de padres</span>, y las <span class="ui">Varianzas</span>, <span class="ui">estimarlas por REML</span> o <span class="ui">darlas (conocidas)</span>. Dos casillas agregan el <span class="ui">Ambiente permanente (registros repetidos)</span> y el <span class="ui">Efecto genético materno</span>. La línea de debajo dice qué efectos fijos y aleatorios entran; se cambian en la tabla de papeles de la tarjeta 1. <span class="ui">Ajustar el modelo</span> resuelve.</p>
+  <div class="formula"><span style="white-space:nowrap"><b>y</b> = X<b>b</b> + Z<b>a</b> + <b>e</b></span>, con <span style="white-space:nowrap">var(<b>a</b>) = Aσ²<sub>a</sub></span> y <span style="white-space:nowrap">var(<b>e</b>) = Iσ²<sub>e</sub></span>; ecuaciones del modelo mixto de Henderson con <span style="white-space:nowrap">A<sup>−1</sup>σ²<sub>e</sub>/σ²<sub>a</sub></span> sumada al bloque de <b>a</b>; <span style="white-space:nowrap">PEV = σ²<sub>e</sub>C<sup>aa</sup></span></div>
+  <p>El modelo animal da valor genético a todos los individuos del pedigrí, tengan o no registros. Las ecuaciones se resuelven de forma exacta, con matrices densas, hasta 2600 incógnitas; con más, la app lo dice y sugiere reducir el pedigrí a los ancestros de los individuos con registros. Los componentes se estiman por máxima verosimilitud restringida con iteraciones de información promedio (Gilmour, Thompson y Cullis, 1995), unos pasos EM al inicio y límites en cero.</p>
+  <figure>
+    <div class="marco"><img src="../img/b10-modelo.png" alt="La tarjeta del modelo animal con los componentes de varianza del rebaño"></div>
+    <figcaption><b>Figura 10.5.</b> La tarjeta 2 con el rebaño: REML convergió en 9 iteraciones. σ²<sub>a</sub> = 20.79 ± 9.47 y σ²<sub>e</sub> = 84.32 ± 9.43, con <i>h</i>² = 0.198 ± 0.086; la razón de verosimilitudes dice que σ²<sub>a</sub> no es cero.</figcaption>
+  </figure>
+  <p>La heredabilidad estimada, 0.198, queda a 1.2 errores estándar de la verdadera, 0.30: con 439 registros de un solo pesaje, la varianza aditiva se estima con poca precisión. La nota lo advierte: en muestras pequeñas, el intervalo de ±1.96 errores estándar de una varianza cubre menos de lo que dice (en simulaciones con unos 150 registros, 90&nbsp;% en lugar de 95&nbsp;%). La tabla <span class="ui">¿Hace falta cada efecto aleatorio?</span> compara la verosimilitud restringida con y sin cada efecto; la razón, 8.20, se compara con la mezcla ½χ²<sub>0</sub> + ½χ²<sub>1</sub> de una varianza en el borde (Self y Liang, 1987) y da <i>p</i> = 0.0021. Esa comparación solo vale entre modelos con los mismos efectos fijos.</p>
+  <p>El recuadro plegado <span class="ui">Efectos fijos (medias de mínimos cuadrados)</span> da la media de cada nivel con su error estándar. En el rebaño, los machos pesan 31.49 ± 0.96 y las hembras 30.03 ± 0.96; los años, 30.63, 30.16 y 31.48.</p>
+  <figure>
+    <div class="marco"><img src="../img/b10-ebv.png" alt="La tabla de valores genéticos del rebaño ordenada de mayor a menor"></div>
+    <figcaption><b>Figura 10.6.</b> Los primeros 12 valores genéticos del rebaño. Los menús eligen el orden (mayor o menor valor genético, mayor confiabilidad o identificador) y cuántas filas se ven (25, 50, 100 o todas).</figcaption>
+  </figure>
+  <p>El valor genético es una desviación de la base del pedigrí, los fundadores, cuya media esperada es 0. Combina el registro propio con los de todos los parientes, en la proporción que dicta su parentesco. A0282 tiene el registro más alto de la tabla (64.26), pero queda segundo; A0294 es tercero con apenas 46.20 porque es padre del primero, A0386, y tiene más descendencia: su confiabilidad, 0.377, es la más alta de las 12 filas. Los 170 fundadores sin registros también reciben valor genético, solo por su progenie: el carnero S4 es el 16.º (4.34, con confiabilidad 0.389).</p>
+  <div class="formula">EEP = √PEV; <span style="white-space:nowrap">confiabilidad <i>r</i>² = 1 − PEV/[(1 + F)σ²<sub>a</sub>]</span>; exactitud <i>r</i> = √<i>r</i>²</div>
+  <p>La fórmula de varios textos, 1 − PEV/σ²<sub>a</sub>, sobrestima la confiabilidad de los individuos consanguíneos; la app incluye 1 + F. En el rebaño, las confiabilidades van de 0.05 a 0.47: con una heredabilidad de 0.2, un solo registro dice poco. Como el rebaño es simulado, la nota da la correlación entre el valor genético estimado y el verdadero de los 609 individuos: 0.619.</p>
+  <figure class="chica">
+    <div class="marco"><img src="../img/b10-fig-ebv.png" alt="Los 20 mejores valores genéticos del rebaño con su error estándar de predicción"></div>
+    <figcaption><b>Figura 10.7.</b> Los 20 mejores valores genéticos con ± EEP. El color distingue a los individuos con registros de los que no los tienen, y la intensidad, la exactitud. Su panel cambia la vista a valor contra exactitud.</figcaption>
+  </figure>
+  <p>Los bigotes de la figura 10.7 son anchos: el EEP de casi 4&nbsp;kg es del tamaño de las diferencias entre los primeros lugares. Aun así, el valor genético es la mejor apuesta: ya descuenta esa incertidumbre, y elegir a los de mayor valor genético da la mayor respuesta esperada aunque el orden exacto de los primeros sea incierto.</p>
+  <figure class="chica">
+    <div class="marco"><img src="../img/b10-fig-tendencia.png" alt="El valor genético medio del rebaño por generación del pedigrí"></div>
+    <figcaption><b>Figura 10.8.</b> La tendencia genética del rebaño: el valor genético medio por generación del pedigrí. Como los reemplazos se eligieron al azar, no hay tendencia real; −0.24 en la tercera generación es poco frente a un EEP de 3.8.</figcaption>
+  </figure>
+  <p>El menú <span class="ui">Tendencia por</span> agrupa por la generación del pedigrí, por el año de nacimiento o por cualquier factor fijo o aleatorio. En un programa con selección, la pendiente de esa línea es la respuesta genética lograda.</p>
+  <div class="caja nota">
+    <div class="caja-t"><span class="ico">✓</span>Comprobado · lo publicado</div>
+    <p>Con el ejemplo 3.1 de Mrode (2014) y σ²<sub>a</sub> = 20, σ²<sub>e</sub> = 40, los efectos de sexo son 4.3585 (machos) y 3.4044 (hembras), y los valores genéticos de los animales 1 a 8, 0.0984, −0.0188, −0.0411, −0.0087, −0.1857, 0.1769, −0.2495 y 0.1826, iguales a los publicados hasta 10<sup>−7</sup>; el animal 1 tiene PEV 18.84 y confiabilidad 0.058. El REML del rebaño coincide con una maximización independiente de la verosimilitud restringida (log L = −1634.0949).</p>
+  </div>
+
+  <!-- ====================================================================== 10.4 -->
+  <h2 id="s10-4"><span class="num">10.4</span>Padres, registros repetidos y otros efectos</h2>
+  <p><b>El modelo de padres.</b> Con <span class="ui">Modelo: de padres</span>, el efecto aleatorio es la habilidad de transmisión de cada padre, la mitad de su valor genético, con el parentesco de los padres y de sus ancestros. Su varianza es σ²<sub>s</sub> = ¼σ²<sub>a</sub>, así que <i>h</i>² = 4σ²<sub>s</sub>/σ²<sub>P</sub>, y la columna <span class="ui">VG (2 × HT)</span> da el doble de la habilidad de transmisión para que se lea en la escala del modelo animal. Las columnas de registros y de media pasan a ser las de la progenie de cada padre, y los registros de individuos sin padre conocido no aportan al efecto de padre (la app los cuenta en un aviso). Es un modelo más pequeño que el animal, pero ignora a las madres y supone que sus parejas son una muestra al azar.</p>
+  <p><b>Registros repetidos.</b> La casilla <span class="ui">Ambiente permanente (registros repetidos)</span> agrega un efecto de cada individuo, sin parentesco, que se repite en todos sus registros: lo que un individuo tiene de bueno o de malo por su historia y no por sus genes. La repetibilidad es <i>t</i> = (σ²<sub>a</sub> + σ²<sub>ep</sub>)/σ²<sub>P</sub>. Si ningún individuo tiene más de un registro, el efecto no es estimable y la app lo omite con un aviso.</p>
+  <figure>
+    <div class="marco"><img src="../img/b10-repetibilidad.png" alt="Los componentes del ejemplo de registros repetidos de Schaeffer"></div>
+    <figcaption><b>Figura 10.9.</b> El ejemplo de registros repetidos de Schaeffer con sus varianzas: <i>h</i>² = 0.209, repetibilidad 0.302 y grupo contemporáneo 0.116 de la varianza fenotípica.</figcaption>
+  </figure>
+  <p>En ese ejemplo, la tabla de valores genéticos agrega la columna <span class="ui">Ambiente permanente</span>. El animal 21, con dos registros de media 83.50, tiene el mayor valor genético (6.86) y un ambiente permanente de 3.05: parte de lo que rinde de más no pasa a su descendencia.</p>
+  <p><b>El efecto materno.</b> La casilla <span class="ui">Efecto genético materno</span> agrega el valor genético materno de la madre de cada individuo, también con A, sin covarianza con el directo (Willham, 1963). Los recuadros dan <i>m</i>² y la heredabilidad total (σ²<sub>a</sub> + ½σ²<sub>m</sub>)/σ²<sub>P</sub>, y la tabla, el <span class="ui">Valor materno</span> de cada individuo. Si la covarianza entre directo y materno existe, la heredabilidad total es (σ²<sub>a</sub> + 1.5σ<sub>am</sub> + 0.5σ²<sub>m</sub>)/σ²<sub>P</sub> (Willham, 1972), y la nota lo advierte.</p>
+  <p><b>Otros factores aleatorios.</b> Cada columna con el papel <span class="ui">Efecto aleatorio (factor)</span> entra con su propia varianza, independiente de las demás, y su recuadro da la fracción de la varianza fenotípica que explica: el grupo contemporáneo en los ejemplos de Schaeffer y la camada en el de Mrode (σ²<sub>a</sub> = 20, camada 15 y σ²<sub>e</sub> = 65, con <i>h</i>² = 0.20 y camada 0.15). Un grupo contemporáneo aleatorio conviene cuando hay muchos grupos pequeños: con el grupo fijo, en un grupo de dos o tres animales casi todo el registro se lo lleva el efecto del grupo; con el grupo aleatorio, ese efecto se encoge hacia cero y el registro informa más sobre el animal.</p>
+  <p><b>Varianzas dadas o estimadas.</b> Con <span class="ui">darlas (conocidas)</span> aparece una casilla para cada varianza; se usa cuando vienen de una población más grande o de la literatura, y las soluciones son las de las ecuaciones de Henderson con esos valores, sin errores estándar ni pruebas. Con pocos registros, como los cinco terneros de Mrode, REML no puede estimar nada útil; con el rebaño sí.</p>
+  <div class="caja nota">
+    <div class="caja-t"><span class="ico">✓</span>Comprobado · lo publicado</div>
+    <p>Modelo de padres de Mrode (2014, ej. 3.2): sexo 4.3357 y 3.3820, y habilidades de transmisión de los padres 1, 3 y 4 iguales a 0.0220, 0.0140 y −0.0430. Schaeffer (2019), cuadro 3.1: años 94.82 y 87.14, grupos contemporáneos ±2.0653 y ±3.6688, y valores genéticos de los animales 25, 28 y 17 iguales a 7.8180, 7.3074 y −6.4880. Cuadros 6.1 y 6.2: valores genéticos de los animales 7, 11 y 21 iguales a 1.3535, 3.2348 y 6.8624, con ambientes permanentes de −0.0910, 2.5214 y 3.0512. Schaeffer imprime confiabilidades de 0.2442 y 0.1980 calculadas con valores redondeados; las exactas son 0.24414 y 0.1986.</p>
+  </div>
+
+  <!-- ====================================================================== 10.5 -->
+  <h2 id="s10-5"><span class="num">10.5</span>BLUP de los genotipos de un ensayo</h2>
+  <p>La tarjeta <span class="ui">3 · BLUP de los genotipos del ensayo (Bloque 3) con el pedigrí</span> junta el ensayo cargado en el Bloque 3 con el pedigrí de la tarjeta 1; las entradas deben llevar el mismo nombre en los dos. El aviso de arriba cuenta cuántas lo cumplen (aquí, las 68). Sin un ensayo en el Bloque 3, la tarjeta pide cargarlo; si ningún nombre coincide, lo dice, y con el ensayo simulado de líneas sugiere cargar su pedigrí. Ese pedigrí no tiene variable respuesta, así que la tarjeta 2 avisa que solo sirve para la tarjeta 3.</p>
+  <p>El menú <span class="ui">Efecto genético</span> tiene tres modelos: <span class="ui">genotipos independientes (K = I)</span>, el BLUP de siempre; <span class="ui">aditivo con el pedigrí (K = A)</span>, en que los parientes comparten información, y <span class="ui">aditivo (A) + no aditivo (I)</span>, con una parte heredable por el pedigrí y otra propia de cada genotipo (Oakey y colaboradores, 2006). Los ambientes y las repeticiones dentro de ambientes son fijos y la interacción genotipo × ambiente, aleatoria; con un solo ambiente, solo las repeticiones son fijas. El valor predicho es la media de los efectos fijos más el BLUP genotípico, y la heredabilidad es la generalizada de Cullis, Smith y Coombes (2006).</p>
+  <div class="formula"><span style="white-space:nowrap"><i>H</i>² = 1 − <span class="sb">v</span>/(2σ²<sub>G</sub>)</span>, con <span class="sb">v</span> la PEV media de una diferencia entre dos entradas; con A, <span style="white-space:nowrap">σ²<sub>G</sub> = (1 + <span class="sb">F</span>)σ²<sub>a</sub></span>, y con A + I se le suma σ²<sub>i</sub></div>
+  <figure>
+    <div class="marco"><img src="../img/b10-ensayo.png" alt="La tarjeta del BLUP de los genotipos con el parentesco del pedigrí"></div>
+    <figcaption><b>Figura 10.10.</b> Las líneas simuladas con K = A: σ²<sub>a</sub> = 0.333 (la verdadera es 0.3), <i>H</i>² de Cullis 0.889, y un log L mayor que con K = I.</figcaption>
+  </figure>
+  <table class="compacta">
+    <caption><b>Tabla 10.4.</b> Los tres modelos con las líneas simuladas (verdaderos: σ²<sub>a</sub> = 0.3, σ²<sub>i</sub> = 0.1, σ²<sub>GA</sub> = 0.1 y σ²<sub>e</sub> = 0.4).</caption>
+    <thead><tr><th>Modelo</th><th class="n">σ²<sub>a</sub></th><th class="n">σ²<sub>i</sub> o σ²<sub>G</sub></th><th class="n">σ²<sub>GA</sub></th><th class="n"><i>H</i>² de Cullis</th><th class="n">Correlación con lo verdadero</th></tr></thead>
+    <tbody>
+      <tr><td>K = I</td><td class="n">—</td><td class="n">σ²<sub>G</sub> = 0.386</td><td class="n">0.060</td><td class="n">0.799</td><td class="n">0.897</td></tr>
+      <tr><td>K = A</td><td class="n">0.333</td><td class="n">—</td><td class="n">0.061</td><td class="n">0.889</td><td class="n">0.896</td></tr>
+      <tr><td>A + I</td><td class="n">0.091</td><td class="n">σ²<sub>i</sub> = 0.239</td><td class="n">0.060</td><td class="n">0.819</td><td class="n">0.899</td></tr>
+    </tbody>
+  </table>
+  <p>Con K = A, el recuadro <span class="ui">log L: A contra I</span> vale 1.386: los dos modelos tienen los mismos parámetros, así que el mayor log L dice que el parentesco ajusta mejor. Las dos σ²<sub>G</sub> no se comparan: con K = A se refiere a la población de los fundadores, (1 + <span class="sb">F</span>)σ²<sub>a</sub> = 0.657; con K = I, a las 68 entradas tal como son, 0.386, que vienen de solo 8 progenitores.</p>
+  <figure>
+    <div class="marco"><img src="../img/b10-ensayo-tabla.png" alt="Las diez mejores líneas por su valor predicho con el parentesco"></div>
+    <figcaption><b>Figura 10.11.</b> Las 10 mejores entradas con K = A. L51 tiene la segunda mejor media observada, pero queda tercera: su familia (P3 × P7) es peor que la de L57 (P4 × P8).</figcaption>
+  </figure>
+  <p>La tabla da, para cada entrada, sus progenitores, su F, sus parcelas, la media observada, la parte aditiva, el valor predicho, el EEP y la confiabilidad; con A + I agrega la parte no aditiva. El progenitor P8 es sexto con una confiabilidad de 0.804, mayor que la de las líneas (0.754), porque tiene 15 líneas descendientes que informan sobre él.</p>
+  <figure class="chica">
+    <div class="marco"><img src="../img/b10-fig-shrink.png" alt="El valor predicho contra la media observada de cada entrada"></div>
+    <figcaption><b>Figura 10.12.</b> Valor predicho contra media observada. El BLUP encoge las medias extremas hacia la media de los efectos fijos (la línea horizontal); la diagonal discontinua es 1 : 1 y las 10 mejores están resaltadas.</figcaption>
+  </figure>
+  <p>Aquí el ensayo está balanceado y la heredabilidad es alta, así que el BLUP y la media observada ordenan casi igual (correlaciones con lo verdadero de 0.896 y 0.897). El BLUP gana cuando faltan parcelas, cuando las entradas tienen distinto número de repeticiones o cuando la heredabilidad es baja; el parentesco, cuando hay familias con pocas parcelas cada una.</p>
+  <div class="caja importante">
+    <div class="caja-t"><span class="ico">!</span>Importante · aditivo y no aditivo en un solo ensayo</div>
+    <p>Con A + I, la prueba de la parte aditiva es significativa (χ² = 3.24, <i>p</i> = 0.036), pero el reparto no es confiable: σ²<sub>a</sub> = 0.091 y σ²<sub>i</sub> = 0.239 para unas verdaderas de 0.3 y 0.1. Separar las dos partes exige muchas familias con parentescos variados; con 12 cruzas se confunden, y conviene mirar también el modelo solo aditivo, como dice la nota de la tarjeta.</p>
+  </div>
+
+  <!-- ====================================================================== 10.6 -->
+  <h2 id="s10-6"><span class="num">10.6</span>Cruzamiento de razas</h2>
+  <p>La tarjeta <span class="ui">4 · Cruzamiento: parámetros de Dickerson y predicción de sistemas</span> trabaja con medias de grupos. Cada grupo se escribe como una cruza, con el padre primero: A, A×B, C×(A×B), (A×B)×(A×B). Para predecir se agregan rot(A,B) y rot(A,B,C), las rotaciones de dos y tres razas en equilibrio promediadas sobre el ciclo, y comp(A,B,C), la compuesta con partes iguales después del apareamiento al azar; comp(A:0.5,B:0.25,C:0.25) acepta otras proporciones.</p>
+  <div class="formula">media de un grupo = <span style="white-space:nowrap">μ + Σ <i>p</i><sub><i>k</i></sub><i>g</i><sup>I</sup><sub><i>k</i></sub> + Σ <i>p</i><sub>madre,<i>k</i></sub><i>g</i><sup>M</sup><sub><i>k</i></sub> + <i>h</i><sup>I</sup>H<sup>I</sup> + <i>h</i><sup>M</sup>H<sup>M</sup> + <i>r</i><sup>I</sup>R<sup>I</sup></span>, con <span style="white-space:nowrap"><i>h</i><sup>I</sup> = 1 − Σ <i>p</i><sub>padre,<i>k</i></sub><i>p</i><sub>madre,<i>k</i></sub></span>, <i>h</i><sup>M</sup> la <i>h</i><sup>I</sup> de la madre y <span style="white-space:nowrap"><i>r</i><sup>I</sup> = (<i>h</i><sub>padre</sub> + <i>h</i><sub>madre</sub>)/4</span></div>
+  <p>Es el modelo de Dickerson (1969, 1973): <i>g</i><sup>I</sup> y <i>g</i><sup>M</sup> son los efectos aditivos directo y materno de cada raza, H<sup>I</sup> y H<sup>M</sup> la heterosis del individuo y la de su madre, y R<sup>I</sup> la pérdida por recombinación, lo que se pierde cuando se separan las combinaciones favorables de genes de cada raza. El menú <span class="ui">Qué hacer</span> tiene tres opciones: estimar los parámetros con medias de grupos, predecir con parámetros conocidos o predecir con medias de razas y heterosis en porcentaje. Cinco ejemplos las cubren (tabla 10.5).</p>
+  <table class="compacta">
+    <caption><b>Tabla 10.5.</b> Los ejemplos de cruzamiento.</caption>
+    <thead><tr><th style="width:36%">Ejemplo</th><th>Datos</th><th style="width:25%">Qué hace</th></tr></thead>
+    <tbody>
+      <tr><td>Simulado: tres razas</td><td>16 grupos de 30 animales: puras, F<sub>1</sub>, retrocruzas, F<sub>2</sub> y cruzas de tres razas</td><td>Estima todos los parámetros</td></tr>
+      <tr><td>Simulado: dialelo de cuatro razas</td><td>4 razas puras y sus 12 F<sub>1</sub> recíprocas</td><td>Heterosis de cada par de razas</td></tr>
+      <tr><td>Dialelo de dos razas (van der Werf)</td><td>Las 4 medias de un dialelo de dos razas</td><td>Ajuste exacto</td></tr>
+      <tr><td>Cabras Boer × locales (Tesema y colaboradores, 2023)</td><td>Parámetros publicados</td><td>Predice con parámetros</td></tr>
+      <tr><td>Heterosis en porcentaje (Buchanan y Northcutt)</td><td>Medias de tres razas, heterosis de 4.7 y 4.2&nbsp;%</td><td>Predice en porcentaje</td></tr>
+    </tbody>
+  </table>
+  <figure>
+    <div class="marco"><img src="../img/b10-cruza-datos.png" alt="La tarjeta de cruzamiento con los grupos del experimento simulado de tres razas"></div>
+    <figcaption><b>Figura 10.13.</b> La tarjeta 4 con el experimento de tres razas: una fila por grupo con su cruza, su número de animales, su media y el error estándar de la media. Debajo van la lista de lo que se quiere predecir y el botón <span class="ui">Calcular</span>.</figcaption>
+  </figure>
+  <p>Para estimar, cada fila de <span class="ui">Grupos</span> lleva la cruza, <i>n</i>, la media y su error estándar. Si todos los grupos tienen error estándar, los pesos son 1/EE² y hay una prueba de falta de ajuste; si no, los pesos son <i>n</i>, o iguales si tampoco hay <i>n</i>. Los efectos de raza se estiman con Σ<i>g</i><sup>I</sup> = Σ<i>g</i><sup>M</sup> = 0, como desviaciones del promedio de las razas. Las casillas quitan o ponen los efectos maternos de raza, la heterosis materna, la pérdida por recombinación y la heterosis propia de cada par de razas; un parámetro que los grupos no separan se marca como no estimable, y también las predicciones que dependen de él.</p>
+  <figure>
+    <div class="marco"><img src="../img/b10-cruza-par.png" alt="Los parámetros de cruzamiento estimados en el experimento simulado"></div>
+    <figcaption><b>Figura 10.14.</b> Los parámetros del experimento de tres razas junto a los verdaderos de la simulación. La falta de ajuste no es significativa (χ² = 10.81 con 8 grados de libertad, <i>p</i> = 0.21).</figcaption>
+  </figure>
+  <p>Los efectos directos y maternos quedan cerca de los verdaderos. La heterosis directa, 10.40 ± 1.20 contra 8, queda apenas fuera de su intervalo de 95&nbsp;% (8.05 a 12.75); en 1000 experimentos simulados esos intervalos cubren entre 93 y 95&nbsp;% de las veces, como deben. La pérdida por recombinación, −4.11, tiene un error estándar de 6.06: solo la separan los grupos cuyos padres ya son cruzas, y con 30 animales por grupo no alcanza. Es lo habitual en los experimentos reales.</p>
+  <figure>
+    <div class="marco"><img src="../img/b10-cruza-pred.png" alt="Las predicciones de cruzas, rotaciones y compuestas con sus coeficientes"></div>
+    <figcaption><b>Figura 10.15.</b> Las predicciones con sus errores estándar y sus coeficientes de heterosis y recombinación. La cruza terminal A×(B×C) es la mejor (115.36).</figcaption>
+  </figure>
+  <p>A×(B×C) combina el mejor efecto directo, el de A, con una madre cruzada que aporta heterosis materna y los efectos maternos favorables de B y C. Las rotaciones retienen ⅔ (dos razas) y 6/7 (tres razas) de la heterosis; la compuesta de tres razas retiene ⅔, pero su coeficiente de recombinación, ⅓, es mayor que el de las rotaciones. El recuadro plegado <span class="ui">Coeficientes de cada grupo</span> da las proporciones de raza de cada grupo y de su madre con sus coeficientes, útil para comprobar que una cruza se escribió como se quería.</p>
+  <figure class="chica">
+    <div class="marco"><img src="../img/b10-fig-cruza.png" alt="El desempeño predicho de las razas puras, las cruzas y los sistemas"></div>
+    <figcaption><b>Figura 10.16.</b> El desempeño predicho con ± EE, por colores: razas puras, cruzas y sistemas.</figcaption>
+  </figure>
+  <p><b>El dialelo de razas.</b> Con la casilla <span class="ui">Heterosis propia de cada par de razas</span>, cada par tiene su heterosis directa, y si los grupos forman un dialelo, la tabla <span class="ui">Dialelo de razas</span> la descompone en heterosis media, de raza y específica (Eisen y colaboradores, 1983). En el dialelo simulado de cuatro razas, con heterosis verdaderas de 4, 6, 2, 3, 5 y 4, las estimadas son 4.15, 4.70, 2.83, 0.77, 5.37 y 2.85 (falta de ajuste <i>p</i> = 0.18).</p>
+  <figure>
+    <div class="marco"><img src="../img/b10-dialelo.png" alt="La descomposición de la heterosis del dialelo de cuatro razas"></div>
+    <figcaption><b>Figura 10.17.</b> La heterosis media es 3.44 ± 0.57; A es la raza que más heterosis da en sus cruzas y C la que menos. Con cuatro razas, la heterosis específica tiene solo dos grados de libertad y sus valores van en pares iguales.</figcaption>
+  </figure>
+  <p><b>Parámetros conocidos.</b> Con <span class="ui">predecir con parámetros conocidos</span>, la tarjeta pide una lista de parámetros con su valor (mu, gI:B, gM:B, hI, hM, rI) y predice cualquier cruza; los que no se escriben valen cero, así que la raza sin efecto escrito es la de referencia. El ejemplo de Tesema y colaboradores (2023) usa sus estimaciones para el peso al destete de la camada en cabras Boer × Central Highland: μ = 14.3 (la raza local), <i>g</i><sup>I</sup> de Boer = −3.18, heterosis −0.04 y pérdida por recombinación −6.20. Las predicciones son 12.67 para la F<sub>1</sub>, 10.35 para la retrocruza a Boer, 11.94 para la retrocruza a la local y 9.59 para la F<sub>2</sub>.</p>
+  <p><b>Heterosis en porcentaje.</b> La tercera opción parte de la media de cada raza y de los porcentajes de heterosis individual y materna y de pérdida por recombinación, y predice de forma multiplicativa: <span style="white-space:nowrap">promedio de razas × (1 + H<sub>I</sub><i>h</i><sup>I</sup>) × (1 + H<sub>M</sub><i>h</i><sup>M</sup>) × (1 − R·<i>r</i><sup>I</sup>)</span>. Así se enseña en las guías de extensión.</p>
+  <figure>
+    <div class="marco"><img src="../img/b10-buchanan.png" alt="Las predicciones con heterosis en porcentaje del ejemplo de Buchanan y Northcutt"></div>
+    <figcaption><b>Figura 10.18.</b> El ejemplo de Buchanan y Northcutt: razas de 460, 480 y 500 con heterosis individual de 4.7&nbsp;% y materna de 4.2&nbsp;%. La F<sub>1</sub> A×B pesa 470 × 1.047 = 492.09.</figcaption>
+  </figure>
+  <div class="caja teoria">
+    <div class="caja-t"><span class="ico">∑</span>Teoría · dos escalas de la pérdida por recombinación</div>
+    <p>El menú <span class="ui">Pérdida por recombinación</span> tiene dos convenciones: (<i>h</i><sub>padre</sub> + <i>h</i><sub>madre</sub>)/4, en que la F<sub>2</sub> tiene <i>r</i><sup>I</sup> = ½ (Kinghorn, 1980; es la que usan Tesema y colaboradores), y (<i>h</i><sub>padre</sub> + <i>h</i><sub>madre</sub>)/2, en que tiene 1 (Dickerson, 1973). Las predicciones son las mismas con las dos; solo cambia la escala del parámetro, que con la segunda es la mitad. Al tomar un valor publicado hay que usar la convención del artículo.</p>
+  </div>
+  <div class="caja nota">
+    <div class="caja-t"><span class="ico">✓</span>Comprobado · lo publicado</div>
+    <p>El dialelo de dos razas de van der Werf da <i>g</i><sup>I</sup><sub>1</sub> − <i>g</i><sup>I</sup><sub>2</sub> = 20, <i>g</i><sup>M</sup> = ∓2.5 y heterosis directa 20, exactos. Las predicciones de Tesema y colaboradores (2023, cuadros 3 y 4) son 14.30, 12.67, 10.35, 11.94 y 9.59, como las publicadas; las de Buchanan y Northcutt, 492.09 para A × B y 507.80 para C × (A × B) con solo la heterosis individual; con la materna, el artículo da 529.13 porque redondea el paso intermedio, y la app, 529.12. Los parámetros del experimento de tres razas y del dialelo de cuatro coinciden con un ajuste independiente hasta 3.6 × 10<sup>−13</sup>.</p>
+  </div>
+
+  <!-- ====================================================================== 10.7 -->
+  <h2 id="s10-7"><span class="num">10.7</span>Descargas y siguiente paso</h2>
+  <p>La tarjeta <span class="ui">5 · Supuestos, fórmulas y referencias</span> resume el pedigrí y el parentesco, BLUP y REML, los modelos y el cruzamiento, con sus referencias. <span class="ui">Resultados (.xlsx)</span> descarga, cada uno en su hoja, el pedigrí con F y <i>b</i>, los componentes de varianza, los valores genéticos, las medias de cada factor fijo, el BLUP de las entradas del ensayo, los parámetros de Dickerson, la descomposición del dialelo de razas y las predicciones. Cada figura tiene su panel de descarga.</p>
+  <p><span class="ui">Continuar</span> lleva al Bloque 11 (genómica), donde el parentesco sale de los marcadores en lugar del pedigrí. El botón de regreso vuelve al Bloque 9 (<span class="ui">← G×A</span>) cuando los datos del Bloque 3 tienen varios ambientes, y al Bloque 8 (<span class="ui">← Selección</span>) cuando no.</p>
+</section>
+
+</body>
+</html>

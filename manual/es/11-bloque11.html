@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>BreedingPro · Manual de usuario · Bloque 11: selección genómica y predicción de híbridos</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,500;0,600;1,500&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../interior.css">
+<!-- reparte el contenido en hojas tamaño carta, con encabezados y números de página -->
+<script src="../paginar.js"></script>
+<style>
+  figure.chica .marco, figure.chica > svg { width: 72%; margin: 0 auto; }
+  figure.chica figcaption { margin-left: 14%; margin-right: 14%; }
+  figure.angosta .marco { width: 58%; margin: 0 auto; }
+  figure.angosta figcaption { margin-left: 21%; margin-right: 21%; }
+  td.n, th.n { text-align: right; white-space: nowrap; }
+  td.c, th.c { text-align: center; }
+  .formula { font-family: var(--sans); font-size: 9pt; background: #f6f3fa; border-radius: 4px; padding: 0.07in 0.12in; margin: 0.06in 0 0.12in; line-height: 1.6; }
+</style>
+</head>
+<body>
+
+<section class="capitulo" id="cap-b11" data-pestana="B11" data-orden="12" style="--acento: var(--b11)">
+  <div class="cap-apertura">
+    <div class="cap-num">B11</div>
+    <div class="cap-etiqueta">Capítulo once · Bloque 11 · Genómica</div>
+    <h1 data-corto="Bloque 11 · Selección genómica y predicción de híbridos">Selección genómica y predicción de híbridos</h1>
+    <div class="cap-regla"></div>
+    <p class="cap-resumen">Los marcadores miden el parentesco real entre dos individuos, no el que se espera del pedigrí, y con él se puede predecir el valor de un individuo que nunca se evaluó. El Bloque 11 revisa los marcadores, construye la matriz de parentesco genómico, ajusta GBLUP con la heredabilidad genómica y los efectos de los marcadores, mide por validación cruzada qué tan bien predice y cuánto se gana por año, y predice todas las cruzas simples posibles entre dos grupos heteróticos.</p>
+    <div class="cap-franja"><span class="k11"></span><span class="k11" style="opacity:.75"></span><span class="k11" style="opacity:.5"></span><span class="k11" style="opacity:.3"></span></div>
+    <ul class="cap-contenido">
+      <li><b>11.1</b>Qué hace el bloque</li>
+      <li><b>11.2</b>Marcadores y control de calidad</li>
+      <li><b>11.3</b>Parentesco genómico</li>
+      <li><b>11.4</b>GBLUP: valores genómicos</li>
+      <li><b>11.5</b>Validación cruzada y respuesta por año</li>
+      <li><b>11.6</b>Predicción de híbridos</li>
+      <li><b>11.7</b>Descargas y siguiente paso</li>
+    </ul>
+  </div>
+
+  <!-- ====================================================================== 11.1 -->
+  <h2 id="s11-1"><span class="num">11.1</span>Qué hace el bloque</h2>
+  <p class="lead">El Bloque 11 trabaja con un archivo de marcadores y, según la pregunta, con fenotipos de individuos o con híbridos evaluados. Los fenotipos pueden venir con el ejemplo, de un archivo propio o del ensayo del Bloque 3, si sus entradas tienen marcadores. Todo se calcula en el navegador: con 600 líneas y 1200 marcadores, GBLUP tarda unos segundos, y una validación cruzada de 5 grupos con 2 repeticiones, unos quince.</p>
+  <table class="compacta">
+    <caption><b>Tabla 11.1.</b> Las tarjetas del Bloque 11.</caption>
+    <thead><tr><th style="width:36%">Tarjeta</th><th>Qué da</th></tr></thead>
+    <tbody>
+      <tr><td>1 · Marcadores</td><td>Lectura de cualquier codificación común, control de calidad, imputación, frecuencias alélicas y estructura de la población</td></tr>
+      <tr><td>2 · Parentesco genómico</td><td>Matriz G de VanRaden (métodos 1 y 2), cresta para invertirla y mezcla opcional con el pedigrí del Bloque 10</td></tr>
+      <tr><td>3 · GBLUP: valores genómicos</td><td>Componentes por REML, heredabilidad genómica, valor genómico de cada individuo y efectos de los marcadores</td></tr>
+      <tr><td>4 · Validación cruzada y respuesta por año</td><td>Capacidad predictiva de individuos nuevos y ganancia genética por año, fenotípica contra genómica</td></tr>
+      <tr><td>5 · Predicción de híbridos</td><td>ACG de dos grupos heteróticos (y ACE), todas las cruzas simples, validación T2, T1 y T0, cruzas triples y dobles</td></tr>
+      <tr><td>6 · Supuestos, fórmulas y referencias</td><td>Los modelos, sus fórmulas y las referencias</td></tr>
+    </tbody>
+  </table>
+  <table class="compacta">
+    <caption><b>Tabla 11.2.</b> Los ejemplos del Bloque 11.</caption>
+    <thead><tr><th style="width:34%">Ejemplo</th><th>Datos</th><th style="width:24%">Sirve para</th></tr></thead>
+    <tbody>
+      <tr><td>Trigo CIMMYT: 599 líneas, 1279 DArT, 4 ambientes</td><td>Rendimiento estandarizado de 599 líneas en cuatro ambientes (Crossa y colaboradores, 2010)</td><td>Tarjetas 1 a 4: el hilo del capítulo</td></tr>
+      <tr><td>Maíz dentado × cristalino: 1254 híbridos</td><td>123 líneas dentadas y 86 cristalinas con 2000 SNP; 1254 de sus 10&nbsp;578 cruzas evaluadas (Technow y colaboradores, 2014)</td><td>Tarjeta 5</td></tr>
+      <tr><td>Simulado: 300 líneas, 1000 SNP, <i>h</i>² = 0.4</td><td>Líneas doble haploides con 60 QTL fuera del panel; se conoce el valor verdadero</td><td>Comprobar GBLUP y la validación</td></tr>
+      <tr><td>Simulado: híbridos de dos grupos, 200 de 750</td><td>30 × 25 líneas, 100 QTL con dominancia; se conoce el valor verdadero de las 750 cruzas</td><td>Comprobar la predicción de híbridos</td></tr>
+    </tbody>
+  </table>
+
+  <!-- ====================================================================== 11.2 -->
+  <h2 id="s11-2"><span class="num">11.2</span>Marcadores y control de calidad</h2>
+  <p>La tarjeta <span class="ui">1 · Marcadores</span> lee una fila por individuo, con su identificador en la primera columna y una columna por marcador; si el archivo viene al revés, la casilla <span class="ui">Marcadores en filas</span> lo traspone. Acepta las codificaciones de la tabla 11.3 y reconoce sola cuál es; un dato vacío, NA, «-» o «N» es un faltante.</p>
+  <table class="compacta">
+    <caption><b>Tabla 11.3.</b> Las codificaciones que lee la tarjeta 1. Todas se convierten a dosis 0, 1 y 2 del alelo contado.</caption>
+    <thead><tr><th style="width:30%">Codificación</th><th>Cómo se lee</th></tr></thead>
+    <tbody>
+      <tr><td>Dosis 0/1/2</td><td>Tal cual</td></tr>
+      <tr><td>−1/0/1</td><td>Se suma 1</td></tr>
+      <tr><td>Presencia/ausencia 0/1</td><td>El menú <span class="ui">Un archivo 0/1 significa</span> decide: líneas puras (0 → 0, 1 → 2) o dosis que se dejan igual</td></tr>
+      <tr><td>Letras (AA/AB/BB, A/C/G/T)</td><td>Se cuenta el segundo alelo de cada marcador; los códigos IUPAC de dos bases (R, Y, S, W, K, M) son heterocigotos</td></tr>
+    </tbody>
+  </table>
+  <figure>
+    <div class="marco"><img src="../img/b11-marcadores.png" alt="La tarjeta de marcadores con el trigo del CIMMYT"></div>
+    <figcaption><b>Figura 11.1.</b> La tarjeta 1 con el trigo: de 1279 marcadores DArT quedan 1183, porque 96 tienen frecuencia del alelo menor por debajo de 0.05. Las líneas son puras, así que la heterocigosis es 0.</figcaption>
+  </figure>
+  <p>El control de calidad tiene tres límites: el faltante máximo por marcador y por individuo (20&nbsp;% cada uno) y la frecuencia mínima del alelo menor (MAF, 0.05). Se quitan además los marcadores monomórficos, y los datos que faltan se reemplazan por la dosis media del marcador, 2<i>p</i>. Los recuadros dicen cuántos individuos y marcadores quedaron, por qué se quitó cada uno, qué fracción se imputó, y la MAF y la heterocigosis medias.</p>
+  <figure class="chica">
+    <div class="marco"><img src="../img/b11-fig-maf.png" alt="El histograma de la frecuencia del alelo menor del trigo"></div>
+    <figcaption><b>Figura 11.2.</b> Frecuencia del alelo menor de los 1183 marcadores del trigo. Un panel con muchos marcadores raros informa poco sobre el parentesco.</figcaption>
+  </figure>
+  <p>La segunda figura de la tarjeta es la de los componentes principales de la matriz G, que muestran la estructura de la población. Cuando hay híbridos cargados, cada línea se colorea por su grupo heterótico (figura 11.3). En el trigo, los tres primeros componentes explican 15.4, 6.2 y 4.5&nbsp;% de la variación.</p>
+  <figure class="chica">
+    <div class="marco"><img src="../img/b11-fig-pca.png" alt="Los componentes principales de G en las líneas de maíz dentado y cristalino"></div>
+    <figcaption><b>Figura 11.3.</b> Componentes principales de G en el maíz de Technow: el primero, con 26.8&nbsp;% de la variación, separa por completo las líneas dentadas de las cristalinas.</figcaption>
+  </figure>
+
+  <!-- ====================================================================== 11.3 -->
+  <h2 id="s11-3"><span class="num">11.3</span>Parentesco genómico</h2>
+  <p>La tarjeta <span class="ui">2 · Parentesco genómico</span> construye la matriz G de VanRaden (2008). El menú <span class="ui">Matriz</span> ofrece el método 1, con los marcadores centrados, y el método 2, con cada marcador estandarizado, que da más peso a los raros. Como las frecuencias alélicas salen de los propios datos, cada fila de G suma cero y G no se puede invertir; la <span class="ui">Cresta λ</span> suma una pequeña cantidad a la diagonal (por omisión, 0.001 veces la diagonal media).</p>
+  <div class="formula">método 1: <span style="white-space:nowrap">G = ZZ′/(2Σ<i>p</i><sub><i>j</i></sub><i>q</i><sub><i>j</i></sub>)</span>, con <span style="white-space:nowrap">Z = M − 2P</span> &nbsp;·&nbsp; método 2: <span style="white-space:nowrap">G = Z*Z*′/<i>m</i></span>, con cada columna dividida entre <span style="white-space:nowrap">√(2<i>p</i><sub><i>j</i></sub><i>q</i><sub><i>j</i></sub>)</span> &nbsp;·&nbsp; <span style="white-space:nowrap">K = G + λI</span></div>
+  <figure>
+    <div class="marco"><img src="../img/b11-parentesco.png" alt="La tarjeta de parentesco genómico del trigo"></div>
+    <figcaption><b>Figura 11.4.</b> La tarjeta 2 con el trigo. En líneas puras codificadas 0/2 la diagonal media vale 2 = 1 + F, la misma escala que la matriz A del pedigrí.</figcaption>
+  </figure>
+  <p>Si el Bloque 10 tiene un pedigrí que incluye a todos los individuos con marcadores, aparece el menú <span class="ui">Peso del pedigrí (Bloque 10)</span>, que mezcla (1 − <i>w</i>)G + <i>w</i>A, y una figura que compara G contra A par por par. La mezcla suaviza G cuando hay pocos marcadores (VanRaden, 2008; Aguilar y colaboradores, 2010); la comparación descubre errores de pedigrí, como un individuo cuyo parentesco genómico con su supuesto padre es cercano a cero.</p>
+  <figure class="angosta">
+    <div class="marco"><img src="../img/b11-fig-g.png" alt="La matriz de parentesco genómico del trigo como mapa de calor"></div>
+    <figcaption><b>Figura 11.5.</b> La matriz G del trigo, con las líneas ordenadas por el primer componente y promediada en bloques de 5 para que quepa. Se ven dos grandes grupos de líneas emparentadas.</figcaption>
+  </figure>
+
+  <!-- ====================================================================== 11.4 -->
+  <h2 id="s11-4"><span class="num">11.4</span>GBLUP: valores genómicos</h2>
+  <p>La tarjeta <span class="ui">3 · GBLUP: valores genómicos</span> tiene dos menús. <span class="ui">Fenotipos</span> dice de dónde salen: los cargados con el ejemplo, los de un archivo (<span class="ui">Fenotipos (archivo: identificador y variables)</span>, con el identificador en la primera columna) o el ensayo del Bloque 3. Con el ensayo, el modelo se ajusta en una etapa sobre las parcelas, con ambientes y repeticiones fijos y la interacción con el ambiente aleatoria si hay repeticiones dentro de cada ambiente. La tarjeta avisa cuántas entradas tienen marcadores; las demás se omiten. <span class="ui">Variable</span> elige el carácter, y <span class="ui">Ajustar GBLUP</span> resuelve.</p>
+  <div class="formula"><span style="white-space:nowrap"><b>y</b> = μ + <b>g</b> + <b>e</b></span>, con <span style="white-space:nowrap"><b>g</b> ~ N(0, Kσ²<sub>g</sub>)</span> &nbsp;·&nbsp; <span style="white-space:nowrap"><i>h</i>²<sub>genómica</sub> = σ²<sub>g</sub>·SM/(σ²<sub>g</sub>·SM + σ²<sub>e</sub>)</span>, con <span style="white-space:nowrap">SM = tr(K)/<i>n</i> − 1′K1/<i>n</i>²</span></div>
+  <p>SM es la semivarianza media de K (Legarra, 2016; Feldmann y colaboradores, 2022): convierte σ²<sub>g</sub> en la varianza genética entre los individuos que se analizan. En líneas puras vale casi 2, porque la varianza entre líneas es el doble de la de una población no endogámica.</p>
+  <figure>
+    <div class="marco"><img src="../img/b11-gblup.png" alt="La tarjeta de GBLUP con el rendimiento del trigo en el primer ambiente"></div>
+    <figcaption><b>Figura 11.6.</b> GBLUP del rendimiento del trigo en el ambiente E1: σ²<sub>g</sub> = 0.294 ± 0.055, σ²<sub>e</sub> = 0.555 ± 0.046 y una heredabilidad genómica de 0.515 ± 0.059.</figcaption>
+  </figure>
+  <p>La heredabilidad genómica es la que capturan los marcadores. Si parte de los QTL no está en desequilibrio de ligamiento con el panel, sale menor que la verdadera: en el ejemplo simulado, con 60 QTL fuera del panel y <i>h</i>² = 0.40, da 0.385 ± 0.088.</p>
+  <figure>
+    <div class="marco"><img src="../img/b11-gebv.png" alt="Los diez mejores valores genómicos del trigo"></div>
+    <figcaption><b>Figura 11.7.</b> Los 10 mejores valores genómicos del trigo. Como el rendimiento viene estandarizado en cada ambiente (media 0, varianza 1), la media estimada es 0 y el valor predicho coincide con el genómico.</figcaption>
+  </figure>
+  <p>La tabla ordena a los individuos por su valor genómico y da el fenotipo, el valor predicho (media más valor genómico), el error estándar de predicción y la confiabilidad, 1 − PEV/(K<sub><i>ii</i></sub>σ²<sub>g</sub>); en el trigo va de 0.60 a 0.96. Un individuo sin fenotipo también recibe su valor, por su parentesco con los que sí lo tienen, y su fila se resalta: así se predicen las líneas que todavía no se siembran.</p>
+  <figure class="angosta">
+    <div class="marco"><img src="../img/b11-fig-gebv.png" alt="El fenotipo contra el valor predicho de las líneas de trigo"></div>
+    <figcaption><b>Figura 11.8.</b> Fenotipo contra valor predicho en el trigo. La correlación de 0.806 es optimista: cada línea se predice con su propio dato; la validación cruzada mide la de líneas nuevas.</figcaption>
+  </figure>
+  <p><b>Efectos de los marcadores.</b> GBLUP equivale a la regresión en cresta de todos los marcadores (RR-BLUP; Meuwissen, Hayes y Goddard, 2001), y el efecto de cada marcador se recupera de los valores genómicos: <span style="white-space:nowrap">β̂ = Z′K<sup>−1</sup>ĝ/(2Σ<i>pq</i>)</span>. La figura los dibuja en valor absoluto en el orden del archivo, y el recuadro plegado <span class="ui">Los 15 efectos más grandes</span> los lista con su frecuencia alélica.</p>
+  <figure>
+    <div class="marco"><img src="../img/b11-fig-efectos.png" alt="Los efectos de los 1183 marcadores del trigo"></div>
+    <figcaption><b>Figura 11.9.</b> Los efectos de los marcadores del trigo. Ninguno sobresale: el mayor mide 0.034 desviaciones estándar, lo que corresponde a un carácter con muchos genes de efecto pequeño.</figcaption>
+  </figure>
+  <div class="caja importante">
+    <div class="caja-t"><span class="ico">!</span>Importante · un efecto grande no es un gen encontrado</div>
+    <p>GBLUP reparte el efecto de un QTL entre todos los marcadores en desequilibrio con él, y encoge a todos por igual. Un marcador con efecto grande merece una mirada, no una conclusión: la asociación se prueba con otros métodos. Por la cresta λ, los efectos reproducen los valores genómicos casi exactamente: Zβ̂ = ĝ − λK<sup>−1</sup>ĝ.</p>
+  </div>
+
+  <!-- ====================================================================== 11.5 -->
+  <h2 id="s11-5"><span class="num">11.5</span>Validación cruzada y respuesta por año</h2>
+  <p>Lo que importa de un modelo genómico es qué tan bien predice individuos que no se evaluaron. La tarjeta <span class="ui">4 · Validación cruzada y respuesta por año</span> reparte los individuos con fenotipo en <span class="ui">Grupos</span> (2, 5 o 10), predice cada grupo con un modelo ajustado sin él y repite el reparto las veces que diga <span class="ui">Repeticiones</span>. Es el esquema CV1 de Burgueño y colaboradores (2012): individuos nuevos. La casilla <span class="ui">Reestimar las varianzas en cada entrenamiento</span>, marcada por omisión, vuelve a ajustar REML sin el grupo de prueba; estimarlas antes con todos los datos infla la capacidad predictiva. <span class="ui">Comparar con el pedigrí (A)</span> agrega el mismo ejercicio con A, si el Bloque 10 tiene el pedigrí.</p>
+  <figure>
+    <div class="marco"><img src="../img/b11-cv.png" alt="La validación cruzada del trigo"></div>
+    <figcaption><b>Figura 11.10.</b> La validación del trigo, con 5 grupos y 2 repeticiones: capacidad predictiva 0.488, una exactitud aproximada de 0.680 y una pendiente de 0.983.</figcaption>
+  </figure>
+  <p>La tabla da la capacidad predictiva r(predicho, observado), con su desviación entre repeticiones; la exactitud aproximada, r/√<i>h</i>², que corrige por el ruido del fenotipo con el que se compara; la pendiente de la regresión del observado sobre el predicho, cuyo valor cercano a 1 indica que las predicciones no exageran ni encogen las diferencias; y el error cuadrático medio. Una figura dibuja cada repetición.</p>
+  <div class="caja nota">
+    <div class="caja-t"><span class="ico">✓</span>Comprobado · con el valor verdadero</div>
+    <p>En las líneas simuladas, la validación da r = 0.320 y r/√<i>h</i>² = 0.516; la correlación con el valor genético verdadero, que en datos reales no se conoce, es 0.510. En 15 poblaciones simuladas, r/√<i>h</i>² sobrestimó la exactitud verdadera apenas en 0.015 en promedio.</p>
+  </div>
+  <p><b>Respuesta por año.</b> Debajo, la tarjeta compara la selección fenotípica con la genómica en ganancia por año, que es donde la genómica gana: su ciclo es más corto aunque su exactitud sea menor (Heffner y colaboradores, 2010). Los campos se llenan con el ajuste de GBLUP y se pueden cambiar: <span class="ui">Proporción seleccionada</span>, σ<sub>A</sub> (por omisión, √(σ²<sub>g</sub>·SM)), <span class="ui">Exactitud fenotípica (h)</span> (por omisión, √<i>h</i>²) y los años por ciclo de cada esquema. La exactitud genómica sale de la validación.</p>
+  <div class="formula">Δ<i>G</i> por año = <span style="white-space:nowrap"><i>i</i>·<i>r</i>·σ<sub>A</sub>/<i>L</i></span>, con <i>r</i> = <i>h</i> en la selección fenotípica y <i>r</i> = exactitud de la validación en la genómica</div>
+  <figure>
+    <div class="marco"><img src="../img/b11-respuesta.png" alt="La respuesta esperada por año con selección fenotípica y genómica en el trigo"></div>
+    <figcaption><b>Figura 11.11.</b> Con 10&nbsp;% seleccionado, ciclos de 4 años para la fenotípica y de 1.5 para la genómica, la genómica gana 2.5 veces más por año en el trigo.</figcaption>
+  </figure>
+  <p>El cociente depende casi por completo de los años por ciclo: con ciclos iguales, la genómica ganaría menos (0.680 contra 0.718 de exactitud). Por eso el cálculo tiene sentido solo con los ciclos reales del programa.</p>
+
+  <!-- ====================================================================== 11.6 -->
+  <h2 id="s11-6"><span class="num">11.6</span>Predicción de híbridos</h2>
+  <p>En un programa de híbridos se evalúa una pequeña parte de las cruzas posibles entre dos grupos heteróticos. La tarjeta <span class="ui">5 · Predicción de híbridos</span> predice todas las demás. Recibe una tabla con una fila por híbrido evaluado: la línea del grupo 1, la del grupo 2 y las variables (medias ajustadas); los nombres de las dos primeras columnas son los de los grupos. Los marcadores de todas las líneas van en la tarjeta 1.</p>
+  <div class="formula"><span style="white-space:nowrap"><i>y</i> = μ + ACG<sub>1</sub> + ACG<sub>2</sub> [+ ACE] + <i>e</i></span>, con <span style="white-space:nowrap">Var(ACG<sub>1</sub>) = K<sub>1</sub>σ²<sub>1</sub></span>, <span style="white-space:nowrap">Var(ACG<sub>2</sub>) = K<sub>2</sub>σ²<sub>2</sub></span> y <span style="white-space:nowrap">Var(ACE) = (K<sub>1</sub> ⊗ K<sub>2</sub>)σ²<sub>ACE</sub></span></div>
+  <p>K<sub>1</sub> y K<sub>2</sub> son los parentescos genómicos dentro de cada grupo, calculados con las frecuencias de ese grupo (Bernardo, 1994; Technow y colaboradores, 2014). Un híbrido no evaluado se predice con las ACG de sus dos líneas, y con la ACE si la casilla <span class="ui">Incluir la ACE (K₁ ⊗ K₂)</span> está marcada. Con más de 700 híbridos evaluados, esa casilla se desactiva: el núcleo de la ACE sería demasiado grande para resolverlo de forma exacta en el navegador.</p>
+  <figure>
+    <div class="marco"><img src="../img/b11-hibridos.png" alt="La tarjeta de predicción de híbridos con el maíz dentado por cristalino"></div>
+    <figcaption><b>Figura 11.12.</b> El maíz de Technow: 1254 híbridos evaluados de 10&nbsp;578 posibles. La varianza de ACG de las líneas dentadas es 16.7 ± 2.7, la de las cristalinas 10.6 ± 2.1, y la residual 17.8 ± 0.8.</figcaption>
+  </figure>
+  <p>La variable es GY, el rendimiento de grano. Las varianzas de ACG están en la escala de K; la varianza entre líneas es σ²·SM, y la nota da SM de cada grupo. La tabla <span class="ui">Mejores cruzas simples no evaluadas</span> ordena las 9324 cruzas que no se sembraron.</p>
+  <figure>
+    <div class="marco"><img src="../img/b11-hib-top.png" alt="Las diez mejores cruzas no evaluadas del maíz"></div>
+    <figcaption><b>Figura 11.13.</b> Las 10 mejores cruzas no evaluadas. D3606 y D3607 casi no se distinguen (ACG de 17.2748 y 17.2740): son líneas hermanas casi idénticas, y la lista las alterna con cada línea cristalina.</figcaption>
+  </figure>
+  <p>El error estándar de la tabla incluye solo la parte de ACG. Cuando dos líneas son casi idénticas, como D3606 y D3607, conviene quedarse con una: sus cruzas darán prácticamente lo mismo.</p>
+  <figure class="chica">
+    <div class="marco"><img src="../img/b11-fig-hib.png" alt="La matriz de desempeño predicho de todas las cruzas simples del maíz"></div>
+    <figcaption><b>Figura 11.14.</b> El desempeño predicho de las 10&nbsp;578 cruzas, con las líneas ordenadas por su ACG. Los recuadros son los híbridos evaluados; las mejores cruzas nuevas están en la esquina superior izquierda.</figcaption>
+  </figure>
+  <p>Una segunda figura, que no se muestra aquí, compara lo observado con lo predicho en los híbridos evaluados. En el ejemplo simulado, con ACE, su varianza se estima como 0 (en la frontera), y la correlación de lo predicho con el valor verdadero de las 550 cruzas no evaluadas es 0.780.</p>
+  <h3>Validación cruzada de híbridos</h3>
+  <p><span class="ui">Validar híbridos</span> hace dos esquemas de 5 grupos, repetidos las veces que diga <span class="ui">Repeticiones de 5 grupos</span> (1, 2 o 5). En el primero se apartan híbridos al azar; en el segundo, líneas con todos sus híbridos (Technow y colaboradores, 2014). Las predicciones se agrupan por cuántos progenitores del híbrido de prueba tenían otros híbridos en el entrenamiento: T2 (los dos), T1 (uno) y T0 (ninguno). T0 es el caso más difícil y el más útil: predecir cruzas de líneas nuevas, solo por su parentesco con las evaluadas.</p>
+  <figure>
+    <div class="marco"><img src="../img/b11-hib-cv.png" alt="La validación cruzada de híbridos del maíz por clases T2, T1 y T0"></div>
+    <figcaption><b>Figura 11.15.</b> La validación de los híbridos de maíz: 0.868 en T2, 0.812 en T1 y 0.804 en T0. La caída es pequeña, probablemente porque muchas líneas tienen hermanas casi idénticas entre las evaluadas, como D3606 y D3607.</figcaption>
+  </figure>
+  <p>En el ejemplo simulado la caída es fuerte, como se espera cuando las líneas nuevas no tienen parientes cercanos entre las evaluadas: 0.668 en T2, 0.328 en T1 y −0.074 en T0, con solo 35 híbridos en esa clase. Con los valores verdaderos, 0.802, 0.454 y −0.094. La ACG predice bien cuando las líneas ya tienen híbridos evaluados; para líneas nuevas, depende de cuánto se parezcan a las que sí los tienen.</p>
+  <h3>Cruzas triples y dobles</h3>
+  <p>El último recuadro predice cruzas de tres y cuatro líneas con las reglas de Jenkins (1934): una cruza triple (A×B)×C con ½(AC + BC) y una doble (A×B)×(C×D) con el promedio de las cuatro cruzas simples no progenitoras AC, AD, BC y BD. Se escribe una cruza por renglón, con las líneas de cada lado de grupos distintos; al ajustar el modelo, la app propone tres con las mejores líneas.</p>
+  <figure>
+    <div class="marco"><img src="../img/b11-jenkins.png" alt="Las cruzas triples y dobles predichas por las reglas de Jenkins"></div>
+    <figcaption><b>Figura 11.16.</b> Dos cruzas triples y una doble con las mejores líneas de cada grupo. Una cruza que necesita cruzas dentro de un mismo grupo no se predice: el modelo solo conoce cruzas entre grupos.</figcaption>
+  </figure>
+  <div class="caja nota">
+    <div class="caja-t"><span class="ico">✓</span>Comprobado · reconstrucción independiente</div>
+    <p>Con el trigo, G (métodos 1 y 2), sus componentes principales, los componentes por REML y los 599 valores genómicos coinciden con una reconstrucción que maximiza la verosimilitud restringida con un optimizador general y resuelve las ecuaciones de Henderson directamente (diferencias de 10<sup>−8</sup> o menores). Con el maíz, las varianzas de ACG 16.6942 y 10.6027 y la residual 17.7859, las 12 cruzas no evaluadas que se comprobaron y las reglas de Jenkins coinciden igual. En 40 poblaciones simuladas con una heredabilidad verdadera de 0.40, la genómica promedió 0.344: los marcadores capturaron 85&nbsp;% de la varianza genética, como advierte la nota de la tarjeta 3.</p>
+  </div>
+
+  <!-- ====================================================================== 11.7 -->
+  <h2 id="s11-7"><span class="num">11.7</span>Descargas y siguiente paso</h2>
+  <p>La tarjeta <span class="ui">6 · Supuestos, fórmulas y referencias</span> resume el parentesco genómico, GBLUP y RR-BLUP, la validación cruzada y la predicción de híbridos, con sus referencias. <span class="ui">Resultados (.xlsx)</span> descarga, cada uno en su hoja, las frecuencias y la calidad de cada marcador, la matriz G (hasta 1500 individuos), los valores genómicos, los efectos de los marcadores, la validación de cada repetición y la predicción de todas las cruzas simples. Cada figura tiene su panel de descarga.</p>
+  <p><span class="ui">Continuar</span> lleva al Bloque 12, el informe, que reúne los análisis de todos los bloques; <span class="ui">← BLUP</span> regresa al Bloque 10.</p>
+</section>
+
+</body>
+</html>

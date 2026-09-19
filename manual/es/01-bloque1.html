@@ -1,0 +1,617 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>BreedingPro · Manual de usuario · Bloque 1: inicio, laboratorios y teoría</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,500;0,600;1,500&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../interior.css">
+<!-- reparte el contenido en hojas tamaño carta, con encabezados y números de página -->
+<script src="../paginar.js"></script>
+<style>
+  figure.chica .marco, figure.chica > svg { width: 72%; margin: 0 auto; }
+  figure.chica figcaption { margin-left: 14%; margin-right: 14%; }
+  /* several screenshots of one panel side by side */
+  .rejilla { display: grid; grid-template-columns: 1fr 1fr; gap: 0.1in 0.18in; }
+  .rejilla.angosta { width: 84%; margin: 0 auto; }
+  .rejilla .sub { font-family: var(--sans); font-size: 8.4pt; color: var(--negro); text-align: center; margin-top: 0.04in; }
+  .rejilla .sub b { font-weight: 600; }
+  td.n, th.n { text-align: right; white-space: nowrap; }
+  table.comparacion { font-size: 8pt; }
+  table.comparacion td:first-child { font-size: 8pt; }
+</style>
+</head>
+<body>
+
+<section class="capitulo" id="cap-b1" data-pestana="B1" data-orden="2" style="--acento: var(--b1)">
+  <div class="cap-apertura">
+    <div class="cap-num">B1</div>
+    <div class="cap-etiqueta">Capítulo uno · Bloque 1 · Inicio</div>
+    <h1 data-corto="Bloque 1 · Inicio, laboratorios y teoría">Inicio, laboratorios y teoría</h1>
+    <div class="cap-regla"></div>
+    <p class="cap-resumen">La portada de la app no es solo una página de bienvenida. Es el mapa de todo el programa, tiene dos laboratorios donde la genética cuantitativa se ve en movimiento (un dialelo cuyos genes eliges tú y una población que se selecciona ciclo tras ciclo) y reúne la teoría y las referencias que respaldan cada cálculo.</p>
+    <div class="cap-franja"><span class="k1"></span><span class="k1" style="opacity:.75"></span><span class="k1" style="opacity:.5"></span><span class="k1" style="opacity:.3"></span></div>
+    <ul class="cap-contenido">
+      <li><b>1.1</b>La portada de la app</li>
+      <li><b>1.2</b>El laboratorio de dialelos</li>
+      <li><b>1.3</b>Cinco prácticas con el laboratorio de dialelos</li>
+      <li><b>1.4</b>El laboratorio de selección</li>
+      <li><b>1.5</b>Seis prácticas con el laboratorio de selección</li>
+      <li><b>1.6</b>La teoría, en lenguaje claro</li>
+      <li><b>1.7</b>Cómo citar y referencias</li>
+    </ul>
+  </div>
+
+  <!-- ====================================================================== 1.1 -->
+  <h2 id="s1-1"><span class="num">1.1</span>La portada de la app</h2>
+  <p class="lead">Al abrir <code>index.html</code> aparece el Bloque 1. Se lee de arriba abajo, como un folleto: primero qué hace el programa y cómo se recorre, luego dos laboratorios para experimentar, el mapa de los once bloques de análisis, los métodos, la teoría y, al final, cómo citarlo.</p>
+
+  <table>
+    <caption><b>Tabla 1.1.</b> Secciones de la portada, en el orden en que aparecen.</caption>
+    <thead><tr><th style="width:28%">Sección en la app</th><th>Qué contiene</th><th style="width:27%">Para qué te sirve</th></tr></thead>
+    <tbody>
+      <tr><td><b>Presentación</b><br><span class="small">cuatro botones y cinco garantías</span></td><td><span class="ui">Empezar con mis datos →</span>, <span class="ui">Probar los laboratorios</span>, <span class="ui">Leer la teoría</span> y <span class="ui">Cómo citar</span>; una ilustración con un dialelo, sus ACG y ACE, una gráfica Wr–Vr y la respuesta a la selección.</td><td>Ir directo al Bloque 3 o a cualquiera de las secciones de abajo.</td></tr>
+      <tr><td><span class="ui">Cómo funciona</span></td><td>Los siete pasos de un programa de mejoramiento (figura 1.1).</td><td>Ubicar cada bloque dentro del ciclo de mejoramiento.</td></tr>
+      <tr><td><span class="ui">Pruébalo: dos laboratorios con genética real</span></td><td>El laboratorio de dialelos y el de selección (secciones 1.2 a 1.5).</td><td>Entender, jugando, qué dicen una gráfica Wr–Vr, la ACG o la ecuación del criador.</td></tr>
+      <tr><td><span class="ui">Qué incluye</span></td><td>Una tarjeta por bloque de análisis, del 2 al 12, con su ilustración y lo que calcula.</td><td>Saltar a un bloque con un clic (o con <span class="ui">Intro</span> desde el teclado).</td></tr>
+      <tr><td><span class="ui">Para el material con el que trabajas</span></td><td>Seis tipos de material y lo que conviene analizar con cada uno (figura 1.2).</td><td>Saber qué análisis tienen sentido con tus progenitores.</td></tr>
+      <tr><td><span class="ui">Métodos que cubre</span></td><td>Galería de 32 métodos en siete familias, con filtro (tabla 1.4).</td><td>Ver de un vistazo todo lo que se puede calcular.</td></tr>
+      <tr><td><span class="ui">Lo que reúne</span></td><td>Diez capacidades del programa en un solo flujo.</td><td>Justificar su uso en un proyecto o una tesis.</td></tr>
+      <tr><td><span class="ui">La teoría, en lenguaje claro</span></td><td>Quince temas desplegables con fórmulas, reglas prácticas y referencias (sección 1.6).</td><td>Repasar la teoría antes de interpretar o defender resultados.</td></tr>
+      <tr><td><span class="ui">Cómo citar</span> y <span class="ui">Referencias detrás de los cálculos</span></td><td>La cita del programa lista para copiar y 63 referencias en siete familias (sección 1.7).</td><td>Citar correctamente en tu tesis o artículo.</td></tr>
+    </tbody>
+  </table>
+
+  <figure>
+    <div class="marco"><img src="../img/b1-flujo.png" alt="La sección Cómo funciona con sus siete pasos"></div>
+    <figcaption><b>Figura 1.1.</b> La sección <span class="ui">Cómo funciona</span>: siete pasos en el orden en que realmente se hace un programa de mejoramiento, del plan de cruzas al artículo.</figcaption>
+  </figure>
+
+  <table class="compacta">
+    <caption><b>Tabla 1.2.</b> Los siete pasos de la portada y los bloques que los resuelven.</caption>
+    <thead><tr><th style="width:8%">Paso</th><th style="width:22%">En la app</th><th>Qué se hace</th><th style="width:17%">Bloques</th></tr></thead>
+    <tbody>
+      <tr><td>1</td><td><span class="ui">Planear</span></td><td>Plan de cruzas, semilla y polinizaciones, croquis del ensayo y potencia</td><td><span class="chip k2">2</span></td></tr>
+      <tr><td>2</td><td><span class="ui">Capturar y revisar</span></td><td>Carga de datos, diseño reconocido, calidad y análisis de campo</td><td><span class="chip k3">3</span></td></tr>
+      <tr><td>3</td><td><span class="ui">Aptitud combinatoria</span></td><td>Efectos y varianzas de ACG, ACE y recíprocos</td><td><span class="chip k4">4</span> <span class="chip k6">6</span></td></tr>
+      <tr><td>4</td><td><span class="ui">Acción génica</span></td><td>Componentes genéticos, grado de dominancia, epistasis y heterosis</td><td><span class="chip k5">5</span> <span class="chip k6">6</span> <span class="chip k7">7</span></td></tr>
+      <tr><td>5</td><td><span class="ui">Seleccionar</span></td><td>Heredabilidad, respuesta esperada, índices y estabilidad</td><td><span class="chip k8">8</span> <span class="chip k9">9</span></td></tr>
+      <tr><td>6</td><td><span class="ui">Predecir</span></td><td>Valores genéticos con pedigrí o marcadores e híbridos no probados</td><td><span class="chip k10">10</span> <span class="chip k11">11</span></td></tr>
+      <tr><td>7</td><td><span class="ui">Publicar</span></td><td>Informe, figuras y paquete de resultados</td><td><span class="chip k12">12</span></td></tr>
+    </tbody>
+  </table>
+
+  <h3>Qué incluye</h3>
+  <p>Once tarjetas, una por bloque de análisis, muestran su número, una ilustración, la familia de métodos a la que pertenece y un párrafo con lo que calcula. Un clic en cualquier parte de la tarjeta abre el bloque; es la misma información de la tabla I.1 de la introducción, contada desde la app.</p>
+
+  <h3>Para el material con el que trabajas</h3>
+  <p>El tipo de material decide qué análisis tienen sentido: un dialelo de Hayman–Jinks exige líneas homocigóticas, la heterosis de Gardner–Eberhart se pensó para variedades y el modelo animal necesita pedigrí. La franja de la figura 1.2 lo resume en seis tarjetas y la tabla 1.3 añade los bloques que corresponden a cada una.</p>
+  <figure>
+    <div class="marco"><img src="../img/b1-materiales.png" alt="Seis tarjetas de material: líneas, variedades, autógamas, clonales, ganado y marcadores"></div>
+    <figcaption><b>Figura 1.2.</b> La sección <span class="ui">Para el material con el que trabajas</span>. Cada tarjeta lleva debajo una etiqueta con el tipo de material.</figcaption>
+  </figure>
+  <table class="compacta">
+    <caption><b>Tabla 1.3.</b> Material, análisis que le convienen y bloques donde se hacen.</caption>
+    <thead><tr><th style="width:27%">Material</th><th>Análisis que tienen sentido</th><th style="width:19%">Bloques</th></tr></thead>
+    <tbody>
+      <tr><td>Líneas endogámicas y sus cruzas</td><td>Dialelos de Griffing y de Hayman–Jinks, línea × probador, predicción de híbridos</td><td><span class="chip k4">4</span> <span class="chip k5">5</span> <span class="chip k6">6</span> <span class="chip k11">11</span></td></tr>
+      <tr><td>Variedades y poblaciones</td><td>Heterosis de Gardner y Eberhart, diseños de Carolina del Norte, selección recurrente</td><td><span class="chip k5">5</span> <span class="chip k6">6</span> <span class="chip k8">8</span></td></tr>
+      <tr><td>Cultivos autógamos</td><td>Generaciones P<sub>1</sub> a RC<sub>2</sub>, cruza triple de prueba, líneas puras en ensayos</td><td><span class="chip k6">6</span> <span class="chip k7">7</span> <span class="chip k8">8</span></td></tr>
+      <tr><td>Clonales y perennes</td><td>Familias de medios hermanos, clones en varios ambientes, repetibilidad</td><td><span class="chip k8">8</span> <span class="chip k9">9</span> <span class="chip k10">10</span></td></tr>
+      <tr><td>Ganado y especies animales</td><td>Modelo animal, sementales, efectos maternos y cruzamiento de razas</td><td><span class="chip k10">10</span></td></tr>
+      <tr><td>Marcadores moleculares</td><td>Parentesco genómico, GBLUP y predicción de híbridos</td><td><span class="chip k11">11</span></td></tr>
+    </tbody>
+  </table>
+
+  <h3>Métodos que cubre</h3>
+  <p>La galería muestra 32 métodos, cada uno con una ilustración propia. Los botones de arriba la filtran por familia y dicen cuántos métodos tiene cada una. La tabla 1.4 los reúne con el bloque donde se calculan.</p>
+  <table class="compacta">
+    <caption><b>Tabla 1.4.</b> Los 32 métodos de la galería, por familia.</caption>
+    <thead><tr><th style="width:17%">Familia</th><th>Métodos</th><th style="width:15%">Bloques</th></tr></thead>
+    <tbody>
+      <tr><td>Dialelos · 9</td><td>Griffing, métodos 1, 2, 3 y 4; efectos recíprocos; gráfica Wr–Vr; ANOVA de Hayman; Gardner y Eberhart; dialelo parcial</td><td><span class="chip k4">4</span> <span class="chip k5">5</span> <span class="chip k6">6</span></td></tr>
+      <tr><td>Apareamiento · 5</td><td>Carolina del Norte I y II; Carolina del Norte III y cruza triple; línea × probador; prueba de epistasis</td><td><span class="chip k6">6</span></td></tr>
+      <tr><td>Generaciones · 3</td><td>Medias generacionales; varianzas generacionales; heterosis</td><td><span class="chip k7">7</span></td></tr>
+      <tr><td>Selección · 4</td><td>Heredabilidad; respuesta a la selección; índices de selección; correlaciones y senderos</td><td><span class="chip k8">8</span></td></tr>
+      <tr><td>G×A · 4</td><td>Regresión de estabilidad; ecovalencia y superioridad; AMMI; biplot GGE</td><td><span class="chip k9">9</span></td></tr>
+      <tr><td>Modelos mixtos · 3</td><td>REML y BLUP; modelo animal; cruzamiento entre razas</td><td><span class="chip k10">10</span></td></tr>
+      <tr><td>Genómica · 4</td><td>GBLUP; híbridos no probados; cruzas dobles y triples; cruzas entre dos grupos</td><td><span class="chip k11">11</span></td></tr>
+    </tbody>
+  </table>
+
+  <h3>Lo que reúne</h3>
+  <p>Diez recuadros resumen lo que el programa junta en un solo flujo: del plan de cruzas al artículo; todos los diseños de apareamiento; cruzas perdidas y datos desbalanceados; supuestos puestos a prueba; interpretación en palabras; plantas, animales y marcadores; figuras listas para publicar; informe reproducible; español e inglés, y datos que no salen de tu computadora.</p>
+
+  <div class="caja nota">
+    <div class="caja-t"><span class="ico">i</span>Nota · los cuatro botones de la presentación</div>
+    <p><span class="ui">Empezar con mis datos →</span> abre el Bloque 3. <span class="ui">Probar los laboratorios</span>, <span class="ui">Leer la teoría</span> y <span class="ui">Cómo citar</span> bajan a su sección de la misma página; <span class="ui">Leer la teoría</span> además abre el primer tema. El nombre <span class="ui">BreedingPro</span> de la barra superior regresa a esta portada desde cualquier bloque.</p>
+  </div>
+
+  <!-- ====================================================================== 1.2 -->
+  <h2 id="s1-2"><span class="num">1.2</span>El laboratorio de dialelos</h2>
+  <p class="lead">Frente a una gráfica Wr–Vr, todo estudiante de mejoramiento se pregunta qué genes producirían esos puntos. El laboratorio de dialelos recorre el camino al revés: tú decides cómo actúan los genes, y la app crea progenitores con esos genes, los cruza, «siembra» las parcelas con error experimental y analiza la tabla con las mismas fórmulas que aplicará a tus datos en los Bloques 4 y 5. Como conoces la verdad, puedes ver cuándo el análisis la recupera y cuándo se equivoca.</p>
+
+  <div class="caja teoria">
+    <div class="caja-t"><span class="ico">θ</span>Teoría en breve · el modelo aditivo–dominante de Hayman</div>
+    <p>Cada locus tiene dos alelos. El homocigoto AA suma <i>+a</i> al carácter, el aa resta <i>a</i> y el heterocigoto Aa aporta <i>d</i>; en el laboratorio <i>a</i> = 1, así que el control <span class="ui">Dominancia d/a</span> da directamente el grado de dominancia: 0 es acción aditiva, entre 0 y 1 dominancia parcial, 1 completa y más de 1 sobredominancia (Hayman, 1954b). Los progenitores son homocigóticos: en cada locus llevan el alelo que aumenta el carácter con probabilidad <i>u</i> y el que lo disminuye con probabilidad <i>v</i> = 1 − <i>u</i>. El valor de una cruza es la suma de sus loci, y cada parcela añade 20 unidades y un error normal.</p>
+  </div>
+
+  <figure>
+    <svg viewBox="0 0 700 262" xmlns="http://www.w3.org/2000/svg" font-family="Jost, sans-serif" role="img" aria-label="Cómo trabaja el laboratorio de dialelos: progenitores con genes, medio dialelo, parcelas con error y análisis">
+      <defs><marker id="fa" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#625d6c"/></marker></defs>
+      <g font-size="11.5" font-weight="600" fill="#5e2e8c">
+        <text x="8" y="16">1 · Progenitores</text>
+        <text x="180" y="16">2 · Medio dialelo</text>
+        <text x="330" y="16">3 · Parcelas con error</text>
+        <text x="530" y="16">4 · El análisis</text>
+      </g>
+      <!-- 1 · parents: + (purple) and − (gold) homozygous loci -->
+      <g font-size="9.5" fill="#625d6c" font-weight="600">
+        <text x="8" y="47">P1</text><text x="8" y="71">P2</text><text x="8" y="95">P3</text><text x="8" y="119">P4</text><text x="8" y="143">P5</text>
+      </g>
+      <g stroke="#fff" stroke-width="1">
+        <!-- P1: − − + − − − + − − − -->
+        <rect x="30" y="34" width="12" height="17" fill="#e3a41c"/><rect x="42" y="34" width="12" height="17" fill="#e3a41c"/><rect x="54" y="34" width="12" height="17" fill="#5e2e8c"/><rect x="66" y="34" width="12" height="17" fill="#e3a41c"/><rect x="78" y="34" width="12" height="17" fill="#e3a41c"/><rect x="90" y="34" width="12" height="17" fill="#e3a41c"/><rect x="102" y="34" width="12" height="17" fill="#5e2e8c"/><rect x="114" y="34" width="12" height="17" fill="#e3a41c"/><rect x="126" y="34" width="12" height="17" fill="#e3a41c"/><rect x="138" y="34" width="12" height="17" fill="#e3a41c"/>
+        <!-- P2: + + − + − + + − + − -->
+        <rect x="30" y="58" width="12" height="17" fill="#5e2e8c"/><rect x="42" y="58" width="12" height="17" fill="#5e2e8c"/><rect x="54" y="58" width="12" height="17" fill="#e3a41c"/><rect x="66" y="58" width="12" height="17" fill="#5e2e8c"/><rect x="78" y="58" width="12" height="17" fill="#e3a41c"/><rect x="90" y="58" width="12" height="17" fill="#5e2e8c"/><rect x="102" y="58" width="12" height="17" fill="#5e2e8c"/><rect x="114" y="58" width="12" height="17" fill="#e3a41c"/><rect x="126" y="58" width="12" height="17" fill="#5e2e8c"/><rect x="138" y="58" width="12" height="17" fill="#e3a41c"/>
+        <!-- P3: + − − + − − + + − − -->
+        <rect x="30" y="82" width="12" height="17" fill="#5e2e8c"/><rect x="42" y="82" width="12" height="17" fill="#e3a41c"/><rect x="54" y="82" width="12" height="17" fill="#e3a41c"/><rect x="66" y="82" width="12" height="17" fill="#5e2e8c"/><rect x="78" y="82" width="12" height="17" fill="#e3a41c"/><rect x="90" y="82" width="12" height="17" fill="#e3a41c"/><rect x="102" y="82" width="12" height="17" fill="#5e2e8c"/><rect x="114" y="82" width="12" height="17" fill="#5e2e8c"/><rect x="126" y="82" width="12" height="17" fill="#e3a41c"/><rect x="138" y="82" width="12" height="17" fill="#e3a41c"/>
+        <!-- P4: + + + − + + − + + + -->
+        <rect x="30" y="106" width="12" height="17" fill="#5e2e8c"/><rect x="42" y="106" width="12" height="17" fill="#5e2e8c"/><rect x="54" y="106" width="12" height="17" fill="#5e2e8c"/><rect x="66" y="106" width="12" height="17" fill="#e3a41c"/><rect x="78" y="106" width="12" height="17" fill="#5e2e8c"/><rect x="90" y="106" width="12" height="17" fill="#5e2e8c"/><rect x="102" y="106" width="12" height="17" fill="#e3a41c"/><rect x="114" y="106" width="12" height="17" fill="#5e2e8c"/><rect x="126" y="106" width="12" height="17" fill="#5e2e8c"/><rect x="138" y="106" width="12" height="17" fill="#5e2e8c"/>
+        <!-- P5: + + + + + − + + + + -->
+        <rect x="30" y="130" width="12" height="17" fill="#5e2e8c"/><rect x="42" y="130" width="12" height="17" fill="#5e2e8c"/><rect x="54" y="130" width="12" height="17" fill="#5e2e8c"/><rect x="66" y="130" width="12" height="17" fill="#5e2e8c"/><rect x="78" y="130" width="12" height="17" fill="#5e2e8c"/><rect x="90" y="130" width="12" height="17" fill="#e3a41c"/><rect x="102" y="130" width="12" height="17" fill="#5e2e8c"/><rect x="114" y="130" width="12" height="17" fill="#5e2e8c"/><rect x="126" y="130" width="12" height="17" fill="#5e2e8c"/><rect x="138" y="130" width="12" height="17" fill="#5e2e8c"/>
+      </g>
+      <g font-size="9" fill="#625d6c">
+        <rect x="30" y="156" width="9" height="9" fill="#5e2e8c"/><text x="43" y="164">AA (+a)</text>
+        <rect x="92" y="156" width="9" height="9" fill="#e3a41c"/><text x="105" y="164">aa (−a)</text>
+        <text x="8" y="182">un locus por casilla; el</text>
+        <text x="8" y="194">alelo + sale con probabilidad u</text>
+      </g>
+      <path d="M154 90 L 172 90" stroke="#625d6c" stroke-width="1.5" marker-end="url(#fa)"/>
+      <!-- 2 · half diallel with parents -->
+      <g font-size="8.5" fill="#625d6c" font-weight="600" text-anchor="middle">
+        <text x="208" y="30">P1</text><text x="228" y="30">P2</text><text x="248" y="30">P3</text><text x="268" y="30">P4</text><text x="288" y="30">P5</text>
+      </g>
+      <g font-size="8.5" fill="#625d6c" font-weight="600" text-anchor="end">
+        <text x="195" y="47">P1</text><text x="195" y="67">P2</text><text x="195" y="87">P3</text><text x="195" y="107">P4</text><text x="195" y="127">P5</text>
+      </g>
+      <g stroke="#fff" stroke-width="1.5">
+        <rect x="198" y="34" width="20" height="20" fill="#fbf3df"/><rect x="218" y="34" width="20" height="20" fill="#b89bd6"/><rect x="238" y="34" width="20" height="20" fill="#d8c6ea"/><rect x="258" y="34" width="20" height="20" fill="#b89bd6"/><rect x="278" y="34" width="20" height="20" fill="#8f62bd"/>
+        <rect x="218" y="54" width="20" height="20" fill="#9d77c7"/><rect x="238" y="54" width="20" height="20" fill="#8f62bd"/><rect x="258" y="54" width="20" height="20" fill="#6a3a98"/><rect x="278" y="54" width="20" height="20" fill="#5e2e8c"/>
+        <rect x="238" y="74" width="20" height="20" fill="#d8c6ea"/><rect x="258" y="74" width="20" height="20" fill="#b89bd6"/><rect x="278" y="74" width="20" height="20" fill="#6a3a98"/>
+        <rect x="258" y="94" width="20" height="20" fill="#9d77c7"/><rect x="278" y="94" width="20" height="20" fill="#5e2e8c"/>
+        <rect x="278" y="114" width="20" height="20" fill="#4a2270"/>
+      </g>
+      <g fill="none" stroke="#221f28" stroke-width="1.6">
+        <rect x="199" y="35" width="18" height="18"/><rect x="219" y="55" width="18" height="18"/><rect x="239" y="75" width="18" height="18"/><rect x="259" y="95" width="18" height="18"/><rect x="279" y="115" width="18" height="18"/>
+      </g>
+      <g font-size="9" fill="#625d6c">
+        <text x="180" y="164">progenitores en la diagonal</text>
+        <text x="180" y="176">y F₁ arriba: p(p + 1)/2</text>
+        <text x="180" y="188">entradas (método 2)</text>
+      </g>
+      <path d="M304 90 L 322 90" stroke="#625d6c" stroke-width="1.5" marker-end="url(#fa)"/>
+      <!-- 3 · three plots per entry -->
+      <g font-size="9.5" fill="#221f28">
+        <text x="330" y="50" font-weight="600">P1</text>
+        <text x="330" y="84" font-weight="600">P1 × P2</text>
+        <text x="330" y="118" font-weight="600">P2 × P4</text>
+      </g>
+      <g font-size="9" text-anchor="middle" fill="#221f28">
+        <rect x="376" y="36" width="26" height="20" rx="3" fill="#e7f3ec" stroke="#2e8556"/><text x="389" y="50">10.3</text>
+        <rect x="405" y="36" width="26" height="20" rx="3" fill="#e7f3ec" stroke="#2e8556"/><text x="418" y="50">9.8</text>
+        <rect x="434" y="36" width="26" height="20" rx="3" fill="#e7f3ec" stroke="#2e8556"/><text x="447" y="50">10.2</text>
+        <rect x="376" y="70" width="26" height="20" rx="3" fill="#e7f3ec" stroke="#2e8556"/><text x="389" y="84">19.4</text>
+        <rect x="405" y="70" width="26" height="20" rx="3" fill="#e7f3ec" stroke="#2e8556"/><text x="418" y="84">18.1</text>
+        <rect x="434" y="70" width="26" height="20" rx="3" fill="#e7f3ec" stroke="#2e8556"/><text x="447" y="84">19.2</text>
+        <rect x="376" y="104" width="26" height="20" rx="3" fill="#e7f3ec" stroke="#2e8556"/><text x="389" y="118">24.9</text>
+        <rect x="405" y="104" width="26" height="20" rx="3" fill="#e7f3ec" stroke="#2e8556"/><text x="418" y="118">23.7</text>
+        <rect x="434" y="104" width="26" height="20" rx="3" fill="#e7f3ec" stroke="#2e8556"/><text x="447" y="118">24.6</text>
+      </g>
+      <g font-size="9.5" fill="#5e2e8c" font-weight="600">
+        <text x="466" y="50">→ 10.1</text><text x="466" y="84">→ 18.9</text><text x="466" y="118">→ 24.4</text>
+      </g>
+      <g font-size="9" fill="#625d6c">
+        <text x="330" y="140">…y así con cada entrada del dialelo</text>
+        <text x="330" y="164">tres repeticiones por entrada; cada</text>
+        <text x="330" y="176">parcela = 20 + valor de la cruza +</text>
+        <text x="330" y="188">error normal con desviación σ</text>
+      </g>
+      <path d="M506 90 L 524 90" stroke="#625d6c" stroke-width="1.5" marker-end="url(#fa)"/>
+      <!-- 4 · analysis: Wr–Vr and GCA -->
+      <g stroke="#625d6c" stroke-width="1.1" fill="none"><path d="M534 34 L 534 108 L 606 108"/><path d="M620 34 L 620 108"/></g>
+      <path d="M534 108 L536 95.3 L539 87.9 L543 81 L551.5 70.4 L569 54.8 L586.5 42.8 L604 34" fill="none" stroke="#2e8556" stroke-width="1.8"/>
+      <path d="M536 96 L 602 47" stroke="#b7791f" stroke-width="1.8"/>
+      <g stroke="#fff" stroke-width="1">
+        <circle cx="545" cy="89.3" r="4" fill="#e3a41c"/><circle cx="556" cy="81.2" r="4" fill="#c0406a"/><circle cx="567" cy="73" r="4" fill="#c0406a"/><circle cx="580" cy="63.4" r="4" fill="#8f3a8a"/><circle cx="593" cy="53.7" r="4" fill="#5e2e8c"/>
+      </g>
+      <g font-size="8.5" fill="#625d6c"><text x="598" y="120" text-anchor="end">Vr</text><text x="530" y="40" text-anchor="end">Wr</text></g>
+      <path d="M620 72 L 694 72" stroke="#625d6c" stroke-width="1"/>
+      <g>
+        <rect x="625" y="72" width="10" height="29" fill="#5e2e8c"/><rect x="639" y="64" width="10" height="8" fill="#c0406a"/><rect x="653" y="72" width="10" height="12" fill="#8f3a8a"/><rect x="667" y="72" width="10" height="2" fill="#c0406a"/><rect x="681" y="51" width="10" height="21" fill="#e3a41c"/>
+      </g>
+      <g font-size="9" fill="#221f28" font-weight="600" text-anchor="middle"><text x="570" y="136">Hayman–Jinks</text><text x="657" y="136">ACG (Griffing 2)</text></g>
+      <g font-size="9" fill="#625d6c">
+        <text x="530" y="164">Vr, Wr, componentes y</text>
+        <text x="530" y="176">razones; ACG y razón de</text>
+        <text x="530" y="188">Baker, como en los Bloques 4 y 5</text>
+      </g>
+      <!-- the genetic model -->
+      <rect x="8" y="206" width="684" height="48" rx="8" fill="#f1ebf6" stroke="#5e2e8c" stroke-width="1"/>
+      <g font-size="10.5" fill="#221f28">
+        <text x="22" y="226"><tspan font-weight="600" fill="#5e2e8c">Valor de una cruza</tspan> = Σ de sus loci:  +a si es AA,  −a si es aa,  d si es Aa   (d positivo o negativo según el locus)</text>
+        <text x="22" y="244"><tspan font-weight="600" fill="#5e2e8c">Epistasis d × d</tspan>: los loci se agrupan en pares (1–2, 3–4…); si la cruza es heterocigótica en los dos, suma el valor del control</text>
+      </g>
+    </svg>
+    <figcaption><b>Figura 1.3.</b> Lo que hace el laboratorio cada vez que mueves un control. Los progenitores se sortean con genes concretos, se cruzan en un medio dialelo con progenitores, cada entrada se «siembra» en tres parcelas con error y la tabla de medias se analiza como si fueran datos reales. Los valores de las parcelas son ilustrativos; las medias son las del escenario de dominancia parcial.</figcaption>
+  </figure>
+
+  <p>Los siete controles de la tabla 1.5 están debajo de las gráficas. Cada uno cambia una pieza del modelo genético de la figura 1.3, y la app vuelve a crear, sembrar y analizar el dialelo en cuanto lo sueltas.</p>
+  <table class="compacta">
+    <caption><b>Tabla 1.5.</b> Controles del laboratorio de dialelos.</caption>
+    <thead><tr><th style="width:23%">Control</th><th style="width:14%">Intervalo</th><th style="width:10%" class="c">Inicial</th><th>Qué representa</th></tr></thead>
+    <tbody>
+      <tr><td><span class="ui">Progenitores</span></td><td>4 a 12</td><td class="c">7</td><td>Número de progenitores <i>p</i>; el dialelo tiene <i>p</i>(<i>p</i> + 1)/2 entradas.</td></tr>
+      <tr><td><span class="ui">Loci</span></td><td>1 a 30</td><td class="c">12</td><td>Genes que pueden diferir entre progenitores.</td></tr>
+      <tr><td><span class="ui">Dominancia d/a</span></td><td>0 a 2</td><td class="c">0.50</td><td>Grado de dominancia en cada locus.</td></tr>
+      <tr><td><span class="ui">Hacia valores altos</span></td><td>0 a 100&nbsp;%</td><td class="c">100&nbsp;%</td><td>Fracción de loci en que el alelo dominante es el que aumenta el carácter; en los demás, domina el que lo disminuye.</td></tr>
+      <tr><td><span class="ui">Frecuencia u</span></td><td>0.10 a 0.90</td><td class="c">0.50</td><td>Probabilidad de que un progenitor lleve, en cada locus, el alelo que aumenta el carácter.</td></tr>
+      <tr><td><span class="ui">Epistasis d×d</span></td><td>−3 a +3</td><td class="c">0</td><td>Interacción dominancia × dominancia entre pares de loci: negativa, duplicada; positiva, complementaria.</td></tr>
+      <tr><td><span class="ui">Error de parcela σ</span></td><td>0 a 3</td><td class="c">0.60</td><td>Desviación estándar del error de cada una de las tres parcelas por entrada.</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Lo que ves en pantalla</h3>
+  <figure>
+    <div class="marco" style="position:relative">
+      <img src="../img/b1-lab-dialelos.png" alt="El laboratorio de dialelos con el escenario de dominancia parcial">
+      <span class="marca" style="left:46.8%;top:5.5%">1</span>
+      <span class="marca" style="left:52.4%;top:18.5%">2</span>
+      <span class="marca" style="left:23.9%;top:24.2%">3</span>
+      <span class="marca" style="left:64.1%;top:24.2%">4</span>
+      <span class="marca" style="left:95.6%;top:24.2%">5</span>
+      <span class="marca" style="left:16.4%;top:72.3%">6</span>
+      <span class="marca" style="left:89%;top:85%">7</span>
+      <span class="marca" style="left:13.1%;top:88%">8</span>
+    </div>
+    <figcaption><b>Figura 1.4.</b> El laboratorio de dialelos con el escenario inicial, <span class="ui">Dominancia parcial</span>: siete progenitores, doce loci y d/a = 0.50.</figcaption>
+    <ul class="leyenda-marcas">
+      <li><span class="n">1</span>Las dos pestañas: laboratorio de dialelos y laboratorio de selección.</li>
+      <li><span class="n">2</span><span class="ui">Escenario</span>, con ocho configuraciones listas (tabla 1.7), y <span class="ui">↻ Otros progenitores</span>, que sortea un grupo nuevo con los mismos ajustes.</li>
+      <li><span class="n">3</span>Tabla dialélica de medias: progenitores en la diagonal, con borde negro; F<sub>1</sub> arriba y su copia, más tenue, abajo. Al pasar el ratón se lee cada media.</li>
+      <li><span class="n">4</span>Gráfica Wr–Vr: parábola límite (verde), recta de regresión (ámbar) y recta de pendiente 1 por el punto medio (gris). Cada progenitor va de morado (pocos alelos dominantes) a oro (muchos).</li>
+      <li><span class="n">5</span>ACG de cada progenitor con su intervalo de confianza del 95&nbsp;% (método 2 de Griffing, modelo I).</li>
+      <li><span class="n">6</span>Seis recuadros de resumen (tabla 1.6).</li>
+      <li><span class="n">7</span>La interpretación en palabras.</li>
+      <li><span class="n">8</span>Los siete controles del modelo genético (tabla 1.5).</li>
+    </ul>
+  </figure>
+
+  <table class="compacta">
+    <caption><b>Tabla 1.6.</b> Los seis recuadros de resumen y lo que valen cuando el modelo se cumple.</caption>
+    <thead><tr><th style="width:21%">Recuadro</th><th>Qué es</th><th style="width:33%">Sin epistasis y con poco error</th></tr></thead>
+    <tbody>
+      <tr><td><span class="ui">Pendiente b ± EE</span></td><td>Regresión de Wr sobre Vr; debajo, la t de la prueba b = 1</td><td>Cercana a 1; si se aleja, hay epistasis u otro supuesto roto</td></tr>
+      <tr><td>(H<sub>1</sub>/D)<sup>½</sup></td><td>Grado medio de dominancia; debajo, el d/a del modelo</td><td>Cercano al d/a que elegiste</td></tr>
+      <tr><td>H<sub>2</sub>/4H<sub>1</sub></td><td>Proporción de alelos que aumentan y que disminuyen</td><td>¼ cuando <i>u</i> = <i>v</i> = ½; menor si las frecuencias difieren</td></tr>
+      <tr><td>KD/KR</td><td>Alelos dominantes contra recesivos en los progenitores</td><td>1 si están balanceados; mayor con más dominantes</td></tr>
+      <tr><td><span class="ui">Razón de Baker</span></td><td>2σ²<sub>ACG</sub>/(2σ²<sub>ACG</sub> + σ²<sub>ACE</sub>), del método 2 de Griffing</td><td>1 con acción aditiva; baja hacia 0 conforme pesa la dominancia</td></tr>
+      <tr><td><span class="ui">Heterosis media</span></td><td>Media de las F<sub>1</sub> contra la media de los progenitores, en porcentaje</td><td>0 sin dominancia; crece con d/a si la dominancia va en una sola dirección</td></tr>
+    </tbody>
+  </table>
+  <p>Sin dominancia, H<sub>2</sub>/4H<sub>1</sub> y KD/KR no tienen sentido y sus recuadros muestran una raya con la leyenda <span class="ui">sin dominancia</span>. Los componentes D, H<sub>1</sub>, H<sub>2</sub>, F y h² que alimentan las razones se calculan como en el Bloque 5 y se explican en el capítulo de ese bloque.</p>
+
+  <div class="caja teoria">
+    <div class="caja-t"><span class="ico">θ</span>Teoría en breve · el error en un medio dialelo</div>
+    <p>Las correcciones por error clásicas de Hayman suponen un dialelo completo en el que cada cruza es el promedio de ella y su recíproca, con la mitad del error. En un medio dialelo cada cruza se observa una sola vez, y las correcciones cambian: H<sub>1</sub> se corrige con −(5<i>p</i> − 4)E/<i>p</i> en vez de −(3<i>p</i> − 2)E/<i>p</i>; H<sub>2</sub> con −4E + 4(<i>p</i> − 1)E/<i>p</i>² en vez de −2E, y h² con −4(<i>p</i>² − 1)E/<i>p</i>³ en vez de −4(<i>p</i> − 1)E/<i>p</i>². D y F no cambian. En 20&nbsp;000 dialelos simulados durante la validación del programa, las correcciones clásicas inflaron H<sub>1</sub> en cerca de 1.7E y H<sub>2</sub> en 1.5E; las del medio dialelo no tuvieron sesgo. El laboratorio y el Bloque 5 usan estas últimas.</p>
+  </div>
+
+  <div class="caja nota">
+    <div class="caja-t"><span class="ico">i</span>Nota · los mismos números cada vez</div>
+    <p>Cada escenario empieza con una semilla fija, por eso los valores de este capítulo se reproducen exactamente. Mover un control conserva la semilla: con los mismos progenitores y el mismo error, solo cambia lo que moviste. <span class="ui">↻ Otros progenitores</span> cambia la semilla, y elegir de nuevo un escenario la regresa a la original.</p>
+  </div>
+
+  <div class="caja regla">
+    <div class="caja-t"><span class="ico">✓</span>Regla de decisión · cómo redacta la app la interpretación</div>
+    <table class="compacta"><tbody>
+      <tr><td style="width:47%"><b>Si</b> b no difiere de 1 (|t| menor que el valor crítico al 5&nbsp;% con <i>p</i> − 2 grados de libertad)…</td><td><b>entonces</b> el modelo aditivo–dominante se sostiene.</td></tr>
+      <tr><td><b>Si</b> b se aleja de 1…</td><td><b>entonces</b> hay interacción no alélica u otro supuesto roto, y los componentes quedan sesgados.</td></tr>
+      <tr><td><b>Si</b> (H<sub>1</sub>/D)<sup>½</sup> &lt; 0.25…</td><td><b>entonces</b> la acción génica es prácticamente aditiva.</td></tr>
+      <tr><td><b>Si</b> el intercepto de la recta es positivo y significativo…</td><td><b>entonces</b> dominancia parcial.</td></tr>
+      <tr><td><b>Si</b> es negativo y significativo…</td><td><b>entonces</b> sobredominancia.</td></tr>
+      <tr><td><b>Si</b> no difiere de cero y (H<sub>1</sub>/D)<sup>½</sup> está entre 0.8 y 1.2…</td><td><b>entonces</b> dominancia completa. Fuera de ese intervalo, la app avisa que la prueba del intercepto tiene poca potencia (práctica 4).</td></tr>
+      <tr><td><b>Si</b> r(Yr, Wr + Vr) &lt; −0.3 · &gt; 0.3…</td><td><b>entonces</b> los alelos dominantes · recesivos aumentan el carácter; entre ambos valores la dirección no es clara.</td></tr>
+    </tbody></table>
+    <p class="regla-pie">La app nombra además a los dos progenitores más cercanos al origen: son los que portan más alelos dominantes.</p>
+  </div>
+
+  <!-- ====================================================================== 1.3 -->
+  <h2 id="s1-3"><span class="num">1.3</span>Cinco prácticas con el laboratorio de dialelos</h2>
+  <p>Los ocho escenarios del menú están pensados para recorrerse en orden. La tabla 1.7 dice qué cambia cada uno respecto del inicial y en qué práctica se usa.</p>
+  <table class="compacta">
+    <caption><b>Tabla 1.7.</b> Escenarios del laboratorio de dialelos. Los no indicados conservan los valores iniciales (7 progenitores, 12 loci, d/a = 0.50, 100&nbsp;% hacia valores altos, <i>u</i> = 0.50, sin epistasis, σ = 0.60).</caption>
+    <thead><tr><th style="width:31%">Escenario</th><th>Qué cambia</th><th style="width:12%" class="c">Práctica</th></tr></thead>
+    <tbody>
+      <tr><td><span class="ui">Dominancia parcial</span></td><td>Nada: es el escenario inicial</td><td class="c">1</td></tr>
+      <tr><td><span class="ui">Dominancia completa</span></td><td>d/a = 1</td><td class="c">1</td></tr>
+      <tr><td><span class="ui">Sobredominancia</span></td><td>d/a = 1.80</td><td class="c">1</td></tr>
+      <tr><td><span class="ui">Solo acción aditiva</span></td><td>d/a = 0</td><td class="c">1</td></tr>
+      <tr><td><span class="ui">Dominancia en ambas direcciones</span></td><td>8 progenitores, 16 loci, d/a = 0.80, 50&nbsp;% hacia valores altos</td><td class="c">2</td></tr>
+      <tr><td><span class="ui">Epistasis duplicada</span></td><td>8 progenitores, d/a = 0.80, epistasis −3, σ = 0.30</td><td class="c">3</td></tr>
+      <tr><td><span class="ui">Epistasis complementaria</span></td><td>8 progenitores, d/a = 0.80, epistasis +3, σ = 0.30 (otra semilla)</td><td class="c">3</td></tr>
+      <tr><td><span class="ui">Mucho error experimental</span></td><td>σ = 2.50</td><td class="c">4</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Práctica 1 · Cuatro grados de dominancia</h3>
+  <p>Elige <span class="ui">Solo acción aditiva</span> y luego <span class="ui">Dominancia parcial</span>, <span class="ui">Dominancia completa</span> y <span class="ui">Sobredominancia</span>. Los cuatro escenarios usan los mismos progenitores y el mismo error; solo cambia d/a. Mira cómo baja la recta en la gráfica Wr–Vr (figura 1.5) y anota los recuadros (tabla 1.8).</p>
+  <figure>
+    <div class="rejilla angosta">
+      <div><div class="marco"><img src="../img/b1-wrvr-aditiva.png" alt="Gráfica Wr–Vr con acción aditiva"></div><div class="sub"><b>A</b> · Solo acción aditiva, d/a = 0</div></div>
+      <div><div class="marco"><img src="../img/b1-wrvr-parcial.png" alt="Gráfica Wr–Vr con dominancia parcial"></div><div class="sub"><b>B</b> · Dominancia parcial, d/a = 0.50</div></div>
+      <div><div class="marco"><img src="../img/b1-wrvr-completa.png" alt="Gráfica Wr–Vr con dominancia completa"></div><div class="sub"><b>C</b> · Dominancia completa, d/a = 1</div></div>
+      <div><div class="marco"><img src="../img/b1-wrvr-sobre.png" alt="Gráfica Wr–Vr con sobredominancia"></div><div class="sub"><b>D</b> · Sobredominancia, d/a = 1.80</div></div>
+    </div>
+    <figcaption><b>Figura 1.5.</b> La gráfica Wr–Vr de los mismos siete progenitores con cuatro grados de dominancia. La recta corta el eje Wr cada vez más abajo: por arriba del origen (A, B), casi en el origen (C) y por debajo (D). Observa que las escalas de los ejes cambian de un panel a otro.</figcaption>
+  </figure>
+  <table class="compacta">
+    <caption><b>Tabla 1.8.</b> Lo que muestra el laboratorio en la práctica 1.</caption>
+    <thead><tr><th>Escenario</th><th class="n">d/a</th><th class="n">(H<sub>1</sub>/D)<sup>½</sup></th><th class="n">Intercepto a ± EE</th><th class="n">Baker</th><th class="n">Heterosis media</th></tr></thead>
+    <tbody>
+      <tr><td>Solo acción aditiva</td><td class="n">0</td><td class="n">0.11</td><td class="n">6.73 ± 0.16</td><td class="n">0.99</td><td class="n">−1.1&nbsp;%</td></tr>
+      <tr><td>Dominancia parcial</td><td class="n">0.50</td><td class="n">0.54</td><td class="n">5.11 ± 0.49</td><td class="n">0.81</td><td class="n">14.5&nbsp;%</td></tr>
+      <tr><td>Dominancia completa</td><td class="n">1.00</td><td class="n">1.08</td><td class="n">−0.79 ± 1.14</td><td class="n">0.45</td><td class="n">30.1&nbsp;%</td></tr>
+      <tr><td>Sobredominancia</td><td class="n">1.80</td><td class="n">1.95</td><td class="n">−17.96 ± 3.49</td><td class="n">0.07</td><td class="n">55&nbsp;%</td></tr>
+    </tbody>
+  </table>
+  <p>Tres lecciones salen de esta práctica. <b>La recta baja conforme crece la dominancia</b>, y en los cuatro casos la pendiente no difiere de 1 (de 0.93 a 1.04), porque no hay epistasis. <b>(H<sub>1</sub>/D)<sup>½</sup> recupera el d/a del modelo</b> con un error pequeño que se debe a tener solo siete progenitores; el 0.11 de la acción aditiva viene del error experimental. <b>La razón de Baker cae de 0.99 a 0.07</b> y la heterosis media sube de −1.1 a 55&nbsp;%: con acción aditiva el valor de una cruza se predice con la ACG de sus progenitores, y con sobredominancia hay que evaluar las cruzas.</p>
+  <p>Fíjate también en el orden de los progenitores sobre la recta. P5, que lleva el alelo dominante en 9 de los 12 loci, queda siempre cerca del origen, y P1, con uno solo, en el extremo lejano. Con acción aditiva la app omite esa lectura, porque sin dominancia no hay alelos dominantes que ordenar.</p>
+
+  <h3>Práctica 2 · Dominancia que se cancela</h3>
+  <p>El escenario <span class="ui">Dominancia en ambas direcciones</span> tiene d/a = 0.80 en todos los loci, pero en la mitad de ellos domina el alelo que aumenta el carácter y en la otra mitad el que lo disminuye. El laboratorio muestra (H<sub>1</sub>/D)<sup>½</sup> = 0.60, es decir, dominancia clara en cada locus, y sin embargo la <b>heterosis media es de −2.1&nbsp;%</b>: las desviaciones de dominancia se cancelan al sumar los loci. Es la situación en que un dialelo tiene mucha ACE y casi nada de heterosis promedio.</p>
+  <div class="caja importante">
+    <div class="caja-t"><span class="ico">!</span>Importante · la dirección de la dominancia</div>
+    <p>En este escenario la app lee r(Yr, Wr + Vr) = 0.77 y concluye que los alelos recesivos aumentan el carácter. Esa correlación refleja la dirección que predomina en <i>estos ocho</i> progenitores, no la del modelo, que va en ambos sentidos. Cuando la dominancia es ambidireccional, la señal más confiable es la combinación de un grado de dominancia claro con una heterosis media cercana a cero.</p>
+  </div>
+
+  <h3>Práctica 3 · Cuando hay epistasis</h3>
+  <p>Los escenarios <span class="ui">Epistasis duplicada</span> y <span class="ui">Epistasis complementaria</span> añaden una interacción dominancia × dominancia de −3 y +3 al modelo de dominancia parcial (d/a = 0.80). En los dos, la pendiente se aleja de 1: b = 0.68 ± 0.08 (t = 3.88 con 6 grados de libertad) en la duplicada y b = 0.66 ± 0.07 (t = 4.61) en la complementaria, y la app advierte que los componentes quedan sesgados. El sesgo es grande: en la complementaria, (H<sub>1</sub>/D)<sup>½</sup> vale 2.51, lo que se leería como sobredominancia, aunque el modelo tiene dominancia parcial (figura 1.6 A).</p>
+  <figure>
+    <div class="rejilla angosta">
+      <div><div class="marco"><img src="../img/b1-wrvr-complementaria.png" alt="Gráfica Wr–Vr con epistasis complementaria"></div><div class="sub"><b>A</b> · Epistasis complementaria (práctica 3)</div></div>
+      <div><div class="marco"><img src="../img/b1-wrvr-ruido.png" alt="Gráfica Wr–Vr con mucho error experimental"></div><div class="sub"><b>B</b> · Mucho error experimental (práctica 4)</div></div>
+    </div>
+    <figcaption><b>Figura 1.6.</b> Dos maneras de que la gráfica Wr–Vr engañe. <b>A</b>: con epistasis, los puntos se salen de la recta de pendiente 1 (gris) y la regresión (ámbar) corta el eje Wr por debajo del origen, como si hubiera sobredominancia. <b>B</b>: con mucho error, los puntos se dispersan y el intercepto pierde significancia.</figcaption>
+  </figure>
+  <p>La prueba b = 1, sin embargo, no siempre detecta la epistasis. Pulsa <span class="ui">↻ Otros progenitores</span> varias veces con la epistasis duplicada y verás muestras en que la pendiente no difiere de 1; entonces la app añade: <i>«Ojo: aquí sí hay epistasis»</i>. La tabla 1.9 mide qué tan seguido ocurre.</p>
+  <table class="compacta" style="width:78%">
+    <caption><b>Tabla 1.9.</b> Porcentaje de muestras en que la prueba b = 1 se rechaza al 5&nbsp;%, en 2000 dialelos simulados con el laboratorio (12 loci, d/a = 0.80, <i>u</i> = 0.50, σ = 0.30).</caption>
+    <thead><tr><th>Modelo</th><th class="n">6 prog.</th><th class="n">8 prog.</th><th class="n">10 prog.</th><th class="n">12 prog.</th></tr></thead>
+    <tbody>
+      <tr><td>Epistasis duplicada (−3)</td><td class="n">27&nbsp;%</td><td class="n">41&nbsp;%</td><td class="n">51&nbsp;%</td><td class="n">60&nbsp;%</td></tr>
+      <tr><td>Epistasis complementaria (+3)</td><td class="n">38&nbsp;%</td><td class="n">60&nbsp;%</td><td class="n">71&nbsp;%</td><td class="n">79&nbsp;%</td></tr>
+      <tr><td>Sin epistasis</td><td class="n">5&nbsp;%</td><td class="n">6&nbsp;%</td><td class="n">10&nbsp;%</td><td class="n">11&nbsp;%</td></tr>
+    </tbody>
+  </table>
+  <div class="caja dato">
+    <div class="dato-cifra">41&nbsp;%</div>
+    <div class="dato-txt"><div class="caja-t">Dato clave</div>Con ocho progenitores, la prueba b = 1 detecta la epistasis duplicada solo en 41 de cada 100 muestras. <b>Una pendiente igual a 1 no demuestra que no haya epistasis.</b> Para probarla directamente están la cruza triple de prueba (Bloque 6) y las pruebas de escala (Bloque 7).</div>
+  </div>
+  <p>La última fila de la tabla 1.9 tiene su propia lección: sin epistasis, la prueba se equivoca en 5 a 11&nbsp;% de las muestras, algo más que el 5&nbsp;% nominal cuando hay muchos progenitores para pocos loci, porque entonces los genes ya no se reparten al azar entre los progenitores, que es otro de los supuestos de Hayman.</p>
+
+  <h3>Práctica 4 · Mucho error experimental</h3>
+  <p>El escenario <span class="ui">Mucho error experimental</span> repite el de dominancia parcial con σ = 2.50 en lugar de 0.60. La pendiente sigue en 1 (1.00 ± 0.16), pero su error estándar se triplica, y el intercepto, 4.22 ± 1.78, ya no difiere de cero (t = 2.37, menor que el valor crítico de 2.57 con 5 grados de libertad). La app no concluye «dominancia completa»: avisa que (H<sub>1</sub>/D)<sup>½</sup> = 0.61 apunta a dominancia parcial y que, con este error, la prueba del intercepto tiene poca potencia (figura 1.6 B).</p>
+  <p>El error afecta todo lo demás: H<sub>2</sub>/4H<sub>1</sub> baja a 0.185 y KD/KR sube a 2.22, cuando el modelo tiene 0.25 y 1, y el error estándar de cada ACG pasa de 0.09 a 0.38. Antes de sembrar un dialelo real, el Bloque 2 calcula cuántas repeticiones hacen falta para detectar las diferencias que te interesan.</p>
+
+  <h3>Práctica 5 · Frecuencias desiguales</h3>
+  <p>Elige <span class="ui">Dominancia completa</span> y mueve <span class="ui">Frecuencia u</span> a 0.20 y luego a 0.80. Con <i>u</i> = 0.20 los alelos que aumentan el carácter, que aquí son los dominantes, escasean: H<sub>2</sub>/4H<sub>1</sub> baja a 0.185 (la teoría da <i>uv</i> = 0.16) y KD/KR a 0.36 (la teoría, 0.25), y (H<sub>1</sub>/D)<sup>½</sup> = 0.99 sigue en la dominancia completa. Con <i>u</i> = 0.80, KD/KR sube a 2.38, pero (H<sub>1</sub>/D)<sup>½</sup> llega a 1.51 y el intercepto, −2.27 ± 0.87, se vuelve significativo: la app lee sobredominancia donde solo hay dominancia completa.</p>
+  <div class="caja teoria">
+    <div class="caja-t"><span class="ico">θ</span>Teoría en breve · la sobredominancia aparente</div>
+    <p>Con 80&nbsp;% de alelos favorables, siete progenitores difieren en pocos loci y los genes ya no se reparten al azar entre ellos. Esa asociación infla H<sub>1</sub> respecto de D y produce una sobredominancia aparente, un fenómeno conocido de los dialelos reales. Por eso conviene leer el grado de dominancia junto con el número de progenitores y, cuando sea posible, confirmarlo con el diseño III de Carolina del Norte (Bloque 6) o con las varianzas generacionales (Bloque 7).</p>
+  </div>
+
+  <!-- ====================================================================== 1.4 -->
+  <h2 id="s1-4"><span class="num">1.4</span>El laboratorio de selección</h2>
+  <p class="lead">El segundo laboratorio pone a prueba la ecuación del criador, R = h²S. Una población con genes concretos se selecciona ciclo tras ciclo; en cada ciclo la app calcula lo que la ecuación predice con la varianza aditiva de ese momento y lo compara con lo que la población realmente avanza. Así se ve por qué la predicción sirve para uno o dos ciclos y no para veinte.</p>
+
+  <div class="caja teoria">
+    <div class="caja-t"><span class="ico">θ</span>Teoría en breve · lo que simula</div>
+    <p>Una población diploide de <i>N</i> plantas con <i>k</i> loci de igual efecto (AA = +1, Aa = d, aa = −1), recombinación libre y sin mutación; el error ambiental se fija al inicio para dar la heredabilidad pedida. Cada ciclo se seleccionan por fenotipo las mejores plantas, y sus <i>N</i> descendientes salen de parejas al azar entre ellas (<i>c</i> = 1) o de una madre seleccionada con cualquier padre (<i>c</i> = ½, polen libre). La respuesta predicha es R = <i>c</i>·h²·S, con h² = σ²<sub>A</sub>/σ²<sub>F</sub> y σ²<sub>A</sub> = Σ 2<i>pq</i>α², donde α = <i>a</i> + <i>d</i>(<i>q</i> − <i>p</i>) es el efecto medio de sustitución (Falconer y Mackay, 1996).</p>
+  </div>
+
+  <p>Los siete controles de la tabla 1.10 están debajo de las gráficas. Cualquier cambio crea una población nueva y la regresa al ciclo 0.</p>
+  <table class="compacta">
+    <caption><b>Tabla 1.10.</b> Controles del laboratorio de selección.</caption>
+    <thead><tr><th style="width:23%">Control</th><th style="width:15%">Intervalo</th><th style="width:10%" class="c">Inicial</th><th>Qué representa</th></tr></thead>
+    <tbody>
+      <tr><td><span class="ui">Plantas N</span></td><td>40 a 1000</td><td class="c">400</td><td>Tamaño de la población en cada ciclo.</td></tr>
+      <tr><td><span class="ui">Loci</span></td><td>1 a 100</td><td class="c">40</td><td>Genes de igual efecto.</td></tr>
+      <tr><td><span class="ui">h² inicial</span></td><td>0.05 a 0.95</td><td class="c">0.40</td><td>Heredabilidad inicial (amplia; sin dominancia es la estricta).</td></tr>
+      <tr><td><span class="ui">Seleccionadas</span></td><td>1 a 50&nbsp;%</td><td class="c">10&nbsp;%</td><td>Fracción seleccionada; define la intensidad.</td></tr>
+      <tr><td><span class="ui">Frecuencia inicial</span></td><td>0.05 a 0.95</td><td class="c">0.30</td><td>Frecuencia inicial del alelo favorable en cada locus.</td></tr>
+      <tr><td><span class="ui">Dominancia d/a</span></td><td>0 a 1</td><td class="c">0</td><td>Grado de dominancia del alelo favorable.</td></tr>
+      <tr><td><span class="ui">Control parental</span></td><td><i>c</i> = 1 o ½</td><td class="c">1</td><td>Ambos progenitores seleccionados, o solo las hembras con polen libre.</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Lo que ves en pantalla</h3>
+  <figure>
+    <div class="marco" style="position:relative">
+      <img src="../img/b1-lab-seleccion.png" alt="El laboratorio de selección tras diez ciclos de selección masal">
+      <span class="marca" style="left:71.3%;top:18.5%">1</span>
+      <span class="marca" style="left:34.2%;top:24.2%">2</span>
+      <span class="marca" style="left:80.4%;top:24.2%">3</span>
+      <span class="marca" style="left:12.4%;top:70.4%">4</span>
+      <span class="marca" style="left:43.8%;top:83.1%">5</span>
+      <span class="marca" style="left:12.2%;top:86.1%">6</span>
+    </div>
+    <figcaption><b>Figura 1.7.</b> El laboratorio de selección con el escenario <span class="ui">Selección masal, h² intermedia</span> tras diez ciclos.</figcaption>
+    <ul class="leyenda-marcas">
+      <li><span class="n">1</span><span class="ui">Escenario</span>, con seis configuraciones (tabla 1.12), y los botones: <span class="ui">▶ Correr</span> avanza un ciclo cada fracción de segundo y se vuelve <span class="ui">❚❚ Pausa</span>; <span class="ui">Ciclo +1</span> avanza uno; <span class="ui">Reiniciar</span> vuelve al ciclo 0; <span class="ui">Nueva semilla</span> sortea otra población.</li>
+      <li><span class="n">2</span>Distribución fenotípica del ciclo: seleccionadas en oro, el ciclo anterior en contorno gris y las líneas μ, μ + S y μ + R.</li>
+      <li><span class="n">3</span>Ganancia acumulada en desviaciones fenotípicas iniciales: obtenida (morado), predicha ciclo a ciclo (oro), la que supone h² constante (gris) y h² en el eje derecho (verde).</li>
+      <li><span class="n">4</span>Ocho recuadros (tabla 1.11).</li>
+      <li><span class="n">5</span>La interpretación del ciclo.</li>
+      <li><span class="n">6</span>Los siete controles (tabla 1.10).</li>
+    </ul>
+  </figure>
+
+  <table class="compacta">
+    <caption><b>Tabla 1.11.</b> Los ocho recuadros del laboratorio de selección.</caption>
+    <thead><tr><th style="width:23%">Recuadro</th><th>Qué es</th></tr></thead>
+    <tbody>
+      <tr><td><span class="ui">Ciclo</span></td><td>Ciclos de selección completados, hasta 25.</td></tr>
+      <tr><td><span class="ui">Intensidad i</span></td><td>S/σ<sub>F</sub> observada; debajo, la teórica para la fracción seleccionada (1.75 con 10&nbsp;%).</td></tr>
+      <tr><td><span class="ui">Diferencial S</span></td><td>Media de las seleccionadas menos la media de la población.</td></tr>
+      <tr><td><span class="ui">R predicha</span></td><td><i>c</i>·h²·S: lo que la ecuación espera para el ciclo siguiente.</td></tr>
+      <tr><td><span class="ui">R obtenida</span></td><td>Lo que avanzó la media en este ciclo; debajo, lo que se había predicho en el anterior.</td></tr>
+      <tr><td>h²</td><td>σ²<sub>A</sub>/σ²<sub>F</sub> del ciclo actual; debajo, la del ciclo 0.</td></tr>
+      <tr><td><span class="ui">Ganancia total</span></td><td>Avance acumulado, en desviaciones fenotípicas del ciclo 0 (σ).</td></tr>
+      <tr><td><span class="ui">Loci fijados</span></td><td>Loci en que uno de los alelos se perdió.</td></tr>
+    </tbody>
+  </table>
+
+  <div class="caja nota">
+    <div class="caja-t"><span class="ico">i</span>Nota · por qué la h² del recuadro no es exactamente la pedida</div>
+    <p>El control fija el error ambiental con la varianza genotípica de la población sorteada, mientras que el recuadro calcula σ²<sub>A</sub> con las frecuencias alélicas. Con 400 plantas la diferencia es mínima (0.41 contra 0.40); con 60, el muestreo pesa más (0.29). Con dominancia el recuadro muestra solo la parte aditiva: 0.35 cuando se pidió 0.40.</p>
+  </div>
+
+  <!-- ====================================================================== 1.5 -->
+  <h2 id="s1-5"><span class="num">1.5</span>Seis prácticas con el laboratorio de selección</h2>
+  <p>Cada escenario empieza con la misma semilla, así que las seis poblaciones parten de genotipos comparables. Para cada uno, elige el escenario y pulsa <span class="ui">▶ Correr</span> hasta el ciclo 25, o <span class="ui">Ciclo +1</span> para ir paso a paso. La tabla 1.12 resume lo que ocurre.</p>
+  <table class="compacta">
+    <caption><b>Tabla 1.12.</b> Los seis escenarios tras 5, 10 y 25 ciclos. La ganancia está en desviaciones fenotípicas del ciclo 0; la última columna es la varianza aditiva perdida al ciclo 25.</caption>
+    <thead><tr><th style="width:26%">Escenario</th><th style="width:19%">Qué cambia</th><th class="n">h² inicial</th><th class="n">5</th><th class="n">10</th><th class="n">25 ciclos</th><th class="n">Loci fijados</th><th class="n">σ²<sub>A</sub> perdida</th></tr></thead>
+    <tbody>
+      <tr><td><span class="ui">Selección masal, h² intermedia</span></td><td>N 400, 40 loci, h² 0.40, 10&nbsp;%, <i>p</i> 0.30</td><td class="n">0.41</td><td class="n">3.58</td><td class="n">6.13</td><td class="n">8.63</td><td class="n">37 / 40</td><td class="n">99&nbsp;%</td></tr>
+      <tr><td><span class="ui">Heredabilidad baja</span></td><td>h² 0.10</td><td class="n">0.10</td><td class="n">0.69</td><td class="n">1.47</td><td class="n">3.28</td><td class="n">11 / 40</td><td class="n">53&nbsp;%</td></tr>
+      <tr><td><span class="ui">Pocos genes de efecto grande</span></td><td>4 loci, h² 0.50, <i>p</i> 0.20</td><td class="n">0.41</td><td class="n">3.58</td><td class="n">3.62</td><td class="n">3.69</td><td class="n">4 / 4</td><td class="n">100&nbsp;%</td></tr>
+      <tr><td><span class="ui">Sin control del polen (c = ½)</span></td><td><i>c</i> = ½</td><td class="n">0.41</td><td class="n">1.70</td><td class="n">3.37</td><td class="n">7.25</td><td class="n">1 / 40</td><td class="n">56&nbsp;%</td></tr>
+      <tr><td><span class="ui">Población pequeña (deriva)</span></td><td>N 60</td><td class="n">0.29</td><td class="n">2.53</td><td class="n">4.05</td><td class="n">5.49</td><td class="n">40 / 40</td><td class="n">100&nbsp;%</td></tr>
+      <tr><td><span class="ui">Dominancia completa</span></td><td>d/a 1</td><td class="n">0.35</td><td class="n">2.24</td><td class="n">3.24</td><td class="n">3.76</td><td class="n">5 / 40</td><td class="n">95&nbsp;%</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Práctica 1 · La ecuación del criador y sus límites</h3>
+  <p>Con <span class="ui">Selección masal, h² intermedia</span>, el ciclo 0 selecciona el mejor 10&nbsp;%: la intensidad observada es 1.72 (la teórica, 1.75), S = 11.03 y h² = 0.41, de modo que la ecuación predice R = 4.47. En el ciclo 1 la población avanza 4.67: <b>la predicción funciona</b>. En los ciclos siguientes la respuesta obtenida queda un poco por debajo de la predicha (4.55 contra 5.52 en el ciclo 2) porque la selección crea asociaciones negativas entre loci que reducen la varianza aditiva: es el efecto Bulmer (Bulmer, 1971).</p>
+  <p>La h² primero sube, de 0.41 a 0.52 en el ciclo 5, porque la frecuencia del alelo favorable pasa de 0.30 hacia 0.50, donde 2<i>pq</i> es máxima. Después cae: 0.35 en el ciclo 10, 0.15 en el 15 y 0.01 en el 25, con 37 de los 40 loci fijados. La ganancia acumulada se aplana en 8.63&nbsp;σ, mientras que la línea que supone h² constante llega a 17.4&nbsp;σ (figura 1.8 A).</p>
+  <figure>
+    <div class="rejilla angosta">
+      <div><div class="marco"><img src="../img/b1-tray-masal.png" alt="Trayectoria de 25 ciclos de selección masal"></div><div class="sub"><b>A</b> · Selección masal, <i>c</i> = 1</div></div>
+      <div><div class="marco"><img src="../img/b1-tray-polen.png" alt="Trayectoria de 25 ciclos sin control del polen"></div><div class="sub"><b>B</b> · Sin control del polen, <i>c</i> = ½</div></div>
+    </div>
+    <figcaption><b>Figura 1.8.</b> Ganancia acumulada en 25 ciclos. Con ambos progenitores seleccionados (A) la población avanza el doble de rápido, pero la varianza aditiva se agota hacia el ciclo 20 y la ganancia se aplana; sin control del polen (B) avanza a la mitad del ritmo y conserva varianza. Las escalas verticales son distintas.</figcaption>
+  </figure>
+
+  <h3>Práctica 2 · Heredabilidad baja</h3>
+  <p>Con h² = 0.10 la ecuación predice poco (R = 2.15) y la respuesta de cada ciclo es errática: 2.93 en el ciclo 1, 0.95 en el 2 y 0.97 en el 3, contra predicciones de 2.15, 2.45 y 2.59. En 25 ciclos la población gana solo 3.28&nbsp;σ, cuando la línea de h² constante prometía 4.2&nbsp;σ. Por eso, con caracteres de baja heredabilidad, se selecciona sobre medias de familias o de repeticiones, cuya heredabilidad es mayor (Bloque 8).</p>
+
+  <h3>Práctica 3 · Pocos genes de efecto grande</h3>
+  <p>Con cuatro loci y frecuencia inicial de 0.20 la respuesta es rápida al principio (1.12&nbsp;σ en el primer ciclo), pero en el ciclo 10 los cuatro loci están fijados, h² vale 0 y la población se detiene en 3.6&nbsp;σ: es el <b>límite de la selección</b>. Con 40 loci el límite está más lejos y se alcanza más despacio (figura 1.9 A).</p>
+
+  <h3>Práctica 4 · Sin control del polen</h3>
+  <p>Con <i>c</i> = ½ solo las hembras son seleccionadas y el polen viene de toda la población: la R predicha baja a 2.24, la mitad de la selección masal, y a los 10 ciclos la ganancia es de 3.37&nbsp;σ contra 6.13&nbsp;σ. La contraparte es que la varianza se agota más despacio: en el ciclo 25 se ha perdido el 56&nbsp;% de σ²<sub>A</sub> (contra 99&nbsp;%) y h² todavía vale 0.23 (figura 1.8 B). Controlar el polen duplica la ganancia por ciclo: ese es el papel de <i>c</i> en la ecuación del criador.</p>
+
+  <h3>Práctica 5 · Población pequeña</h3>
+  <p>Con 60 plantas, seleccionar el 10&nbsp;% deja seis progenitores por ciclo, y la deriva fija loci al azar: 7 en el ciclo 5, 24 en el 10 y los 40 en el 25. De ellos, 7 quedaron fijados en el alelo desfavorable, y la ganancia se detiene en 5.49&nbsp;σ contra 8.63&nbsp;σ con 400 plantas (figura 1.9 B). Un tamaño efectivo pequeño gasta la variabilidad que el programa necesitará en ciclos futuros.</p>
+  <figure>
+    <div class="rejilla angosta">
+      <div><div class="marco"><img src="../img/b1-tray-mayores.png" alt="Trayectoria con pocos genes de efecto grande"></div><div class="sub"><b>A</b> · Pocos genes de efecto grande</div></div>
+      <div><div class="marco"><img src="../img/b1-tray-pequena.png" alt="Trayectoria con una población pequeña"></div><div class="sub"><b>B</b> · Población pequeña, N = 60</div></div>
+    </div>
+    <figcaption><b>Figura 1.9.</b> Dos maneras de agotar la respuesta. Con cuatro genes (A), la selección los fija en diez ciclos y la ganancia llega a su límite; con una población pequeña (B), la deriva fija los loci al azar, algunos en el alelo desfavorable, y el límite queda más bajo.</figcaption>
+  </figure>
+
+  <h3>Práctica 6 · Dominancia completa</h3>
+  <p>Con d/a = 1 la ganancia se frena pronto, 3.24&nbsp;σ a los 10 ciclos y 3.76&nbsp;σ a los 25, aunque solo 5 loci se fijaron: la varianza aditiva cayó 95&nbsp;%. Cuando el alelo favorable es dominante y se vuelve común, el recesivo desfavorable que queda se esconde en los heterocigotos, donde la selección por fenotipo no lo ve; en la fórmula, α = <i>a</i> + <i>d</i>(<i>q</i> − <i>p</i>) se acerca a cero. La app lo explica en su interpretación, y es la razón para usar pruebas de progenie o autofecundación en los métodos de selección recurrente del Bloque 8.</p>
+
+  <div class="caja ejemplo">
+    <div class="caja-t"><span class="ico">▸</span>Para la clase · una sesión de 50 minutos</div>
+    <ol class="pasos" style="margin-bottom:0">
+      <li><b>10 min.</b> Dialelos, práctica 1: predecir dónde cortará la recta antes de cambiar de escenario.</li>
+      <li><b>10 min.</b> Práctica 3: diez veces <span class="ui">↻ Otros progenitores</span> y comparar la detección con la tabla 1.9.</li>
+      <li><b>15 min.</b> Selección, prácticas 1 y 4: la ganancia en 10 ciclos con y sin control del polen.</li>
+      <li><b>15 min.</b> Prácticas 3 y 5: qué es un límite de selección y cómo proteger la variabilidad.</li>
+    </ol>
+  </div>
+
+  <!-- ====================================================================== 1.6 -->
+  <h2 id="s1-6"><span class="num">1.6</span>La teoría, en lenguaje claro</h2>
+  <p>La sección de teoría reúne lo necesario para correr los análisis y defenderlos en un seminario. Son quince temas plegados; un clic en el título abre cada uno. Nueve llevan una ilustración, las fórmulas aparecen en letra de ancho fijo y cada tema nombra los artículos de donde salen. La etiqueta a la derecha del título dice a qué bloque corresponde.</p>
+  <table class="compacta">
+    <caption><b>Tabla 1.13.</b> Los quince temas de teoría y el capítulo de este manual que los desarrolla.</caption>
+    <thead><tr><th style="width:5%">#</th><th>Tema en la app</th><th style="width:22%">Etiqueta</th><th style="width:13%">Se amplía en</th></tr></thead>
+    <tbody>
+      <tr><td>1</td><td><span class="ui">Qué estima un programa de mejoramiento</span></td><td>empieza aquí</td><td>sección I.3</td></tr>
+      <tr><td>2</td><td><span class="ui">Aptitud combinatoria general y específica</span></td><td>Sprague &amp; Tatum 1942</td><td><span class="chip k4">4</span></td></tr>
+      <tr><td>3</td><td><span class="ui">Las cuatro metodologías de Griffing y sus dos modelos</span></td><td>Bloque 4</td><td><span class="chip k4">4</span></td></tr>
+      <tr><td>4</td><td><span class="ui">Efectos recíprocos, maternos y no maternos</span></td><td>métodos 1 y 3</td><td><span class="chip k4">4</span></td></tr>
+      <tr><td>5</td><td><span class="ui">Hayman y Jinks: cómo actúan los genes</span></td><td>Bloque 5</td><td><span class="chip k5">5</span></td></tr>
+      <tr><td>6</td><td><span class="ui">Gardner y Eberhart: la heterosis entre variedades</span></td><td>Bloque 5</td><td><span class="chip k5">5</span></td></tr>
+      <tr><td>7</td><td><span class="ui">Comparación de las metodologías: supuestos y similitudes</span></td><td>cuál usar</td><td><span class="chip k4">4</span> <span class="chip k5">5</span></td></tr>
+      <tr><td>8</td><td><span class="ui">Carolina del Norte, línea × probador y cruza triple de prueba</span></td><td>Bloque 6</td><td><span class="chip k6">6</span></td></tr>
+      <tr><td>9</td><td><span class="ui">Medias generacionales, epistasis y heterosis</span></td><td>Bloque 7</td><td><span class="chip k7">7</span></td></tr>
+      <tr><td>10</td><td><span class="ui">Heredabilidad y respuesta a la selección</span></td><td>Bloque 8 · laboratorio</td><td><span class="chip k8">8</span></td></tr>
+      <tr><td>11</td><td><span class="ui">Índices de selección: varios caracteres a la vez</span></td><td>Bloque 8</td><td><span class="chip k8">8</span></td></tr>
+      <tr><td>12</td><td><span class="ui">Interacción genotipo × ambiente y estabilidad</span></td><td>Bloque 9</td><td><span class="chip k9">9</span></td></tr>
+      <tr><td>13</td><td><span class="ui">Modelos mixtos, BLUP y el modelo animal</span></td><td>Bloque 10</td><td><span class="chip k10">10</span></td></tr>
+      <tr><td>14</td><td><span class="ui">Selección genómica y predicción de híbridos</span></td><td>Bloque 11</td><td><span class="chip k11">11</span></td></tr>
+      <tr><td>15</td><td><span class="ui">Qué análisis responde cada pregunta</span></td><td>guía de decisión</td><td>sección I.8</td></tr>
+    </tbody>
+  </table>
+  <figure>
+    <div class="marco"><img src="../img/b1-teoria.png" alt="El tema de las cuatro metodologías de Griffing abierto"></div>
+    <figcaption><b>Figura 1.10.</b> El tema <span class="ui">Las cuatro metodologías de Griffing y sus dos modelos</span> abierto: la tabla de los cuatro métodos, la ilustración de las entradas que evalúa cada uno, el recuadro <span class="ui">Cuál elegir</span> y la nota sobre las cruzas perdidas.</figcaption>
+  </figure>
+  <p>El tema 7 merece atención especial. Una tabla compara lado a lado el modelo I y el modelo II de Griffing, Hayman–Jinks y Gardner–Eberhart: la pregunta que responde cada uno, qué progenitores supone, qué métodos de Griffing admite, en qué especies vale, cómo trata los efectos recíprocos, la heterosis y la epistasis, qué estima y las equivalencias exactas entre ellos (tabla 1.14). El Bloque 5 aplica esas equivalencias a tus datos.</p>
+  <div class="caja importante">
+    <div class="caja-t"><span class="ico">!</span>Importante · un error frecuente</div>
+    <p>Interpretar σ²<sub>ACG</sub> y σ²<sub>ACE</sub> como σ²<sub>A</sub> y σ²<sub>D</sub> cuando los progenitores fueron elegidos a propósito (modelo I). Las varianzas genéticas solo tienen sentido si los progenitores son una muestra aleatoria de una población definida. La app lo recuerda al final de este tema y en el Bloque 4.</p>
+  </div>
+  <table class="compacta comparacion">
+    <caption><b>Tabla 1.14.</b> La comparación de las metodologías del tema 7, como aparece en la app. ● sí; ◐ en parte o con condiciones; ○ no, o se supone ausente.</caption>
+    <thead><tr><th style="width:15%"></th><th>Griffing, modelo I (fijo)</th><th>Griffing, modelo II (aleatorio)</th><th>Hayman–Jinks</th><th>Gardner–Eberhart II y III</th></tr></thead>
+    <tbody>
+      <tr><td><b>Pregunta que responde</b></td><td>¿Qué progenitores y cruzas son mejores en este grupo?</td><td>¿Cuánta varianza aditiva y de dominancia hay en la población de la que vienen los progenitores?</td><td>¿Cómo actúan los genes: grado y dirección de la dominancia, número de grupos de genes?</td><td>¿Cuánta heterosis hay y de qué tipo, entre variedades o poblaciones?</td></tr>
+      <tr><td><b>Progenitores</b></td><td>Elegidos a propósito; las conclusiones valen solo para ellos</td><td>Muestra aleatoria de una población de referencia</td><td>Líneas homocigóticas (endogámicas)</td><td>Variedades o poblaciones en equilibrio; también líneas</td></tr>
+      <tr><td><b>Métodos de Griffing aplicables</b></td><td>1, 2, 3 y 4</td><td>1, 2, 3 y 4; para la población ancestral, mejor 3 o 4</td><td>Requiere progenitores: 1 o 2</td><td>Medio dialelo con progenitores (como el 2)</td></tr>
+      <tr><td><b>Especies</b></td><td>Autógamas, alógamas y poliploides</td><td>Autógamas, alógamas y poliploides</td><td><span class="parcial">◐</span> Solo diploides con progenitores endogámicos</td><td>Autógamas, alógamas y poliploides</td></tr>
+      <tr><td><b>Efectos recíprocos</b></td><td><span class="si">●</span> Se estiman, con partición materna y no materna (métodos 1 y 3)</td><td><span class="si">●</span> Varianza recíproca, materna y no materna (métodos 1 y 3)</td><td><span class="no">○</span> Se suponen ausentes; se promedian</td><td><span class="parcial">◐</span> Solo si se añaden al modelo</td></tr>
+      <tr><td><b>Heterosis</b></td><td><span class="parcial">◐</span> Solo como contraste progenitores contra cruzas</td><td><span class="parcial">◐</span> No se estima directamente</td><td><span class="parcial">◐</span> Dirección y grado de dominancia (h², b<sub>1</sub>)</td><td><span class="si">●</span> Promedio, de cada variedad y específica</td></tr>
+      <tr><td><b>Epistasis y ligamiento</b></td><td><span class="parcial">◐</span> No los separa: quedan dentro de ACG y ACE</td><td><span class="parcial">◐</span> Sesgan σ²<sub>A</sub> y σ²<sub>D</sub> si existen</td><td><span class="no">○</span> Supuestos ausentes; se prueban con b = 1 y t²</td><td><span class="parcial">◐</span> Quedan dentro de la heterosis específica</td></tr>
+      <tr><td><b>Estima</b></td><td>ĝ<sub>i</sub>, ŝ<sub>ij</sub>, r̂<sub>ij</sub> (m̂<sub>i</sub>, n̂<sub>ij</sub>) y sus errores estándar</td><td>σ²<sub>ACG</sub>, σ²<sub>ACE</sub>, σ²<sub>R</sub> → σ²<sub>A</sub>, σ²<sub>D</sub>, h², razón de Baker</td><td>D, H<sub>1</sub>, H<sub>2</sub>, F, h², E, (H<sub>1</sub>/D)<sup>½</sup>, H<sub>2</sub>/4H<sub>1</sub>, KD/KR, orden de dominancia</td><td>μ<sub>v</sub>, v<sub>j</sub>, <span style="text-decoration: overline">h</span>, h<sub>j</sub>, s<sub>jj′</sub> (II); ACG y ACE de las cruzas (III)</td></tr>
+      <tr><td><b>Equivalencias exactas</b></td><td>Método 1: ACG, ACE y recíprocos = ítems a, b y c + d de Hayman; método 2: ACG y ACE = variedades y heterosis total del análisis II</td><td>Con progenitores endogámicos: σ²<sub>ACG</sub> = ¼(D + H<sub>1</sub> − H<sub>2</sub> − F) y σ²<sub>ACE</sub> = ¼H<sub>2</sub></td><td>b<sub>1</sub>, b<sub>2</sub> y b<sub>3</sub> del medio dialelo = <span style="text-decoration: overline">h</span>, h<sub>j</sub> y s<sub>jj′</sub> de Gardner–Eberhart; c = materno, d = recíproco restante</td><td>ĝ<sub>j</sub> (III) = ½v̂<sub>j</sub> + ĥ<sub>j</sub> (II) = ĝ<sub>j</sub> del método 4; s<sub>jj′</sub> = ACE del método 4</td></tr>
+    </tbody>
+  </table>
+
+  <!-- ====================================================================== 1.7 -->
+  <h2 id="s1-7"><span class="num">1.7</span>Cómo citar y referencias</h2>
+  <p>Al final de la portada está la cita del programa, con la versión instalada, lista para copiar. <span class="ui">Copiar la cita</span> la copia en el idioma de la interfaz y el botón confirma con <span class="ui">✓ Copiada</span>. El identificador de objeto digital (DOI) se añadirá cuando se archive la versión 1.0.</p>
+  <figure class="media">
+    <div class="marco"><img src="../img/b1-citar.png" alt="La cita del programa y los filtros de las referencias"></div>
+    <figcaption><b>Figura 1.11.</b> La sección <span class="ui">Cómo citar</span> y el inicio de <span class="ui">Referencias detrás de los cálculos</span>, con los botones que filtran las 63 referencias por familia.</figcaption>
+  </figure>
+  <p>Debajo están las <b>63 referencias</b> de los métodos que el programa calcula, con autores, año, título y revista. Los mismos botones de familia de la galería de métodos filtran la lista (tabla 1.15). Cada estadístico vuelve a citarse en el lugar donde se usa: en la última tarjeta de su bloque y en el informe del Bloque 12.</p>
+  <table class="compacta">
+    <caption><b>Tabla 1.15.</b> Las referencias de la portada, por familia.</caption>
+    <thead><tr><th style="width:18%">Familia</th><th class="n" style="width:7%">Ref.</th><th>Algunos ejemplos</th></tr></thead>
+    <tbody>
+      <tr><td>Dialelos</td><td class="n">19</td><td>Sprague y Tatum (1942); Griffing (1956a, 1956b); Hayman (1954a, 1954b); Jinks (1954); Gardner y Eberhart (1966); Möhring, Melchinger y Piepho (2011)</td></tr>
+      <tr><td>Apareamiento</td><td class="n">4</td><td>Comstock y Robinson (1948, 1952); Kempthorne (1957); Kearsey y Jinks (1968)</td></tr>
+      <tr><td>Generaciones</td><td class="n">6</td><td>Mather (1949); Cavalli (1952); Hayman (1958); Jinks y Jones (1958); Lande (1981)</td></tr>
+      <tr><td>Selección</td><td class="n">16</td><td>Smith (1936); Hazel (1943); Falconer y Mackay (1996); Holland y colaboradores (2003); Bulmer (1971)</td></tr>
+      <tr><td>G×A</td><td class="n">7</td><td>Finlay y Wilkinson (1963); Eberhart y Russell (1966); Shukla (1972); Gauch (1988); Yan y colaboradores (2000)</td></tr>
+      <tr><td>Modelos mixtos</td><td class="n">6</td><td>Henderson (1975, 1976); Patterson y Thompson (1971); Meuwissen y Luo (1992); Dickerson (1969)</td></tr>
+      <tr><td>Genómica</td><td class="n">5</td><td>Jenkins (1934); Bernardo (1994); Meuwissen, Hayes y Goddard (2001); VanRaden (2008); Technow y colaboradores (2012)</td></tr>
+    </tbody>
+  </table>
+  <div class="caja importante">
+    <div class="caja-t"><span class="ico">!</span>Importante · cita también los métodos</div>
+    <p>Si BreedingPro te ayudó en una tesis o un artículo, cita el programa y también los artículos originales de los métodos que usaste. No tienes que buscarlos en la lista completa: el informe del Bloque 12 redacta la sección de métodos con los ajustes que usaste e incluye en sus referencias solo las obras que cita.</p>
+  </div>
+</section>
+
+</body>
+</html>

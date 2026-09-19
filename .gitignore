@@ -1,0 +1,16 @@
+# Internal notes and local checks (they name the programs used only for validation)
+research/
+validation/
+tools/local/
+
+# Operating system
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+.DS_Store
+
+# Editors
+.vscode/
+.idea/
+*.swp
+*~

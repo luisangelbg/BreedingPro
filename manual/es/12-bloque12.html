@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>BreedingPro · Manual de usuario · Bloque 12: informe, figuras y paquete de resultados</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,500;0,600;1,500&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../interior.css">
+<!-- reparte el contenido en hojas tamaño carta, con encabezados y números de página -->
+<script src="../paginar.js"></script>
+<style>
+  figure.chica .marco, figure.chica > svg { width: 72%; margin: 0 auto; }
+  figure.chica figcaption { margin-left: 14%; margin-right: 14%; }
+  figure.angosta .marco { width: 58%; margin: 0 auto; }
+  figure.angosta figcaption { margin-left: 21%; margin-right: 21%; }
+  td.n, th.n { text-align: right; white-space: nowrap; }
+  td.c, th.c { text-align: center; }
+</style>
+</head>
+<body>
+
+<section class="capitulo" id="cap-b12" data-pestana="B12" data-orden="13" style="--acento: var(--b12)">
+  <div class="cap-apertura">
+    <div class="cap-num">B12</div>
+    <div class="cap-etiqueta">Capítulo doce · Bloque 12 · Informe</div>
+    <h1 data-corto="Bloque 12 · Informe, figuras y paquete de resultados">Informe, figuras y paquete de resultados</h1>
+    <div class="cap-regla"></div>
+    <p class="cap-resumen">El último bloque reúne lo que hicieron los demás. Arma un informe con las tablas y figuras de cada bloque tal como quedaron, una sección de métodos redactada con los ajustes que realmente se usaron y la lista de referencias de cada procedimiento. El informe se imprime como PDF desde el navegador, y un paquete ZIP guarda todo por separado: tablas en CSV, figuras en SVG y en imagen de alta resolución, libros de resultados y datos.</p>
+    <div class="cap-franja"><span class="k12"></span><span class="k12" style="opacity:.75"></span><span class="k12" style="opacity:.5"></span><span class="k12" style="opacity:.3"></span></div>
+    <ul class="cap-contenido">
+      <li><b>12.1</b>Qué hace el bloque</li>
+      <li><b>12.2</b>El contenido del informe</li>
+      <li><b>12.3</b>Vista previa, PDF y HTML</li>
+      <li><b>12.4</b>Los métodos redactados</li>
+      <li><b>12.5</b>Tablas y figuras</li>
+      <li><b>12.6</b>El paquete ZIP</li>
+      <li><b>12.7</b>Cómo citar y fin del recorrido</li>
+    </ul>
+  </div>
+
+  <!-- ====================================================================== 12.1 -->
+  <h2 id="s12-1"><span class="num">12.1</span>Qué hace el bloque</h2>
+  <p class="lead">El Bloque 12 no calcula nada nuevo: toma los resultados que ya están en pantalla en los otros bloques y los ordena en un documento. La regla es sencilla y conviene tenerla presente: <b>cada bloque entra con lo que muestra en este momento</b>. Si cambias una variable, un método o una figura en un bloque, vuelve aquí y arma el informe otra vez.</p>
+  <table class="compacta">
+    <caption><b>Tabla 12.1.</b> Las tarjetas del Bloque 12.</caption>
+    <thead><tr><th style="width:34%">Tarjeta</th><th>Qué da</th></tr></thead>
+    <tbody>
+      <tr><td>1 · Contenido del informe</td><td>Los bloques que entran, título, autores, notas y las partes opcionales</td></tr>
+      <tr><td>2 · Vista previa, PDF y HTML</td><td>El informe armado, para imprimirlo como PDF, descargarlo en HTML, abrirlo en otra pestaña o copiar sus métodos</td></tr>
+      <tr><td>3 · Paquete ZIP</td><td>El informe y cada una de sus piezas por separado, listas para un artículo o una tesis</td></tr>
+      <tr><td>4 · Cómo citar</td><td>La cita del programa, lista para copiar</td></tr>
+    </tbody>
+  </table>
+  <p>El ejemplo del capítulo es el dialelo de maíz 4 × 4 de Pérez López y colaboradores (2020), cargado en el Bloque 3 y analizado en los Bloques 4 (Griffing), 5 (Hayman–Jinks y Gardner–Eberhart) y 8 (parámetros genéticos). Con esos cuatro bloques, el informe tiene 28 tablas, 16 figuras y 17 referencias, y se arma en una fracción de segundo.</p>
+
+  <!-- ====================================================================== 12.2 -->
+  <h2 id="s12-2"><span class="num">12.2</span>El contenido del informe</h2>
+  <p>La tarjeta <span class="ui">1 · Contenido del informe</span> presenta un recuadro por cada bloque de análisis, del 2 al 11. Los que ya tienen resultados dicen <span class="ui">con resultados</span> y vienen marcados; los demás, <span class="ui">sin resultados: abra el bloque y analice</span>, y no se pueden elegir. Desmarcar un recuadro deja ese bloque fuera.</p>
+  <figure>
+    <div class="marco"><img src="../img/b12-contenido.png" alt="La tarjeta de contenido del informe con cuatro bloques con resultados"></div>
+    <figcaption><b>Figura 12.1.</b> La tarjeta 1 después de analizar el dialelo de maíz en los Bloques 3, 4, 5 y 8.</figcaption>
+  </figure>
+  <p>Un bloque cuenta como analizado solo si sus resultados corresponden a los datos cargados ahora: si cambias de archivo en el Bloque 3, los bloques que no has vuelto a abrir aparecen sin resultados, aunque conserven los de antes. Hay dos casos especiales. El Bloque 10 ejecuta un ejemplo de cruzamiento la primera vez que se abre, y el Bloque 8 llena su tabla de selección recurrente con el ejemplo de Fehr (1987); el informe los toma solo si tú corriste el cruzamiento o si la tabla usa valores del Bloque 6 o que escribiste. El Bloque 2 aporta el plan de cruzas y del ensayo, si lo armaste.</p>
+  <p>Debajo van el <span class="ui">Título</span>, los <span class="ui">Autor(es)</span> y unas <span class="ui">Notas al inicio (opcional)</span>, que aparecen tal cual al principio del informe. Cinco casillas deciden las partes opcionales:</p>
+  <ul>
+    <li><span class="ui">Métodos redactados con los ajustes usados</span> (marcada): la sección de métodos de la sección 12.4.</li>
+    <li><span class="ui">Incluir las tablas plegadas</span>: las tablas que en la app están dentro de recuadros plegados, como las de cada entrada o las de coeficientes.</li>
+    <li><span class="ui">Fundamentos de los métodos</span>: un apéndice con las tarjetas de supuestos, fórmulas y referencias de cada bloque incluido.</li>
+    <li><span class="ui">Cómo citar</span> (marcada): la cita del programa al final.</li>
+    <li><span class="ui">Apéndice con los datos</span>: la tabla de datos completa, como se analizó.</li>
+  </ul>
+  <p>El informe sale en el idioma de la app. Para tenerlo en el otro, cambia el idioma con los botones <span class="ui">ES</span> · <span class="ui">EN</span> de la barra superior y ármalo de nuevo: tablas, figuras, métodos y referencias cambian juntos.</p>
+
+  <!-- ====================================================================== 12.3 -->
+  <h2 id="s12-3"><span class="num">12.3</span>Vista previa, PDF y HTML</h2>
+  <p><span class="ui">Armar el informe</span> abre la tarjeta <span class="ui">2 · Vista previa, PDF y HTML</span>. Sus recuadros cuentan los bloques, las tablas, las figuras y las referencias, y dan el tamaño del informe; debajo, el informe completo se puede recorrer dentro de la tarjeta.</p>
+  <figure>
+    <div class="marco"><img src="../img/b12-vista.png" alt="La vista previa del informe con sus recuadros y botones"></div>
+    <figcaption><b>Figura 12.2.</b> El informe del dialelo de maíz: título, autor, fecha, índice y la sección de datos, con el origen del ejemplo y un párrafo que describe el ensayo.</figcaption>
+  </figure>
+  <p>Los cuatro botones hacen lo siguiente:</p>
+  <ul>
+    <li><span class="ui">Imprimir o guardar como PDF</span> abre el diálogo de impresión del navegador; para el PDF se elige <span class="ui">Guardar como PDF</span>. Las figuras van como vectores y no pierden resolución a ningún tamaño.</li>
+    <li><span class="ui">Descargar HTML</span> guarda el informe como un solo archivo que se abre en cualquier navegador, sin conexión y sin la app.</li>
+    <li><span class="ui">Abrir en otra pestaña</span> lo muestra a pantalla completa, para leerlo o imprimirlo desde ahí.</li>
+    <li><span class="ui">Copiar los métodos</span> copia al portapapeles la sección de métodos con sus referencias, en texto simple, lista para pegarla en un manuscrito.</li>
+  </ul>
+  <table class="compacta">
+    <caption><b>Tabla 12.2.</b> Las secciones del informe.</caption>
+    <thead><tr><th style="width:28%">Sección</th><th>Qué contiene</th></tr></thead>
+    <tbody>
+      <tr><td>Encabezado e índice</td><td>Título, autores, fecha, archivo de datos, número de tablas y figuras, tus notas y los enlaces a cada sección</td></tr>
+      <tr><td>1. Datos</td><td>El archivo, el origen de los datos si es un ejemplo y un párrafo que describe el ensayo</td></tr>
+      <tr><td>2. Métodos</td><td>Un párrafo por bloque, con los ajustes usados y la cita original de cada procedimiento</td></tr>
+      <tr><td>Una sección por bloque</td><td>Sus tablas y figuras, en el orden de la app, numeradas y con su título</td></tr>
+      <tr><td>Referencias</td><td>Solo las obras citadas en los métodos, por autor y año</td></tr>
+      <tr><td>Fundamentos de los métodos</td><td>Opcional: las tarjetas de supuestos, fórmulas y referencias de los bloques incluidos</td></tr>
+      <tr><td>Cómo citar y datos</td><td>La cita del programa y, si se pidió, el apéndice con los datos analizados</td></tr>
+    </tbody>
+  </table>
+
+  <!-- ====================================================================== 12.4 -->
+  <h2 id="s12-4"><span class="num">12.4</span>Los métodos redactados</h2>
+  <p>La sección de métodos no es una plantilla con huecos: cada bloque redacta su párrafo a partir de lo que realmente hizo. Dice qué diseño reconoció, qué método y qué modelo usó, cómo estimó cada cosa, qué nivel de significancia aplicó y qué comprobaciones hizo, y cita a cada autor por su nombre y año.</p>
+  <figure>
+    <div class="marco"><img src="../img/b12-informe-metodos.png" alt="La sección de métodos del informe del dialelo de maíz"></div>
+    <figcaption><b>Figura 12.3.</b> Los métodos del dialelo de maíz: un párrafo para cada uno de los cuatro bloques, con el método 1 de Griffing, el modelo I, la partición de Hayman con el ítem de Walters y Gale, y la proporción seleccionada del Bloque 8.</figcaption>
+  </figure>
+  <p>Las referencias se registran a medida que el texto las cita, así que la lista del final tiene exactamente las obras nombradas, ni una más; las pruebas del programa comprueban que ninguna quede sin citar. Cuando se citan dos obras del mismo autor y año, como Hayman (1954a) y Hayman (1954b), llevan letra; si solo se cita una, va el año solo. En español, dos autores se unen con «y» y tres o más se abrevian con «et al.», la forma usual en los artículos; en inglés, con «&amp;». Si algún bloque se quedara sin párrafo, la tarjeta lo avisa.</p>
+  <div class="caja importante">
+    <div class="caja-t"><span class="ico">!</span>Importante · revisa los métodos antes de usarlos</div>
+    <p>El texto describe lo que hizo la app con los datos, pero no puede saber lo que pasó en el campo: la localidad, las fechas, el manejo del cultivo o cómo se midió cada variable. Complétalo con esa información y léelo con cuidado antes de pegarlo en un manuscrito; eres tú quien firma el artículo.</p>
+  </div>
+
+  <!-- ====================================================================== 12.5 -->
+  <h2 id="s12-5"><span class="num">12.5</span>Tablas y figuras</h2>
+  <p>Cada sección de bloque reúne las tablas y figuras de sus tarjetas, en el orden en que aparecen en la app. Las tablas se numeran de corrido en todo el informe y llevan como título el encabezado bajo el que están; cuando una tarjeta tiene dos tablas bajo el mismo encabezado, se distinguen como «parte 1 de 2» y «parte 2 de 2». Los botones, menús, editores de figuras y el texto del otro idioma se quitan.</p>
+  <figure>
+    <div class="marco"><img src="../img/b12-informe-tabla.png" alt="Una tabla y una figura del informe del dialelo de maíz"></div>
+    <figcaption><b>Figura 12.4.</b> La aptitud combinatoria general en el informe: la tabla 7 y la figura 6, tal como estaban en el Bloque 4 (entre ambas va la tabla 8, de diferencias mínimas significativas, que aquí se omite).</figcaption>
+  </figure>
+  <p>Las figuras entran como las dejaste en su editor: con tus títulos, colores, tamaños de letra y proporciones. Si quieres una figura distinta en el informe, cámbiala en su bloque antes de armarlo. Van como gráficos vectoriales (SVG), de modo que se imprimen nítidas a cualquier tamaño.</p>
+
+  <!-- ====================================================================== 12.6 -->
+  <h2 id="s12-6"><span class="num">12.6</span>El paquete ZIP</h2>
+  <p>La tarjeta <span class="ui">3 · Paquete ZIP</span> guarda el informe y todas sus piezas por separado, que es lo que pide una revista o lo que conviene archivar con una tesis. El menú <span class="ui">Figuras además de SVG</span> agrega cada figura en PNG, en TIFF (el formato que piden muchas revistas) o en ningún otro; <span class="ui">Resolución</span> va de 150 a 900&nbsp;ppp. Dos casillas agregan el libro de resultados (.xlsx) de cada bloque y los datos analizados.</p>
+  <figure>
+    <div class="marco"><img src="../img/b12-zip.png" alt="La tarjeta del paquete ZIP con sus opciones"></div>
+    <figcaption><b>Figura 12.5.</b> La tarjeta 3. La nota calcula cuántos píxeles tendrán las imágenes con la resolución elegida: aquí, 94 millones para 16 figuras a 300&nbsp;ppp.</figcaption>
+  </figure>
+  <table class="compacta">
+    <caption><b>Tabla 12.3.</b> Lo que contiene el paquete.</caption>
+    <thead><tr><th style="width:30%">Archivo o carpeta</th><th>Contenido</th></tr></thead>
+    <tbody>
+      <tr><td><code>informe.html</code></td><td>El mismo informe de la vista previa</td></tr>
+      <tr><td><code>tablas/</code></td><td>Cada tabla en CSV, con su número y su título en el nombre del archivo</td></tr>
+      <tr><td><code>figuras/svg/</code> y <code>figuras/png/</code> (o <code>tiff/</code>)</td><td>Cada figura en vector y en imagen a la resolución elegida</td></tr>
+      <tr><td><code>resultados/</code></td><td>El libro de resultados de cada bloque, el mismo de su botón de descarga</td></tr>
+      <tr><td><code>datos/</code></td><td>La tabla de datos como se analizó</td></tr>
+      <tr><td><code>metodos.txt</code></td><td>La sección de métodos y las referencias en texto simple</td></tr>
+      <tr><td><code>LEAME.txt</code></td><td>Qué es cada archivo, con la versión del programa y la fecha</td></tr>
+    </tbody>
+  </table>
+  <p>El TIFF va sin compresión y pesa unos 3 bytes por píxel: las 16 figuras del ejemplo a 600&nbsp;ppp sumarían más de 1&nbsp;GB. Para una revista suele bastar con descargar en TIFF, desde el panel de cada figura, solo las que se van a enviar. Si una figura es demasiado grande para la resolución pedida, se guarda a la mayor que permite el navegador y la nota lo advierte. Con muchas figuras, la conversión tarda unos segundos y un aviso muestra el avance.</p>
+
+  <!-- ====================================================================== 12.7 -->
+  <h2 id="s12-7"><span class="num">12.7</span>Cómo citar y fin del recorrido</h2>
+  <p>La tarjeta <span class="ui">4 · Cómo citar</span> da la cita del programa con su versión, y <span class="ui">Copiar la cita</span> la lleva al portapapeles. La misma cita aparece al final del informe y en la portada de la app.</p>
+  <figure>
+    <div class="marco"><img src="../img/b12-cita.png" alt="La tarjeta de cómo citar el programa"></div>
+    <figcaption><b>Figura 12.6.</b> La cita de BreedingPro, versión 1.0.0.</figcaption>
+  </figure>
+  <p>Además del programa, cita los artículos originales de los métodos que usaste: la sección de métodos los nombra y la lista de referencias los reúne, de modo que basta con conservarlos al editar el texto.</p>
+  <div class="caja nota">
+    <div class="caja-t"><span class="ico">✓</span>Comprobado · la fidelidad del informe</div>
+    <p>En una sesión con seis bloques, una rutina independiente recorrió la página de la app y comparó cada celda con el informe: 40 tablas y 4052 celdas, ninguna distinta; las 26 figuras, idénticas a las de la app; sin restos de botones, menús, editores, textos del otro idioma ni valores vacíos. El paquete, abierto con el lector de ZIP del sistema operativo, tenía sus 103 archivos completos y sin errores, y el informe impreso como PDF conservó todas las figuras como vectores.</p>
+  </div>
+  <p>Con esto termina el recorrido por los bloques. <span class="ui">← Genómica</span> regresa al Bloque 11 y <span class="ui">Volver al inicio</span>, a la portada. Los apéndices que siguen reúnen los formatos de archivo, las reglas de decisión, un glosario, la solución de problemas y las referencias.</p>
+</section>
+
+</body>
+</html>

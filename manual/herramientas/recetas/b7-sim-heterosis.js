@@ -1,0 +1,13 @@
+/* Bloque 7: heterosis del ejemplo simulado, con la heterosis estándar contra el testigo */
+(async () => {
+  const W = ms => new Promise(r => setTimeout(r, ms));
+  const top = n => n.getBoundingClientRect().top + window.scrollY;
+  const irA = n => window.scrollTo({ top: top(n) - 104, behavior: "instant" });
+  const caja = (nodos, p) => { const rs = nodos.filter(Boolean).filter(n => n.offsetParent !== null).map(n => n.getBoundingClientRect()); const x = Math.min(...rs.map(r => r.left)) - p, y = Math.min(...rs.map(r => r.top)) - p; window.__recorte = [x, y, Math.max(...rs.map(r => r.right)) + p - x, Math.max(...rs.map(r => r.bottom)) + p - y].map(Math.round).join(","); };
+  const cargar = async id => { goStep(3); await W(500); document.querySelector("[data-fam=\"all\"]").click(); await W(150); document.querySelector(`[data-ex="${id}"]`).click(); for (let k = 0; k < 80; k++) { await W(250); if (B3.results.size && !document.getElementById("b3Analysis").classList.contains("is-busy")) break; } await W(800); goStep(7); await W(3500); };
+  const $ = id => document.getElementById(id);
+  await cargar("simGen");
+  await cargar("simGen");
+  const t = $("b7HetBox"); irA(t); await W(400);
+  caja([t.querySelector("h3"), $("b7HetTable"), $("b7HetNote")], 8);
+})()

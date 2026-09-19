@@ -1,0 +1,231 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>BreedingPro · Manual de usuario · Bloque 9: interacción genotipo × ambiente</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,500;0,600;1,500&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../interior.css">
+<!-- reparte el contenido en hojas tamaño carta, con encabezados y números de página -->
+<script src="../paginar.js"></script>
+<style>
+  figure.chica .marco, figure.chica > svg { width: 72%; margin: 0 auto; }
+  figure.chica figcaption { margin-left: 14%; margin-right: 14%; }
+  figure.angosta .marco { width: 58%; margin: 0 auto; }
+  figure.angosta figcaption { margin-left: 21%; margin-right: 21%; }
+  td.n, th.n { text-align: right; white-space: nowrap; }
+  td.c, th.c { text-align: center; }
+  .formula { font-family: var(--sans); font-size: 9pt; background: #f6f3fa; border-radius: 4px; padding: 0.07in 0.12in; margin: 0.06in 0 0.12in; line-height: 1.6; }
+</style>
+</head>
+<body>
+
+<section class="capitulo" id="cap-b9" data-pestana="B9" data-orden="10" style="--acento: var(--b9)">
+  <div class="cap-apertura">
+    <div class="cap-num">B9</div>
+    <div class="cap-etiqueta">Capítulo nueve · Bloque 9 · Genotipo × ambiente</div>
+    <h1 data-corto="Bloque 9 · Interacción genotipo × ambiente">Interacción genotipo × ambiente</h1>
+    <div class="cap-regla"></div>
+    <p class="cap-resumen">Un genotipo que gana en una localidad puede perder en otra. El Bloque 9 mide esa interacción y la describe de todas las formas que usa la literatura: el análisis de varianza de la tabla de medias con un modelo en dos etapas para errores distintos, las regresiones sobre el índice ambiental, las varianzas de estabilidad, la superioridad y la confiabilidad, las estadísticas de rangos, AMMI con sus índices de estabilidad y las vistas del biplot GGE, más un resumen que las compara.</p>
+    <div class="cap-franja"><span class="k9"></span><span class="k9" style="opacity:.75"></span><span class="k9" style="opacity:.5"></span><span class="k9" style="opacity:.3"></span></div>
+    <ul class="cap-contenido">
+      <li><b>9.1</b>Qué hace el bloque</li>
+      <li><b>9.2</b>La tabla y su análisis de varianza</li>
+      <li><b>9.3</b>Errores distintos: el análisis en dos etapas</li>
+      <li><b>9.4</b>Regresión sobre el índice ambiental</li>
+      <li><b>9.5</b>Varianzas de estabilidad, superioridad y confiabilidad</li>
+      <li><b>9.6</b>Rangos y rendimiento–estabilidad</li>
+      <li><b>9.7</b>AMMI</li>
+      <li><b>9.8</b>El biplot GGE</li>
+      <li><b>9.9</b>Resumen de las estadísticas</li>
+      <li><b>9.10</b>Descargas y siguiente paso</li>
+    </ul>
+  </div>
+
+  <!-- ====================================================================== 9.1 -->
+  <h2 id="s9-1"><span class="num">9.1</span>Qué hace el bloque</h2>
+  <p class="lead">El Bloque 9 necesita los mismos genotipos evaluados en dos o más ambientes: localidades, años o fechas de siembra. Del Bloque 3 toma la media ajustada de cada genotipo en cada ambiente, con el diseño de campo de ese ambiente, y el error de cada uno; con esa tabla calcula todo lo demás. Si los datos tienen un solo ambiente, la tarjeta 1 explica cómo marcar la columna que los distingue.</p>
+  <table class="compacta">
+    <caption><b>Tabla 9.1.</b> Las tarjetas del Bloque 9.</caption>
+    <thead><tr><th style="width:34%">Tarjeta</th><th>Qué da</th></tr></thead>
+    <tbody>
+      <tr><td>1 · Tabla genotipo × ambiente</td><td>Análisis de varianza de la tabla, mapa de calor y análisis en dos etapas con el error de cada ambiente</td></tr>
+      <tr><td>2 · Regresión sobre el índice ambiental</td><td>Finlay y Wilkinson, Eberhart y Russell, Perkins y Jinks</td></tr>
+      <tr><td>3 · Varianzas de estabilidad, superioridad y confiabilidad</td><td>Wricke, Shukla, Lin y Binns, Annicchiarico</td></tr>
+      <tr><td>4 · Estadísticas de rangos y rendimiento–estabilidad</td><td>Huehn con las pruebas de Nassar y Huehn; YS<sub><i>i</i></sub> de Kang</td></tr>
+      <tr><td>5 · AMMI</td><td>Ejes de la interacción con las pruebas de Gollob y de Cornelius; ASV, YSI, WAAS y WAASY; ganadores por ambiente</td></tr>
+      <tr><td>6 · Biplot GGE</td><td>Quién ganó dónde, media contra estabilidad, genotipo y ambiente ideales, discriminación, comparación de dos genotipos</td></tr>
+      <tr><td>7 · Resumen de las estadísticas</td><td>Todas las estadísticas con el lugar de cada genotipo y sus correlaciones de rangos</td></tr>
+    </tbody>
+  </table>
+  <p>El hilo del capítulo es el ensayo de avena de la galería: 10 genotipos en 14 ambientes con tres repeticiones en bloques completos (420 parcelas), con el rendimiento de grano (GY). La sección de AMMI usa el ejemplo clásico de 28 clones de papa en seis localidades de Perú, y las comprobaciones, la tabla de 17 genotipos en 12 ambientes con la que Kang (1993) ilustró su estadística.</p>
+
+  <!-- ====================================================================== 9.2 -->
+  <h2 id="s9-2"><span class="num">9.2</span>La tabla y su análisis de varianza</h2>
+  <p>La tarjeta <span class="ui">1 · Tabla genotipo × ambiente</span> tiene tres controles: la <span class="ui">Variable</span>; el <span class="ui">Mejor valor</span>, que se cambia a <span class="ui">el menor</span> en días a floración o en incidencia de una enfermedad y reorienta todas las estadísticas que dependen de «lo mejor»; y cómo se llenan las celdas vacías, por EM-AMMI con el modelo aditivo o con uno o dos ejes de interacción (Gauch y Zobel, 1990).</p>
+  <figure>
+    <div class="marco"><img src="../img/b9-tabla.png" alt="La tarjeta de la tabla genotipo por ambiente con el análisis de varianza de la avena"></div>
+    <figcaption><b>Figura 9.1.</b> La tarjeta 1 con la avena. Los ambientes reúnen 86&nbsp;% de la suma de cuadrados, los genotipos 4&nbsp;% y la interacción casi 10&nbsp;%.</figcaption>
+  </figure>
+  <p>El análisis de varianza es el de la tabla de medias multiplicado por <i>r</i>, en escala de parcela, con el error combinado de todos los ambientes (0.0967 con 252 grados de libertad). Tiene dos pruebas para los genotipos: contra la interacción (<i>F</i> = 5.41), si los ambientes son una muestra de la región en la que se va a recomendar, y contra el error (<i>F</i> = 14.93), si son los únicos que interesan. La interacción es muy significativa (<i>F</i> = 2.76, <i>p</i> &lt; 0.0001): el orden de los genotipos cambia de un ambiente a otro. Que los ambientes se lleven la mayor parte de la suma de cuadrados es lo normal y no dice nada de la interacción.</p>
+  <figure>
+    <div class="marco"><img src="../img/b9-fig-heat.png" alt="El mapa de calor de las medias de cada genotipo en cada ambiente"></div>
+    <figcaption><b>Figura 9.2.</b> La tabla como mapa de calor, con los genotipos de mayor a menor media y los ambientes de menor a mayor índice. Su panel la cambia a la interacción (los residuos del modelo aditivo).</figcaption>
+  </figure>
+  <p>El recuadro plegado <span class="ui">Medias de cada genotipo en cada ambiente</span> tiene la tabla completa; las celdas estimadas llevan un asterisco. En el análisis de varianza, la interacción pierde un grado de libertad por cada celda estimada.</p>
+
+  <!-- ====================================================================== 9.3 -->
+  <h2 id="s9-3"><span class="num">9.3</span>Errores distintos: el análisis en dos etapas</h2>
+  <p>El análisis de la tabla supone que todos los ambientes tienen el mismo error, algo que casi nunca pasa. Debajo del análisis de varianza, la tabla <span class="ui">Varianza del error de cada ambiente y análisis en dos etapas</span> da el cuadrado medio del error de cada ambiente con la prueba de Bartlett, y ajusta un modelo en dos etapas (Smith, Cullis y Thompson, 2005; Möhring y Piepho, 2009): cada media lleva la varianza de su propio ambiente y la interacción es aleatoria, con σ²<sub>GA</sub> estimada por máxima verosimilitud restringida.</p>
+  <figure>
+    <div class="marco"><img src="../img/b9-dos-etapas.png" alt="La varianza del error de cada ambiente y el resultado del análisis en dos etapas"></div>
+    <figcaption><b>Figura 9.3.</b> El error de cada ambiente de la avena. El mayor es 6.7 veces el menor y la prueba de Bartlett rechaza la igualdad (<i>p</i> = 0.0004); la nota da el resultado del modelo en dos etapas.</figcaption>
+  </figure>
+  <p>En la avena, σ²<sub>GA</sub> = 0.0541 y la razón de verosimilitudes la declara distinta de cero (127.3, <i>p</i> &lt; 0.0001, con la mezcla ½χ²<sub>0</sub> + ½χ²<sub>1</sub> que corresponde a una varianza en el borde). La prueba de Wald de medias iguales da <i>F</i> = 5.99. El recuadro plegado de debajo compara las medias en dos etapas con las simples: aquí G7 y G2 intercambian el tercer y el cuarto lugar. Con errores muy distintos entre ambientes, las diferencias pueden ser mayores; en la papa, por ejemplo, el primer lugar cambia de clon.</p>
+
+  <!-- ====================================================================== 9.4 -->
+  <h2 id="s9-4"><span class="num">9.4</span>Regresión sobre el índice ambiental</h2>
+  <p>El índice ambiental <i>I</i><sub><i>j</i></sub> es la media del ambiente menos la media general: mide lo bueno que fue cada ambiente. La tarjeta <span class="ui">2 · Regresión sobre el índice ambiental</span> ajusta, para cada genotipo, la recta de su media en cada ambiente sobre ese índice (Finlay y Wilkinson, 1963). La pendiente <i>b</i> dice cómo responde el genotipo a la mejora del ambiente (<i>b</i> = 1, como el promedio; mayor, aprovecha más los buenos ambientes; menor, se defiende mejor en los pobres) y las desviaciones de la recta, S²d, si esa respuesta es predecible (Eberhart y Russell, 1966).</p>
+  <figure>
+    <div class="marco"><img src="../img/b9-regresion.png" alt="La tabla de regresiones de cada genotipo de avena sobre el índice ambiental"></div>
+    <figcaption><b>Figura 9.4.</b> La regresión de los 10 genotipos de avena, de mayor a menor media. Una barra al margen señala los que tienen <i>b</i> o S²d significativos; la última columna los lee en palabras.</figcaption>
+  </figure>
+  <p>G3 es el ejemplo de estabilidad en el sentido de Eberhart y Russell: media alta (2.955), <i>b</i> = 1.031 ± 0.046 y S²d sin diferencia de cero, con R² = 0.977. G8, el de mayor media, responde como el promedio (<i>b</i> = 1.034), pero sus desviaciones son significativas (<i>p</i> = 0.013): gana casi siempre, aunque no siempre por lo mismo. G6 es el único con <i>b</i> significativamente menor que 1 (0.861, <i>p</i> = 0.044), adaptado a ambientes pobres, y G10 el más impredecible (S²d = 0.177).</p>
+  <p>El menú <span class="ui">Error estándar de b</span> ofrece tres fuentes: las desviaciones del propio genotipo (12 grados de libertad aquí), las desviaciones combinadas o el error experimental. El recuadro plegado <span class="ui">Análisis de varianza de Eberhart y Russell</span> parte la interacción en la heterogeneidad de pendientes (aquí no significativa, <i>p</i> = 0.13) y las desviaciones de cada genotipo.</p>
+  <div class="caja nota">
+    <div class="caja-t"><span class="ico">✓</span>Comprobado · lo publicado</div>
+    <p>Con los 17 genotipos en 12 ambientes de Kang (1993), las sumas de cuadrados de genotipos, ambientes e interacción son 186.9082, 2284.0116 y 493.2518, la heterogeneidad de pendientes 44.8576 y las desviaciones 448.3942; las pendientes de los genotipos A a E, 0.8617, 1.1505, 0.9755, 1.2230 y 0.9641; y sus S²d, las ecovalencias, las varianzas de Shukla y la superioridad de Lin y Binns también son las publicadas.</p>
+  </div>
+  <figure class="chica">
+    <div class="marco"><img src="../img/b9-fig-normas.png" alt="La recta de respuesta de cada genotipo al índice ambiental"></div>
+    <figcaption><b>Figura 9.5.</b> Las rectas de respuesta de los genotipos, con las cinco de mayor media resaltadas y sus medias observadas; la línea discontinua es la respuesta promedio (<i>b</i> = 1).</figcaption>
+  </figure>
+  <figure class="chica">
+    <div class="marco"><img src="../img/b9-fig-media-b.png" alt="La media contra el coeficiente de regresión de cada genotipo"></div>
+    <figcaption><b>Figura 9.6.</b> Media contra <i>b</i>. Los cuadrantes separan la adaptación amplia (alta media, <i>b</i> cercano a 1) de la específica a buenos o a malos ambientes; los rombos tienen S²d significativa.</figcaption>
+  </figure>
+  <div class="caja nota">
+    <div class="caja-t"><span class="ico">i</span>Nota · dos correcciones a la cuenta clásica</div>
+    <p>Las desviaciones de todos los genotipos suman cero en cada ambiente, así que las desviaciones combinadas tienen (<i>g</i> − 1)(<i>e</i> − 2) grados de libertad, 108 en la avena, y no los <i>g</i>(<i>e</i> − 2) = 120 de Eberhart y Russell; la nota de la tabla da también el cuadrado medio con su cuenta. Además, como el índice ambiental contiene al propio genotipo, la <i>F</i> de S²d tiene esperanza (<i>g</i> − 1)/<i>g</i> sin interacción: con pocos genotipos la prueba es algo conservadora.</p>
+  </div>
+
+  <!-- ====================================================================== 9.5 -->
+  <h2 id="s9-5"><span class="num">9.5</span>Varianzas de estabilidad, superioridad y confiabilidad</h2>
+  <p>La tarjeta <span class="ui">3 · Varianzas de estabilidad, superioridad y confiabilidad</span> empieza con dos medidas de cuánto contribuye cada genotipo a la interacción. La ecovalencia de Wricke (1962), W<sub><i>i</i></sub>, es la suma de sus residuos del modelo aditivo al cuadrado, con su porcentaje del total. La varianza de estabilidad de Shukla (1972), σ²<sub><i>i</i></sub>, es la misma información en forma de varianza, que se puede probar contra el error; s²<sub><i>i</i></sub> es lo que queda de ella al quitar la regresión sobre el índice.</p>
+  <figure>
+    <div class="marco"><img src="../img/b9-varianzas.png" alt="La ecovalencia y las varianzas de estabilidad de Shukla de cada genotipo"></div>
+    <figcaption><b>Figura 9.7.</b> Ecovalencia y varianzas de estabilidad, de menor a mayor σ²<sub><i>i</i></sub>. G3 aporta 2.3&nbsp;% de la interacción y G10, 25.5&nbsp;%.</figcaption>
+  </figure>
+  <p>Debajo, la superioridad de Lin y Binns (1988), P<sub><i>i</i></sub>, mide la distancia de cada genotipo al mejor de cada ambiente: cuanto menor, mejor. Combina media y estabilidad, y la tabla la parte en su fracción genética y de interacción y la calcula aparte en los ambientes favorables y desfavorables. La confiabilidad de Annicchiarico (1992), W<sub><i>i</i></sub>, es el desempeño relativo (en porcentaje de la media de cada ambiente) que el genotipo supera con probabilidad 1 − α; el riesgo α se elige arriba de la tabla.</p>
+  <figure>
+    <div class="marco"><img src="../img/b9-superioridad.png" alt="La superioridad de Lin y Binns y la confiabilidad de Annicchiarico"></div>
+    <figcaption><b>Figura 9.8.</b> Superioridad y confiabilidad, de menor a mayor P<sub><i>i</i></sub>. G3 y G8 casi empatan en superioridad, por caminos distintos: G3 por estable, G8 por su media.</figcaption>
+  </figure>
+  <p>La tabla enseña cosas que la media sola no dice. La superioridad de G8 viene sobre todo de la interacción (solo 27&nbsp;% es genética): es casi imbatible en los ambientes desfavorables (P<sub><i>i</i></sub> = 0.006) y menos en los favorables (0.088). Con α = 0.25, G3 supera 108&nbsp;% de la media de cada ambiente con 75&nbsp;% de probabilidad, y G8 llega a 112.5&nbsp;% en los desfavorables. La confiabilidad solo se calcula cuando el mayor valor es el mejor.</p>
+
+  <!-- ====================================================================== 9.6 -->
+  <h2 id="s9-6"><span class="num">9.6</span>Rangos y rendimiento–estabilidad</h2>
+  <p>Las estadísticas de Huehn (1979, 1990) trabajan con el lugar de cada genotipo en cada ambiente, no con sus valores, y por eso no dependen de la normalidad ni de valores extremos. S<sup>(1)</sup> es la diferencia media entre los lugares del genotipo en cada par de ambientes y S<sup>(2)</sup>, su varianza, ambas con los datos corregidos por el efecto del genotipo; S<sup>(3)</sup> y S<sup>(6)</sup> usan los datos sin corregir y combinan rendimiento y estabilidad. Las pruebas Z de Nassar y Huehn (1987) marcan con un asterisco los genotipos inestables.</p>
+  <figure>
+    <div class="marco"><img src="../img/b9-rangos.png" alt="Las estadísticas de rangos de Huehn de cada genotipo"></div>
+    <figcaption><b>Figura 9.9.</b> Rangos de Huehn, de menor a mayor S<sup>(1)</sup>. Solo G10 es significativamente inestable; la suma de las Z<sup>(2)</sup> dice que los genotipos difieren en estabilidad (<i>p</i> = 0.022).</figcaption>
+  </figure>
+  <p>La estadística de rendimiento y estabilidad de Kang (1993), YS<sub><i>i</i></sub>, suma dos calificaciones. La de rendimiento es el lugar por la media, ajustado con la diferencia mínima significativa respecto a la media general (+1 a +3 si la supera, −1 a −3 si queda abajo). La de estabilidad castiga la varianza de Shukla significativa (−2, −4 u −8 al 10, 5 o 1&nbsp;%). Se seleccionan los genotipos con YS<sub><i>i</i></sub> mayor que el promedio.</p>
+  <figure>
+    <div class="marco"><img src="../img/b9-kang.png" alt="La estadística de rendimiento y estabilidad de Kang"></div>
+    <figcaption><b>Figura 9.10.</b> YS<sub><i>i</i></sub> de Kang. G3 queda primero (12) por su media alta sin castigo; G8, el de mayor media, pierde 8 puntos por su inestabilidad y queda segundo. Se seleccionan siete genotipos.</figcaption>
+  </figure>
+  <div class="caja nota">
+    <div class="caja-t"><span class="ico">✓</span>Comprobado · lo publicado</div>
+    <p>Con la tabla de Kang (1993), los YS<sub><i>i</i></sub> de los genotipos A, B, C y D son 14, 3, 12 y 3, y se seleccionan A, C, E, G, H, J, N y O, como en el artículo. Para lograrlo, dos valores iguales hasta 12 cifras significativas se tratan como empate: con datos redondeados, dos genotipos pueden tener la misma media y diferir solo en el último bit.</p>
+  </div>
+
+  <!-- ====================================================================== 9.7 -->
+  <h2 id="s9-7"><span class="num">9.7</span>AMMI</h2>
+  <p>AMMI (efectos principales aditivos e interacción multiplicativa; Gollob, 1968; Gauch, 1988) ajusta la media general y los efectos de genotipos y ambientes, y descompone la interacción en valores singulares: unos cuantos ejes (IPCA) resumen casi todo el patrón y el resto es ruido. La tarjeta <span class="ui">5 · AMMI</span> decide cuántos ejes retener, calcula los índices de estabilidad que salen de ellos y predice los mejores genotipos de cada ambiente. Esta sección usa los 28 clones de papa en seis localidades.</p>
+  <figure>
+    <div class="marco"><img src="../img/b9-ammi-ejes.png" alt="Los ejes AMMI de la papa con las pruebas de Gollob y la F residual"></div>
+    <figcaption><b>Figura 9.11.</b> Los ejes de la interacción de la papa. Arriba, cada eje con la prueba de Gollob; abajo, la prueba residual de Cornelius, que prueba lo que queda de la interacción después de <i>n</i> ejes.</figcaption>
+  </figure>
+  <p>El primer eje recoge 56.3&nbsp;% de la interacción y los dos primeros, 83.3&nbsp;%. La prueba de Gollob declara significativos tres ejes; la residual de Cornelius, Seyedsadr y Crossa (1992) dice que después de dos ejes todavía queda interacción (<i>p</i> = 0.019) y después de tres ya no (<i>p</i> = 0.53): basta AMMI3.</p>
+  <div class="caja importante">
+    <div class="caja-t"><span class="ico">!</span>Importante · la prueba de Gollob es liberal</div>
+    <p>En 10&nbsp;000 tablas simuladas sin ninguna interacción, la <i>F</i> de Gollob declaró significativo el primer eje 38&nbsp;% de las veces, cuando debería hacerlo 5&nbsp;%; la <i>F</i> residual mantuvo su nivel. Por eso la residual es la regla por omisión del menú <span class="ui">Número de ejes por la prueba</span> (Piepho, 1995), con la de Gollob como opción. <span class="ui">Ejes para WAAS</span> permite fijar el número a mano.</p>
+  </div>
+  <p>Con los ejes retenidos se calculan cuatro índices, en la tabla <span class="ui">Estabilidad de los genotipos</span>: ASV, la distancia de cada genotipo al origen en los dos primeros ejes, ponderados por su suma de cuadrados (Purchase y colaboradores, 2000); YSI, la suma de los lugares por ASV y por la media (Farshadfar, 2008); WAAS, el promedio de los valores absolutos de sus puntuaciones en los ejes retenidos, ponderado por la parte de la interacción que explica cada uno (Olivoto y colaboradores, 2019); y WAASY, que reescala la media y WAAS de 0 a 100 y los combina con el peso que se elija.</p>
+  <p>WAAS separa dos tipos de clones de media alta (figura 9.14). 319.20 tiene la tercera media (38.8), pero la mayor interacción después de Desiree (WAAS = 2.54): rinde mucho en unas localidades y poco en otras. 364.21 y 427.7 tienen medias algo menores (34.1 y 36.2) y mucha más estabilidad, y por eso encabezan WAASY. El 402.7 es el más estable de todos (WAAS = 0.10), pero con una media baja. La tabla <span class="ui">Mejores genotipos de cada ambiente</span>, al final de la tarjeta, da los tres mejores de cada localidad predichos por AMMI3; en La Molina 2003 (LM-03), el ganador es precisamente 319.20.</p>
+  <figure class="chica">
+    <div class="marco"><img src="../img/b9-fig-ammi1.png" alt="El biplot AMMI1 de la papa, media contra primer eje de la interacción"></div>
+    <figcaption><b>Figura 9.12.</b> AMMI1: la media de cada clon y de cada localidad contra su primer eje de interacción. Los clones cerca de cero en el eje vertical son estables; los que comparten signo con una localidad tienen interacción positiva con ella.</figcaption>
+  </figure>
+  <figure class="chica">
+    <div class="marco"><img src="../img/b9-fig-ammi2.png" alt="El biplot AMMI2 de la papa con los dos primeros ejes de la interacción"></div>
+    <figcaption><b>Figura 9.13.</b> AMMI2: los dos primeros ejes. San Ramón (SR-02, SR-03) y Ayacucho quedan juntas del lado negativo del primer eje; Huancayo (Hyo-02) y La Molina 2003 (LM-03) apuntan en direcciones opuestas del segundo: los clones que ganan en una no son los que ganan en la otra.</figcaption>
+  </figure>
+  <figure class="chica">
+    <div class="marco"><img src="../img/b9-fig-waas.png" alt="WAAS contra la media de cada clon de papa"></div>
+    <figcaption><b>Figura 9.14.</b> WAAS contra la media. El cuadrante IV (alta media, estable) tiene a los clones deseables: 364.21, 427.7 y 506.2 encabezan WAASY.</figcaption>
+  </figure>
+  <div class="caja nota">
+    <div class="caja-t"><span class="ico">✓</span>Comprobado · lo publicado</div>
+    <p>Las sumas de cuadrados de los cinco ejes de la papa son 13&nbsp;368.60, 6427.58, 2241.94, 1027.58 y 696.10; las <i>F</i> de Gollob, 11.645, 5.985, 2.242, 1.110 y 0.817; y las residuales, 4.753, 2.699, 1.428 y 0.970, los valores del ejemplo clásico. Los índices ASV y WAAS coinciden con una implementación independiente; WAAS difiere en la cuarta cifra decimal de otra que redondea los porcentajes de los ejes a un decimal.</p>
+  </div>
+  <figure class="media">
+    <div class="marco"><img src="../img/b9-ganadores.png" alt="Los tres mejores clones de cada localidad predichos por AMMI3"></div>
+    <figcaption><b>Figura 9.15.</b> Los tres mejores clones de cada localidad según AMMI3, de la localidad más pobre a la mejor.</figcaption>
+  </figure>
+
+  <!-- ====================================================================== 9.8 -->
+  <h2 id="s9-8"><span class="num">9.8</span>El biplot GGE</h2>
+  <p>El biplot GGE (Yan y colaboradores, 2000; Yan y Kang, 2003) descompone la tabla centrada por ambiente, que contiene el efecto de los genotipos más su interacción (G + G×A), y dibuja genotipos como puntos y ambientes como vectores. La tarjeta <span class="ui">6 · Biplot GGE</span> tiene tres controles: la <span class="ui">Vista</span>, la <span class="ui">Escala de los ambientes</span> (sin escalar, o divididos entre su desviación estándar para que pesen igual) y la <span class="ui">Partición de los valores singulares</span>, que por omisión es la que conviene a cada vista.</p>
+  <figure class="chica">
+    <div class="marco"><img src="../img/b9-gge-www.png" alt="El biplot GGE quién ganó dónde de la avena"></div>
+    <figcaption><b>Figura 9.16.</b> Quién ganó dónde. El polígono une los genotipos más alejados; las rectas perpendiculares a sus lados dividen el plano en sectores, y el genotipo del vértice gana en los ambientes de su sector.</figcaption>
+  </figure>
+  <p>En la avena, los dos primeros componentes explican 41.7&nbsp;% y 22.7&nbsp;% de G + G×A. Si juntos explican menos de 60&nbsp;%, un aviso recomienda leer el biplot con cautela, porque deja fuera buena parte del patrón.</p>
+  <p>G8 gana en nueve de los 14 ambientes; G9 en E3 y E4, G7 en E7 y E14, y G4 en E9. La tabla de debajo de la figura enumera los ambientes de cada ganador. Esos grupos son megaambientes posibles si el patrón se repite en otros años; con un solo año, pueden ser solo ruido. La vista de media contra estabilidad proyecta cada genotipo sobre el eje del ambiente promedio (la flecha): la proyección aproxima su media y la distancia al eje, su inestabilidad.</p>
+  <table class="compacta">
+    <caption><b>Tabla 9.2.</b> Las vistas del biplot GGE y la pregunta que responde cada una.</caption>
+    <thead><tr><th style="width:30%">Vista</th><th>Pregunta</th><th style="width:22%">Partición</th></tr></thead>
+    <tbody>
+      <tr><td>Quién ganó dónde</td><td>¿Qué genotipo gana en cada grupo de ambientes? ¿Hay megaambientes?</td><td>simétrica</td></tr>
+      <tr><td>Media contra estabilidad</td><td>¿Qué genotipos rinden más y cuáles son estables?</td><td>centrada en genotipos</td></tr>
+      <tr><td>Genotipos comparados con el ideal</td><td>¿Cuál se acerca más al genotipo ideal (alto y estable)?</td><td>centrada en genotipos</td></tr>
+      <tr><td>Discriminación y representatividad</td><td>¿Qué ambientes distinguen bien a los genotipos y cuáles representan a la región?</td><td>centrada en ambientes</td></tr>
+      <tr><td>Ambientes comparados con el ideal</td><td>¿Qué ambiente sirve mejor para evaluar?</td><td>centrada en ambientes</td></tr>
+      <tr><td>Comparar dos genotipos</td><td>¿En qué ambientes gana cada uno de los dos?</td><td>simétrica</td></tr>
+    </tbody>
+  </table>
+  <p>En las vistas de ambientes, la longitud del vector mide cuánto discrimina el ambiente entre genotipos y el ángulo con el eje del ambiente promedio, cuánto se parece a los demás. Un ambiente largo y con ángulo grande sirve para descartar genotipos inestables, no para elegir los de adaptación amplia. La vista <span class="ui">comparar dos genotipos</span> añade dos menús para elegirlos y una tabla que dice, para cada ambiente, cuál favorece el biplot y si coincide con las medias observadas.</p>
+  <figure class="chica">
+    <div class="marco"><img src="../img/b9-gge-aec.png" alt="El biplot GGE de media contra estabilidad de la avena"></div>
+    <figcaption><b>Figura 9.17.</b> Media contra estabilidad. G8 y G3 tienen las mayores proyecciones; G3, además, casi no se aparta del eje. G9 y G4 son los menos estables.</figcaption>
+  </figure>
+  <figure class="chica">
+    <div class="marco"><img src="../img/b9-gge-discr.png" alt="El biplot GGE de discriminación y representatividad de los ambientes de avena"></div>
+    <figcaption><b>Figura 9.18.</b> Discriminación y representatividad. E13 y E5, largos y cerca del eje del ambiente promedio, son buenos ambientes de prueba; E9 discrimina, pero casi perpendicular al eje, no representa a los demás.</figcaption>
+  </figure>
+
+  <!-- ====================================================================== 9.9 -->
+  <h2 id="s9-9"><span class="num">9.9</span>Resumen de las estadísticas</h2>
+  <p>La tarjeta <span class="ui">7 · Resumen de las estadísticas</span> reúne en una tabla las 16 estadísticas de cada genotipo con su lugar entre paréntesis (1 = mejor) y el rango medio. El rango medio sirve para ordenar la discusión, no para decidir: suma sin pesos estadísticas que miden cosas distintas, y algunas repiten la misma información.</p>
+  <figure>
+    <div class="marco"><img src="../img/b9-resumen.png" alt="La tabla resumen de todas las estadísticas de estabilidad de la avena"></div>
+    <figcaption><b>Figura 9.19.</b> El resumen de la avena, ordenado por el rango medio. G3 es primero por casi todas las estadísticas (rango medio 1.06); G8, el de mayor media, queda segundo (3.5), y G10 último (9.81).</figcaption>
+  </figure>
+  <figure class="chica">
+    <div class="marco"><img src="../img/b9-fig-spearman.png" alt="Las correlaciones de rangos entre las estadísticas de estabilidad"></div>
+    <figcaption><b>Figura 9.20.</b> Correlaciones de Spearman entre las estadísticas de la avena.</figcaption>
+  </figure>
+  <p>Las estadísticas caen en dos familias (Lin, Binns y Lefkovitch, 1986; Becker y Léon, 1988): las de estabilidad estática, en que el genotipo rinde igual en todos los ambientes, y las dinámicas, en que sigue el patrón promedio de los ambientes; las que combinan media y estabilidad (P<sub><i>i</i></sub>, YS<sub><i>i</i></sub>, WAASY, S<sup>(3)</sup>, S<sup>(6)</sup>) forman un grupo aparte. En la avena (figura 9.20), la media va con P<sub><i>i</i></sub>, la confiabilidad y WAASY, y las medidas de interacción (S²d, W, σ², ASV, WAAS) forman otro grupo. W<sub><i>i</i></sub> y σ²<sub><i>i</i></sub> ordenan siempre igual, porque σ²<sub><i>i</i></sub> es una función lineal de W<sub><i>i</i></sub>. La estabilidad estática rara vez conviene en rendimiento: un genotipo que no cambia no aprovecha los buenos ambientes.</p>
+
+  <!-- ====================================================================== 9.10 -->
+  <h2 id="s9-10"><span class="num">9.10</span>Descargas y siguiente paso</h2>
+  <p>La tarjeta <span class="ui">8 · Supuestos, fórmulas y referencias</span> resume los modelos, las fórmulas y las referencias. <span class="ui">Resultados (.xlsx)</span> descarga, cada una en su hoja, la tabla genotipo × ambiente con las celdas estimadas, el análisis de varianza, las regresiones, las varianzas, los rangos, los ejes y las puntuaciones de AMMI, las coordenadas del biplot GGE y el análisis en dos etapas. Cada figura tiene su panel de descarga.</p>
+  <p><span class="ui">Continuar</span> lleva al Bloque 10 (BLUP y modelos mixtos con parentesco) y <span class="ui">← Selección</span> regresa al Bloque 8, que con varios ambientes calcula la heredabilidad con la interacción genotipo × ambiente.</p>
+</section>
+
+</body>
+</html>

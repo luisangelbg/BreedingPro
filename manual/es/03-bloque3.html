@@ -1,0 +1,485 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>BreedingPro · Manual de usuario · Bloque 3: datos, diseño reconocido y análisis de campo</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,500;0,600;1,500&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../interior.css">
+<!-- reparte el contenido en hojas tamaño carta, con encabezados y números de página -->
+<script src="../paginar.js"></script>
+<style>
+  figure.chica .marco, figure.chica > svg { width: 72%; margin: 0 auto; }
+  figure.chica figcaption { margin-left: 14%; margin-right: 14%; }
+  figure.angosta .marco { width: 58%; margin: 0 auto; }
+  figure.angosta figcaption { margin-left: 21%; margin-right: 21%; }
+  .rejilla { display: grid; grid-template-columns: 1fr 1fr; gap: 0.1in 0.18in; align-items: start; }
+  .rejilla.ancha { grid-template-columns: 0.8fr 1fr; }
+  .rejilla .sub { font-family: var(--sans); font-size: 8.4pt; color: var(--negro); text-align: center; margin-top: 0.04in; }
+  .rejilla .sub b { font-weight: 600; }
+  td.n, th.n { text-align: right; white-space: nowrap; }
+  td.c, th.c { text-align: center; }
+  table.mini { font-size: 7.8pt; margin: 0 auto; }
+  table.mini td, table.mini th { padding: 0.025in 0.07in; white-space: nowrap; }
+  table.ejemplos { font-size: 8pt; }
+  table.ejemplos td, table.ejemplos th { padding: 0.028in 0.06in; }
+  .formula { font-family: var(--sans); font-size: 9pt; background: #f6f3fa; border-radius: 4px; padding: 0.07in 0.12in; margin: 0.06in 0 0.12in; line-height: 1.6; }
+  code.meta { display: block; font-size: 7.6pt; white-space: normal; word-break: normal; background: #f6f3fa; padding: 0.06in 0.1in; border-radius: 4px; margin: 0.04in 0 0.12in; }
+  .flecha-larga { font-family: var(--sans); font-size: 14pt; color: var(--gris); text-align: center; align-self: center; }
+</style>
+</head>
+<body>
+
+<section class="capitulo" id="cap-b3" data-pestana="B3" data-orden="4" style="--acento: var(--b3)">
+  <div class="cap-apertura">
+    <div class="cap-num">B3</div>
+    <div class="cap-etiqueta">Capítulo tres · Bloque 3 · Datos</div>
+    <h1 data-corto="Bloque 3 · Datos, diseño y análisis de campo">Datos, diseño reconocido y análisis de campo</h1>
+    <div class="cap-regla"></div>
+    <p class="cap-resumen">Todos los análisis genéticos empiezan aquí. El Bloque 3 lee los datos de un archivo, de su propia hoja de cálculo, de la libreta del Bloque 2 o de uno de los 21 ejemplos; averigua qué es cada columna; deduce el diseño de apareamiento y el diseño de campo; revisa la calidad de los datos y analiza el ensayo como corresponde a su diseño. Las medias ajustadas y el error que produce son la materia prima de los bloques 4 a 11.</p>
+    <div class="cap-franja"><span class="k3"></span><span class="k3" style="opacity:.75"></span><span class="k3" style="opacity:.5"></span><span class="k3" style="opacity:.3"></span></div>
+    <ul class="cap-contenido">
+      <li><b>3.1</b>Qué hace este bloque</li>
+      <li><b>3.2</b>Cargar los datos</li>
+      <li><b>3.3</b>El papel de cada columna</li>
+      <li><b>3.4</b>El diseño reconocido</li>
+      <li><b>3.5</b>La calidad de los datos</li>
+      <li><b>3.6</b>El análisis de cada ambiente</li>
+      <li><b>3.7</b>El análisis combinado</li>
+      <li><b>3.8</b>Casos especiales</li>
+      <li><b>3.9</b>Descargas y paso a los bloques genéticos</li>
+    </ul>
+  </div>
+
+  <!-- ====================================================================== 3.1 -->
+  <h2 id="s3-1"><span class="num">3.1</span>Qué hace este bloque</h2>
+  <p class="lead">El Bloque 3 tiene cinco tarjetas que se recorren de arriba abajo. Basta con cargar los datos: las otras cuatro se llenan solas y se recalculan en cuanto corriges algo, sea el papel de una columna, el diseño o una observación que decides excluir.</p>
+
+  <figure>
+    <svg viewBox="0 0 710 262" xmlns="http://www.w3.org/2000/svg" font-family="Jost, sans-serif" role="img" aria-label="Las cinco tarjetas del Bloque 3 y lo que pasa a los bloques genéticos">
+      <defs>
+        <marker id="ft" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#0f766e"/></marker>
+        <marker id="fg" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#625d6c"/></marker>
+      </defs>
+      <!-- any correction reruns what follows -->
+      <path d="M634 50 C 634 18 620 16 590 16 L 238 16 C 212 16 208 20 208 46" fill="none" stroke="#625d6c" stroke-width="1.4" stroke-dasharray="5 4" marker-end="url(#fg)"/>
+      <text x="420" y="11" text-anchor="middle" font-size="10" fill="#625d6c">corregir un papel, el diseño o una observación recalcula todo lo que sigue</text>
+      <g font-size="9.3" fill="#123f3b">
+        <!-- card 1 -->
+        <rect x="5" y="52" width="122" height="112" rx="9" fill="#e3f1ef" stroke="#0f766e" stroke-width="1.4"/>
+        <rect x="5" y="52" width="122" height="28" rx="9" fill="#0f766e"/><rect x="5" y="70" width="122" height="10" fill="#0f766e"/>
+        <text x="14" y="71" fill="#fff" font-weight="600" font-size="10.5">1 · Cargar datos</text>
+        <text x="13" y="99">• archivo o libro</text><text x="13" y="115">• hoja de datos</text><text x="13" y="131">• libreta (Bloque 2)</text><text x="13" y="147">• 21 ejemplos</text>
+        <!-- card 2 -->
+        <rect x="147" y="52" width="122" height="112" rx="9" fill="#e3f1ef" stroke="#0f766e" stroke-width="1.4"/>
+        <rect x="147" y="52" width="122" height="28" rx="9" fill="#0f766e"/><rect x="147" y="70" width="122" height="10" fill="#0f766e"/>
+        <text x="156" y="71" fill="#fff" font-weight="600" font-size="10.5">2 · Columnas</text>
+        <text x="155" y="99">• 16 papeles</text><text x="155" y="115">• nombres en ES o EN</text><text x="155" y="131">• separador decimal</text><text x="155" y="147">• columnas → filas</text>
+        <!-- card 3 -->
+        <rect x="289" y="52" width="122" height="112" rx="9" fill="#e3f1ef" stroke="#0f766e" stroke-width="1.4"/>
+        <rect x="289" y="52" width="122" height="28" rx="9" fill="#0f766e"/><rect x="289" y="70" width="122" height="10" fill="#0f766e"/>
+        <text x="298" y="71" fill="#fff" font-weight="600" font-size="10.5">3 · Diseño</text>
+        <text x="297" y="99">• de apareamiento</text><text x="297" y="115">• de campo</text><text x="297" y="131">• razones y confianza</text><text x="297" y="147">• cruzas presentes</text>
+        <!-- card 4 -->
+        <rect x="431" y="52" width="122" height="112" rx="9" fill="#e3f1ef" stroke="#0f766e" stroke-width="1.4"/>
+        <rect x="431" y="52" width="122" height="28" rx="9" fill="#0f766e"/><rect x="431" y="70" width="122" height="10" fill="#0f766e"/>
+        <text x="440" y="71" fill="#fff" font-weight="600" font-size="10.5">4 · Calidad</text>
+        <text x="439" y="99">• tabla por ambiente</text><text x="439" y="115">• distribución</text><text x="439" y="131">• mapa de campo</text><text x="439" y="147">• valores atípicos</text>
+        <!-- card 5 -->
+        <rect x="573" y="52" width="122" height="112" rx="9" fill="#e3f1ef" stroke="#0f766e" stroke-width="1.4"/>
+        <rect x="573" y="52" width="122" height="28" rx="9" fill="#0f766e"/><rect x="573" y="70" width="122" height="10" fill="#0f766e"/>
+        <text x="582" y="71" fill="#fff" font-weight="600" font-size="10.5">5 · Análisis</text>
+        <text x="581" y="99">• ANOVA del diseño</text><text x="581" y="115">• medias ajustadas</text><text x="581" y="131">• supuestos y H²</text><text x="581" y="147">• análisis combinado</text>
+      </g>
+      <g stroke="#0f766e" stroke-width="1.6"><path d="M127 108 L 144 108" marker-end="url(#ft)"/><path d="M269 108 L 286 108" marker-end="url(#ft)"/><path d="M411 108 L 428 108" marker-end="url(#ft)"/><path d="M553 108 L 570 108" marker-end="url(#ft)"/></g>
+      <!-- towards the genetic blocks -->
+      <path d="M355 164 L 355 183" stroke="#0f766e" stroke-width="1.6" marker-end="url(#ft)"/>
+      <rect x="10" y="187" width="690" height="66" rx="14" fill="#f4f8f7" stroke="#0f766e" stroke-width="1.2"/>
+      <text x="355" y="205" text-anchor="middle" font-size="10" fill="#0b4f4a">Pasa a los bloques genéticos: medias ajustadas, error, diseño y observaciones excluidas</text>
+      <g font-size="9.2" fill="#fff" text-anchor="middle">
+        <rect x="45" y="216" width="75" height="23" rx="11.5" fill="#c2410c"/><text x="82.5" y="231">Griffing → B4</text>
+        <rect x="130" y="216" width="170" height="23" rx="11.5" fill="#b4234a"/><text x="215" y="231">Parciales, Carolinas y L × T → B6</text>
+        <rect x="310" y="216" width="90" height="23" rx="11.5" fill="#7e3fb0"/><text x="355" y="231">Generaciones → B7</text>
+        <rect x="410" y="216" width="135" height="23" rx="11.5" fill="#1d74b5"/><text x="477.5" y="231">Genotipos, 1 ambiente → B8</text>
+        <rect x="555" y="216" width="110" height="23" rx="11.5" fill="#4d7c0f"/><text x="610" y="231">Varios ambientes → B9</text>
+      </g>
+    </svg>
+    <figcaption><b>Figura 3.1.</b> Las cinco tarjetas del Bloque 3. Al final, el botón <span class="ui">Continuar</span> lleva al bloque que corresponde al diseño reconocido; los bloques 10 y 11 usan los mismos datos cuando hay pedigrí o marcadores.</figcaption>
+  </figure>
+
+  <p>A lo largo del capítulo se usa el ejemplo simulado <b>dialelo en látice α en tres localidades</b>: diez progenitores cruzados con el método 2 de Griffing (los 10 progenitores y sus 45 cruzas) más cinco testigos, en total 60 entradas, evaluadas en un látice α con bloques de seis parcelas, dos repeticiones y tres localidades (Chapultepec, Los Altos y Valle Verde). Es una libreta del Bloque 2 llenada con un modelo conocido: σ²<sub>ACG</sub> = 0.16, σ²<sub>ACE</sub> = 0.09, σ²<sub>bloques</sub> = 0.20 y σ²<sub>e</sub> = 0.36 (t/ha), de modo que se puede comparar lo estimado con lo verdadero. La calidad de los datos se ilustra con el dialelo de <i>Nicotiana rustica</i> de Hayman (1954), y la hoja de datos, con el dialelo de maíz 4 × 4.</p>
+
+  <!-- ====================================================================== 3.2 -->
+  <h2 id="s3-2"><span class="num">3.2</span>Cargar los datos</h2>
+  <p>La tarjeta <span class="ui">1 · Cargar datos</span> ofrece tres mosaicos y, debajo, la galería de ejemplos. La regla es la misma para cualquier fuente: <b>una fila por parcela (o por planta) y una columna por dato</b>. La primera fila con contenido lleva los nombres de las columnas, que pueden estar en español o en inglés.</p>
+
+  <figure>
+    <div class="marco"><img src="../img/b3-carga.png" alt="La tarjeta de carga con el ejemplo del látice alfa cargado"></div>
+    <figcaption><b>Figura 3.2.</b> La tarjeta 1 después de cargar el ejemplo del látice α. El recuadro <span class="ui">Sobre este ejemplo</span> dice de dónde vienen los datos y, en los simulados, con qué valores se generaron; la línea de abajo resume la fuente: 360 filas × 13 columnas y la declaración de diseño leída.</figcaption>
+  </figure>
+
+  <h3>Un archivo</h3>
+  <p>Arrastra el archivo al mosaico <span class="ui">Archivo</span> o haz clic en él para elegirlo. Se leen libros <code>.xlsx</code>, <code>.xls</code>, <code>.xlsm</code> y <code>.ods</code>, y textos <code>.csv</code>, <code>.tsv</code> y <code>.txt</code>. En un libro con varias hojas se abre la que tiene más datos y aparece el menú <span class="ui">Hoja del libro</span> para cambiar a otra. En un texto, el separador (coma, punto y coma o tabulador) se deduce de las primeras 30 líneas. Las filas vacías se ignoran, lo mismo que los renglones que empiezan con <code>#</code> antes de los encabezados, salvo la línea de declaración del Bloque 2 (más abajo).</p>
+  <div class="caja nota">
+    <div class="caja-t"><span class="ico">i</span>Nota · qué cuenta como dato faltante</div>
+    <p>Una celda vacía es un dato faltante, y también lo son <code>NA</code>, <code>N/A</code>, <code>NaN</code>, <code>null</code>, <code>.</code>, <code>..</code>, <code>-</code>, <code>--</code>, <code>?</code>, <code>*</code>, <code>missing</code>, <code>perdido</code>, <code>faltante</code>, <code>s/d</code>, <code>sd</code>, <code>nd</code>, <code>n.d.</code> y los errores de hoja de cálculo <code>#N/A</code>, <code>#VALUE!</code> y <code>#DIV/0!</code>, con mayúsculas o sin ellas. Si en una variable aparece otro texto (por ejemplo, <code>12.5a</code>), también se toma como faltante, y la tarjeta 2 avisa cuántos hubo y en qué fila está el primero.</p>
+  </div>
+
+  <h3>La hoja de datos</h3>
+  <p>El mosaico <span class="ui">Hoja de datos</span> abre una hoja de cálculo dentro de la app, para quien no tiene el archivo a la mano o prefiere pegar los datos. Se pega con <span class="ui">Ctrl</span>+<span class="ui">V</span> un bloque copiado de cualquier hoja de cálculo (o un texto separado por comas, punto y coma o tabuladores), o se escribe directamente. Las flechas, <span class="ui">Tab</span> y <span class="ui">Intro</span> mueven la selección; <span class="ui">F2</span> o un doble clic editan la celda; <span class="ui">Supr</span> borra; <span class="ui">Ctrl</span>+<span class="ui">Z</span> deshace. Los botones de arriba insertan o borran filas y columnas, añaden cien filas y ajustan el ancho. La hoja admite hasta 20&nbsp;000 filas y 5000 columnas.</p>
+  <figure class="media">
+    <div class="marco"><img src="../img/b3-hoja.png" alt="La hoja de datos con el dialelo de maíz 4 por 4"></div>
+    <figcaption><b>Figura 3.3.</b> La hoja de datos con el dialelo de maíz 4 × 4, abierta con <span class="ui">Corregir en la hoja de datos</span>. La primera fila lleva los nombres de las columnas.</figcaption>
+  </figure>
+  <p>Debajo de la hoja, <span class="ui">Guardar como</span> descarga su contenido en <code>.xlsx</code>, <code>.ods</code>, <code>.csv</code> (con coma o con punto y coma) o <code>.tsv</code>, con el nombre que escribas en <span class="ui">Nombre</span>. El botón <span class="ui">Usar estos datos →</span> manda la hoja a las tarjetas 2 a 5 igual que un archivo. Si el navegador no deja pegar en la cuadrícula, abre <span class="ui">¿No funciona pegar en este navegador?</span> y pega en el cuadro de texto que aparece.</p>
+  <div class="caja importante">
+    <div class="caja-t"><span class="ico">!</span>Importante · la hoja se guarda en este navegador</div>
+    <p>La hoja se guarda en el navegador cada vez que cambia (aparece un momento el aviso <i>guardada en este navegador</i>) y se recupera al abrirla de nuevo, aun después de cerrar la página. Es lo único de los datos que la app conserva: un archivo o un ejemplo cargado se pierde al recargar. Como el guardado es local, la hoja no pasa a otra computadora ni a otro navegador; para eso, descárgala. Cuando los datos vienen de la hoja, la tarjeta 4 marca en ella las filas de los valores atípicos, con el mismo número de renglón.</p>
+  </div>
+
+  <h3>La libreta del Bloque 2</h3>
+  <p>El mosaico <span class="ui">Libreta del Bloque 2</span> toma el plan y el croquis del Bloque 2 sin descargar nada (sección 2.8). Con la casilla <span class="ui">Al usar la libreta del Bloque 2, llenarla con valores simulados…</span> activada llega con un rendimiento simulado para practicar; sin ella, con la columna de rendimiento vacía. Toda libreta del Bloque 2, también la descargada y llenada a mano, empieza con una <b>línea de declaración</b> como esta, la del ejemplo:</p>
+  <code class="meta">#BreedingPro fieldbook, mating=griffing, method=2, field=alpha, reps=2, k=6, locations=3, entries=60, seed=4242, F=1</code>
+  <p>El Bloque 3 toma de ella el diseño de apareamiento, el método y el diseño de campo (<code>mating</code>, <code>method</code> y <code>field</code>) sin tener que deducirlos; los demás datos son informativos. Si la hoja de cálculo repartió la línea en varias celdas, se vuelve a unir. Conviene no borrarla.</p>
+
+  <h3>Los ejemplos</h3>
+  <p>La galería <span class="ui">Ejemplos publicados y simulados</span> tiene 21 conjuntos de datos. Los botones de arriba los filtran por familia (<span class="ui">Dialelos</span>, <span class="ui">Parciales</span>, <span class="ui">Carolina del Norte</span>, <span class="ui">Línea × probador</span>, <span class="ui">Generaciones</span>, <span class="ui">Genotipos y variables</span> y <span class="ui">Multiambiente</span>). Cada tarjeta muestra el título, el diseño, el tamaño, la primera cita y una etiqueta: <span class="ui">CC BY-NC 4.0</span>, <span class="ui">datos publicados</span> o <span class="ui">simulado</span>. Al cargar uno, el recuadro <span class="ui">Sobre este ejemplo</span> da todas sus fuentes y, en los simulados, los valores verdaderos. Los ejemplos se leen exactamente igual que un archivo del usuario; la tabla 3.4 resume lo que el Bloque 3 reconoce en cada uno.</p>
+  <div class="caja dato">
+    <div class="dato-cifra">21</div>
+    <div class="dato-txt"><div class="caja-t">Dato clave</div>conjuntos de datos listos para practicar: 17 publicados y 4 simulados. Los publicados salen de artículos de acceso abierto (CC BY-NC 4.0: uso no comercial y con atribución), de copias abiertas con licencia CC BY 4.0 o de transcripciones distribuidas con licencia GPL; el de las seis generaciones de <i>N. rustica</i> se reconstruyó planta por planta con el número, la media y la varianza publicados de cada generación. <b>Si publicas algo hecho con un ejemplo, cita la obra original.</b></div>
+  </div>
+
+  <!-- ====================================================================== 3.3 -->
+  <h2 id="s3-3"><span class="num">3.3</span>El papel de cada columna</h2>
+  <p>La tarjeta <span class="ui">2 · Columnas</span> muestra las primeras ocho filas de la tabla con un menú encima de cada columna. La app propone el papel de cada una a partir de su nombre y su contenido; tú corriges el que haga falta y todo se recalcula al momento. Bajo cada nombre se lee si la columna es numérica o de texto, cuántos valores distintos tiene, cuántas celdas vacías y, si la detecta, la coma decimal. Una franja de color agrupa los papeles: azul para el diseño de campo, morado para el genotipo y el pedigrí, verde para las variables respuesta y gris claro para lo que se ignora.</p>
+
+  <h3>Cómo propone los papeles</h3>
+  <ol class="pasos">
+    <li><b>Por el nombre.</b> Si el nombre coincide con uno de la tabla 3.1, la columna toma ese papel.</li>
+    <li><b>Por el contenido.</b> Si no coincide, una columna con 90&nbsp;% o más de números es una variable respuesta; las demás se ignoran.</li>
+    <li><b>Un papel, una columna.</b> Salvo las variables, la localidad y el año, cada papel lo tiene una sola columna. Si dos lo piden, se queda la primera; en las entradas, la de texto, que suele ser el nombre (en el ejemplo, <i>Genotipo</i> sobre <i>Entrada</i>). La localidad y el año pueden ser varias columnas, que se unen para formar el ambiente.</li>
+    <li><b>Sin columna de entradas</b> ni de progenitores, la primera columna de texto ignorada con dos o más valores pasa a nombrar las entradas.</li>
+  </ol>
+  <p>Los ejemplos traen sus papeles fijados. En tus datos, revisa la lista antes de seguir: si falta la columna de entradas, la tarjeta lo dice en rojo y las tarjetas 3 a 5 no aparecen hasta corregirlo.</p>
+
+  <figure>
+    <div class="marco"><img src="../img/b3-columnas.png" alt="La tarjeta de columnas con los papeles propuestos para el látice alfa"></div>
+    <figcaption><b>Figura 3.4.</b> La tarjeta 2 con el ejemplo del látice α. <span class="ui">Entrada</span>, un número de orden, quedó en <span class="ui">Ignorar</span> porque <span class="ui">Genotipo</span> ya nombra las entradas; a la derecha, fuera del recorte, siguen <span class="ui">Macho</span>, <span class="ui">Tipo</span> y las dos variables.</figcaption>
+  </figure>
+
+  <table class="compacta">
+    <caption><b>Tabla 3.1.</b> Los 16 papeles y algunos de los nombres que la app reconoce. Los nombres se comparan sin acentos, mayúsculas, espacios ni signos: <i>Rep.</i>, <i>REP</i> y <i>Repetición</i> son lo mismo, y <i>No. parcela</i> equivale a <i>NoParcela</i>.</caption>
+    <thead><tr><th style="width:23%">Papel</th><th>Nombres reconocidos (ejemplos)</th><th style="width:33%">Para qué sirve</th></tr></thead>
+    <tbody>
+      <tr><td><span class="ui">Variable respuesta</span></td><td>cualquier columna con 90&nbsp;% o más de números y sin otro papel</td><td>Lo que se analiza; puede haber varias</td></tr>
+      <tr><td><span class="ui">Localidad / ambiente</span></td><td>localidad, ambiente, sitio, lugar, ensayo, experimento, estación, loc, env, location, environment, site, trial</td><td>Separa los ambientes</td></tr>
+      <tr><td><span class="ui">Año / ciclo</span></td><td>año, ciclo, temporada, campaña, year, season, cycle</td><td>Se une a la localidad: cada localidad × año es un ambiente</td></tr>
+      <tr><td><span class="ui">Repetición</span></td><td>repetición, rep, r, réplica, bloque completo, replicate, replication</td><td>Repeticiones completas</td></tr>
+      <tr><td><span class="ui">Bloque (incompleto)</span></td><td>bloque, subbloque, bloque incompleto, block, iblock, blk</td><td>Bloques dentro de cada repetición, o bloques a secas</td></tr>
+      <tr><td><span class="ui">Parcela</span></td><td>parcela, unidad experimental, plot, plot number, unit</td><td>Identifica la parcela; si se repite, las filas son plantas</td></tr>
+      <tr><td><span class="ui">Fila</span> · <span class="ui">Columna</span></td><td>fila, hilera, rango, row, range · columna, pase, col, column, tier</td><td>Posición en el campo: mapa y diseño de filas y columnas</td></tr>
+      <tr><td><span class="ui">Entrada / genotipo</span></td><td>genotipo, entrada, tratamiento, variedad, cruza, híbrido, familia, clon, material, accesión, cultivar, nombre, código, genotype, entry, variety, cross</td><td>El nombre de la entrada</td></tr>
+      <tr><td><span class="ui">Hembra / línea / progenitor 1</span></td><td>hembra, madre, línea, progenitor 1, planta F<sub>2</sub>, female, dam, mother, line, parent 1</td><td>Progenitor femenino, la línea o la planta F<sub>2</sub></td></tr>
+      <tr><td><span class="ui">Macho / probador / progenitor 2</span></td><td>macho, padre, probador, progenitor 2, male, sire, father, tester, parent 2</td><td>Progenitor masculino o probador</td></tr>
+      <tr><td><span class="ui">Conjunto</span></td><td>conjunto, set</td><td>Conjuntos de las Carolinas del Norte</td></tr>
+      <tr><td><span class="ui">Generación</span></td><td>generación, filial, generation</td><td>P<sub>1</sub>, P<sub>2</sub>, F<sub>1</sub>, F<sub>2</sub>, retrocruzas…</td></tr>
+      <tr><td><span class="ui">Tipo de entrada</span></td><td>tipo, clase, categoría, tipo de entrada, type, class, category</td><td>Testigo, progenitor, recíproca, línea, probador…</td></tr>
+      <tr><td><span class="ui">Planta / individuo</span></td><td>planta, individuo, progenie, plántula, árbol, muestra, plant, individual, tree, sample</td><td>Datos por planta</td></tr>
+      <tr><td><span class="ui">Ignorar</span></td><td>lo que no encaja en ningún papel y no es numérico</td><td>Notas, fechas, números de orden</td></tr>
+    </tbody>
+  </table>
+
+  <div class="caja importante">
+    <div class="caja-t"><span class="ico">!</span>Importante · un número de identificación se toma por variable</div>
+    <p>Una columna numérica con un nombre que la app no reconoce (<i>Lote</i>, <i>Surco</i>, <i>Clave</i>) se propone como variable respuesta y se analizaría como si fuera un carácter. Pásala a <span class="ui">Ignorar</span> o dale su papel. Lo mismo al revés: una variable con nombre de papel, como una columna <i>Tipo</i> que en realidad mide algo, hay que marcarla como <span class="ui">Variable respuesta</span>.</p>
+  </div>
+
+  <h3>Progenitores, cruzas y tipos de entrada</h3>
+  <p>El pedigrí puede venir de tres maneras, y la app las reconoce todas:</p>
+  <ul>
+    <li><b>Columnas de hembra y macho.</b> Cada fila dice sus dos progenitores. Si además hay una columna de entradas con números que corresponden uno a uno con el pedigrí, la entrada se nombra por su pedigrí (<i>L1 × L2</i>) y el número se conserva; así lee el Bloque 3 el dialelo de maíz 4 × 4 de la figura 3.3.</li>
+    <li><b>La cruza escrita en el nombre.</b> Sin columnas de progenitores, nombres como <i>A × B</i>, <i>A x B</i>, <i>A/B</i>, <i>A*B</i> o códigos compactos como <i>1x3</i> se separan en hembra y macho, siempre que al menos la mitad de los nombres sean cruzas y los progenitores se repitan entre ellas; un nombre igual a un progenitor es ese progenitor. La tarjeta avisa: <i>Los nombres de las cruzas se separaron en hembra y macho</i>. Así se lee el dialelo parcial de maíz.</li>
+    <li><b>Una columna de generación</b> (o de tipo, o los propios nombres de las entradas) con los códigos P1, P2, F1, F2, F3, BC1 y BC2 (también RC1, RC2, B1, B2), RF1 para la F<sub>1</sub> recíproca y BC1S y BC2S para las retrocruzas autofecundadas.</li>
+  </ul>
+  <p>El <b>tipo de cada entrada</b> sale de la columna <span class="ui">Tipo de entrada</span> cuando la hay (testigo, check o control; progenitor o parental; recíproca; línea; probador; F<sub>1</sub>, cruza o híbrido). Si no la hay, se deduce del pedigrí: hembra igual al macho es un progenitor, hembra distinta del macho es una F<sub>1</sub>, y una entrada sin progenitores en unos datos con cruzas es un testigo.</p>
+  <p>En las Carolinas del Norte y la línea × probador, hembras y machos son plantas o líneas distintas aunque compartan código (<i>1 × 1</i> es una cruza, no un progenitor): la app los marca con ♀ y ♂ y lo avisa. Si los códigos se repiten entre conjuntos, se les antepone el conjunto (<i>S1·3</i>).</p>
+
+  <h3>Separador decimal y reorganizar la tabla</h3>
+  <p>El menú <span class="ui">Separador decimal</span> vale <span class="ui">automático</span> por omisión: cada columna usa coma decimal si tiene más valores del tipo <i>12,5</i> o <i>1.234,5</i> que del tipo <i>12.5</i>. Elige <span class="ui">punto (12.5)</span> o <span class="ui">coma (12,5)</span> para imponerlo a todas.</p>
+  <p>Algunos datos llegan <b>a lo ancho</b>: una columna por repetición o por ambiente. El botón <span class="ui">Columnas → filas…</span> los pasa a lo largo. Marca las columnas que son repeticiones de una misma variable (las llamadas <i>R1</i>, <i>Rep2</i>, <i>B3</i>, <i>E1</i> o <i>Loc2</i> ya vienen marcadas), escribe el nombre del factor nuevo y el de la variable, y pulsa <span class="ui">Apilar</span>. Los nombres del tipo <i>E1B2</i> o <i>Loc1_Rep2</i> se separan en dos factores.</p>
+  <figure>
+    <div class="rejilla ancha" style="grid-template-columns: 1fr auto 1fr">
+      <table class="compacta mini">
+        <thead><tr><th>Genotipo</th><th class="n">R1</th><th class="n">R2</th><th class="n">R3</th></tr></thead>
+        <tbody><tr><td>A</td><td class="n">5.2</td><td class="n">4.9</td><td class="n">5.6</td></tr><tr><td>B</td><td class="n">6.1</td><td class="n">6.4</td><td class="n">5.8</td></tr><tr><td>…</td><td></td><td></td><td></td></tr></tbody>
+      </table>
+      <div class="flecha-larga">→</div>
+      <table class="compacta mini">
+        <thead><tr><th>Genotipo</th><th class="c">Repetición</th><th class="n">Rendimiento</th></tr></thead>
+        <tbody><tr><td>A</td><td class="c">1</td><td class="n">5.2</td></tr><tr><td>A</td><td class="c">2</td><td class="n">4.9</td></tr><tr><td>A</td><td class="c">3</td><td class="n">5.6</td></tr><tr><td>…</td><td></td><td></td></tr></tbody>
+      </table>
+    </div>
+    <figcaption><b>Figura 3.5.</b> <span class="ui">Columnas → filas…</span> apila las columnas R1 a R3 en una sola variable con el factor nuevo <i>Repetición</i>; la columna <i>Genotipo</i> se repite en cada fila.</figcaption>
+  </figure>
+  <p>Si la tabla es un <b>dialelo en forma de matriz</b> (un progenitor por fila, los mismos progenitores como encabezados de columna y un valor en cada celda), aparece además <span class="ui">Tabla dialélica → filas</span>, que la convierte en tres columnas: hembra, macho y valor. <span class="ui">Deshacer la reorganización</span> regresa a la tabla original. Por último, <span class="ui">Corregir en la hoja de datos</span> abre la tabla cargada en la hoja de datos para arreglar un valor en su origen; después, <span class="ui">Usar estos datos →</span> la vuelve a cargar.</p>
+
+  <!-- ====================================================================== 3.4 -->
+  <h2 id="s3-4"><span class="num">3.4</span>El diseño reconocido</h2>
+  <p>La tarjeta <span class="ui">3 · Diseño reconocido</span> dice qué experimento cree la app que tienes. Seis recuadros lo resumen: el diseño de apareamiento con su grado de confianza (alta, media o baja; <i>declarado</i> si vino en la línea de declaración y <i>elegido</i> si lo cambiaste tú), las entradas con sus progenitores y testigos, el diseño de campo, los ambientes, las repeticiones con las parcelas por ambiente y las variables. Debajo, una lista explica <b>por qué</b> se llegó a cada conclusión y señala lo que falta o sobra.</p>
+
+  <h3>El diseño de apareamiento</h3>
+  <p>La app revisa las reglas de la tabla 3.2 en orden y se queda con la primera que se cumple. En un dialelo, el método depende de si hay progenitores (al menos la mitad) y recíprocas (en al menos la mitad de los pares): con ambos, método 1; solo progenitores, 2; solo recíprocas, 3; ninguno, 4.</p>
+
+  <table class="compacta">
+    <caption><b>Tabla 3.2.</b> Cómo se reconoce el diseño de apareamiento, regla por regla.</caption>
+    <thead><tr><th style="width:5%" class="c">#</th><th>Si en los datos…</th><th style="width:27%">entonces</th></tr></thead>
+    <tbody>
+      <tr><td class="c">1</td><td>tres o más entradas, y al menos 60&nbsp;% de ellas, son códigos de generación</td><td>Medias generacionales</td></tr>
+      <tr><td class="c">2</td><td>no hay ninguna cruza con sus dos progenitores</td><td>Ensayo de genotipos</td></tr>
+      <tr><td class="c">3</td><td>los probadores son P<sub>1</sub> y P<sub>2</sub> (o P<sub>1</sub>, P<sub>2</sub> y F<sub>1</sub>) y hay cuatro o más plantas que se cruzan con ellos</td><td>Carolina del Norte III (con tres probadores, cruza triple de prueba)</td></tr>
+      <tr><td class="c">4</td><td>no hay conjuntos y los mismos nombres aparecen como hembra y como macho, o hay tres o más progenitores autofecundados</td><td>Dialelo: de Griffing si están 90&nbsp;% o más de los pares; parcial si no</td></tr>
+      <tr><td class="c">5</td><td>cada macho tiene sus propias hembras (anidadas) y cada hembra un solo macho</td><td>Carolina del Norte I</td></tr>
+      <tr><td class="c">6</td><td>hay tipos <i>línea</i> o <i>probador</i>, los encabezados dicen línea o probador, o hay hasta cinco machos y al menos el doble de hembras</td><td>Línea × probador</td></tr>
+      <tr><td class="c">7</td><td>ninguna de las anteriores</td><td>Carolina del Norte II (factorial)</td></tr>
+    </tbody>
+  </table>
+  <p>En el dialelo parcial, la app comprueba si cada progenitor entra en el mismo número <i>s</i> de cruzas y en el orden circulante de Kempthorne y Curnow (1961); si es así lo dice, y si no, advierte que el análisis será por mínimos cuadrados. La <b>confianza baja a media</b> cuando faltan entradas del diseño completo, cuando el parcial no es circulante, cuando faltan cruzas del factorial, cuando las hembras de una Carolina del Norte II repiten códigos entre machos (quizá sea una I) o cuando la Carolina del Norte III o la cruza triple tienen menos de 20 plantas.</p>
+
+  <figure>
+    <div class="marco"><img src="../img/b3-diseno.png" alt="Los recuadros del diseño reconocido y los menús para cambiarlo"></div>
+    <figcaption><b>Figura 3.6.</b> El diseño reconocido en el látice α. La línea de declaración fijó el método 2 (<i>confianza alta · declarado</i>); las razones dicen de dónde sale cada conclusión y los dos menús de abajo permiten cambiarla.</figcaption>
+  </figure>
+
+
+  <h3>El diseño de campo</h3>
+  <p>El diseño de campo se reconoce <b>en cada ambiente por separado</b>, con las reglas de la tabla 3.3. Si los ambientes difieren, el recuadro dice <i>distinto entre ambientes</i> y el análisis combinado usa solo las repeticiones.</p>
+  <table class="compacta">
+    <caption><b>Tabla 3.3.</b> Cómo se reconoce el diseño de campo en un ambiente.</caption>
+    <thead><tr><th style="width:24%">Situación</th><th>Si además…</th><th style="width:30%">entonces</th></tr></thead>
+    <tbody>
+      <tr><td rowspan="3">Dos o más repeticiones</td><td>unas pocas entradas están en todas y el resto una sola vez (menos de 60&nbsp;% de las celdas llenas)</td><td>Bloques aumentados</td></tr>
+      <tr><td>hay más bloques que repeticiones y el bloque mayor ocupa menos de 75&nbsp;% de una repetición</td><td>Látice α (bloques incompletos resolubles)</td></tr>
+      <tr><td>en cualquier otro caso</td><td>Bloques completos al azar</td></tr>
+      <tr><td rowspan="4">Sin repeticiones, con dos o más bloques</td><td>todos los bloques tienen todas las entradas</td><td>Bloques completos al azar (los bloques hacen de repeticiones)</td></tr>
+      <tr><td>hay testigos en todos los bloques y el resto aparece una vez</td><td>Bloques aumentados</td></tr>
+      <tr><td>las entradas se repiten</td><td>Bloques incompletos</td></tr>
+      <tr><td>nada se repite</td><td>Sin repeticiones: no hay error</td></tr>
+      <tr><td rowspan="2">Sin repeticiones ni bloques</td><td>las entradas se repiten, o hay datos por planta</td><td>Completamente al azar</td></tr>
+      <tr><td>hay un solo valor por entrada</td><td>Medias por entrada</td></tr>
+    </tbody>
+  </table>
+  <p>El diseño de <b>filas y columnas</b> nunca se elige solo: si las parcelas tienen fila y columna y quieres usarlas en el modelo, elígelo en el menú. La tarjeta también avisa de otros problemas de campo: combinaciones repetición × entrada que faltan (se usan mínimos cuadrados ajustados), una parcela que aparece varias veces sin ser datos por planta (se promedia) y una parcela con dos entradas distintas, que es un error y hay que corregir.</p>
+
+  <h3>Cambiar lo reconocido</h3>
+  <p>Si algo no coincide con tu experimento, cámbialo en los menús <span class="ui">Diseño de apareamiento</span> (automático, Griffing 1 a 4, dialelo parcial, las tres Carolinas del Norte, cruza triple, línea × probador, medias generacionales o ensayo de genotipos) y <span class="ui">Diseño de campo</span> (automático o uno de los siete diseños). El cambio se marca como <i>elegido</i> y todo lo que sigue se recalcula. Casos típicos: una Carolina del Norte II que en realidad es una I porque cada macho tiene sus propias hembras, o un ensayo con fila y columna que quieres analizar en filas y columnas.</p>
+
+  <h3>Cruzas presentes, entradas que faltan y entradas reconocidas</h3>
+  <p>La figura <span class="ui">Cruzas presentes en los datos</span> dibuja la tabla del diseño: hembra × macho en los dialelos y la Carolina del Norte II, macho × hembra en la I, planta F<sub>2</sub> × probador en la III y la cruza triple, línea × probador en la línea × probador. Cada celda se colorea por el número de parcelas o, con <span class="ui">Color según</span>, por la media de la variable; los progenitores llevan un borde, y una cruza que el diseño espera pero no está en los datos se marca con una ×, con la leyenda <i>falta en los datos</i>.</p>
+  <figure class="chica">
+    <div class="marco"><img src="../img/b3-presencia.png" alt="La tabla hembra por macho con las cruzas presentes del método 2"></div>
+    <figcaption><b>Figura 3.7.</b> Las cruzas presentes en el látice α: el método 2 ocupa la diagonal (progenitores, con borde) y el triángulo de arriba. Cada cruza está en 6 parcelas: 2 repeticiones × 3 localidades.</figcaption>
+  </figure>
+  <p>Si el diseño está incompleto, el recuadro <span class="ui">Entradas que faltan en el diseño</span> enumera las cruzas, los progenitores, las recíprocas o las generaciones que faltan. Al final, <span class="ui">Entradas reconocidas</span> (plegado) lista cada entrada con su hembra, su macho, su tipo y su número de registros: es la forma más rápida de comprobar que el pedigrí se leyó bien.</p>
+
+  <h3>Lo que se reconoce en los ejemplos</h3>
+  <p>La tabla 3.4 sirve como comprobación del reconocimiento y como guía para elegir un ejemplo parecido a tus datos.</p>
+  <table class="compacta ejemplos">
+    <caption><b>Tabla 3.4.</b> Lo que el Bloque 3 reconoce en los 21 ejemplos. BCA: bloques completos al azar; CA: completamente al azar. <i>Atípicos</i>: en la primera variable.</caption>
+    <thead><tr><th>Ejemplo</th><th>Apareamiento</th><th>Campo</th><th class="c">Amb.</th><th class="c">Atípicos</th><th class="c">Sigue</th></tr></thead>
+    <tbody>
+      <tr><td>Maíz: dialelo completo 4 × 4</td><td>Griffing, método 1</td><td>BCA</td><td class="c">1</td><td class="c">1</td><td class="c"><span class="chip k4">4</span></td></tr>
+      <tr><td><i>N. rustica</i>: dialelo 8 × 8 de Hayman</td><td>Griffing, método 1</td><td>BCA</td><td class="c">1</td><td class="c">2</td><td class="c"><span class="chip k4">4</span></td></tr>
+      <tr><td>Dialelo completo 8 × 8 (libro de texto)</td><td>Griffing, método 1</td><td>BCA</td><td class="c">1</td><td class="c">0</td><td class="c"><span class="chip k4">4</span></td></tr>
+      <tr><td>Dialelo con progenitores en dos ambientes</td><td>Griffing, método 2</td><td>BCA</td><td class="c">2</td><td class="c">0</td><td class="c"><span class="chip k4">4</span></td></tr>
+      <tr><td>Maíz: medias de 36 cruzas simples</td><td>Griffing, método 4</td><td>medias</td><td class="c">1</td><td class="c">—</td><td class="c"><span class="chip k4">4</span></td></tr>
+      <tr><td>Cruzas entre variedades de maíz</td><td>Griffing, método 2</td><td>medias</td><td class="c">1</td><td class="c">—</td><td class="c"><span class="chip k4">4</span></td></tr>
+      <tr><td>Maíz: dialelo parcial de 8 líneas</td><td>parcial circulante, <i>s</i> = 5</td><td>BCA</td><td class="c">1</td><td class="c">0</td><td class="c"><span class="chip k6">6</span></td></tr>
+      <tr><td>Carolina del Norte I</td><td>Carolina del Norte I</td><td>BCA, por planta</td><td class="c">1</td><td class="c">0</td><td class="c"><span class="chip k6">6</span></td></tr>
+      <tr><td>Papa: Carolina del Norte II</td><td>Carolina del Norte II (♀ y ♂)</td><td>BCA</td><td class="c">1</td><td class="c">0</td><td class="c"><span class="chip k6">6</span></td></tr>
+      <tr><td>Carolina del Norte III</td><td>Carolina del Norte III, confianza media</td><td>BCA</td><td class="c">1</td><td class="c">0</td><td class="c"><span class="chip k6">6</span></td></tr>
+      <tr><td>Simulado: cruza triple de prueba</td><td>cruza triple de prueba</td><td>BCA</td><td class="c">1</td><td class="c">0</td><td class="c"><span class="chip k6">6</span></td></tr>
+      <tr><td>Línea × probador con progenitores</td><td>línea × probador</td><td>BCA</td><td class="c">1</td><td class="c">0</td><td class="c"><span class="chip k6">6</span></td></tr>
+      <tr><td>Maíz: 13 híbridos y 15 variables</td><td>ensayo de genotipos</td><td>BCA</td><td class="c">1</td><td class="c">1</td><td class="c"><span class="chip k8">8</span></td></tr>
+      <tr><td>Maíz: 13 híbridos en 4 ambientes</td><td>ensayo de genotipos</td><td>BCA</td><td class="c">4</td><td class="c">1</td><td class="c"><span class="chip k9">9</span></td></tr>
+      <tr><td>Avena: 10 genotipos en 14 ambientes</td><td>ensayo de genotipos</td><td>BCA</td><td class="c">14</td><td class="c">2</td><td class="c"><span class="chip k9">9</span></td></tr>
+      <tr><td>Papa: 28 clones en 6 localidades</td><td>ensayo de genotipos</td><td>BCA</td><td class="c">6</td><td class="c">2</td><td class="c"><span class="chip k9">9</span></td></tr>
+      <tr><td>Medias de 17 genotipos en 12 ambientes</td><td>ensayo de genotipos</td><td>medias</td><td class="c">12</td><td class="c">—</td><td class="c"><span class="chip k9">9</span></td></tr>
+      <tr><td>Simulado: líneas endogámicas con pedigrí</td><td>ensayo de genotipos</td><td>BCA</td><td class="c">3</td><td class="c">0</td><td class="c"><span class="chip k9">9</span></td></tr>
+      <tr><td>Simulado: dialelo en látice α</td><td>Griffing, método 2 (declarado)</td><td>látice α</td><td class="c">3</td><td class="c">0</td><td class="c"><span class="chip k4">4</span></td></tr>
+      <tr><td><i>N. rustica</i>: seis generaciones</td><td>medias generacionales</td><td>CA, cada planta una unidad</td><td class="c">1</td><td class="c">0</td><td class="c"><span class="chip k7">7</span></td></tr>
+      <tr><td>Simulado: medias generacionales por planta</td><td>medias generacionales</td><td>BCA, por planta</td><td class="c">1</td><td class="c">0 (1 a revisar)</td><td class="c"><span class="chip k7">7</span></td></tr>
+    </tbody>
+  </table>
+
+  <!-- ====================================================================== 3.5 -->
+  <h2 id="s3-5"><span class="num">3.5</span>La calidad de los datos</h2>
+  <p>La tarjeta <span class="ui">4 · Calidad de los datos</span> revisa una variable a la vez; el menú <span class="ui">Variable</span> de la esquina cambia de una a otra. Tiene cuatro partes: un resumen por ambiente, la distribución, el mapa de campo y la lista de valores atípicos. El resumen da, para cada ambiente (y para todos juntos si hay varios), los registros, los faltantes, los excluidos, la media, la desviación estándar, el coeficiente de variación, el mínimo, el máximo y la asimetría.</p>
+
+  <figure class="media">
+    <div class="marco"><img src="../img/b3-calidad.png" alt="Resumen, distribución y mapa de campo del dialelo de Hayman"></div>
+    <figcaption><b>Figura 3.8.</b> La tarjeta 4 con el dialelo de Hayman (días a floración). Los puntos rojos son las dos parcelas de D × A marcadas como atípicas; el recuadro rojo del mapa señala su posición, la misma en las dos repeticiones.</figcaption>
+  </figure>
+
+  <p>La <b>distribución por ambiente</b> es un diagrama de caja con las observaciones encima (se pueden ocultar) y un rombo en la media; los valores señalados como atípicos se pintan de rojo. El <b>mapa de campo</b> coloca cada parcela en su sitio: por fila y columna si los datos las tienen y, si no, en el orden de las filas dentro de cada repetición. El menú <span class="ui">Color</span> cambia entre el <span class="ui">valor observado</span> y el <span class="ui">residual estandarizado</span> del modelo del diseño; el segundo, en una escala divergente, deja ver manchas del terreno (residuales del mismo signo agrupados) que los bloques no absorbieron. Las parcelas sospechosas llevan un borde rojo en ambos.</p>
+
+  <h3>Valores atípicos</h3>
+  <p>Cada observación se compara con lo que predice el modelo del diseño (por ejemplo, repetición + entrada en bloques completos), por medio de su residual estudentizado externamente. Dos niveles: <b>atípico</b>, si la prueba de Bonferroni da <i>p</i> &lt; 0.05, y <b>revisar</b>, si |<i>t</i>| ≥ 3.5 sin llegar a ese umbral. La tabla da el ambiente, la entrada, la repetición o el bloque, el valor, el valor ajustado, <i>t</i>, <i>p</i> y las filas del archivo donde está.</p>
+  <div class="caja importante">
+    <div class="caja-t"><span class="ico">!</span>Importante · con dos repeticiones los atípicos salen en pares</div>
+    <p>En bloques completos con dos repeticiones, los dos residuales de una entrada son iguales y de signo contrario: si una parcela es anormal, su pareja sale marcada con el mismo |<i>t</i>|. Es lo que pasa con D × A (<i>t</i> = −4.68 y +4.68). La estadística no puede decir cuál de las dos está mal; lo dice la libreta de campo.</p>
+  </div>
+  <figure>
+    <div class="marco"><img src="../img/b3-atipicos.png" alt="La tabla de valores atípicos del dialelo de Hayman"></div>
+    <figcaption><b>Figura 3.9.</b> Los dos valores atípicos del dialelo de Hayman: la cruza D × A floreció a los 204 días en la repetición 2 y a los 318 en la 1, cuando el modelo esperaba unos 260.</figcaption>
+  </figure>
+  <div class="caja teoria">
+    <div class="caja-t"><span class="ico">θ</span>Teoría en breve · residuales estudentizados y Bonferroni</div>
+    <div class="formula" style="margin-bottom:0.04in"><i>t<sub>i</sub></i> = <i>e<sub>i</sub></i> / [<i>s</i><sub>(<i>i</i>)</sub> √(1 − <i>h<sub>ii</sub></i>)] &nbsp;·&nbsp; <i>p</i><sub>Bonferroni</sub> = mín(1, <i>n</i> · <i>p<sub>i</sub></i>)</div>
+    <p><i>e<sub>i</sub></i> es el residual de la parcela <i>i</i>, <i>h<sub>ii</sub></i> su palanca y <i>s</i><sub>(<i>i</i>)</sub> la desviación estándar del error estimada <b>sin</b> esa parcela, de modo que un valor muy raro no infla la escala con que se le juzga. <i>t<sub>i</sub></i> sigue una <i>t</i> con los grados de libertad del error menos uno; como se prueban las <i>n</i> parcelas a la vez, el valor <i>p</i> se multiplica por <i>n</i> (Cook y Weisberg, 1982). Así, en un ensayo de 128 parcelas se esperan, por puro azar, menos de 0.05 falsos atípicos en total, no seis.</p>
+  </div>
+  <p>La casilla <span class="ui">Excluir</span> saca la observación de <b>todos</b> los análisis: los de este bloque, los de los bloques genéticos y el informe, donde las filas excluidas aparecen en gris. Úsala solo cuando hay un error comprobado (de captura, de medición o una parcela dañada), no porque un valor estorbe. <span class="ui">Restaurar todas las observaciones excluidas</span> las regresa de una vez, y la nota de abajo dice cuántas hay fuera.</p>
+
+  <!-- ====================================================================== 3.6 -->
+  <h2 id="s3-6"><span class="num">3.6</span>El análisis de cada ambiente</h2>
+  <p>La tarjeta <span class="ui">5 · Análisis del diseño de campo</span> ajusta a cada ambiente el modelo que corresponde a su diseño (tabla 3.5) y entrega las medias ajustadas de las entradas. El menú <span class="ui">Ambiente</span> elige el ambiente o, si hay varios, el <span class="ui">Análisis combinado</span> (sección 3.7), que es lo que se muestra al cargar los datos.</p>
+  <p>Con conjuntos (Carolinas del Norte I y II), el modelo añade conjunto y repetición dentro de conjunto. En el látice α y los bloques incompletos, el análisis de varianza es intrabloque (sumas de cuadrados secuenciales, con las entradas ajustadas por bloques), pero las medias se estiman con los bloques como efectos aleatorios por máxima verosimilitud restringida (REML; Patterson y Thompson, 1971), que recupera la información entre bloques. Si el ajuste REML no es posible, las medias quedan intrabloque y la tarjeta lo avisa.</p>
+  <table class="compacta">
+    <caption><b>Tabla 3.5.</b> El modelo de cada diseño de campo. <i>y</i> es el valor de la parcela (la media de sus plantas cuando hay datos por planta).</caption>
+    <thead><tr><th style="width:21%">Diseño</th><th>Modelo</th><th style="width:25%">Medias ajustadas</th></tr></thead>
+    <tbody>
+      <tr><td>Completamente al azar</td><td><i>y</i> = μ + entrada + <i>e</i></td><td>mínimos cuadrados</td></tr>
+      <tr><td>Bloques completos al azar</td><td><i>y</i> = μ + repetición + entrada + <i>e</i>; prueba de no aditividad de Tukey (1949)</td><td>mínimos cuadrados</td></tr>
+      <tr><td>Látice α</td><td><i>y</i> = μ + repetición + bloque(repetición) + entrada + <i>e</i>; entradas ajustadas por bloques</td><td>REML, bloques aleatorios</td></tr>
+      <tr><td>Bloques incompletos</td><td><i>y</i> = μ + bloque + entrada + <i>e</i></td><td>REML, bloques aleatorios</td></tr>
+      <tr><td>Bloques aumentados</td><td><i>y</i> = μ + bloque + entrada + <i>e</i>, bloques fijos estimados con los testigos (Federer, 1956)</td><td>mínimos cuadrados, ajustadas por bloque</td></tr>
+      <tr><td>Filas y columnas</td><td><i>y</i> = μ + repetición + fila(rep.) + columna(rep.) + entrada + <i>e</i></td><td>REML, filas y columnas aleatorias</td></tr>
+      <tr><td>Medias por entrada</td><td>un valor por entrada; el error viene de fuera (sección 3.8)</td><td>las medias observadas</td></tr>
+    </tbody>
+  </table>
+
+  <figure>
+    <div class="marco"><img src="../img/b3-analisis.png" alt="Recuadros, análisis de varianza y supuestos de Chapultepec en el látice alfa"></div>
+    <figcaption><b>Figura 3.10.</b> La tarjeta 5 en Chapultepec, una de las tres localidades del látice α: recuadros de resumen, análisis de varianza intrabloque y tabla de supuestos y calidad del ensayo.</figcaption>
+  </figure>
+
+  <h3>Los recuadros</h3>
+  <p>El recuadro <span class="ui">Modelo</span> dice el diseño y cómo se obtuvieron las medias; <span class="ui">Media general</span>, cuántas parcelas (o plantas, o medias) entraron. El <span class="ui">Coeficiente de variación</span> trae el cuadrado medio del error (CME) y sus grados de libertad; la <span class="ui">DMS (5&nbsp;%)</span>, el error estándar promedio de una diferencia entre dos medias. La <span class="ui">Heredabilidad del ensayo</span> da la de Cullis, Smith y Coombes (2006) y la estándar. En los diseños con bloques incompletos aparecen además la <span class="ui">Eficiencia vs. bloques completos</span> y la varianza de bloques (o de filas y de columnas) con la del error. El borde de color de algunos recuadros resume la lectura: verde si el valor es bueno, ámbar si es aceptable y rojo si es malo.</p>
+  <p>En Chapultepec, las 120 parcelas dan una media de 6.961 t/ha, un CV de 8.2&nbsp;% (CME = 0.3264 con 41 gl) y una DMS de 1.255. Las entradas, ajustadas por bloques, difieren con claridad (<i>F</i> = 11.92 con 59 y 41 gl). La varianza de bloques estimada, 0.1462, y la del error, 0.3254, quedan cerca de los valores con que se simuló (0.20 y 0.36); con solo 20 bloques por localidad, la primera es poco precisa. La eficiencia de 119&nbsp;% quiere decir que con bloques completos habría hecho falta alrededor de 19&nbsp;% más repeticiones para comparar las entradas con la misma precisión; sin recuperar la información entre bloques (análisis intrabloque) la ganancia sería de solo 4&nbsp;%.</p>
+
+  <div class="caja teoria">
+    <div class="caja-t"><span class="ico">θ</span>Teoría en breve · la heredabilidad del ensayo y la eficiencia</div>
+    <div class="formula" style="margin-bottom:0.04in">H² estándar = σ²<sub>g</sub> / (σ²<sub>g</sub> + σ²<sub>e</sub>/<i>r</i>) &nbsp;·&nbsp; H²<sub>Cullis</sub> = 1 − <i><span style="text-decoration: overline">v</span></i><sub>Δ</sub> / (2σ²<sub>g</sub>) &nbsp;·&nbsp; eficiencia = EED²<sub>BCA</sub> / EED²<sub>diseño</sub></div>
+    <p>Las entradas se toman como aleatorias y los testigos como fijos (hacen falta al menos cinco entradas que no sean testigos); <i>r</i> es la media armónica de las repeticiones, <i><span style="text-decoration: overline">v</span></i><sub>Δ</sub> la varianza promedio del error de predicción de una diferencia y EED el error estándar promedio de una diferencia. La de Cullis vale también con datos desbalanceados o bloques incompletos. Ambas son una <b>repetibilidad</b>: dicen qué tan bien el ensayo ordena las entradas. La heredabilidad en sentido estricto, con σ²<sub>A</sub>, se estima en los bloques 4 a 8.</p>
+  </div>
+
+  <h3>Supuestos y calidad del ensayo</h3>
+  <p>A la derecha del análisis de varianza, una tabla revisa los supuestos y da una lectura de cada prueba, con las reglas de la tabla 3.6. La prueba de Tukey solo se hace en bloques completos al azar balanceados, y la ganancia por bloques incompletos solo en el látice α y en filas y columnas.</p>
+  <table class="compacta" style="width:92%">
+    <caption><b>Tabla 3.6.</b> Las pruebas de la tabla de supuestos y cómo se leen.</caption>
+    <thead><tr><th style="width:34%">Prueba</th><th style="width:30%">Bien</th><th>A revisar</th></tr></thead>
+    <tbody>
+      <tr><td>Normalidad de los residuales (Shapiro–Wilk)</td><td><i>p</i> ≥ 0.05: <i>se cumple</i></td><td><i>p</i> &lt; 0.05: <i>revisar el gráfico Q–Q</i></td></tr>
+      <tr><td>Aditividad repetición × entrada (Tukey, 1 gl)</td><td><i>p</i> ≥ 0.05: <i>aditivo</i></td><td><i>p</i> &lt; 0.05: <i>no aditivo: pruebe una transformación</i></td></tr>
+      <tr><td>Valores atípicos (Bonferroni)</td><td>ninguno</td><td>los hay: <i>revisar en la tarjeta 4</i></td></tr>
+      <tr><td>Repetibilidad (H²<sub>c</sub>)</td><td>≥ 0.5: <i>ensayo informativo</i></td><td>0.3 a 0.5: <i>moderada</i>; &lt; 0.3: <i>baja</i></td></tr>
+      <tr><td>Precisión (CV)</td><td>≤ 12&nbsp;%: <i>buena</i></td><td>12 a 20&nbsp;%: <i>aceptable</i>; &gt; 20&nbsp;%: <i>baja</i></td></tr>
+      <tr><td>Ganancia por bloques incompletos</td><td>≥ 5&nbsp;%: <i>los bloques ayudaron</i></td><td>&lt; 5&nbsp;%: <i>poca ganancia</i></td></tr>
+    </tbody>
+  </table>
+  <p>En Chapultepec todo sale bien: residuales normales (<i>W</i> = 0.9920, <i>p</i> = 0.7229), ningún atípico, H²<sub>c</sub> = 0.93, CV de 8.2&nbsp;% y una ganancia de 19&nbsp;% por los bloques. El dialelo de Hayman es el caso contrario: residuales no normales (<i>p</i> = 0.0011) y no aditividad (<i>p</i> = 0.0006), lo que suele indicar que conviene transformar la variable (por ejemplo, con el logaritmo cuando la varianza crece con la media). Los límites del CV son orientativos: dependen del cultivo y de la variable.</p>
+  <figure>
+    <div class="marco"><img src="../img/b3-residuales.png" alt="Residuales contra valores ajustados y gráfico Q-Q de Chapultepec"></div>
+    <figcaption><b>Figura 3.11.</b> El diagnóstico de residuales de Chapultepec. A la izquierda, sin patrón contra los valores ajustados y dentro de ±3; a la derecha, los cuantiles siguen la recta normal.</figcaption>
+  </figure>
+  <figure class="angosta">
+    <div class="marco"><img src="../img/b3-medias.png" alt="Medias ajustadas del análisis combinado con intervalos de confianza"></div>
+    <figcaption><b>Figura 3.12.</b> Las medias ajustadas del análisis combinado (sección 3.7): las 45 cruzas superan a los diez progenitores y los testigos quedan entre ellas. La línea discontinua es la media general.</figcaption>
+  </figure>
+
+  <h3>Las medias ajustadas</h3>
+  <p>Debajo aparece la tabla de <span class="ui">Medias ajustadas</span>, ordenada de mayor a menor, con el lugar, la entrada, su tipo, el número de parcelas, la media y su error estándar. Una daga (†) marca las medias que el diseño no permite estimar porque la entrada no está conectada con las demás. La figura de medias (figura 3.12, del análisis combinado) las muestra con intervalos de confianza de 95&nbsp;% y colores por tipo; su panel permite ordenarlas por nombre, limitar el número de entradas (60 por omisión) y quitar los intervalos. En pantalla la tabla muestra hasta 300 filas; la descarga las incluye todas.</p>
+
+  <!-- ====================================================================== 3.7 -->
+  <h2 id="s3-7"><span class="num">3.7</span>El análisis combinado</h2>
+  <p>Con dos o más ambientes, el menú <span class="ui">Ambiente</span> ofrece el <span class="ui">Análisis combinado</span>. Se ajusta en una etapa, con todas las parcelas:</p>
+  <div class="formula"><i>y</i> = μ + ambiente + repetición(ambiente) [+ bloque(repetición)] + entrada + entrada × ambiente + <i>e</i></div>
+  <p>El término de bloques entra, como efecto fijo, solo si todos los ambientes son látice α. Los ambientes se prueban contra las repeticiones dentro de ambientes, y las entradas <b>de dos maneras</b>: contra la interacción entrada × ambiente, que es la prueba correcta si los ambientes son una muestra aleatoria de los posibles (columna <i>F</i>), y contra el error combinado, que lo es si los ambientes son fijos (columna <span class="ui">F contra el error</span>).</p>
+  <figure>
+    <div class="marco"><img src="../img/b3-combinado.png" alt="Recuadros y análisis de varianza combinado de las tres localidades"></div>
+    <figcaption><b>Figura 3.13.</b> El análisis combinado de las tres localidades del látice α. La tabla de la derecha resume el error y la heredabilidad de cada ambiente.</figcaption>
+  </figure>
+  <p>Los recuadros dan el número de ambientes y si el análisis fue en una o en dos etapas, la media general, el CME combinado, la <b>homogeneidad del error</b> con la prueba de Bartlett (1937) y el cociente entre el CME mayor y el menor, y la DMS entre medias de todos los ambientes. En el ejemplo, los errores de las tres localidades son homogéneos (<i>p</i> = 0.9426, cociente 1.11), así que combinarlas no tiene problema. La interacción entrada × ambiente es significativa (<i>F</i> = 1.60, <i>p</i> = 0.0049) pero pequeña frente a las diferencias entre entradas (<i>F</i> = 20.82 contra la interacción): el orden de las cruzas cambia poco de una localidad a otra. La cruza P5 × P6 tiene la media más alta, 8.7622 t/ha (figura 3.12).</p>
+  <div class="caja importante">
+    <div class="caja-t"><span class="ico">!</span>Importante · cuando los errores no son homogéneos</div>
+    <p>Si la prueba de Bartlett da <i>p</i> &lt; 0.05, la tarjeta avisa que las pruebas <i>F</i> combinadas son aproximadas. Para esos datos conviene un modelo con una varianza del error por ambiente, que está en el Bloque 9 (análisis en dos etapas con REML).</p>
+  </div>
+  <p>Si el modelo en una etapa tuviera más de 1400 parámetros (muchas entradas en muchos ambientes), el análisis se hace <b>en dos etapas</b> (Möhring y Piepho, 2009): primero las medias ajustadas de cada ambiente y después un análisis de la tabla entrada × ambiente, cuyo error es la varianza promedio de las medias ajustadas, en la escala de parcela. La tarjeta lo dice e indica cuántos parámetros habría tenido el modelo completo. Las entradas que no están en todos los ambientes se omiten en esa segunda etapa; en una etapa, si hay combinaciones entrada × ambiente vacías, las medias generales salen del modelo sin interacción.</p>
+
+  <!-- ====================================================================== 3.8 -->
+  <h2 id="s3-8"><span class="num">3.8</span>Casos especiales</h2>
+
+  <h3>Datos por planta</h3>
+  <p>Cuando varias filas comparten la misma parcela (o hay una columna <span class="ui">Planta / individuo</span>), los datos son por planta. Cada parcela se resume con la media de sus plantas y el análisis de varianza se hace con esas medias; aparte se añade la fila <span class="ui">Entre plantas dentro de parcelas</span>, en la escala de plantas, con el error de muestreo (Steel, Torrie y Dickey, 1997). La nota bajo la tabla recuerda que las sumas de cuadrados de las parcelas están en la escala de medias (se multiplican por el número de plantas para pasarlas a la de plantas) y prueba el error experimental contra el de muestreo. En el ejemplo de la Carolina del Norte I, con tres plantas por parcela, la fila entre plantas tiene 48 gl y un CM de 0.074; <i>F</i> = 4.33 (<i>p</i> = 0.0002) dice que las parcelas difieren más de lo que explican las plantas: hay un error de parcela genuino.</p>
+
+  <h3>Plantas sin parcelas</h3>
+  <p>En los experimentos de medias generacionales es común medir plantas sueltas, sin repeticiones, bloques ni parcelas. Entonces <b>cada planta es una unidad experimental</b> y las plantas de cada generación son sus repeticiones: el diseño es completamente al azar y el recuadro de repeticiones da la mediana de plantas por entrada. Con las seis generaciones de <i>N. rustica</i> (160 plantas) resultan un CV de 12&nbsp;%, un CME de 1.8503 con 154 gl, una DMS de 0.884 y una heredabilidad del ensayo de 0.98.</p>
+
+  <h3>Medias por entrada y error externo</h3>
+  <p>Con un solo valor por entrada, los datos son medias y el error no se puede estimar. La tarjeta 3 muestra entonces el recuadro <span class="ui">Error del experimento original</span>: para cada variable, el cuadrado medio del error, sus grados de libertad, su escala y las repeticiones (en la escala de parcelas, el CM se divide entre las repeticiones). Con él hay errores estándar, DMS y pruebas en los bloques genéticos; sin él, solo medias. Los ejemplos de medias traen su error: 21.05 con 2558 gl en la escala de medias en las 36 cruzas de maíz (DMS = 12.723), y 1.8 con 576 gl en la de parcelas, con cuatro repeticiones, en los 17 genotipos (0.45 para las medias).</p>
+
+  <h3>Bloques aumentados</h3>
+  <p>En el diseño aumentado, los testigos se repiten en cada bloque y las entradas nuevas aparecen una vez. Los bloques son fijos y se estiman con los testigos; cada entrada nueva se ajusta por el efecto de su bloque (Federer, 1956). Con dos o más testigos, la suma de cuadrados de las entradas se divide en <span class="ui">Testigos</span> y <span class="ui">Nuevas y nuevas vs. testigos</span>, y la nota da la de bloques eliminando entradas.</p>
+
+  <h3>Otros casos</h3>
+  <ul>
+    <li><b>Un diseño que los datos no sostienen</b> se sustituye por uno más simple, con aviso: un látice sin bloques incompletos reales pasa a bloques completos, y filas y columnas sin esas columnas, también.</li>
+    <li><b>Entradas sin repeticiones y sin testigos repetidos</b>: el diseño es <i>sin repeticiones</i> y no hay error; la app lo marca en rojo.</li>
+    <li><b>Sin grados de libertad para el error</b>, o con menos de tres parcelas con dato, el ambiente no se analiza y la tarjeta explica por qué.</li>
+  </ul>
+
+  <!-- ====================================================================== 3.9 -->
+  <h2 id="s3-9"><span class="num">3.9</span>Descargas y paso a los bloques genéticos</h2>
+  <p>Al pie de la tarjeta 5 hay tres descargas, que incluyen <b>todas</b> las variables y todos los ambientes, no solo lo que está en pantalla. Cada figura tiene además su propio panel de descarga (sección I.6).</p>
+  <table class="compacta" style="width:92%">
+    <caption><b>Tabla 3.7.</b> Las descargas del Bloque 3.</caption>
+    <thead><tr><th style="width:27%">Botón</th><th>Contenido</th></tr></thead>
+    <tbody>
+      <tr><td><span class="ui">Resultados (.xlsx)</span></td><td>Cinco hojas: <i>Medias</i> (por variable y ambiente, y combinadas); <i>ANOVA</i> (todas las fuentes, con gl, SC, CM, <i>F</i> y <i>p</i>); <i>Calidad</i> (diseño, parcelas, media, CV, CME, gl del error, DMS, H² de Cullis y estándar, σ²<sub>g</sub>, σ² de bloques, <i>p</i> de Shapiro–Wilk y de Tukey, atípicos); <i>Datos</i> (la tabla con la columna <i>Excluido</i>); <i>Diseño</i> (apareamiento, método, progenitores, diseño de campo, ambientes y fuente)</td></tr>
+      <tr><td><span class="ui">Medias ajustadas (.csv)</span></td><td>Variable, ambiente, entrada, tipo, parcelas, media ajustada y error estándar</td></tr>
+      <tr><td><span class="ui">Datos depurados (.csv)</span></td><td>La tabla original con una columna <i>Excluido</i> (1 si la observación quedó fuera)</td></tr>
+    </tbody>
+  </table>
+  <p>Además, al final de la tarjeta 5, <span class="ui">¿Cómo se analiza cada diseño?</span> resume los métodos de las secciones 3.5 a 3.7 con sus referencias, listos para la sección de materiales y métodos de un artículo; el informe del Bloque 12 los incluye redactados.</p>
+
+  <p>El botón <span class="ui">Continuar</span> del final cambia según el diseño de apareamiento reconocido (tabla 3.8); en el ejemplo dice <span class="ui">Continuar: Griffing →</span>. <span class="ui">← Planear</span> regresa al Bloque 2. Los demás bloques están siempre a un clic en la barra superior.</p>
+  <table class="compacta" style="width:84%">
+    <caption><b>Tabla 3.8.</b> A dónde lleva el botón <span class="ui">Continuar</span>.</caption>
+    <thead><tr><th>Diseño reconocido</th><th style="width:40%">Siguiente bloque</th></tr></thead>
+    <tbody>
+      <tr><td>Dialelo de Griffing (completo)</td><td><span class="chip k4">4</span> Dialelos de Griffing (y luego el 5)</td></tr>
+      <tr><td>Dialelo parcial, Carolinas del Norte, cruza triple, línea × probador</td><td><span class="chip k6">6</span> Diseños de apareamiento</td></tr>
+      <tr><td>Medias generacionales</td><td><span class="chip k7">7</span> Generaciones</td></tr>
+      <tr><td>Ensayo de genotipos en un ambiente</td><td><span class="chip k8">8</span> Parámetros genéticos y selección</td></tr>
+      <tr><td>Ensayo de genotipos en varios ambientes</td><td><span class="chip k9">9</span> Genotipo × ambiente</td></tr>
+    </tbody>
+  </table>
+
+  <p>Lo que pasa a los bloques siguientes es la tabla con sus papeles, los registros con su pedigrí, el diseño de apareamiento y el de campo, las observaciones excluidas, el error externo y, para cada variable, el análisis de esta tarjeta (medias ajustadas, CME y grados de libertad), que se calcula la primera vez que un bloque lo pide. Cualquier cambio en el Bloque 3 (un papel, el diseño, una exclusión) se refleja en ellos al volver a abrirlos. Como en el resto de la app, los datos cargados y los resultados no se guardan al recargar la página; solo la hoja de datos se conserva en el navegador.</p>
+
+  <div class="caja regla">
+    <div class="caja-t"><span class="ico">✓</span>Regla práctica · antes de pasar a los bloques genéticos</div>
+    <table class="compacta"><tbody>
+      <tr><td style="width:46%"><b>Si</b> una columna quedó con un papel equivocado o en <span class="ui">Ignorar</span>…</td><td><b>entonces</b> corrígela en la tarjeta 2: todo lo demás depende de ella.</td></tr>
+      <tr><td><b>Si</b> el diseño de apareamiento tiene confianza media o baja…</td><td><b>entonces</b> lee las razones y revisa <span class="ui">Entradas reconocidas</span> y la figura de cruzas presentes.</td></tr>
+      <tr><td><b>Si</b> hay valores atípicos…</td><td><b>entonces</b> compáralos con la libreta de campo y excluye solo los errores comprobados.</td></tr>
+      <tr><td><b>Si</b> la normalidad o la aditividad fallan…</td><td><b>entonces</b> considera transformar la variable antes de cargarla de nuevo.</td></tr>
+    </tbody></table>
+    <p class="regla-pie">Los bloques genéticos usan exactamente lo que queda en el Bloque 3: sus datos, su diseño, las observaciones excluidas y el error externo.</p>
+  </div>
+
+</section>
+
+</body>
+</html>
