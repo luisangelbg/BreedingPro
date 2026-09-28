@@ -71,6 +71,8 @@ function showMessage(container, type, text) {
   if (typeof container === 'string') container = el(container);
   if (!container) return null;
   const div = mk('div', { class: 'msg msg-' + type }, text);
+  /* errors and warnings are announced to screen readers */
+  if (window.LABG) LABG.messageRole(div, type);
   container.appendChild(div);
   return div;
 }
@@ -154,12 +156,77 @@ function goStep(n) {
   document.body.classList.toggle('on-home', n === '1');
   window.scrollTo({ top: 0, behavior: 'smooth' });
   const btn = document.querySelector('.step-btn[data-step="' + n + '"]');
-  if (btn && btn.scrollIntoView) btn.scrollIntoView({ block: 'nearest', inline: 'nearest' });
+  if (window.LABG) {
+    /* active block (aria-current), brought into view, and said aloud */
+    LABG.setCurrentStep(n);
+    if (btn) LABG.announce(T('Bloque ', 'Block ') + n + ': ' + stepName(n));
+  } else if (btn && btn.scrollIntoView) btn.scrollIntoView({ block: 'nearest', inline: 'nearest' });
   document.dispatchEvent(new CustomEvent('stepchange', { detail: { step: Number(n) } }));
+  refreshStepMarks();
 }
 function enableStep(n, on) {
   const b = document.querySelector('.step-btn[data-step="' + n + '"]');
   if (b) b.disabled = (on === false);
+  refreshStepMarks();
+}
+/* name of a block in the active language */
+function stepName(n) {
+  const s = STEPS.find(x => String(x.n) === String(n));
+  return s ? T(s.es, s.en) : '';
+}
+
+/* A block is marked «done» when it already holds results. Every block of
+   BreedingPro is open from the start, so the rule "enabled and followed by an
+   enabled block" would tick them all; what tells them apart is their result. */
+function stepHasResults(n) {
+  const w = window;
+  switch (Number(n)) {
+    case 2: return !!(state.plan && state.plan.field);
+    case 3: return !!state.data;
+    case 4: return !!state.griffing;
+    case 5: return !!state.hayman;
+    case 6: return !!(w.B6 && w.B6.res);
+    case 7: return !!state.generations;
+    case 8: return !!state.selection;
+    case 9: return !!state.gxe;
+    case 10: return !!(w.B10 && (w.B10.fit || w.B10.tRes || (w.B10.x && w.B10.x.res)));
+    case 11: return !!(w.B11 && (w.B11.fit || w.B11.hres || w.B11.cv));
+    case 12: return !!(w.B12 && w.B12.html);
+    default: return false;
+  }
+}
+function refreshStepMarks() {
+  if (!window.LABG) return;
+  STEPS.forEach(s => {
+    if (s.n === 1) return;
+    const b = document.querySelector('.step-btn[data-step="' + s.n + '"]');
+    LABG.markStep(s.n, b && !b.disabled && stepHasResults(s.n) ? 'done' : null);
+  });
+}
+
+/* Common bar of the LABG Suite: help panel, keyboard, warning before closing
+   and block marks. Called by home.js once the block bar exists. Only in the
+   app: the tests load core.js without labg-core.js. */
+function initSuiteBar() {
+  if (!window.LABG) return;
+  const hb = el('helpBtn');
+  if (hb) hb.addEventListener('click', () => LABG.showShortcuts());
+  const nb = el('b1Next');
+  if (nb) nb.addEventListener('click', () => goStep(2));
+  LABG.shortcuts([]);
+  LABG.bindStepKeys(goStep);
+  LABG.guardUnload(() => !!state.fileName);
+  const nav = el('stepper');
+  const navLabel = () => { if (nav) nav.setAttribute('aria-label', T('Bloques', 'Blocks')); };
+  navLabel();
+  LABG.setCurrentStep((document.querySelector('.step-btn.active') || {}).dataset?.step || '1');
+  refreshStepMarks();
+  /* results appear after a click, a change or a file read: check again then */
+  let pending = null;
+  const later = () => { clearTimeout(pending); pending = setTimeout(refreshStepMarks, 120); };
+  document.addEventListener('click', later);
+  document.addEventListener('change', later);
+  document.addEventListener('langchange', () => { navLabel(); refreshStepMarks(); });
 }
 
 /* Persisted preferences (figure style, last settings) */
@@ -205,5 +272,5 @@ function cssVar(name, fallback) {
 Object.assign(window, {
   STEPS, el, els, mk, esc, L2, svgEl, showMessage, clearMessages,
   fmtNum, fmtFixed, fmtP, pEq, fmtPct, stars, csvEscape, download, slug,
-  goStep, enableStep, Prefs, rng, randn, shuffle, cssVar,
+  goStep, enableStep, initSuiteBar, refreshStepMarks, Prefs, rng, randn, shuffle, cssVar,
 });

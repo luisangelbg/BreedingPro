@@ -6,31 +6,40 @@
 <title data-es="BreedingPro — Genética cuantitativa para el mejoramiento de plantas y animales" data-en="BreedingPro — Quantitative genetics for plant and animal breeding">BreedingPro — Genética cuantitativa para el mejoramiento de plantas y animales</title>
 <meta name="description" content="Diallel crosses, mating designs, generation means, heritability, selection indices, G×E, BLUP and genomic prediction in the browser.">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M7 5C13 11 19 21 25 27' stroke='%235e2e8c' stroke-width='3.4' stroke-linecap='round' fill='none'/%3E%3Cpath d='M25 5C19 11 13 21 7 27' stroke='%232e8556' stroke-width='3.4' stroke-linecap='round' fill='none'/%3E%3Ccircle cx='16' cy='16' r='4.6' fill='%23e3a41c'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="css/labg-base.css">
 <link rel="stylesheet" href="css/style.css">
 <script src="js/i18n.js"></script>
 </head>
 <body class="on-home">
 
+<a class="skip-link" href="#main"><span data-l="es">Saltar al contenido</span><span data-l="en">Skip to content</span></a>
 <header class="topbar">
   <div class="topbar-inner">
     <div class="topbar-row">
-      <div class="brand" id="brand" data-es-title="Inicio" data-en-title="Home"><span id="brandLogo"></span><span>Breeding<span class="brand-pro">Pro</span></span>
-        <span class="brand-sub">· <span data-l="es">genética cuantitativa para el mejoramiento</span><span data-l="en">quantitative genetics for breeding</span></span></div>
+      <a class="brand" id="brand" href="#" data-es-title="Inicio de BreedingPro" data-en-title="BreedingPro home"><span id="brandLogo"></span><span>Breeding<span class="brand-pro">Pro</span></span>
+        <span class="brand-sub">· <span data-l="es">genética cuantitativa para el mejoramiento</span><span data-l="en">quantitative genetics for breeding</span></span></a>
       <div class="top-tools">
+        <a class="suite-link" href="https://luisangelbg.github.io/" data-es-title="Volver al portal de la LABG Suite" data-en-title="Back to the LABG Suite portal">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>
+          <span class="suite-text">LABG Suite</span>
+        </a>
         <div class="seg lang-seg" role="group" aria-label="Idioma / Language">
-          <button data-lang="es" title="Español">ES</button><button data-lang="en" title="English">EN</button>
+          <button type="button" data-lang="es" title="Español">ES</button><button type="button" data-lang="en" title="English">EN</button>
         </div>
-        <button class="icon-btn theme-btn" id="themeBtn" data-es-title="Cambiar a tema claro u oscuro" data-en-title="Switch between light and dark theme">
-          <svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4.2"/><path d="M12 2v2.5M12 19.5V22M2 12h2.5M19.5 12H22M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M4.9 19.1l1.8-1.8M17.3 6.7l1.8-1.8"/></svg>
-          <svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a7 7 0 0 0 10.5 10.5z"/></svg>
+        <button type="button" class="icon-btn theme-btn" id="themeBtn" data-es-title="Cambiar a tema claro u oscuro" data-en-title="Switch between light and dark theme">
+          <svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2v2.5M12 19.5V22M2 12h2.5M19.5 12H22M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M4.9 19.1l1.8-1.8M17.3 6.7l1.8-1.8"/></svg>
+          <svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a7 7 0 0 0 10.5 10.5z"/></svg>
+        </button>
+        <button type="button" class="icon-btn" id="helpBtn" data-es-title="Atajos de teclado (?)" data-en-title="Keyboard shortcuts (?)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M9.6 9.3a2.5 2.5 0 0 1 4.8.9c0 1.7-2.4 2.2-2.4 3.6"/><circle cx="12" cy="17" r=".6" fill="currentColor"/></svg>
         </button>
       </div>
     </div>
-    <nav class="stepper" id="stepper" aria-label="Blocks"></nav>
+    <nav class="stepper" id="stepper" aria-label="Bloques"></nav>
   </div>
 </header>
 
-<main>
+<main id="main" tabindex="-1">
 
 <!-- ==================== BLOCK 1 · HOME ==================== -->
 <section class="step-panel active" id="panel-1">
@@ -740,6 +749,9 @@ cross i × j:  ŷᵢⱼ = μ̂ + ĝᵢ + ĝⱼ + ŝᵢⱼ    with ĝ ~ N(0, G σ
   <div class="ref-tools chips" id="refFilter"></div>
   <ol class="ref-list" id="refList"></ol>
 
+  <div class="next-bar step-footer no-print">
+    <button type="button" class="btn btn-primary next" id="b1Next"><span data-l="es">Continuar: Planear →</span><span data-l="en">Continue: Plan →</span></button>
+  </div>
 </section>
 
 <!-- ==================== BLOCKS 2–12 (built in later stages) ==================== -->
@@ -961,7 +973,7 @@ cross i × j:  ŷᵢⱼ = μ̂ + ĝᵢ + ĝⱼ + ŝᵢⱼ    with ĝ ~ N(0, G σ
     <div id="b2FigPower"></div>
   </div>
 
-  <div class="next-bar">
+  <div class="next-bar step-footer no-print">
     <button class="btn btn-secondary" id="b2Back"><span data-l="es">← Inicio</span><span data-l="en">← Home</span></button>
     <button class="btn btn-primary" id="b2Next"><span data-l="es">Continuar: Datos →</span><span data-l="en">Continue: Data →</span></button>
   </div>
@@ -1165,7 +1177,7 @@ cross i × j:  ŷᵢⱼ = μ̂ + ĝᵢ + ĝⱼ + ŝᵢⱼ    with ĝ ~ N(0, G σ
     </div>
   </div>
 
-  <div class="next-bar">
+  <div class="next-bar step-footer no-print">
     <button class="btn btn-secondary" id="b3Back"><span data-l="es">← Planear</span><span data-l="en">← Plan</span></button>
     <button class="btn btn-primary" id="b3Next" disabled><span id="b3NextLabel"></span></button>
   </div>
@@ -1304,7 +1316,7 @@ cross i × j:  ŷᵢⱼ = μ̂ + ĝᵢ + ĝⱼ + ŝᵢⱼ    with ĝ ~ N(0, G σ
     </div>
   </div>
 
-  <div class="next-bar">
+  <div class="next-bar step-footer no-print">
     <button class="btn btn-secondary" id="b4Back"><span data-l="es">← Datos</span><span data-l="en">← Data</span></button>
     <button class="btn btn-primary" id="b4Next" disabled><span id="b4NextLabel"></span></button>
   </div>
@@ -1419,7 +1431,7 @@ cross i × j:  ŷᵢⱼ = μ̂ + ĝᵢ + ĝⱼ + ŝᵢⱼ    with ĝ ~ N(0, G σ
     </div>
   </div>
 
-  <div class="next-bar">
+  <div class="next-bar step-footer no-print">
     <button class="btn btn-secondary" id="b5Back"><span data-l="es">← Griffing</span><span data-l="en">← Griffing</span></button>
     <button class="btn btn-primary" id="b5Next" disabled><span id="b5NextLabel"></span></button>
   </div>
@@ -1525,7 +1537,7 @@ cross i × j:  ŷᵢⱼ = μ̂ + ĝᵢ + ĝⱼ + ŝᵢⱼ    with ĝ ~ N(0, G σ
     </div>
   </div>
 
-  <div class="next-bar">
+  <div class="next-bar step-footer no-print">
     <button class="btn btn-secondary" id="b6Back"><span data-l="es">← Datos</span><span data-l="en">← Data</span></button>
     <button class="btn btn-primary" id="b6Next" disabled><span id="b6NextLabel"></span></button>
   </div>
@@ -1623,7 +1635,7 @@ cross i × j:  ŷᵢⱼ = μ̂ + ĝᵢ + ĝⱼ + ŝᵢⱼ    with ĝ ~ N(0, G σ
     </div>
   </div>
 
-  <div class="next-bar">
+  <div class="next-bar step-footer no-print">
     <button class="btn btn-secondary" id="b7Back"><span data-l="es">← Datos</span><span data-l="en">← Data</span></button>
     <button class="btn btn-primary" id="b7Next" disabled><span id="b7NextLabel"></span></button>
   </div>
@@ -1740,7 +1752,7 @@ cross i × j:  ŷᵢⱼ = μ̂ + ĝᵢ + ĝⱼ + ŝᵢⱼ    with ĝ ~ N(0, G σ
     </div>
   </div>
 
-  <div class="next-bar">
+  <div class="next-bar step-footer no-print">
     <button class="btn btn-secondary" id="b8Back"><span id="b8BackLabel">← Datos</span></button>
     <button class="btn btn-primary" id="b8Next" disabled><span id="b8NextLabel"></span></button>
   </div>
@@ -1907,7 +1919,7 @@ cross i × j:  ŷᵢⱼ = μ̂ + ĝᵢ + ĝⱼ + ŝᵢⱼ    with ĝ ~ N(0, G σ
     </div>
   </div>
 
-  <div class="next-bar">
+  <div class="next-bar step-footer no-print">
     <button class="btn btn-secondary" id="b9Back"><span data-l="es">← Selección</span><span data-l="en">← Selection</span></button>
     <button class="btn btn-primary" id="b9Next" disabled><span id="b9NextLabel"></span></button>
   </div>
@@ -2093,7 +2105,7 @@ cross i × j:  ŷᵢⱼ = μ̂ + ĝᵢ + ĝⱼ + ŝᵢⱼ    with ĝ ~ N(0, G σ
     </div>
   </div>
 
-  <div class="next-bar">
+  <div class="next-bar step-footer no-print">
     <button class="btn btn-secondary" id="b10Back"><span id="b10BackLabel">← G×A</span></button>
     <button class="btn btn-primary" id="b10Next" disabled><span id="b10NextLabel"></span></button>
   </div>
@@ -2256,7 +2268,7 @@ cross i × j:  ŷᵢⱼ = μ̂ + ĝᵢ + ĝⱼ + ŝᵢⱼ    with ĝ ~ N(0, G σ
     </div>
   </div>
 
-  <div class="next-bar">
+  <div class="next-bar step-footer no-print">
     <button class="btn btn-secondary" id="b11Back"><span data-l="es">← BLUP</span><span data-l="en">← BLUP</span></button>
     <button class="btn btn-primary" id="b11Next" disabled><span id="b11NextLabel"></span></button>
   </div>
@@ -2329,7 +2341,7 @@ cross i × j:  ŷᵢⱼ = μ̂ + ĝᵢ + ĝⱼ + ŝᵢⱼ    with ĝ ~ N(0, G σ
     <p class="hint"><span data-l="es">Cite también los artículos originales de los métodos que usó: la sección de métodos del informe los nombra por autor y año y los reúne en la lista de referencias.</span><span data-l="en">Please also cite the original papers of the methods you used: the methods section of the report names them by author and year and gathers them in the reference list.</span></p>
   </div>
 
-  <div class="next-bar">
+  <div class="next-bar step-footer no-print">
     <button class="btn btn-secondary" id="b12Back"><span data-l="es">← Genómica</span><span data-l="en">← Genomics</span></button>
     <button class="btn btn-secondary" id="b12Home"><span data-l="es">Volver al inicio</span><span data-l="en">Back to home</span></button>
   </div>
@@ -2341,6 +2353,7 @@ cross i × j:  ŷᵢⱼ = μ̂ + ĝᵢ + ĝⱼ + ŝᵢⱼ    with ĝ ~ N(0, G σ
   <span data-l="es">BreedingPro · software libre bajo licencia GPL v3 · todo el cálculo ocurre en tu navegador</span><span data-l="en">BreedingPro · free software under the GPL v3 licence · all computation happens in your browser</span>
 </footer>
 
+<script src="js/labg-core.js"></script>
 <script src="js/core.js"></script>
 <script src="js/stats.js"></script>
 <script src="js/figure.js"></script>

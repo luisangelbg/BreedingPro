@@ -12,9 +12,9 @@
    3. Text built by JavaScript uses T('español', 'English'), and every module
       that draws something listens to the 'langchange' event to redraw it.
 
-   The initial language is the one saved by the user; otherwise English when the
-   browser is set to English and Spanish in every other case. The theme follows
-   the operating system until the user picks one. */
+   The initial language is the one saved by the user; otherwise Spanish, as in
+   every app of the LABG Suite, whatever the language of the browser. The theme
+   follows the operating system until the user picks one. */
 
 (function () {
   const KEY_LANG = 'breedingpro:lang', KEY_THEME = 'breedingpro:theme';
@@ -24,8 +24,7 @@
   function initialLang() {
     const saved = read(KEY_LANG);
     if (saved === 'es' || saved === 'en') return saved;
-    const nav = (navigator.languages && navigator.languages[0]) || navigator.language || 'es';
-    return /^en\b/i.test(nav) ? 'en' : 'es';
+    return 'es';   /* Spanish by default across the suite; the user chooses afterwards */
   }
 
   const I18N = {
@@ -54,7 +53,11 @@
       });
       const t = document.querySelector('title');
       if (t && t.dataset.es) document.title = t.getAttribute('data-' + L);
-      document.querySelectorAll('.lang-seg button').forEach(b => b.classList.toggle('on', b.dataset.lang === L));
+      document.querySelectorAll('.lang-seg button').forEach(b => {
+        b.classList.toggle('on', b.dataset.lang === L);
+        b.setAttribute('aria-pressed', b.dataset.lang === L ? 'true' : 'false');
+      });
+      Theme.paint();
     },
   };
 
@@ -76,16 +79,22 @@
         document.documentElement.setAttribute('data-theme', mode);
         write(KEY_THEME, mode);
       }
+      Theme.paint();
       document.dispatchEvent(new CustomEvent('themechange', { detail: { theme: Theme.current() } }));
     },
     toggle() { Theme.set(Theme.current() === 'dark' ? 'light' : 'dark'); },
+    /* the theme button says whether the dark theme is on */
+    paint() {
+      const b = document.getElementById('themeBtn');
+      if (b) b.setAttribute('aria-pressed', Theme.current() === 'dark' ? 'true' : 'false');
+    },
   };
   const savedTheme = read(KEY_THEME);
   if (savedTheme === 'dark' || savedTheme === 'light') document.documentElement.setAttribute('data-theme', savedTheme);
   document.documentElement.lang = I18N.lang;
   if (window.matchMedia) {
     const mq = window.matchMedia('(prefers-color-scheme: dark)');
-    const onSys = () => { if (!document.documentElement.getAttribute('data-theme')) document.dispatchEvent(new CustomEvent('themechange', { detail: { theme: Theme.current() } })); };
+    const onSys = () => { Theme.paint(); if (!document.documentElement.getAttribute('data-theme')) document.dispatchEvent(new CustomEvent('themechange', { detail: { theme: Theme.current() } })); };
     if (mq.addEventListener) mq.addEventListener('change', onSys);
   }
 
