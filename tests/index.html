@@ -1335,7 +1335,7 @@
   const fake12 = { data: '', html: '<p>La prueba de Tukey (1949) y la ecovalencia (Wricke 1962).</p>', keys: ['tukey49', 'wricke62', 'bartlett37'] };
   const chk12 = MT.check(fake12);
   check('methods check: a reference in the list that the text never cites is caught (Bartlett 1937), the cited ones pass', chk12.uncited.length === 1 && chk12.uncited[0] === 'bartlett37', JSON.stringify(chk12));
-  check('software citation: author, year, version and kind', /^Barrera-Guzmán, L\.Á\. \(2026\)\. BreedingPro: .+ \((versión|Version) \d+\.\d+\.\d+\) \[(software|Computer software)\]\.$/.test(RP.citation()), RP.citation());
+  check('software citation: author, year, version, kind and DOI', /^Barrera-Guzmán, L\.Á\. \(2026\)\. BreedingPro: .+ \((versión|Version) \d+\.\d+\.\d+\) \[(software|Computer software)\]\. https:\/\/doi\.org\/10\.5281\/zenodo\.\d+$/.test(RP.citation()), RP.citation());
 
   section('Illustrations');
   const names = Object.keys(Art).filter(k => typeof Art[k] === 'function' && !['ear', 'cow'].includes(k));

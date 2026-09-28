@@ -20,8 +20,16 @@ authors:
     family-names: "Barrera-Guzmán"
     email: lbarrerag@chapingo.mx
     orcid: "https://orcid.org/0000-0001-8057-2583"
-version: "1.0.0"
-date-released: "2026-09-19"
+version: "1.0.1"
+date-released: "2026-09-28"
+doi: 10.5281/zenodo.23005938
+identifiers:
+  - type: doi
+    value: 10.5281/zenodo.23005938
+    description: "Concept DOI — always resolves to the latest version. Cite this one."
+  - type: doi
+    value: 10.5281/zenodo.23005939
+    description: "Version DOI for release v1.0.0."
 repository-code: "https://github.com/luisangelbg/BreedingPro"
 url: "https://luisangelbg.github.io/BreedingPro/"
 license: GPL-3.0-or-later

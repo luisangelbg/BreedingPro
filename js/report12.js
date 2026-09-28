@@ -10,13 +10,14 @@
   const RP = {};
   window.RP = RP;
 
-  RP.VERSION = '1.0.0';
+  RP.VERSION = '1.0.1';
   RP.CITE = {
     author: 'Barrera-Guzmán, L.Á.', year: 2026,
+    doi: '10.5281/zenodo.23005938',
     es: 'BreedingPro: plataforma en el navegador para el análisis de cruzas dialélicas, diseños de apareamiento, parámetros genéticos y predicción en el mejoramiento de plantas y animales',
     en: 'BreedingPro: a browser-based platform for diallel crosses, mating designs, genetic parameters and prediction in plant and animal breeding',
   };
-  RP.citation = () => `${RP.CITE.author} (${RP.CITE.year}). ${T(RP.CITE.es, RP.CITE.en)} (${T('versión', 'Version')} ${RP.VERSION}) [${T('software', 'Computer software')}].`;
+  RP.citation = () => `${RP.CITE.author} (${RP.CITE.year}). ${T(RP.CITE.es, RP.CITE.en)} (${T('versión', 'Version')} ${RP.VERSION}) [${T('software', 'Computer software')}]. https://doi.org/${RP.CITE.doi}`;
 
   /* ---------- what every block contributes ----------
      cards: the result cards of the block, in order; skip: elements inside them that are inputs */
@@ -263,13 +264,14 @@ ${body.join('\n')}
   RP.citeSection = () => {
     const c = RP.CITE;
     return `<div class="methods"><p>${T('Si el análisis se publica, cite el programa y los artículos originales de los métodos que se nombran en la sección de métodos:', 'If the analysis is published, please cite the software and the original papers of the methods named in the methods section:')}</p>
-<p class="cite">${esc(c.author)} (${c.year}). <i>${esc(T(c.es, c.en))}</i> (${T('versión', 'Version')} ${RP.VERSION}) [${T('software', 'Computer software')}].</p>
-<p class="hint">${T('El DOI se añadirá al archivar la versión 1.0. Licencia GPL-3.0-or-later.', 'The DOI will be added when version 1.0 is archived. License GPL-3.0-or-later.')}</p>
+<p class="cite">${esc(c.author)} (${c.year}). <i>${esc(T(c.es, c.en))}</i> (${T('versión', 'Version')} ${RP.VERSION}) [${T('software', 'Computer software')}]. https://doi.org/${c.doi}</p>
+<p class="hint">${T(`DOI de concepto (todas las versiones): ${c.doi}. Licencia GPL-3.0-or-later.`, `Concept DOI (all versions): ${c.doi}. License GPL-3.0-or-later.`)}</p>
 <pre>@software{barrera_guzman_breedingpro_${c.year},
   author  = {Barrera-Guzmán, Luis Ángel},
   title   = {${T(c.es, c.en)}},
   year    = {${c.year}},
-  version = {${RP.VERSION}}
+  version = {${RP.VERSION}},
+  doi     = {${c.doi}}
 }</pre></div>`;
   };
 

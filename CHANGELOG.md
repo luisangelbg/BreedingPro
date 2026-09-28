@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.0.1 — 2026-09-28
+
+- The software is archived in Zenodo: concept DOI 10.5281/zenodo.23005938 (it always resolves to the latest
+  version); the DOI of release v1.0.0 is 10.5281/zenodo.23005939.
+- The DOI is now in the citation of the home page, in the report of Block 12 (citation and BibTeX entry), in
+  `CITATION.cff`, `codemeta.json`, the README and the user manual (credits, section 1.7 and appendix F).
+- No change to any calculation: results are identical to version 1.0.0.
+
 ## 1.0.0 — 2026-09-19
 
 - First public release: twelve blocks (home and laboratories; planning of crosses, field trial and power; data,

@@ -1,9 +1,10 @@
 # BreedingPro
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23005938.svg)](https://doi.org/10.5281/zenodo.23005938)
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](LICENSE)
 
 **Plant and animal breeding, from the cross to the decision — without writing code.** All twelve blocks are
-complete (version 1.0.0).
+complete (version 1.0.1).
 
 **Online version:** https://luisangelbg.github.io/BreedingPro/ ·
 **User manual (Spanish):** [PDF](manual/BreedingPro%20User's%20Manual.pdf) ·
@@ -71,8 +72,11 @@ built.
 ## How to cite
 
 Barrera-Guzmán, L. Á. (2026). *BreedingPro: plataforma en el navegador para el análisis de cruzas dialélicas, diseños
-de apareamiento, parámetros genéticos y predicción en el mejoramiento de plantas y animales* (versión 1.0.0)
-[Computer software]. https://github.com/luisangelbg/BreedingPro
+de apareamiento, parámetros genéticos y predicción en el mejoramiento de plantas y animales* (versión 1.0.1)
+[Computer software]. https://doi.org/10.5281/zenodo.23005938
+
+That DOI is the concept DOI: it always resolves to the latest version. Each release also has its own DOI
+(v1.0.0: 10.5281/zenodo.23005939).
 
 Please cite also the original articles of the methods you use: the methods section of the Block 12 report names
 them and lists their references. See `CITATION.cff`.
