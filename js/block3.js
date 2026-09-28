@@ -266,7 +266,7 @@
     el('b3External').style.display = meansEnv ? '' : 'none';
     if (meansEnv) {
       el('b3ExternalTable').innerHTML = '<table><thead><tr>' + [T('Variable', 'Trait'), T('Cuadrado medio del error', 'Error mean square'), T('Grados de libertad', 'Degrees of freedom'), T('Escala', 'Scale'), T('Repeticiones', 'Replicates')].map(x => `<th>${x}</th>`).join('') + '</tr></thead><tbody>' +
-        ds.traits.map(t => { const e = B3.external[t.name] || {}; return `<tr data-trait="${esc(t.name)}"><td>${esc(t.name)}</td><td><input type="number" step="any" min="0" data-k="ms" value="${e.ms != null ? e.ms : ''}" style="width:110px"></td><td><input type="number" min="1" data-k="df" value="${e.df != null ? e.df : ''}" style="width:90px"></td><td><select data-k="scale"><option value="means"${e.scale !== 'plot' ? ' selected' : ''}>${T('de medias', 'of means')}</option><option value="plot"${e.scale === 'plot' ? ' selected' : ''}>${T('de parcelas', 'of plots')}</option></select></td><td><input type="number" min="1" data-k="r" value="${e.r != null ? e.r : 1}" style="width:70px"></td></tr>`; }).join('') + '</tbody></table>';
+        ds.traits.map(t => { const e = B3.external[t.name] || {}; return `<tr data-trait="${esc(t.name)}"><td>${esc(t.name)}</td><td><input type="number" step="any" min="0" aria-label="${esc(t.name + ' · ' + T('cuadrado medio del error', 'error mean square'))}" data-k="ms" value="${e.ms != null ? e.ms : ''}" style="width:110px"></td><td><input type="number" min="1" aria-label="${esc(t.name + ' · ' + T('grados de libertad', 'degrees of freedom'))}" data-k="df" value="${e.df != null ? e.df : ''}" style="width:90px"></td><td><select aria-label="${esc(t.name + ' · ' + T('escala', 'scale'))}" data-k="scale"><option value="means"${e.scale !== 'plot' ? ' selected' : ''}>${T('de medias', 'of means')}</option><option value="plot"${e.scale === 'plot' ? ' selected' : ''}>${T('de parcelas', 'of plots')}</option></select></td><td><input type="number" min="1" aria-label="${esc(t.name + ' · ' + T('repeticiones', 'replicates'))}" data-k="r" value="${e.r != null ? e.r : 1}" style="width:70px"></td></tr>`; }).join('') + '</tbody></table>';
     }
     const dmsg = [];
     if (m.design === 'none' && ds.records.some(r => r.female)) dmsg.push({ level: 'info', es: 'Hay progenitores pero ninguna cruza reconocible.', en: 'There are parents but no recognisable cross.' });
@@ -425,7 +425,7 @@
     const all = out.concat(excludedRows);
     if (!all.length) el('b3Outliers').innerHTML = `<p class="hint ok-note">✓ ${T('No se detectaron valores atípicos en esta variable.', 'No outliers were found in this trait.')}</p>`;
     else table('b3Outliers', [
-      { label: T('Excluir', 'Exclude'), get: o => `<input type="checkbox" data-ks="${o.ks.join(',')}"${o.ks.every(k => B3.excluded.has(k)) ? ' checked' : ''}>` },
+      { label: T('Excluir', 'Exclude'), get: o => `<input type="checkbox" aria-label="${esc(T('Excluir ', 'Exclude ') + [o.entry, o.env, o.rep].filter(v => v != null && v !== '').join(' · '))}" data-ks="${o.ks.join(',')}"${o.ks.every(k => B3.excluded.has(k)) ? ' checked' : ''}>` },
       { label: T('Nivel', 'Level'), get: o => o.level === 'outlier' ? `<span class="pw low">${T('atípico', 'outlier')}</span>` : o.level === 'excluded' ? `<span class="pw mid">${T('excluido', 'excluded')}</span>` : `<span class="pw mid">${T('revisar', 'check')}</span>` },
       { label: T('Ambiente', 'Environment'), get: o => esc(o.env) },
       { label: T('Entrada', 'Entry'), get: o => esc(o.entry) },

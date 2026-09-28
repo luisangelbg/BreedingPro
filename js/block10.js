@@ -135,7 +135,7 @@
     const src = B10.src, host = el('b10Roles');
     if (!src) { host.innerHTML = ''; return; }
     host.innerHTML = '<table><thead><tr><th>' + T('Columna', 'Column') + '</th><th>' + T('Papel', 'Role') + '</th><th>' + T('Primeros valores', 'First values') + '</th></tr></thead><tbody>'
-      + src.header.map((h, j) => `<tr><td>${esc(h)}</td><td><select data-col="${j}">${ROLES10.map(([k, es, en]) => `<option value="${k}"${src.roles[j] === k ? ' selected' : ''}>${T(es, en)}</option>`).join('')}</select></td><td class="hint">${src.rows.slice(0, 4).map(r => esc(r[j])).join(' · ')}</td></tr>`).join('') + '</tbody></table>';
+      + src.header.map((h, j) => `<tr><td>${esc(h)}</td><td><select aria-label="${esc(T('Papel de ', 'Role of ') + h)}" data-col="${j}">${ROLES10.map(([k, es, en]) => `<option value="${k}"${src.roles[j] === k ? ' selected' : ''}>${T(es, en)}</option>`).join('')}</select></td><td class="hint">${src.rows.slice(0, 4).map(r => esc(r[j])).join(' · ')}</td></tr>`).join('') + '</tbody></table>';
     host.querySelectorAll('select[data-col]').forEach(s => s.addEventListener('change', () => { src.roles[+s.dataset.col] = s.value; B10.fit = null; if (s.value === 't') B10.selfing = true; buildPedigree(); renderAll(); }));
     el('b10Selfing').checked = B10.selfing;
   }

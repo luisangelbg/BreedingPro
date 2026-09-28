@@ -947,14 +947,14 @@ Fig.mount = (host, spec) => {
 
   /* --- export bar --- */
   const tools = mk('div', { class: 'fig-tools' });
-  const fmt = mk('select');
+  const fmt = mk('select', { 'aria-label': FT('Formato', 'Format') });
   [['png', 'PNG'], ['tiff', FT('TIFF (envío a revistas)', 'TIFF (journal submission)')], ['svg', FT('SVG (vectorial, editable)', 'SVG (vector, editable)')], ['jpg', 'JPG'], ['webp', 'WEBP']]
     .forEach(([v, t]) => fmt.appendChild(mk('option', { value: v }, t)));
-  const res = mk('select');
+  const res = mk('select', { 'aria-label': FT('Resolución', 'Resolution') });
   [['2', FT('Pantalla · 2× (150 ppp)', 'Screen · 2× (150 dpi)')], ['4', FT('Alta · 4× (300 ppp)', 'High · 4× (300 dpi)')], ['6', FT('Muy alta · 6× (450 ppp)', 'Very high · 6× (450 dpi)')],
    ['8', FT('Publicación · 8× (600 ppp)', 'Publication · 8× (600 dpi)')], ['12', FT('Máxima · 12× (900 ppp)', 'Maximum · 12× (900 dpi)')]].forEach(([v, t]) => res.appendChild(mk('option', { value: v }, t)));
   res.value = Prefs.get('figres', '4');
-  const bgSel = mk('select');
+  const bgSel = mk('select', { 'aria-label': FT('Fondo', 'Background') });
   [['#ffffff', FT('Fondo blanco', 'White background')], ['transparent', FT('Transparente (PNG)', 'Transparent (PNG)')]].forEach(([v, t]) => bgSel.appendChild(mk('option', { value: v }, t)));
   const btn = mk('button', { class: 'btn btn-secondary btn-sm' }, FT('⬇ Descargar figura', '⬇ Download figure'));
   const info = mk('span', { class: 'hint', style: 'margin:0' });

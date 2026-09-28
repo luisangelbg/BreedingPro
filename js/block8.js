@@ -321,10 +321,10 @@
     const rows = setupRows(mt);
     el('b8SetupTable').innerHTML = `<table><thead><tr><th>${T('Variable', 'Trait')}</th><th>${T('Dirección', 'Direction')}</th><th class="num">${T('Peso económico', 'Economic weight')}</th><th>${T('Restringir (cambio 0)', 'Restrict (no change)')}</th><th class="num">${T('Ganancia deseada', 'Desired gain')}</th><th class="num">σF̄</th></tr></thead><tbody>`
       + rows.map(r => `<tr><td>${esc(r.name)}</td>
-        <td><select data-j="${r.j}" data-k="dir"><option value="1"${r.s.dir > 0 ? ' selected' : ''}>${T('aumentar', 'increase')}</option><option value="-1"${r.s.dir < 0 ? ' selected' : ''}>${T('disminuir', 'decrease')}</option></select></td>
-        <td class="num"><input type="number" step="any" data-j="${r.j}" data-k="w" value="${r.s.w}"></td>
-        <td><input type="checkbox" data-j="${r.j}" data-k="restrict"${r.s.restrict ? ' checked' : ''}></td>
-        <td class="num"><input type="number" step="any" data-j="${r.j}" data-k="d" value="${r.s.d}" placeholder="—"></td>
+        <td><select aria-label="${esc(r.name + ' · ' + T('dirección', 'direction'))}" data-j="${r.j}" data-k="dir"><option value="1"${r.s.dir > 0 ? ' selected' : ''}>${T('aumentar', 'increase')}</option><option value="-1"${r.s.dir < 0 ? ' selected' : ''}>${T('disminuir', 'decrease')}</option></select></td>
+        <td class="num"><input type="number" step="any" aria-label="${esc(r.name + ' · ' + T('peso económico', 'economic weight'))}" data-j="${r.j}" data-k="w" value="${r.s.w}"></td>
+        <td><input type="checkbox" aria-label="${esc(r.name + ' · ' + T('restringir', 'restrict'))}" data-j="${r.j}" data-k="restrict"${r.s.restrict ? ' checked' : ''}></td>
+        <td class="num"><input type="number" step="any" aria-label="${esc(r.name + ' · ' + T('ganancia deseada', 'desired gain'))}" data-j="${r.j}" data-k="d" value="${r.s.d}" placeholder="—"></td>
         <td class="num">${fmtNum(r.sdP, 4)}</td></tr>`).join('') + '</tbody></table>';
     el('b8SetupTable').querySelectorAll('[data-k]').forEach(inp => inp.addEventListener('change', () => {
       const s = B8.setup[+inp.dataset.j], k = inp.dataset.k;

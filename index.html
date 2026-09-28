@@ -110,9 +110,9 @@
     <div class="lab on" id="labDiallel">
       <p class="hint" style="margin-top:0"><span data-l="es">Progenitores homocigóticos con <i>k</i> loci bajo el modelo aditivo–dominante de Hayman (AA = +<i>a</i>, aa = −<i>a</i>,
         Aa = <i>d</i>). Se cruzan en un medio dialelo con progenitores (método 2 de Griffing), tres repeticiones por cruza. Los puntos van de
-        <b style="color:var(--primary)">morado</b> (pocos alelos dominantes) a <b style="color:var(--accent)">oro</b> (muchos).</span><span data-l="en">Homozygous parents with <i>k</i> loci under Hayman's additive–dominance model (AA = +<i>a</i>, aa = −<i>a</i>,
+        <b style="color:var(--primary-text)">morado</b> (pocos alelos dominantes) a <b style="color:var(--accent-text)">oro</b> (muchos).</span><span data-l="en">Homozygous parents with <i>k</i> loci under Hayman's additive–dominance model (AA = +<i>a</i>, aa = −<i>a</i>,
         Aa = <i>d</i>). They are crossed in a half diallel with parents (Griffing's Method 2), three replicates per cross. Points go from
-        <b style="color:var(--primary)">purple</b> (few dominant alleles) to <b style="color:var(--accent)">gold</b> (many).</span></p>
+        <b style="color:var(--primary-text)">purple</b> (few dominant alleles) to <b style="color:var(--accent-text)">gold</b> (many).</span></p>
       <div class="pg-controls">
         <label class="inline-label"><span data-l="es">Escenario</span><span data-l="en">Scenario</span>
           <select id="dlPreset">
@@ -772,7 +772,7 @@ cross i × j:  ŷᵢⱼ = μ̂ + ĝᵢ + ĝⱼ + ŝᵢⱼ    with ĝ ~ N(0, G σ
       <div class="field wide" data-show="griffing partial">
         <label><span data-l="es">Progenitores</span><span data-l="en">Parents</span></label>
         <textarea id="b2Parents" rows="4" data-es-ph="P1&#10;P2&#10;P3 …" data-en-ph="P1&#10;P2&#10;P3 …"></textarea>
-        <span class="field-help"><span data-l="es">o número de progenitores:</span><span data-l="en">or number of parents:</span> <input type="number" id="b2NParents" min="3" max="40" value="6" style="width:70px"></span>
+        <span class="field-help"><span data-l="es">o número de progenitores:</span><span data-l="en">or number of parents:</span> <input type="number" id="b2NParents" data-es-title="Número de progenitores" data-en-title="Number of parents" min="3" max="40" value="6" style="width:70px"></span>
       </div>
       <div class="field" data-show="partial">
         <label><span data-l="es">Cruzas por progenitor (s)</span><span data-l="en">Crosses per parent (s)</span></label>
@@ -830,12 +830,12 @@ cross i × j:  ŷᵢⱼ = μ̂ + ĝᵢ + ĝⱼ + ŝᵢⱼ    with ĝ ~ N(0, G σ
       <div class="field" data-show="lxt">
         <label><span data-l="es">Líneas (hembras)</span><span data-l="en">Lines (females)</span></label>
         <textarea id="b2Lines" rows="4" data-es-ph="L1&#10;L2 …" data-en-ph="L1&#10;L2 …"></textarea>
-        <span class="field-help"><span data-l="es">o número:</span><span data-l="en">or number:</span> <input type="number" id="b2NLines" min="2" max="300" value="10" style="width:70px"></span>
+        <span class="field-help"><span data-l="es">o número:</span><span data-l="en">or number:</span> <input type="number" id="b2NLines" data-es-title="Número de líneas" data-en-title="Number of lines" min="2" max="300" value="10" style="width:70px"></span>
       </div>
       <div class="field" data-show="lxt">
         <label><span data-l="es">Probadores (machos)</span><span data-l="en">Testers (males)</span></label>
         <textarea id="b2Testers" rows="4" data-es-ph="T1&#10;T2 …" data-en-ph="T1&#10;T2 …"></textarea>
-        <span class="field-help"><span data-l="es">o número:</span><span data-l="en">or number:</span> <input type="number" id="b2NTesters" min="1" max="20" value="3" style="width:70px"></span>
+        <span class="field-help"><span data-l="es">o número:</span><span data-l="en">or number:</span> <input type="number" id="b2NTesters" data-es-title="Número de probadores" data-en-title="Number of testers" min="1" max="20" value="3" style="width:70px"></span>
       </div>
       <div class="field" data-show="lxt">
         <label class="checkbox-label"><input type="checkbox" id="b2LxtParents" checked> <span data-l="es">Evaluar también líneas y probadores</span><span data-l="en">Also evaluate lines and testers</span></label>
@@ -934,7 +934,7 @@ cross i × j:  ŷᵢⱼ = μ̂ + ĝᵢ + ĝⱼ + ŝᵢⱼ    with ĝ ~ N(0, G σ
     <div class="btn-row"><button class="btn btn-primary" id="b2Generate"><span data-l="es">Generar croquis y libreta</span><span data-l="en">Generate map and field book</span></button></div>
     <div class="messages" id="b2FieldMsg"></div>
     <div class="results-summary" id="b2FieldTiles"></div>
-    <div class="btn-row" id="b2LocPick" style="display:none"><span class="inline-label"><span data-l="es">Localidad</span><span data-l="en">Location</span> <select id="b2LocSelect"></select></span></div>
+    <div class="btn-row" id="b2LocPick" style="display:none"><span class="inline-label"><span data-l="es">Localidad</span><span data-l="en">Location</span> <select id="b2LocSelect" data-es-title="Localidad" data-en-title="Location"></select></span></div>
     <div id="b2FigField"></div>
     <div id="b2BookWrap" style="display:none">
       <h3><span data-l="es">Libreta de campo</span><span data-l="en">Field book</span> <span class="hint" id="b2BookCount"></span></h3>
