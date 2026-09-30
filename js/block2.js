@@ -233,6 +233,9 @@
     renderField();
     state.plan = { plan: B2.plan, budget: B2.budget, field: B2.field };
   }
+  /* from a click or a change: the alpha-lattice search can take a while, so the LABG
+     waiting window shows up if it lasts (same seed, same map) */
+  function fieldWork() { const w = bpWork('Generando el croquis de campo', 'Generating the field map'); bpAfterPaint(generateField, w); }
   function renderField() {
     const F = B2.field;
     if (!F) return;
@@ -498,13 +501,13 @@
       fieldVisibility();
       if (el('b2FieldDesign').value === 'alpha' && B2.plan) el('b2K').value = suggestK(B2.plan.entries.length);
       if (el('b2FieldDesign').value === 'augmented' && B2.plan && !B2.plan.cfg.checks.length) msg('b2FieldMsg', [{ es: 'El diseño aumentado necesita testigos: escríbalos en la tarjeta 1.', en: 'The augmented design needs checks: type them in card 1.', level: 'info' }]);
-      generateField();
+      fieldWork();
     });
-    ['b2K', 'b2AugBlocks', 'b2PlotsRow', 'b2Arrange', 'b2Numbering', 'b2Seed', 'b2LocNames'].forEach(id => el(id).addEventListener('change', generateField));
+    ['b2K', 'b2AugBlocks', 'b2PlotsRow', 'b2Arrange', 'b2Numbering', 'b2Seed', 'b2LocNames'].forEach(id => el(id).addEventListener('change', fieldWork));
     ['b2RowsPlot', 'b2RowLen', 'b2RowSp'].forEach(id => el(id).addEventListener('input', debounce(renderField, 250)));
     el('b2Traits').addEventListener('input', debounce(renderBook, 300));
-    el('b2NewSeed').addEventListener('click', () => { el('b2Seed').value = Math.floor(Math.random() * 90000) + 10000; generateField(); });
-    el('b2Generate').addEventListener('click', generateField);
+    el('b2NewSeed').addEventListener('click', () => { el('b2Seed').value = Math.floor(Math.random() * 90000) + 10000; fieldWork(); });
+    el('b2Generate').addEventListener('click', fieldWork);
     el('b2LocSelect').addEventListener('change', () => { B2.loc = +el('b2LocSelect').value; renderField(); });
     el('b2DlCsv').addEventListener('click', downloadCsv);
     el('b2DlXlsx').addEventListener('click', downloadXlsx);

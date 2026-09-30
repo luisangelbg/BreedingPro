@@ -87,12 +87,26 @@
     if (!html) return;
     const o = Object.assign({}, B12.lastOpts, { raster: el('b12Raster').value, scale: +el('b12Scale').value, workbooks: el('b12ZipBooks').checked, data: el('b12ZipData').checked });
     el('b12ZipBtn').disabled = true;
+    /* inline LABG bar: the page stays usable while the figures are converted */
+    let bar = null;
+    if (window.LABG && LABG.progressBar) {
+      let host = el('b12ZipBar');
+      if (!host) { host = mk('div', { id: 'b12ZipBar' }); el('b12ZipMsg').before(host); }
+      bar = LABG.progressBar(host, { label: T('Paquete ZIP', 'ZIP package') });
+      clearMessages('b12ZipMsg');
+    }
     try {
       const t0 = performance.now();
-      const blob = await RP.zip(o, html, async p => { msg('b12ZipMsg', [{ level: 'info', es: `Convirtiendo figuras: ${fmtNum(100 * p, 0)} %…`, en: `Converting figures: ${fmtNum(100 * p, 0)} %…` }]); await new Promise(r => setTimeout(r, 0)); });
+      const blob = await RP.zip(o, html, async p => {
+        if (bar) bar.update(p, T(`Convirtiendo figuras: ${fmtNum(100 * p, 0)} %`, `Converting figures: ${fmtNum(100 * p, 0)} %`));
+        else msg('b12ZipMsg', [{ level: 'info', es: `Convirtiendo figuras: ${fmtNum(100 * p, 0)} %…`, en: `Converting figures: ${fmtNum(100 * p, 0)} %…` }]);
+        await new Promise(r => setTimeout(r, 0));
+      });
       download(blob, fileBase() + '.zip');
+      if (bar) bar.done();
       msg('b12ZipMsg', [{ level: 'success', es: `Paquete listo: ${fmtNum(blob.size / 1048576, 1)} MB en ${fmtNum((performance.now() - t0) / 1000, 1)} s.`, en: `Package ready: ${fmtNum(blob.size / 1048576, 1)} MB in ${fmtNum((performance.now() - t0) / 1000, 1)} s.` }]);
     } catch (e) {
+      if (bar) bar.fail(T('No se pudo armar el paquete', 'The package could not be built'));
       msg('b12ZipMsg', [{ level: 'error', es: 'No se pudo armar el paquete: ' + e.message, en: 'The package could not be built: ' + e.message }]);
     } finally { el('b12ZipBtn').disabled = false; }
   }
@@ -118,7 +132,10 @@
 
   function init() {
     if (!el('b12Content')) return;
-    el('b12Build').addEventListener('click', () => { build(); el('b12Preview').scrollIntoView({ behavior: 'smooth', block: 'start' }); });
+    el('b12Build').addEventListener('click', () => {
+      const w = bpWork('Armando el informe', 'Building the report');
+      bpAfterPaint(() => { if (!build() && w) w._failed = true; el('b12Preview').scrollIntoView({ behavior: 'smooth', block: 'start' }); }, w);
+    });
     el('b12Print').addEventListener('click', printReport);
     el('b12Html').addEventListener('click', () => { const h = ensure(); if (h) download(new Blob([h], { type: 'text/html;charset=utf-8' }), fileBase() + '.html'); });
     el('b12Open').addEventListener('click', () => { const h = ensure(); if (!h) return; const u = URL.createObjectURL(new Blob([h], { type: 'text/html;charset=utf-8' })); window.open(u, '_blank'); setTimeout(() => URL.revokeObjectURL(u), 120000); });

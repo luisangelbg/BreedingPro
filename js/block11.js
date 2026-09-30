@@ -33,6 +33,8 @@
   const pm = (v, se, d) => (isFinite(v) ? `${fmtNum(v, d || 4)}${isFinite(se) ? ` <span class="hint">± ${fmtNum(se, d || 4)}</span>` : ''}` : '—');
   const tiles = (host, items) => { el(host).innerHTML = items.map(([es, en, v, sub]) => `<div class="stat-tile"><div class="stat-label">${keepGreek(T(es, en))}</div><div class="stat-value">${v}</div>${sub ? `<div class="stat-sub">${sub}</div>` : ''}</div>`).join(''); };
   const yieldUI = () => new Promise(r => setTimeout(r, 20));
+  /* heavy work run from a click or a change: the LABG waiting window shows up if it lasts */
+  const heavy = (es, en, f) => bpAfterPaint(f, bpWork(es, en));
 
   /* ================= examples ================= */
   const EX11 = [
@@ -108,7 +110,7 @@
   }
   function renderMarkers() {
     el('b11ExRow').innerHTML = EX11.map(e => `<button type="button" class="btn btn-secondary btn-sm${B11.src && B11.src.id === e.id ? ' active' : ''}" data-ex11="${e.id}">${T(e.es, e.en)}</button>`).join('');
-    el('b11ExRow').querySelectorAll('[data-ex11]').forEach(b => b.addEventListener('click', () => loadExample(b.dataset.ex11)));
+    el('b11ExRow').querySelectorAll('[data-ex11]').forEach(b => b.addEventListener('click', () => heavy('Preparando los marcadores', 'Preparing the markers', () => loadExample(b.dataset.ex11))));
     const box = el('b11MarkBox');
     if (!B11.Q) { box.style.display = 'none'; el('b11Source').innerHTML = T('Elija un ejemplo o cargue un archivo de marcadores: una fila por individuo, la primera columna con su identificador y una columna por marcador (0/1/2, −1/0/1, 0/1 o letras como AA/AB/BB).', 'Pick an example or load a marker file: one row per individual, the first column with its identifier and one column per marker (0/1/2, −1/0/1, 0/1 or letters such as AA/AB/BB).'); return; }
     box.style.display = '';
@@ -215,8 +217,8 @@
     const Q = B11.Q;
     msg('b11GblupMsg', [{ level: 'info', es: 'Calculando…', en: 'Computing…' }]);
     el('b11RunG').disabled = true;
-    await yieldUI();
-    try {
+    const w = bpWork('Ajustando el GBLUP', 'Fitting GBLUP');
+    await bpAfterPaint(() => { try {
       const t0 = Date.now();
       let fit;
       if (B11.phenSource === 'block3') {
@@ -246,7 +248,7 @@
       msg('b11GblupMsg', notes);
       renderGblup();
       renderCVForm();
-    } finally { el('b11RunG').disabled = false; }
+    } finally { el('b11RunG').disabled = false; } }, w);
   }
   function renderGblup() {
     const F = B11.fit, host = el('b11GblupRes');
@@ -320,17 +322,19 @@
     B11.folds = +el('b11Folds').value; B11.reps = +el('b11Reps').value; B11.refit = el('b11Refit').checked;
     el('b11RunCv').disabled = true;
     const truth = B11.src && B11.src.truth && !B11.hyb ? B11.src.truth : null;
-    try {
+    /* the window follows the folds; the seed and the order of the folds are the same as before */
+    const w = bpWork('Validación cruzada genómica', 'Genomic cross-validation');
+    await bpAfterPaint(async () => { try {
       const out = [];
       for (let q = 0; q < models.length; q++) {
         const m = models[q];
-        const cv = await GS.cv(recs, Q.ids, m.K, m.inv.Kinv, m.inv.logdet, { folds: B11.folds, reps: B11.reps, refit: B11.refit, seed: 20260918, truth }, async p => { msg('b11CvMsg', [{ level: 'info', es: `${m.name}: ${fmtNum(100 * p, 0)} %…`, en: `${m.name}: ${fmtNum(100 * p, 0)} %…` }]); await yieldUI(); });
+        const cv = await GS.cv(recs, Q.ids, m.K, m.inv.Kinv, m.inv.logdet, { folds: B11.folds, reps: B11.reps, refit: B11.refit, seed: 20260918, truth }, async p => { msg('b11CvMsg', [{ level: 'info', es: `${m.name}: ${fmtNum(100 * p, 0)} %…`, en: `${m.name}: ${fmtNum(100 * p, 0)} %…` }]); if (w) w.update((q + p) / models.length, `${m.name}: ${fmtNum(100 * p, 0)} %`); await yieldUI(); });
         out.push(Object.assign({}, m, { cv }));
       }
       B11.cv = out;
       clearMessages('b11CvMsg');
       renderCV();
-    } finally { el('b11RunCv').disabled = false; }
+    } finally { el('b11RunCv').disabled = false; } }, w);
   }
   function renderCV() {
     const C = B11.cv, host = el('b11CvRes');
@@ -406,8 +410,8 @@
   async function runHyb() {
     msg('b11HRunMsg', [{ level: 'info', es: 'Calculando…', en: 'Computing…' }]);
     el('b11RunH').disabled = true;
-    await yieldUI();
-    try {
+    const w = bpWork('Ajustando el modelo de híbridos', 'Fitting the hybrid model');
+    await bpAfterPaint(() => { try {
       const k = groupKernels();
       const t0 = Date.now();
       const res = GS.hybrid(hybRecords(), k.g1, k.K1, k.g2, k.K2, { sca: B11.hSCA });
@@ -418,7 +422,7 @@
       B11.hres = res; B11.hcv = null;
       msg('b11HRunMsg', (k.missing ? [{ level: 'warning', es: `${plural(k.missing, 'progenitor sin marcadores se omite', 'progenitores sin marcadores se omiten')}.`, en: `${plural(k.missing, 'parent without markers is left out', 'parents without markers are left out')}.` }] : []).concat([{ level: 'info', es: `Listo en ${fmtNum(res.time / 1000, 2)} s.`, en: `Done in ${fmtNum(res.time / 1000, 2)} s.` }]));
       renderHyb();
-    } finally { el('b11RunH').disabled = false; }
+    } finally { el('b11RunH').disabled = false; } }, w);
   }
   function renderHyb() {
     const H = B11.hres, host = el('b11HybRes');
@@ -478,12 +482,13 @@
     const k = B11.hres && B11.hres.kern;
     if (!k) return;
     el('b11RunHcv').disabled = true;
-    try {
+    const w = bpWork('Validación cruzada de híbridos', 'Hybrid cross-validation');
+    await bpAfterPaint(async () => { try {
       const truth = B11.src && B11.src.truth && B11.hyb ? B11.src.truth : null;
-      B11.hcv = await GS.hybridCV(hybRecords(), k.g1, k.K1, k.g2, k.K2, { folds: 5, reps: +el('b11HReps').value, sca: B11.hSCA, seed: 20260918, truth }, async p => { msg('b11HcvMsg', [{ level: 'info', es: `${fmtNum(100 * p, 0)} %…`, en: `${fmtNum(100 * p, 0)} %…` }]); await yieldUI(); });
+      B11.hcv = await GS.hybridCV(hybRecords(), k.g1, k.K1, k.g2, k.K2, { folds: 5, reps: +el('b11HReps').value, sca: B11.hSCA, seed: 20260918, truth }, async p => { msg('b11HcvMsg', [{ level: 'info', es: `${fmtNum(100 * p, 0)} %…`, en: `${fmtNum(100 * p, 0)} %…` }]); if (w) w.update(p, `${fmtNum(100 * p, 0)} %`); await yieldUI(); });
       clearMessages('b11HcvMsg');
       renderHybCV();
-    } finally { el('b11RunHcv').disabled = false; }
+    } finally { el('b11RunHcv').disabled = false; } }, w);
   }
   function renderHybCV() {
     const C = B11.hcv;
@@ -604,13 +609,13 @@
     if (!el('b11Markers')) return;
     renderNotes();
     const errMsg = host => err => msg(host, [{ level: 'error', es: String(err.message || err), en: String(err.message || err) }]);
-    el('b11FileM').addEventListener('change', e => { const f = e.target.files[0]; if (f) readMarkers(f).catch(errMsg('b11MarkMsg')); e.target.value = ''; });
+    el('b11FileM').addEventListener('change', e => { const f = e.target.files[0]; if (f) heavy('Leyendo los marcadores', 'Reading the markers', () => readMarkers(f).catch(errMsg('b11MarkMsg'))); e.target.value = ''; });
     el('b11FileP').addEventListener('change', e => { const f = e.target.files[0]; if (f) readPheno(f, 'phen').catch(errMsg('b11GblupMsg')); e.target.value = ''; });
     el('b11FileH').addEventListener('change', e => { const f = e.target.files[0]; if (f) readPheno(f, 'hyb').catch(errMsg('b11HybMsg')); e.target.value = ''; });
-    [['b11MissM', 'maxMissMarker', 0.01], ['b11MissI', 'maxMissInd', 0.01], ['b11MAF', 'minMAF', 1]].forEach(([id, k, f]) => el(id).addEventListener('change', () => { const v = parseFloat(el(id).value); if (isFinite(v)) { B11.qc[k] = v * f; if (B11.D) process(); } }));
-    el('b11Method').addEventListener('change', () => { B11.method = el('b11Method').value; if (B11.Q) { rebuildG(); renderAll(); } });
-    el('b11Ridge').addEventListener('change', () => { B11.ridge = parseFloat(el('b11Ridge').value) || 0.001; if (B11.Q) { rebuildG(); renderAll(); } });
-    el('b11WA').addEventListener('change', () => { B11.wA = parseFloat(el('b11WA').value) || 0; if (B11.Q) { rebuildG(); renderAll(); } });
+    [['b11MissM', 'maxMissMarker', 0.01], ['b11MissI', 'maxMissInd', 0.01], ['b11MAF', 'minMAF', 1]].forEach(([id, k, f]) => el(id).addEventListener('change', () => { const v = parseFloat(el(id).value); if (isFinite(v)) { B11.qc[k] = v * f; if (B11.D) heavy('Filtrando los marcadores', 'Filtering the markers', process); } }));
+    el('b11Method').addEventListener('change', () => { B11.method = el('b11Method').value; if (B11.Q) heavy('Construyendo el parentesco genómico', 'Building the genomic relationships', () => { rebuildG(); renderAll(); }); });
+    el('b11Ridge').addEventListener('change', () => { B11.ridge = parseFloat(el('b11Ridge').value) || 0.001; if (B11.Q) heavy('Construyendo el parentesco genómico', 'Building the genomic relationships', () => { rebuildG(); renderAll(); }); });
+    el('b11WA').addEventListener('change', () => { B11.wA = parseFloat(el('b11WA').value) || 0; if (B11.Q) heavy('Construyendo el parentesco genómico', 'Building the genomic relationships', () => { rebuildG(); renderAll(); }); });
     el('b11PhenSource').addEventListener('change', () => { B11.phenSource = el('b11PhenSource').value; B11.trait = 0; B11.fit = null; renderGblupForm(); renderGblup(); renderCVForm(); });
     el('b11Trait').addEventListener('change', () => { B11.trait = +el('b11Trait').value; B11.fit = null; B11.cv = null; renderGblup(); renderCV(); });
     el('b11RunG').addEventListener('click', runGblup);

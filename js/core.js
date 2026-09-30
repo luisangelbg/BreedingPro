@@ -67,7 +67,19 @@ function svgEl(tag, attrs, text) {
   if (text != null) n.textContent = text;
   return n;
 }
+/* Waiting window of the LABG Suite: bpWork opens it (it only shows up when the
+   wait lasts more than 300 ms) and bpAfterPaint lets it paint, runs the task
+   (synchronous or async) and closes it with the check mark, or quietly when the
+   task failed. The tests load core.js without labg-core.js: everything is
+   guarded with window.LABG. */
+function bpWork(es, en) { if (!window.LABG || !LABG.work) return null; const w = LABG.work({ title: LABG.t(es, en || es), delay: 300 }); bpWork.current = w; return w; }
+bpWork.current = null;
+function bpAfterPaint(f, w) {
+  const done = () => { if (bpWork.current === w) bpWork.current = null; if (w && !w.ended) { if (w._failed) w.close(); else w.done(); } };
+  return (window.LABG ? LABG.nextPaint() : new Promise(r => setTimeout(r, 30))).then(f).then(done, e => { console.error(e); if (w) w._failed = true; done(); });
+}
 function showMessage(container, type, text) {
+  if (type === 'error' && bpWork.current) bpWork.current._failed = true;
   if (typeof container === 'string') container = el(container);
   if (!container) return null;
   const div = mk('div', { class: 'msg msg-' + type }, text);
@@ -209,6 +221,14 @@ function refreshStepMarks() {
    app: the tests load core.js without labg-core.js. */
 function initSuiteBar() {
   if (!window.LABG) return;
+  if (LABG.work) {
+    LABG.work.scene = 'grow';
+    LABG.work.tips = [
+      ['Cada figura trae su panel de edición: títulos, paletas, fuentes y tamaños, con su barra de exportación.', 'Every figure has its own editor: titles, palettes, fonts and sizes, with its export bar.'],
+      ['La validación cruzada genómica repite los pliegues con una semilla fija: el mismo archivo da la misma exactitud.', 'Genomic cross-validation repeats the folds with a fixed seed: the same file gives the same accuracy.'],
+      ['El Bloque 12 reúne todo en un informe con los métodos redactados y un paquete .zip.', 'Block 12 gathers everything into a report with written methods and a .zip package.']
+    ];
+  }
   const hb = el('helpBtn');
   if (hb) hb.addEventListener('click', () => LABG.showShortcuts());
   const nb = el('b1Next');

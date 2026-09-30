@@ -644,7 +644,7 @@
     el('b8Back').addEventListener('click', () => goStep(+el('b8Back').dataset.step || 3));
     el('b8Next').addEventListener('click', () => { const n = +el('b8Next').dataset.step || 9; if (STEPS[n - 1].ready) goStep(n); });
     document.addEventListener('datachange', () => { B8.cache.clear(); B8.env = null; B8.traits = null; B8.setup = {}; B8.fehr = null; if (document.getElementById('panel-8').classList.contains('active')) renderAll(); else B8.built = false; });
-    document.addEventListener('stepchange', e => { if (e.detail.step === 8 && (!B8.built || !B8.res)) { B8.built = true; renderAll(); } });
+    document.addEventListener('stepchange', e => { if (e.detail.step === 8 && (!B8.built || !B8.res)) { B8.built = true; bpAfterPaint(renderAll, bpWork('Analizando las variables', 'Analysing the traits')); } });
     document.addEventListener('langchange', () => { renderNotes(); if (B8.res) renderAll(); });
   }
   document.addEventListener('DOMContentLoaded', init);

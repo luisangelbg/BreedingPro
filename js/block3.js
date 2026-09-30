@@ -353,13 +353,17 @@
     B3.results.set(i, res);
     return res;
   }
-  let pending = null;
+  let pending = null, pendingW = null;
   function analyseCurrent() {
     if (!B3.ds.traits.length) { el('b3Quality').style.display = 'none'; el('b3Analysis').style.display = 'none'; publish(); return; }
     el('b3Quality').style.display = ''; el('b3Analysis').style.display = '';
     busy('b3Analysis', true); busy('b3Quality', true);
     clearTimeout(pending);
-    pending = setTimeout(() => {
+    /* a change that arrives before the previous one ran replaces its window */
+    if (pendingW && !pendingW.ended) pendingW.close();
+    const w = pendingW = bpWork('Analizando el ensayo', 'Analysing the trial');
+    pending = setTimeout(() => bpAfterPaint(() => {
+      if (pendingW === w) pendingW = null;
       try {
         runTrait(B3.trait);
         renderQuality();
@@ -370,7 +374,7 @@
       }
       busy('b3Analysis', false); busy('b3Quality', false);
       publish();
-    }, 30);
+    }, w), 30);
   }
 
   /* ================= 4 · quality ================= */

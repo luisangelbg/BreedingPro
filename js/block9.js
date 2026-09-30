@@ -646,7 +646,7 @@
     el('b9Back').addEventListener('click', () => goStep(8));
     el('b9Next').addEventListener('click', () => { if (STEPS[9].ready) goStep(10); });
     document.addEventListener('datachange', () => { B9.cache.clear(); B9.trait = 0; B9.ga = 0; B9.gb = 1; if (document.getElementById('panel-9').classList.contains('active')) renderAll(); else B9.built = false; });
-    document.addEventListener('stepchange', e => { if (e.detail.step === 9 && (!B9.built || !B9.res)) { B9.built = true; renderAll(); } });
+    document.addEventListener('stepchange', e => { if (e.detail.step === 9 && (!B9.built || !B9.res)) { B9.built = true; bpAfterPaint(renderAll, bpWork('Analizando los ambientes', 'Analysing the environments')); } });
     document.addEventListener('langchange', () => { renderNotes(); if (B9.res) renderAll(); });
   }
   document.addEventListener('DOMContentLoaded', init);

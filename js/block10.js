@@ -33,7 +33,6 @@
   const f4 = x => fmtFixed(x, 4);
   const pm = (v, se, d) => (isFinite(v) ? `${fmtNum(v, d || 4)}${isFinite(se) ? ` <span class="hint">± ${fmtNum(se, d || 4)}</span>` : ''}` : '—');
   const tiles = (host, items) => { el(host).innerHTML = items.map(([es, en, v, sub]) => `<div class="stat-tile"><div class="stat-label">${keepGreek(T(es, en))}</div><div class="stat-value">${v}</div>${sub ? `<div class="stat-sub">${sub}</div>` : ''}</div>`).join(''); };
-  const yieldUI = () => new Promise(r => setTimeout(r, 30));
 
   /* ================= 1 · data and pedigree ================= */
   const ROLES10 = [
@@ -124,12 +123,12 @@
 
   function renderSourcePicker() {
     el('b10ExRow').innerHTML = EX10.map(e => `<button type="button" class="btn btn-secondary btn-sm${B10.src && B10.src.id === e.id ? ' active' : ''}" data-ex10="${e.id}">${T(e.es, e.en)}</button>`).join('');
-    el('b10ExRow').querySelectorAll('[data-ex10]').forEach(b => b.addEventListener('click', () => {
+    el('b10ExRow').querySelectorAll('[data-ex10]').forEach(b => b.addEventListener('click', () => bpAfterPaint(() => {
       const e = EX10.find(x => x.id === b.dataset.ex10);
       const got = e.sim ? e.sim() : { rows: Data.parseDelimited(e.data()) };
       B10.pedExtra = null;
       loadSource(srcFromRows(got.rows, T(e.es, e.en), { id: e.id, roles: e.roles, model: e.model, pe: e.pe, varMode: e.varMode, given: e.given, selfing: e.selfing, cite: e.cite, truth: got.truth }));
-    }));
+    }, bpWork('Preparando el ejemplo', 'Preparing the example'))));
   }
   function renderRoles() {
     const src = B10.src, host = el('b10Roles');
@@ -246,8 +245,8 @@
     }
     msg('b10RunMsg', [{ level: 'info', es: `Calculando: ${prep.n} registros, ${prep.size} ecuaciones…`, en: `Computing: ${prep.n} records, ${prep.size} equations…` }]);
     el('b10Run').disabled = true;
-    await yieldUI();
-    try {
+    const w = bpWork('Ajustando el modelo animal', 'Fitting the animal model');
+    await bpAfterPaint(() => { try {
       const fit = AM.fit(prep, { theta });
       if (fit.error) { msg('b10RunMsg', [{ level: 'error', es: 'El modelo no se pudo ajustar (ecuaciones singulares).', en: 'The model could not be fitted (singular equations).' }]); return; }
       B10.fit = fit; B10.prep = prep;
@@ -259,7 +258,7 @@
       msg('b10RunMsg', notes);
       renderModelForm();
       renderResults();
-    } finally { el('b10Run').disabled = false; }
+    } finally { el('b10Run').disabled = false; } }, w);
   }
   function renderResults() {
     const fit = B10.fit, host = el('b10Results');
@@ -390,8 +389,8 @@
     const D = state.data;
     msg('b10TRunMsg', [{ level: 'info', es: 'Calculando…', en: 'Computing…' }]);
     el('b10TRun').disabled = true;
-    await yieldUI();
-    try {
+    const w = bpWork('Ajustando el modelo del ensayo', 'Fitting the trial model');
+    await bpAfterPaint(() => { try {
       const pedRows = B10.ped ? pedRowsOf(B10.src) : null;
       const res = AM.trial(D.ds, D.field, D.ds.traits[B10.tTrait], { excluded: D.excluded, genetic: B10.tGen, pedRows });
       if (res.error) { msg('b10TRunMsg', (res.issues || []).concat([{ level: 'error', es: res.error, en: res.error }])); return; }
@@ -400,7 +399,7 @@
       if (!res.res.converged) notes.push({ level: 'warning', es: 'REML no convergió; los valores son los de la última iteración.', en: 'REML did not converge; the values are those of the last iteration.' });
       msg('b10TRunMsg', notes);
       renderTrialResults();
-    } finally { el('b10TRun').disabled = false; }
+    } finally { el('b10TRun').disabled = false; } }, w);
   }
   function renderTrialResults() {
     const R = B10.tRes, host = el('b10TResults');
