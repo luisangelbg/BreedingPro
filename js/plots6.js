@@ -44,6 +44,7 @@ P6.grid = (cfg0, o) => {
   cols.forEach((nm, j) => g.appendChild(Fig.text(f.x0 + j * cell + cell / 2 + fs * 0.35, f.y0 - 6, cut6(nm, 14), { size: fs, anchor: 'start', fill: f.t.fg, font: f.font, rotate: -60, role: 'tick' })));
   f.g.appendChild(g);
   f.x1 = f.x0 + nc * cell; f.y1 = f.y0 + nr * cell;
+  svg.setAttribute('data-plot', [f.x0, f.y0, nc * cell, nr * cell].map(v => +v.toFixed(2)).join(' '));   /* the cells are the plot area (figure studio) */
   P3.colorbar(f, cfg, -mx, mx, ramp, o.label || T('efecto', 'effect'));
   f.g.appendChild(Fig.text(f.x0, f.y1 + 34, `${o.rowTitle || T('fila', 'row')} × ${o.colTitle || T('columna', 'column')} · * p < 0.05  ** p < 0.01  *** p < 0.001`, { size: 10.5, fill: f.t.muted, font: f.font, role: 'legend' }));
   return svg;
@@ -96,12 +97,13 @@ P6.sumsDiff = (cfg0, sd, o) => {
         : T(`dominancia hacia ${sd.testers[1]}`, `dominance towards ${sd.testers[1]}`),
   ].filter(Boolean);
   if (cfg.legendPos !== 'none') {
-    notes.forEach((s, k) => f.g.appendChild(Fig.text(f.x1 + 16, f.y0 + 14 + k * 16, s, { size: 10.5, fill: k === notes.length - 1 ? f.t.muted : f.t.fg, font: f.font, role: 'legend' })));
+    const lg = f.g.appendChild(Fig.g({ 'data-role': 'legend' }));   /* notes and key in one group for the figure studio; data-li = entry */
+    notes.forEach((s, k) => lg.appendChild(Fig.text(f.x1 + 16, f.y0 + 14 + k * 16, s, { size: 10.5, fill: k === notes.length - 1 ? f.t.muted : f.t.fg, font: f.font, role: 'legend' })));
     if (sets.length > 1) {
       sets.forEach((s, k) => {
         const yy = f.y0 + 26 + notes.length * 16 + k * 16;
-        f.g.appendChild(Fig.marker(f.x1 + 24, yy - 4, 4.4, Fig.shapes[k % Fig.shapes.length], { fill: Fig.alpha(Fig.color(cfg.palette, k + 1), 0.85), stroke: f.t.bg, 'stroke-width': 0.8 }));
-        f.g.appendChild(Fig.text(f.x1 + 34, yy, T(`conjunto ${s}`, `set ${s}`), { size: 10, fill: f.t.fg, font: f.font, role: 'legend' }));
+        lg.appendChild(Fig.marker(f.x1 + 24, yy - 4, 4.4, Fig.shapes[k % Fig.shapes.length], { fill: Fig.alpha(Fig.color(cfg.palette, k + 1), 0.85), stroke: f.t.bg, 'stroke-width': 0.8, 'data-li': k }));
+        lg.appendChild(Fig.text(f.x1 + 34, yy, T(`conjunto ${s}`, `set ${s}`), { size: 10, fill: f.t.fg, font: f.font, role: 'legend' })).setAttribute('data-li', k);
       });
     }
   }

@@ -49,12 +49,13 @@ P7.means = (cfg0, res, o) => {
     fit.est.forEach(e => notes.push(`${GEN.PARAM_LABEL[fit.metric][e.key]} = ${fmtNum(e.value, 3)} ± ${fmtNum(e.se, 3)}`));
   }
   if (cfg.legendPos !== 'none') {
-    notes.forEach((s, k) => f.g.appendChild(Fig.text(f.x1 + 16, f.y0 + 14 + k * 15, s, { size: 10, fill: f.t.fg, font: f.font, role: 'legend' })));
+    const lg = f.g.appendChild(Fig.g({ 'data-role': 'legend' }));   /* notes and key in one group for the figure studio; data-li = entry */
+    notes.forEach((s, k) => lg.appendChild(Fig.text(f.x1 + 16, f.y0 + 14 + k * 15, s, { size: 10, fill: f.t.fg, font: f.font, role: 'legend' })));
     const key = [[colObs, 'circle', T('observado ± IC', 'observed ± CI')], [colFit, 'diamond', T('esperado', 'expected')]];
     key.forEach(([c, sh, lab], k) => {
       const yy = f.y0 + 26 + notes.length * 15 + k * 16;
-      f.g.appendChild(Fig.marker(f.x1 + 22, yy - 4, 4.2, sh, sh === 'diamond' ? { fill: 'none', stroke: c, 'stroke-width': 1.6 } : { fill: c }));
-      f.g.appendChild(Fig.text(f.x1 + 32, yy, lab, { size: 10, fill: f.t.muted, font: f.font, role: 'legend' }));
+      lg.appendChild(Fig.marker(f.x1 + 22, yy - 4, 4.2, sh, sh === 'diamond' ? { fill: 'none', stroke: c, 'stroke-width': 1.6, 'data-li': k } : { fill: c, 'data-li': k }));
+      lg.appendChild(Fig.text(f.x1 + 32, yy, lab, { size: 10, fill: f.t.muted, font: f.font, role: 'legend' })).setAttribute('data-li', k);
     });
   }
   return svg;
@@ -107,11 +108,12 @@ P7.variances = (cfg0, vc, o) => {
     isFinite(vc.dominance) ? T(`√(H/D) = ${fmtFixed(vc.dominance, 2)}`, `√(H/D) = ${fmtFixed(vc.dominance, 2)}`) : '',
   ].filter(Boolean);
   if (cfg.legendPos !== 'none') {
-    notes.forEach((s, k) => f.g.appendChild(Fig.text(f.x1 + 16, f.y0 + 14 + k * 15, s, { size: 10.5, fill: f.t.fg, font: f.font, role: 'legend' })));
+    const lg = f.g.appendChild(Fig.g({ 'data-role': 'legend' }));   /* notes and key in one group for the figure studio; data-li = entry */
+    notes.forEach((s, k) => lg.appendChild(Fig.text(f.x1 + 16, f.y0 + 14 + k * 15, s, { size: 10.5, fill: f.t.fg, font: f.font, role: 'legend' })));
     [[colObs, T('observada', 'observed')], [colFit, T('esperada', 'expected')]].forEach(([c, lab], k) => {
       const yy = f.y0 + 26 + notes.length * 15 + k * 16;
-      f.g.appendChild(Fig.el('rect', { x: f.x1 + 18, y: yy - 11, width: 10, height: 10, fill: Fig.alpha(c, 0.8), rx: 2 }));
-      f.g.appendChild(Fig.text(f.x1 + 33, yy, lab, { size: 10, fill: f.t.muted, font: f.font, role: 'legend' }));
+      lg.appendChild(Fig.el('rect', { x: f.x1 + 18, y: yy - 11, width: 10, height: 10, fill: Fig.alpha(c, 0.8), rx: 2, 'data-li': k }));
+      lg.appendChild(Fig.text(f.x1 + 33, yy, lab, { size: 10, fill: f.t.muted, font: f.font, role: 'legend' })).setAttribute('data-li', k);
     });
   }
   return svg;

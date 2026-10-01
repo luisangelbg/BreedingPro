@@ -10,7 +10,7 @@ P3.colormapControl = def => ({ key: 'colormap', label: T('Escala de color', 'Col
 
 /* vertical colour bar at the right of a frame */
 P3.colorbar = (f, cfg, lo, hi, ramp, label) => {
-  const g = Fig.g();
+  const g = Fig.g({ 'data-legend': 'colorbar' });   /* tagged for the figure studio */
   const x = f.x1 + 22, y0 = f.y0 + 6, h = Math.min(220, f.y1 - f.y0 - 12), w = 13;
   const id = 'cb' + Math.random().toString(36).slice(2, 8);
   const defs = Fig.el('defs');
@@ -26,6 +26,9 @@ P3.colorbar = (f, cfg, lo, hi, ramp, label) => {
   });
   if (label) g.appendChild(Fig.text(x, y0 - 8, label, { size: 10.5, fill: f.t.muted, font: f.font, role: 'legend', weight: 'bold' }));
   f.g.appendChild(g);
+  /* the area the colours fill is the plot area for the figure studio (a grid narrower than the frame sets f.x1/f.y1 to it first) */
+  const S = f.g.ownerSVGElement;
+  if (S) S.setAttribute('data-plot', [f.x0, f.y0, f.x1 - f.x0, f.y1 - f.y0].map(v => +(+v).toFixed(2)).join(' '));
 };
 
 /* ---------------- 1 · crosses present in the data ---------------- */
@@ -70,13 +73,14 @@ P3.presence = (cfg0, M, cells, o) => {
   g.appendChild(Fig.text(f.x0 + nc * cell / 2, f.y0 + nr * cell + 22, T(M.colTitle), { size: 12, anchor: 'middle', fill: f.t.muted, font: f.font, role: 'axis', weight: 'bold' }));
   f.g.appendChild(g);
   f.x1 = f.x0 + nc * cell; f.y1 = f.y0 + nr * cell;
+  svg.setAttribute('data-plot', [f.x0, f.y0, nc * cell, nr * cell].map(v => +v.toFixed(2)).join(' '));   /* the cells are the plot area (figure studio) */
   if (vals.length && hi > lo) P3.colorbar(f, cfg, lo, hi, ramp, by === 'mean' ? T('media', 'mean') : T('parcelas', 'plots'));
   const anyMissing = o && o.expected && rows.some(a => cols.some(b => !cells.has(M.key(a, b)) && o.expected(a, b)));
   if (anyMissing) {
-    const lg = Fig.g();
+    const lg = Fig.g({ 'data-role': 'legend' });   /* the key, for the figure studio; data-li = entry */
     const lx = f.x0, ly = f.y1 + 42;
-    lg.appendChild(Fig.el('path', { d: `M${lx} ${ly - 8}l8 8M${lx + 8} ${ly - 8}l-8 8`, stroke: Fig.color(cfg.palette, 3), 'stroke-width': 1.8 }));
-    lg.appendChild(Fig.text(lx + 14, ly, T('falta en los datos', 'missing from the data'), { size: 10.5, fill: f.t.muted, font: f.font, role: 'legend' }));
+    lg.appendChild(Fig.el('path', { d: `M${lx} ${ly - 8}l8 8M${lx + 8} ${ly - 8}l-8 8`, stroke: Fig.color(cfg.palette, 3), 'stroke-width': 1.8, 'data-li': 0 }));
+    lg.appendChild(Fig.text(lx + 14, ly, T('falta en los datos', 'missing from the data'), { size: 10.5, fill: f.t.muted, font: f.font, role: 'legend' })).setAttribute('data-li', 0);
     f.g.appendChild(lg);
   }
   return svg;
@@ -125,6 +129,7 @@ P3.fieldMap = (cfg0, plots, o) => {
   axisG.appendChild(Fig.text(22, f.y0 + nr * ch / 2, hasRC ? T('Fila', 'Row') : T('Repetición', 'Replicate'), { size: 12, anchor: 'middle', fill: f.t.fg, font: f.font, rotate: -90, role: 'axis' }));
   f.g.appendChild(axisG);
   f.x1 = f.x0 + nc * cw; f.y1 = f.y0 + nr * ch;
+  svg.setAttribute('data-plot', [f.x0, f.y0, nc * cw, nr * ch].map(v => +v.toFixed(2)).join(' '));   /* the plots are the plot area (figure studio) */
   if (vals.length) P3.colorbar(f, cfg, lo, hi, ramp, cut(o.label, 16));
   return svg;
 };

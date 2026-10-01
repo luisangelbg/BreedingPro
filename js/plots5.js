@@ -62,7 +62,8 @@ P5.wrvr = (cfg0, st, reg, o) => {
   ];
   if (cfg.legendPos !== 'none') {
     const bx = f.x1 + 18;
-    notes.forEach((s, k) => f.g.appendChild(Fig.text(bx, f.y0 + 14 + k * 16, s, { size: 10.5, fill: f.t.fg, font: f.font, role: 'legend' })));
+    const lg = f.g.appendChild(Fig.g({ 'data-role': 'legend' }));   /* notes and key in one group for the figure studio; data-li = entry */
+    notes.forEach((s, k) => lg.appendChild(Fig.text(bx, f.y0 + 14 + k * 16, s, { size: 10.5, fill: f.t.fg, font: f.font, role: 'legend' })));
     /* the lines run almost on top of each other, so they are named in the margin */
     const keys = [];
     if (cfg.showParabola !== false) keys.push([col.par, '2 3', T('parábola límite', 'limiting parabola')]);
@@ -70,8 +71,8 @@ P5.wrvr = (cfg0, st, reg, o) => {
     if (cfg.showFit !== false) keys.push([col.fit, null, T('ajustada', 'fitted')]);
     keys.forEach(([c, dash, lab], k) => {
       const yy = f.y0 + 26 + notes.length * 16 + k * 16;
-      f.g.appendChild(Fig.el('line', { x1: bx, x2: bx + 18, y1: yy - 4, y2: yy - 4, stroke: c, 'stroke-width': 2, 'stroke-dasharray': dash || null }));
-      f.g.appendChild(Fig.text(bx + 24, yy, lab, { size: 10, fill: f.t.fg, font: f.font, role: 'legend' }));
+      lg.appendChild(Fig.el('line', { x1: bx, x2: bx + 18, y1: yy - 4, y2: yy - 4, stroke: c, 'stroke-width': 2, 'stroke-dasharray': dash || null, 'data-li': k }));
+      lg.appendChild(Fig.text(bx + 24, yy, lab, { size: 10, fill: f.t.fg, font: f.font, role: 'legend' })).setAttribute('data-li', k);
     });
   }
   return svg;
