@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+- Accessibility (WCAG 2.5.3, Label in Name): the brand link in the top bar was announced as "BreedingPro home", a
+  name that did not contain the text it shows. `I18N.apply` (`js/i18n.js`) copied every tooltip (`data-es-title` /
+  `data-en-title`) to `aria-label`; it still does, except where a link, button or tab already shows a readable text
+  that the tooltip does not contain: there the control is named by that text and the tooltip stays as its
+  description. Nothing looks or computes differently; the 338 unit tests still pass.
 - Studentized range (`S.ptukey` and `S.qtukey` in `js/stats.js`): the last cut-off of the inner integral was
   exp(−30/k) instead of exp(−30) (there is a single range), which turned small probabilities into 0 when there are
   many means (k = 10: every value below 0.05); the first term also uses now the threshold exp(−50/k) of the classical
