@@ -7,6 +7,6 @@
   const cargar = async id => { goStep(3); await W(500); document.querySelector("[data-fam=\"all\"]").click(); await W(150); document.querySelector(`[data-ex="${id}"]`).click(); for (let k = 0; k < 80; k++) { await W(250); if (B3.results.size && !document.getElementById("b3Analysis").classList.contains("is-busy")) break; } await W(800); goStep(6); await W(3500); };
   const $ = id => document.getElementById(id);
   await cargar("nc2");
-  const s = document.querySelector("#b6FigSca svg"); irA(s); await W(400);
+  const s = document.querySelector("#b6FigSca .fig-canvas svg"); irA(s); await W(400);
   caja([s], 0);
 })()

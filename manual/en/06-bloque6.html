@@ -1,0 +1,197 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>BreedingPro · User’s Manual · Block 6: mating designs</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,500;0,600;1,500&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../interior.css">
+<!-- splits the content into letter-size sheets, with running heads and page numbers -->
+<script src="../paginar.js"></script>
+<style>
+  figure.chica .marco, figure.chica > svg { width: 72%; margin: 0 auto; }
+  figure.chica figcaption { margin-left: 14%; margin-right: 14%; }
+  figure.angosta .marco { width: 58%; margin: 0 auto; }
+  figure.angosta figcaption { margin-left: 21%; margin-right: 21%; }
+  td.n, th.n { text-align: right; white-space: nowrap; }
+  td.c, th.c { text-align: center; }
+  .formula { font-family: var(--sans); font-size: 9pt; background: #f6f3fa; border-radius: 4px; padding: 0.07in 0.12in; margin: 0.06in 0 0.12in; line-height: 1.6; }
+</style>
+</head>
+<body>
+
+<section class="capitulo" id="cap-b6" data-pestana="B6" data-orden="7" style="--acento: var(--b6)">
+  <div class="cap-apertura">
+    <div class="cap-num">B6</div>
+    <div class="cap-etiqueta">Chapter six · Block 6 · Mating designs</div>
+    <h1 data-corto="Block 6 · Mating designs">Mating designs</h1>
+    <div class="cap-regla"></div>
+    <p class="cap-resumen">Diallels are not the only way to estimate genetic variances. Comstock and Robinson’s North Carolina designs, Kearsey and Jinks’s triple test cross, line × tester and partial diallels organize the crosses differently, almost always to evaluate more families with less work. Block 6 analyzes the six designs with a single engine: it computes the expected mean squares of the actual experiment, chooses what to test each source against and converts the components into σ²<sub>A</sub>, σ²<sub>D</sub> and heritabilities.</p>
+    <div class="cap-franja"><span class="k6"></span><span class="k6" style="opacity:.75"></span><span class="k6" style="opacity:.5"></span><span class="k6" style="opacity:.3"></span></div>
+    <ul class="cap-contenido">
+      <li><b>6.1</b>Six designs, one idea</li>
+      <li><b>6.2</b>Data and assumptions</li>
+      <li><b>6.3</b>The analysis of variance</li>
+      <li><b>6.4</b>The effects</li>
+      <li><b>6.5</b>Components and genetic parameters</li>
+      <li><b>6.6</b>North Carolina I</li>
+      <li><b>6.7</b>North Carolina III and the triple test cross</li>
+      <li><b>6.8</b>Line × tester</li>
+      <li><b>6.9</b>Partial diallel</li>
+      <li><b>6.10</b>Several environments, downloads and the next block</li>
+    </ul>
+  </div>
+
+  <!-- ====================================================================== 6.1 -->
+  <h2 id="s6-1"><span class="num">6.1</span>Six designs, one idea</h2>
+  <p class="lead">All these designs rest on the same principle: relatives resemble each other in proportion to the genes they share. Half sibs (one parent in common) share a quarter of the additive variance; full sibs, half of the additive variance and a quarter of the dominance variance. Each design organizes the crosses so that the analysis of variance separates those two covariances.</p>
+  <div class="formula">Cov(HS) = ¼(1 + <i>F</i>)σ²<sub>A</sub> &nbsp;·&nbsp; Cov(FS) = ½(1 + <i>F</i>)σ²<sub>A</sub> + ¼(1 + <i>F</i>)²σ²<sub>D</sub></div>
+  <table class="compacta">
+    <caption><b>Table 6.1.</b> The designs of Block 6, what they estimate and the chapter example that illustrates each.</caption>
+    <thead><tr><th style="width:21%">Design</th><th>How the crosses are made</th><th style="width:25%">Estimates</th><th style="width:20%">Example</th></tr></thead>
+    <tbody>
+      <tr><td>North Carolina I</td><td>Each male with several females of its own (nested)</td><td>σ²<sub>A</sub> from the males; σ²<sub>D</sub> from the females within males</td><td>2 sets × 3 males × 2 females</td></tr>
+      <tr><td>North Carolina II</td><td>Every male with every female of its set (factorial)</td><td>σ²<sub>A</sub> from males and from females; σ²<sub>D</sub> from their interaction</td><td>potato: 2 sets of 5 × 5</td></tr>
+      <tr><td>North Carolina III</td><td>Each F<sub>2</sub> plant with the two parents of the F<sub>1</sub></td><td>σ²<sub>A</sub> from the sums; σ²<sub>D</sub> from the differences</td><td>16 F<sub>2</sub> plants in 4 sets</td></tr>
+      <tr><td>Triple test cross</td><td>Like design III, plus the F<sub>1</sub> as a third tester</td><td>The same and, in addition, epistasis</td><td>simulated: 30 F<sub>2</sub> plants</td></tr>
+      <tr><td>Line × tester</td><td>Each line with each tester; optionally, the parents</td><td>GCA of lines and testers; SCA; heterosis</td><td>5 lines × 3 testers</td></tr>
+      <tr><td>Partial diallel</td><td>Each parent with <i>s</i> of the others (circulant)</td><td>GCA and SCA as in a diallel, with fewer crosses</td><td>maize: 8 lines, <i>s</i> = 5</td></tr>
+    </tbody>
+  </table>
+  <p>Block 3 recognizes the design and decides which column is the female, the male, the tester or the F<sub>2</sub> plant. If the data come from none of these designs, card 1 says where they are analyzed: complete diallels in Blocks 4 and 5; generations in Block 7.</p>
+
+  <!-- ====================================================================== 6.2 -->
+  <h2 id="s6-2"><span class="num">6.2</span>Data and assumptions</h2>
+  <p>The card <span class="ui">1 · Data and model</span> takes the plot values from Block 3 (with the field analysis that matches the design and any observations you excluded), summarizes the experiment in one line and gives the main results in tiles. The table <span class="ui">What the design assumes</span>, below, says what each design assumes and what happens if the assumption fails.</p>
+  <figure>
+    <div class="marco"><img src="../img/en/b6-datos.png" alt="The data and model card with the potato North Carolina II"></div>
+    <figcaption><b>Figure 6.1.</b> Card 1 with the potato North Carolina II: two sets of five males × five females, three replications and 150 yield plots. The tiles give σ²<sub>A</sub>, σ²<sub>D</sub>, the degree of dominance, the heritability and the error.</figcaption>
+  </figure>
+  <table class="compacta">
+    <caption><b>Table 6.2.</b> The controls of card 1.</caption>
+    <thead><tr><th style="width:27%">Control</th><th>What it is for</th></tr></thead>
+    <tbody>
+      <tr><td><span class="ui">Trait</span></td><td>The whole block is recomputed for the chosen trait.</td></tr>
+      <tr><td><span class="ui">Environment</span></td><td>With several environments, one of them or <span class="ui">all together</span>, which adds the environments and their interactions to the model (Section 6.10).</td></tr>
+      <tr><td><span class="ui">Inbreeding of the parents (F)</span></td><td>0, 0.5, 0.75 or 1. By default, 1 for line × tester and partial diallels (inbred lines) and 0 for the North Carolina designs and the triple test cross (plants from a population); if the Block 2 field book declared another value, that one is used. F changes the coefficients of the covariances, not the sums of squares.</td></tr>
+      <tr><td><span class="ui">F₁ tester (L₃)</span></td><td>Only in the triple test cross: which of the three testers is the F<sub>1</sub> of the other two. The app guesses it from the name.</td></tr>
+      <tr><td><span class="ui">Objective</span> · <span class="ui">Significance level</span></td><td>The favorable direction for ranking heterosis, and the level of the tests.</td></tr>
+    </tbody>
+  </table>
+  <div class="caja importante">
+    <div class="caja-t"><span class="ico">!</span>Important · the value of F changes σ²<sub>A</sub> and σ²<sub>D</sub></div>
+    <p>With the same mean squares, σ²<sub>A</sub> = 4Cov(HS)/(1 + <i>F</i>) and σ²<sub>D</sub> = 4σ²<sub>SCA</sub>/(1 + <i>F</i>)². Going from F = 0 to F = 1 divides σ²<sub>A</sub> by 2 and σ²<sub>D</sub> by 4. In the line × tester example, with F = 0 σ²<sub>D</sub> would be 1679 and the degree of dominance 8.76; with F = 1, which is correct for inbred lines, σ²<sub>D</sub> = 420 and the degree of dominance 6.19. Always check this control.</p>
+  </div>
+
+  <!-- ====================================================================== 6.3 -->
+  <h2 id="s6-3"><span class="num">6.3</span>The analysis of variance</h2>
+  <p>The card <span class="ui">2 · Analysis of variance of the mating design</span> fits the model of the design to the plot values: the field strata (sets, replications, blocks) and the partition of the entries specific to each design. Besides df, sums of squares and mean squares, the table gives the <b>expected mean square</b> of each source, what it is tested against and its <i>p</i> value.</p>
+  <figure>
+    <div class="marco"><img src="../img/en/b6-anova.png" alt="The analysis of variance of the North Carolina II with its expected mean squares"></div>
+    <figcaption><b>Figure 6.2.</b> The analysis of variance of the North Carolina II. Males and females are tested against their interaction; the interaction, against the error; the sets, with a quasi-<i>F</i> with 12.9 degrees of freedom.</figcaption>
+  </figure>
+  <div class="caja teoria">
+    <div class="caja-t"><span class="ico">θ</span>Theory in brief · expected mean squares computed, not copied</div>
+    <p>Textbooks give tables of expected mean squares for each balanced design. Block 6 computes them for the experiment you have: the coefficient of each variance in the mean square of each source is a trace, tr(A<sub>t</sub>Z<sub>k</sub>Z<sub>k</sub>′)/df<sub>t</sub>, obtained by fitting each column of random effects as if it were the response. With balanced data it reproduces the textbook coefficients (in Figure 6.2, 15 = <i>r</i>·<i>f</i> and 3 = <i>r</i>); with missing crosses or unequal replications the coefficients stop being integers and remain exact. Each source is tested against the mean square whose expectation differs only in the term being tested; if there is none, against a combination of mean squares with Satterthwaite degrees of freedom (quasi-<i>F</i>).</p>
+  </div>
+  <p>Below the table, the figure <span class="ui">Contribution of every source</span> shows what part of the variation between entries corresponds to each term of the mating design.</p>
+
+  <!-- ====================================================================== 6.4 -->
+  <h2 id="s6-4"><span class="num">6.4</span>The effects</h2>
+  <p>The card <span class="ui">3 · Effects of parents and crosses</span> estimates the effect of each parent (its general combining ability) and that of each cross (the specific one), with its standard error and its <i>t</i> test. In the North Carolina II, males and females have their own table and the interaction another, plus a dot plot of the general effects and a color matrix of the interaction, set by set.</p>
+  <figure>
+    <div class="marco"><img src="../img/en/b6-efectos.png" alt="The effects of males and females in the North Carolina II"></div>
+    <figcaption><b>Figure 6.3.</b> The effects of the ten potato males and ten females. Because males and females share numbers but are different plants, the app marks them with ♂ and ♀.</figcaption>
+  </figure>
+  <figure class="angosta">
+    <div class="marco"><img src="../img/en/b6-sca.png" alt="The matrix of the interaction effects of the first set"></div>
+    <figcaption><b>Figure 6.4.</b> The males × females interaction effects of the first set. In red, the crosses that perform better than their parents predict; in blue, those that perform worse.</figcaption>
+  </figure>
+  <p>The effects are estimated by least squares with the restrictions of the model (the effects in each set sum to zero), so their standard error is that of the full contrast: for a line, σ²(1/<i>rt</i> − 1/<i>rlt</i>) and not σ²/<i>rt</i>, as some textbooks print. In line × tester, the standard error of a line GCA is 2.464, not 2.755.</p>
+
+  <!-- ====================================================================== 6.5 -->
+  <h2 id="s6-5"><span class="num">6.5</span>Components and genetic parameters</h2>
+  <p>The card <span class="ui">4 · Variance components and genetic parameters</span> solves for the components from the expected mean squares (on the left) and converts them into covariances of relatives, σ²<sub>A</sub>, σ²<sub>D</sub>, degree of dominance and heritabilities (on the right). Each component is a combination of mean squares, so its standard error comes from them: Var(Σc<sub>i</sub>M<sub>i</sub>) = Σc<sub>i</sub>²·2M<sub>i</sub>²/df<sub>i</sub>.</p>
+  <figure>
+    <div class="marco"><img src="../img/en/b6-comp.png" alt="The variance components and genetic parameters of the North Carolina II"></div>
+    <figcaption><b>Figure 6.5.</b> The components and parameters of the potato data. The test that a component equals zero is the <i>F</i> of its source: σ²<sub>m</sub> is clearly greater than zero (<i>p</i> = 0.0014) even though its standard error is large.</figcaption>
+  </figure>
+  <p>In the potato data, σ²<sub>A</sub> = 16,407 ± 8579 and σ²<sub>D</sub> = 8862 ± 9138, with an average degree of dominance of 1.04 and a heritability of 0.37 on a plot basis and 0.52 on a family-mean basis. The North Carolina II gives two estimates of σ²<sub>A</sub>, one from the males (21,975) and another from the females (10,840), and the app averages them; when they differ a lot, as here, think of maternal effects or of males and females not coming from the same population.</p>
+  <div class="caja importante">
+    <div class="caja-t"><span class="ico">!</span>Important · negative components</div>
+    <p>A negative component is reported as obtained: it usually indicates that the true variance is close to zero or that there are few replications. A negative σ²<sub>D</sub> is taken as zero in the denominator of narrow-sense h², and with it the degree of dominance, H² and the Baker ratio are not computed; with a negative σ²<sub>A</sub> no heritability is computed. The card’s warning explains it each time.</p>
+  </div>
+
+  <!-- ====================================================================== 6.6 -->
+  <h2 id="s6-6"><span class="num">6.6</span>North Carolina I</h2>
+  <p>In the nested design each male is crossed with females that are not crossed with any other male. The variance among males is the half-sib covariance, and that of females within males is the full-sib covariance minus the half-sib one: σ²<sub>A</sub> = 4σ²<sub>m</sub>/(1 + <i>F</i>) and σ²<sub>D</sub> = 4(σ²<sub>f</sub> − σ²<sub>m</sub>)/(1 + <i>F</i>)². Males are tested against females within males, and the latter against the error.</p>
+  <figure class="media">
+    <div class="marco"><img src="../img/en/b6-nc1.png" alt="The analysis of variance of the North Carolina I with the among-plants row"></div>
+    <figcaption><b>Figure 6.6.</b> The North Carolina I of the example, with three plants measured per plot: the last row is the sampling error among plants, on the plant scale.</figcaption>
+  </figure>
+  <p>In the example the males differ (<i>F</i> = 6.89, <i>p</i> = 0.020), but the females within males do not (<i>p</i> = 0.096), and σ²<sub>D</sub> comes out negative (−1.26 ± 1.39): with six males and two females per male, dominance cannot be estimated well. The assumptions table recalls a limitation of the design itself: because each female has only one male, maternal effects stay inside the female component and overestimate σ²<sub>D</sub> when they exist. With per-plant data, heritability is also given on a plant basis, separating the sampling error among plants from the plot error.</p>
+
+  <!-- ====================================================================== 6.7 -->
+  <h2 id="s6-7"><span class="num">6.7</span>North Carolina III and the triple test cross</h2>
+  <p>In the North Carolina III each F<sub>2</sub> plant is crossed with the two parents of the F<sub>1</sub>, L<sub>1</sub> and L<sub>2</sub>. For each plant, the sum of its two crosses reflects its additive value and the difference, its dominance: the variance of the sums estimates σ²<sub>A</sub> and that of the differences, 2σ²<sub>D</sub>, both after subtracting the error of a pair (Comstock and Robinson, 1952). The triple test cross adds the F<sub>1</sub> as a third tester, L<sub>3</sub>, and the contrast L<sub>1</sub> + L<sub>2</sub> − 2L<sub>3</sub>, which equals zero if there is no epistasis (Kearsey and Jinks, 1968).</p>
+  <div class="caja teoria">
+    <div class="caja-t"><span class="ico">θ</span>Theory in brief · sums, differences and epistasis</div>
+    <div class="formula" style="margin-bottom:0.04in">Var(L<sub>1</sub> + L<sub>2</sub>) − 2MS<sub>e</sub>/<i>r</i> = σ²<sub>A</sub> &nbsp;·&nbsp; ½[Var(L<sub>1</sub> − L<sub>2</sub>) − 2MS<sub>e</sub>/<i>r</i>] = σ²<sub>D</sub> &nbsp;·&nbsp; D = 2σ²<sub>A</sub>, H = 4σ²<sub>D</sub>, degree of dominance √(H/D)</div>
+    <p>A locus of the F<sub>2</sub> crossed with the two parents gives differences a − d, a and a + d with frequencies ¼, ½ and ¼, so the variance of the differences is H/2 = 2σ²<sub>D</sub>. The correlation between sums and differences tells you toward which parent dominance goes. In the triple test cross, the mean of the contrast L<sub>1</sub> + L<sub>2</sub> − 2L<sub>3</sub> tests overall epistasis (type i) and its variation among individuals, epistasis of types j and l.</p>
+  </div>
+  <figure>
+    <div class="marco"><img src="../img/en/b6-nc3.png" alt="The analysis of variance of the North Carolina III"></div>
+    <figcaption><b>Figure 6.7.</b> The North Carolina III of the example: 16 F<sub>2</sub> plants in four sets, crossed with P1 and P2. The plants are tested against the error, and so is the plants × testers interaction: the testers are fixed.</figcaption>
+  </figure>
+  <p>The testers are two fixed lines, not a sample, so the interaction of each plant with them does not enter the expected mean square of the plants (Comstock and Robinson’s restricted model). That is why the plants are tested against the error (<i>F</i> = 2.40, <i>p</i> = 0.028), and the plant component, 0.255, is exactly σ²<sub>A</sub>/4 = 1.019/4. The plants × testers interaction is significant (<i>p</i> = 0.006): there is dominance, with σ²<sub>D</sub> = 0.80 ± 0.49 and a degree of dominance of 1.25.</p>
+  <p>The card <span class="ui">5 · Sums, differences and epistasis</span> brings those computations together. With the simulated triple test cross from the example gallery —eight loci without epistasis, D = 11.52 and H = 8 (σ²<sub>A</sub> = 5.76, σ²<sub>D</sub> = 2)—, the block estimates σ²<sub>A</sub> = 4.97 ± 2.20 and σ²<sub>D</sub> = 1.86 ± 0.94, with a degree of dominance of 0.87 (true value, 0.83).</p>
+  <figure>
+    <div class="marco"><img src="../img/en/b6-sd.png" alt="The table of sums and differences of the triple test cross"></div>
+    <figcaption><b>Figure 6.8.</b> Sums and differences of the simulated triple test cross. The mean of the differences measures the additive difference between the testers; the correlation between sums and differences (−0.55, <i>p</i> = 0.001) says that dominance goes toward P1.</figcaption>
+  </figure>
+  <div class="caja nota">
+    <div class="caja-t"><span class="ico">i</span>Note · the order of the testers</div>
+    <p>The epistasis contrast makes sense only if L<sub>3</sub> is the F<sub>1</sub> of L<sub>1</sub> and L<sub>2</sub>. The app orders the testers by name (the F<sub>1</sub> last); if the names do not say so, choose the right one in <span class="ui">F₁ tester (L₃)</span>. With the wrong order, data without epistasis would show it as highly significant.</p>
+  </div>
+  <figure class="media">
+    <div class="marco"><img src="../img/en/b6-fig-sd.png" alt="The figure of sums against differences for each individual"></div>
+    <figcaption><b>Figure 6.9.</b> Each F<sub>2</sub> individual by its sum and its difference. The negative slope indicates that individuals with more alleles that increase the value have smaller differences: dominance goes toward the high-value parent.</figcaption>
+  </figure>
+  <figure>
+    <div class="marco"><img src="../img/en/b6-epi.png" alt="Kearsey and Jinks’s test of epistasis"></div>
+    <figcaption><b>Figure 6.10.</b> The test of epistasis. In the simulated data without epistasis, neither the mean of the contrast (<i>p</i> = 0.90) nor its variation among individuals (<i>p</i> = 0.95) is significant, as it should be. Below, a figure shows the contrast of each individual with its interval.</figcaption>
+  </figure>
+
+  <!-- ====================================================================== 6.8 -->
+  <h2 id="s6-8"><span class="num">6.8</span>Line × tester</h2>
+  <p>Line × tester (Kempthorne, 1957) crosses each line with a few testers. If the parents were also evaluated, the entries are split into parents, crosses and the contrast between both groups; the crosses, into lines, testers and their interaction. The GCA of lines and testers comes from their effects, and the SCA from the interaction.</p>
+  <figure>
+    <div class="marco"><img src="../img/en/b6-lxt.png" alt="The analysis of variance of line by tester with parents"></div>
+    <figcaption><b>Figure 6.11.</b> Five lines × three testers plus eight parents. Lines and testers are tested against their interaction; the interaction is highly significant (<i>F</i> = 19.44). The parents versus crosses contrast carries a quasi-<i>F</i> because the mean of the crosses contains the random effects of lines and testers.</figcaption>
+  </figure>
+  <p>In the example, the lines differ in their GCA (L3, with +23.8, is the best; L4, with −13.9, the worst) and so do two testers (T7, +6.4; T8, −6.7), but with five lines and three testers their variances do not reach significance against the interaction, which dominates. The tester variance comes out negative, and σ²<sub>A</sub>, computed from the average of the line and tester variances, ends up at 21.9 ± 197: almost all the variation among crosses is specific. The warning in card 4 explains why: a few testers chosen on purpose do not estimate the half-sib covariance of a population.</p>
+  <figure>
+    <div class="marco"><img src="../img/en/b6-lxt-het.png" alt="The table of heterosis of every line by tester cross"></div>
+    <figcaption><b>Figure 6.12.</b> With the parents in the experiment, card 5 gives the heterosis of every cross relative to the mean of its parents and to the better of them. L3 × T8 exceeds the mean of its parents by 51% and the better parent by 44%.</figcaption>
+  </figure>
+
+  <!-- ====================================================================== 6.9 -->
+  <h2 id="s6-9"><span class="num">6.9</span>Partial diallel</h2>
+  <p>In a partial diallel each parent is crossed with <i>s</i> of the others, usually in the circulant order of Kempthorne and Curnow (1961) that Block 2 prepares. Block 6 fits y<sub>ij</sub> = μ + g<sub>i</sub> + g<sub>j</sub> + s<sub>ij</sub> by least squares on the crosses that were made, so it works for the circulant arrangement and for any incomplete set of crosses, and it gives the GCA of each parent and the SCA of each cross as in a Method 4 diallel.</p>
+  <figure>
+    <div class="marco"><img src="../img/en/b6-parcial.png" alt="The analysis of variance of the maize partial diallel"></div>
+    <figcaption><b>Figure 6.13.</b> The partial diallel of eight maize lines with <i>s</i> = 5 (20 crosses and four replications). The coefficient of σ²<sub>GCA</sub>, 17.14 = 120/7, is not an integer: the trace computation obtains it without tables.</figcaption>
+  </figure>
+  <p>Here neither GCA (<i>p</i> = 0.085) nor SCA (<i>p</i> = 0.52) is significant as a whole, although two lines stand out: line 2 (ĝ = +0.59, <i>p</i> = 0.009) and line 7 (ĝ = −0.49, <i>p</i> = 0.028). σ²<sub>SCA</sub> comes out negative, so there is no Baker ratio or degree of dominance; with F = 1, σ²<sub>A</sub> = 0.13 ± 0.12 and the heritability is 0.13 on a plot basis.</p>
+
+  <!-- ====================================================================== 6.10 -->
+  <h2 id="s6-10"><span class="num">6.10</span>Several environments, downloads and the next block</h2>
+  <p>With data from several environments, the <span class="ui">Environment</span> menu lets you analyze one of them or <span class="ui">all together</span>. In the second case the model adds the environments and the interaction of each genetic term with them (males × environments, females × environments, lines × testers × environments…), and the expected mean squares and the tests are recomputed by traces for that model; σ²<sub>A</sub> and σ²<sub>D</sub> then discount their interaction with the environments.</p>
+  <p>The card <span class="ui">6 · Assumptions, formulas and references</span> summarizes the model and formulas of each design with their references. <span class="ui">Results (.xlsx)</span> downloads the analysis of variance, the components, the parameters, the effects and, depending on the design, the sums and differences or the heterosis. Each figure has its own download panel.</p>
+  <p>The <span class="ui">Continue</span> button takes you to Block 8 (genetic parameters, correlations and selection indices among the families) or, with several environments, to Block 9 (genotype × environment). <span class="ui">← Data</span> goes back to Block 3.</p>
+</section>
+
+</body>
+</html>

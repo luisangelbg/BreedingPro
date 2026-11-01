@@ -1,0 +1,409 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>BreedingPro · User’s Manual · Block 4: Griffing diallels</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,500;0,600;1,500&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../interior.css">
+<!-- splits the content into letter-size sheets, with running heads and page numbers -->
+<script src="../paginar.js"></script>
+<style>
+  figure.chica .marco, figure.chica > svg { width: 72%; margin: 0 auto; }
+  figure.chica figcaption { margin-left: 14%; margin-right: 14%; }
+  figure.angosta .marco { width: 58%; margin: 0 auto; }
+  figure.angosta figcaption { margin-left: 21%; margin-right: 21%; }
+  td.n, th.n { text-align: right; white-space: nowrap; }
+  td.c, th.c { text-align: center; }
+  .formula { font-family: var(--sans); font-size: 9pt; background: #f6f3fa; border-radius: 4px; padding: 0.07in 0.12in; margin: 0.06in 0 0.12in; line-height: 1.6; }
+</style>
+</head>
+<body>
+
+<section class="capitulo" id="cap-b4" data-pestana="B4" data-orden="5" style="--acento: var(--b4)">
+  <div class="cap-apertura">
+    <div class="cap-num">B4</div>
+    <div class="cap-etiqueta">Chapter four · Block 4 · Griffing</div>
+    <h1 data-corto="Block 4 · Griffing diallels">Griffing diallels</h1>
+    <div class="cap-regla"></div>
+    <p class="cap-resumen">The diallel is the classic design for choosing parents: you cross a set of lines among themselves and separate what each one passes on to all its crosses (general combining ability) from what appears only in particular combinations (specific combining ability). Block 4 runs Griffing’s (1956) analysis with its four methods and two models, in one or in several environments, and helps you choose the best parents and crosses.</p>
+    <div class="cap-franja"><span class="k4"></span><span class="k4" style="opacity:.75"></span><span class="k4" style="opacity:.5"></span><span class="k4" style="opacity:.3"></span></div>
+    <ul class="cap-contenido">
+      <li><b>4.1</b>The four methods and the two models</li>
+      <li><b>4.2</b>Data and model</li>
+      <li><b>4.3</b>The analysis of variance of the diallel</li>
+      <li><b>4.4</b>The effects</li>
+      <li><b>4.5</b>Variance components and genetic parameters</li>
+      <li><b>4.6</b>Best parents and crosses</li>
+      <li><b>4.7</b>The four methods on the same data</li>
+      <li><b>4.8</b>Several environments</li>
+      <li><b>4.9</b>Special cases, downloads and moving on to Block 5</li>
+    </ul>
+  </div>
+
+  <!-- ====================================================================== 4.1 -->
+  <h2 id="s4-1"><span class="num">4.1</span>The four methods and the two models</h2>
+  <p class="lead">Griffing (1956) distinguished four ways of running a diallel with <i>p</i> parents, depending on whether the parents themselves and the reciprocal crosses are evaluated, and two ways of interpreting the results, depending on whether the parents matter in their own right or represent a population.</p>
+
+  <figure>
+    <svg viewBox="0 0 700 236" xmlns="http://www.w3.org/2000/svg" font-family="Jost, sans-serif" role="img" aria-label="The diallel cells used by each of Griffing’s four methods, with five parents">
+      <!-- method 1 -->
+      <g>
+        <text x="66" y="37" text-anchor="middle" font-size="9" fill="#625d6c">1</text>
+        <text x="86" y="37" text-anchor="middle" font-size="9" fill="#625d6c">2</text>
+        <text x="106" y="37" text-anchor="middle" font-size="9" fill="#625d6c">3</text>
+        <text x="126" y="37" text-anchor="middle" font-size="9" fill="#625d6c">4</text>
+        <text x="146" y="37" text-anchor="middle" font-size="9" fill="#625d6c">5</text>
+        <text x="51" y="55" text-anchor="end" font-size="9" fill="#625d6c">1</text>
+        <rect x="57" y="43" width="18" height="18" rx="2.5" fill="#e0a526"/>
+        <rect x="77" y="43" width="18" height="18" rx="2.5" fill="#5e2e8c"/>
+        <rect x="97" y="43" width="18" height="18" rx="2.5" fill="#5e2e8c"/>
+        <rect x="117" y="43" width="18" height="18" rx="2.5" fill="#5e2e8c"/>
+        <rect x="137" y="43" width="18" height="18" rx="2.5" fill="#5e2e8c"/>
+        <text x="51" y="75" text-anchor="end" font-size="9" fill="#625d6c">2</text>
+        <rect x="57" y="63" width="18" height="18" rx="2.5" fill="#c2567a"/>
+        <rect x="77" y="63" width="18" height="18" rx="2.5" fill="#e0a526"/>
+        <rect x="97" y="63" width="18" height="18" rx="2.5" fill="#5e2e8c"/>
+        <rect x="117" y="63" width="18" height="18" rx="2.5" fill="#5e2e8c"/>
+        <rect x="137" y="63" width="18" height="18" rx="2.5" fill="#5e2e8c"/>
+        <text x="51" y="95" text-anchor="end" font-size="9" fill="#625d6c">3</text>
+        <rect x="57" y="83" width="18" height="18" rx="2.5" fill="#c2567a"/>
+        <rect x="77" y="83" width="18" height="18" rx="2.5" fill="#c2567a"/>
+        <rect x="97" y="83" width="18" height="18" rx="2.5" fill="#e0a526"/>
+        <rect x="117" y="83" width="18" height="18" rx="2.5" fill="#5e2e8c"/>
+        <rect x="137" y="83" width="18" height="18" rx="2.5" fill="#5e2e8c"/>
+        <text x="51" y="115" text-anchor="end" font-size="9" fill="#625d6c">4</text>
+        <rect x="57" y="103" width="18" height="18" rx="2.5" fill="#c2567a"/>
+        <rect x="77" y="103" width="18" height="18" rx="2.5" fill="#c2567a"/>
+        <rect x="97" y="103" width="18" height="18" rx="2.5" fill="#c2567a"/>
+        <rect x="117" y="103" width="18" height="18" rx="2.5" fill="#e0a526"/>
+        <rect x="137" y="103" width="18" height="18" rx="2.5" fill="#5e2e8c"/>
+        <text x="51" y="135" text-anchor="end" font-size="9" fill="#625d6c">5</text>
+        <rect x="57" y="123" width="18" height="18" rx="2.5" fill="#c2567a"/>
+        <rect x="77" y="123" width="18" height="18" rx="2.5" fill="#c2567a"/>
+        <rect x="97" y="123" width="18" height="18" rx="2.5" fill="#c2567a"/>
+        <rect x="117" y="123" width="18" height="18" rx="2.5" fill="#c2567a"/>
+        <rect x="137" y="123" width="18" height="18" rx="2.5" fill="#e0a526"/>
+        <text x="106" y="164" text-anchor="middle" font-size="11.5" font-weight="600" fill="#2a1740">Method 1</text>
+        <text x="106" y="180" text-anchor="middle" font-size="9.5" fill="#2a1740">25 entries · <tspan font-style="italic">p</tspan>²</text>
+        <text x="106" y="194" text-anchor="middle" font-size="9.5" fill="#625d6c">parents, F₁ and reciprocals</text>
+      </g>
+      <!-- method 2 -->
+      <g>
+        <text x="238" y="37" text-anchor="middle" font-size="9" fill="#625d6c">1</text>
+        <text x="258" y="37" text-anchor="middle" font-size="9" fill="#625d6c">2</text>
+        <text x="278" y="37" text-anchor="middle" font-size="9" fill="#625d6c">3</text>
+        <text x="298" y="37" text-anchor="middle" font-size="9" fill="#625d6c">4</text>
+        <text x="318" y="37" text-anchor="middle" font-size="9" fill="#625d6c">5</text>
+        <text x="223" y="55" text-anchor="end" font-size="9" fill="#625d6c">1</text>
+        <rect x="229" y="43" width="18" height="18" rx="2.5" fill="#e0a526"/>
+        <rect x="249" y="43" width="18" height="18" rx="2.5" fill="#5e2e8c"/>
+        <rect x="269" y="43" width="18" height="18" rx="2.5" fill="#5e2e8c"/>
+        <rect x="289" y="43" width="18" height="18" rx="2.5" fill="#5e2e8c"/>
+        <rect x="309" y="43" width="18" height="18" rx="2.5" fill="#5e2e8c"/>
+        <text x="223" y="75" text-anchor="end" font-size="9" fill="#625d6c">2</text>
+        <rect x="229" y="63" width="18" height="18" rx="2.5" fill="none" stroke="#c9c3d3" stroke-dasharray="2 2"/>
+        <rect x="249" y="63" width="18" height="18" rx="2.5" fill="#e0a526"/>
+        <rect x="269" y="63" width="18" height="18" rx="2.5" fill="#5e2e8c"/>
+        <rect x="289" y="63" width="18" height="18" rx="2.5" fill="#5e2e8c"/>
+        <rect x="309" y="63" width="18" height="18" rx="2.5" fill="#5e2e8c"/>
+        <text x="223" y="95" text-anchor="end" font-size="9" fill="#625d6c">3</text>
+        <rect x="229" y="83" width="18" height="18" rx="2.5" fill="none" stroke="#c9c3d3" stroke-dasharray="2 2"/>
+        <rect x="249" y="83" width="18" height="18" rx="2.5" fill="none" stroke="#c9c3d3" stroke-dasharray="2 2"/>
+        <rect x="269" y="83" width="18" height="18" rx="2.5" fill="#e0a526"/>
+        <rect x="289" y="83" width="18" height="18" rx="2.5" fill="#5e2e8c"/>
+        <rect x="309" y="83" width="18" height="18" rx="2.5" fill="#5e2e8c"/>
+        <text x="223" y="115" text-anchor="end" font-size="9" fill="#625d6c">4</text>
+        <rect x="229" y="103" width="18" height="18" rx="2.5" fill="none" stroke="#c9c3d3" stroke-dasharray="2 2"/>
+        <rect x="249" y="103" width="18" height="18" rx="2.5" fill="none" stroke="#c9c3d3" stroke-dasharray="2 2"/>
+        <rect x="269" y="103" width="18" height="18" rx="2.5" fill="none" stroke="#c9c3d3" stroke-dasharray="2 2"/>
+        <rect x="289" y="103" width="18" height="18" rx="2.5" fill="#e0a526"/>
+        <rect x="309" y="103" width="18" height="18" rx="2.5" fill="#5e2e8c"/>
+        <text x="223" y="135" text-anchor="end" font-size="9" fill="#625d6c">5</text>
+        <rect x="229" y="123" width="18" height="18" rx="2.5" fill="none" stroke="#c9c3d3" stroke-dasharray="2 2"/>
+        <rect x="249" y="123" width="18" height="18" rx="2.5" fill="none" stroke="#c9c3d3" stroke-dasharray="2 2"/>
+        <rect x="269" y="123" width="18" height="18" rx="2.5" fill="none" stroke="#c9c3d3" stroke-dasharray="2 2"/>
+        <rect x="289" y="123" width="18" height="18" rx="2.5" fill="none" stroke="#c9c3d3" stroke-dasharray="2 2"/>
+        <rect x="309" y="123" width="18" height="18" rx="2.5" fill="#e0a526"/>
+        <text x="278" y="164" text-anchor="middle" font-size="11.5" font-weight="600" fill="#2a1740">Method 2</text>
+        <text x="278" y="180" text-anchor="middle" font-size="9.5" fill="#2a1740">15 entries · <tspan font-style="italic">p</tspan>(<tspan font-style="italic">p</tspan> + 1)/2</text>
+        <text x="278" y="194" text-anchor="middle" font-size="9.5" fill="#625d6c">parents and F₁</text>
+      </g>
+      <!-- method 3 -->
+      <g>
+        <text x="410" y="37" text-anchor="middle" font-size="9" fill="#625d6c">1</text>
+        <text x="430" y="37" text-anchor="middle" font-size="9" fill="#625d6c">2</text>
+        <text x="450" y="37" text-anchor="middle" font-size="9" fill="#625d6c">3</text>
+        <text x="470" y="37" text-anchor="middle" font-size="9" fill="#625d6c">4</text>
+        <text x="490" y="37" text-anchor="middle" font-size="9" fill="#625d6c">5</text>
+        <text x="395" y="55" text-anchor="end" font-size="9" fill="#625d6c">1</text>
+        <rect x="401" y="43" width="18" height="18" rx="2.5" fill="none" stroke="#c9c3d3" stroke-dasharray="2 2"/>
+        <rect x="421" y="43" width="18" height="18" rx="2.5" fill="#5e2e8c"/>
+        <rect x="441" y="43" width="18" height="18" rx="2.5" fill="#5e2e8c"/>
+        <rect x="461" y="43" width="18" height="18" rx="2.5" fill="#5e2e8c"/>
+        <rect x="481" y="43" width="18" height="18" rx="2.5" fill="#5e2e8c"/>
+        <text x="395" y="75" text-anchor="end" font-size="9" fill="#625d6c">2</text>
+        <rect x="401" y="63" width="18" height="18" rx="2.5" fill="#c2567a"/>
+        <rect x="421" y="63" width="18" height="18" rx="2.5" fill="none" stroke="#c9c3d3" stroke-dasharray="2 2"/>
+        <rect x="441" y="63" width="18" height="18" rx="2.5" fill="#5e2e8c"/>
+        <rect x="461" y="63" width="18" height="18" rx="2.5" fill="#5e2e8c"/>
+        <rect x="481" y="63" width="18" height="18" rx="2.5" fill="#5e2e8c"/>
+        <text x="395" y="95" text-anchor="end" font-size="9" fill="#625d6c">3</text>
+        <rect x="401" y="83" width="18" height="18" rx="2.5" fill="#c2567a"/>
+        <rect x="421" y="83" width="18" height="18" rx="2.5" fill="#c2567a"/>
+        <rect x="441" y="83" width="18" height="18" rx="2.5" fill="none" stroke="#c9c3d3" stroke-dasharray="2 2"/>
+        <rect x="461" y="83" width="18" height="18" rx="2.5" fill="#5e2e8c"/>
+        <rect x="481" y="83" width="18" height="18" rx="2.5" fill="#5e2e8c"/>
+        <text x="395" y="115" text-anchor="end" font-size="9" fill="#625d6c">4</text>
+        <rect x="401" y="103" width="18" height="18" rx="2.5" fill="#c2567a"/>
+        <rect x="421" y="103" width="18" height="18" rx="2.5" fill="#c2567a"/>
+        <rect x="441" y="103" width="18" height="18" rx="2.5" fill="#c2567a"/>
+        <rect x="461" y="103" width="18" height="18" rx="2.5" fill="none" stroke="#c9c3d3" stroke-dasharray="2 2"/>
+        <rect x="481" y="103" width="18" height="18" rx="2.5" fill="#5e2e8c"/>
+        <text x="395" y="135" text-anchor="end" font-size="9" fill="#625d6c">5</text>
+        <rect x="401" y="123" width="18" height="18" rx="2.5" fill="#c2567a"/>
+        <rect x="421" y="123" width="18" height="18" rx="2.5" fill="#c2567a"/>
+        <rect x="441" y="123" width="18" height="18" rx="2.5" fill="#c2567a"/>
+        <rect x="461" y="123" width="18" height="18" rx="2.5" fill="#c2567a"/>
+        <rect x="481" y="123" width="18" height="18" rx="2.5" fill="none" stroke="#c9c3d3" stroke-dasharray="2 2"/>
+        <text x="450" y="164" text-anchor="middle" font-size="11.5" font-weight="600" fill="#2a1740">Method 3</text>
+        <text x="450" y="180" text-anchor="middle" font-size="9.5" fill="#2a1740">20 entries · <tspan font-style="italic">p</tspan>(<tspan font-style="italic">p</tspan> − 1)</text>
+        <text x="450" y="194" text-anchor="middle" font-size="9.5" fill="#625d6c">F₁ and reciprocals</text>
+      </g>
+      <!-- method 4 -->
+      <g>
+        <text x="582" y="37" text-anchor="middle" font-size="9" fill="#625d6c">1</text>
+        <text x="602" y="37" text-anchor="middle" font-size="9" fill="#625d6c">2</text>
+        <text x="622" y="37" text-anchor="middle" font-size="9" fill="#625d6c">3</text>
+        <text x="642" y="37" text-anchor="middle" font-size="9" fill="#625d6c">4</text>
+        <text x="662" y="37" text-anchor="middle" font-size="9" fill="#625d6c">5</text>
+        <text x="567" y="55" text-anchor="end" font-size="9" fill="#625d6c">1</text>
+        <rect x="573" y="43" width="18" height="18" rx="2.5" fill="none" stroke="#c9c3d3" stroke-dasharray="2 2"/>
+        <rect x="593" y="43" width="18" height="18" rx="2.5" fill="#5e2e8c"/>
+        <rect x="613" y="43" width="18" height="18" rx="2.5" fill="#5e2e8c"/>
+        <rect x="633" y="43" width="18" height="18" rx="2.5" fill="#5e2e8c"/>
+        <rect x="653" y="43" width="18" height="18" rx="2.5" fill="#5e2e8c"/>
+        <text x="567" y="75" text-anchor="end" font-size="9" fill="#625d6c">2</text>
+        <rect x="573" y="63" width="18" height="18" rx="2.5" fill="none" stroke="#c9c3d3" stroke-dasharray="2 2"/>
+        <rect x="593" y="63" width="18" height="18" rx="2.5" fill="none" stroke="#c9c3d3" stroke-dasharray="2 2"/>
+        <rect x="613" y="63" width="18" height="18" rx="2.5" fill="#5e2e8c"/>
+        <rect x="633" y="63" width="18" height="18" rx="2.5" fill="#5e2e8c"/>
+        <rect x="653" y="63" width="18" height="18" rx="2.5" fill="#5e2e8c"/>
+        <text x="567" y="95" text-anchor="end" font-size="9" fill="#625d6c">3</text>
+        <rect x="573" y="83" width="18" height="18" rx="2.5" fill="none" stroke="#c9c3d3" stroke-dasharray="2 2"/>
+        <rect x="593" y="83" width="18" height="18" rx="2.5" fill="none" stroke="#c9c3d3" stroke-dasharray="2 2"/>
+        <rect x="613" y="83" width="18" height="18" rx="2.5" fill="none" stroke="#c9c3d3" stroke-dasharray="2 2"/>
+        <rect x="633" y="83" width="18" height="18" rx="2.5" fill="#5e2e8c"/>
+        <rect x="653" y="83" width="18" height="18" rx="2.5" fill="#5e2e8c"/>
+        <text x="567" y="115" text-anchor="end" font-size="9" fill="#625d6c">4</text>
+        <rect x="573" y="103" width="18" height="18" rx="2.5" fill="none" stroke="#c9c3d3" stroke-dasharray="2 2"/>
+        <rect x="593" y="103" width="18" height="18" rx="2.5" fill="none" stroke="#c9c3d3" stroke-dasharray="2 2"/>
+        <rect x="613" y="103" width="18" height="18" rx="2.5" fill="none" stroke="#c9c3d3" stroke-dasharray="2 2"/>
+        <rect x="633" y="103" width="18" height="18" rx="2.5" fill="none" stroke="#c9c3d3" stroke-dasharray="2 2"/>
+        <rect x="653" y="103" width="18" height="18" rx="2.5" fill="#5e2e8c"/>
+        <text x="567" y="135" text-anchor="end" font-size="9" fill="#625d6c">5</text>
+        <rect x="573" y="123" width="18" height="18" rx="2.5" fill="none" stroke="#c9c3d3" stroke-dasharray="2 2"/>
+        <rect x="593" y="123" width="18" height="18" rx="2.5" fill="none" stroke="#c9c3d3" stroke-dasharray="2 2"/>
+        <rect x="613" y="123" width="18" height="18" rx="2.5" fill="none" stroke="#c9c3d3" stroke-dasharray="2 2"/>
+        <rect x="633" y="123" width="18" height="18" rx="2.5" fill="none" stroke="#c9c3d3" stroke-dasharray="2 2"/>
+        <rect x="653" y="123" width="18" height="18" rx="2.5" fill="none" stroke="#c9c3d3" stroke-dasharray="2 2"/>
+        <text x="622" y="164" text-anchor="middle" font-size="11.5" font-weight="600" fill="#2a1740">Method 4</text>
+        <text x="622" y="180" text-anchor="middle" font-size="9.5" fill="#2a1740">10 entries · <tspan font-style="italic">p</tspan>(<tspan font-style="italic">p</tspan> − 1)/2</text>
+        <text x="622" y="194" text-anchor="middle" font-size="9.5" fill="#625d6c">F₁ only</text>
+      </g>
+
+      <!-- legend -->
+      <g font-size="9.5" fill="#2a1740">
+        <rect x="118" y="212" width="12" height="12" rx="2" fill="#e0a526"/><text x="135" y="222">parent (diagonal)</text>
+        <rect x="258" y="212" width="12" height="12" rx="2" fill="#5e2e8c"/><text x="275" y="222">direct F₁ (above)</text>
+        <rect x="384" y="212" width="12" height="12" rx="2" fill="#c2567a"/><text x="401" y="222">reciprocal F₁ (below)</text>
+        <rect x="518" y="212" width="12" height="12" rx="2" fill="none" stroke="#c9c3d3" stroke-dasharray="2 2"/><text x="535" y="222">not evaluated</text>
+      </g>
+    </svg>
+
+    <figcaption><b>Figure 4.1.</b> The diallel cells each method uses, with five parents. Rows are the female and columns the male. Block 4 recognizes the method in the data and lets you analyze the same data with any of the methods they contain.</figcaption>
+  </figure>
+
+  <p><b>Model I</b> treats the parents as fixed: they are the ones of interest, and what you are after are their effects (which one passes on more, which cross stands out). <b>Model II</b> treats them as a random sample from a population: what matters are the variances of that population, from which the additive variance, the dominance variance and the heritabilities are derived. Both models fit the same equation; the <i>F</i> tests and the interpretation change.</p>
+  <div class="caja teoria">
+    <div class="caja-t"><span class="ico">θ</span>Theory in brief · Griffing’s model</div>
+    <div class="formula" style="margin-bottom:0.04in"><i><span style="text-decoration: overline">x</span><sub>ij</sub></i> = μ + <i>g<sub>i</sub></i> + <i>g<sub>j</sub></i> + <i>s<sub>ij</sub></i> + <i>r<sub>ij</sub></i> + <i>ē<sub>ij</sub></i> &nbsp;·&nbsp; <i>s<sub>ij</sub></i> = <i>s<sub>ji</sub></i> &nbsp;·&nbsp; <i>r<sub>ij</sub></i> = −<i>r<sub>ji</sub></i> = <i>m<sub>i</sub></i> − <i>m<sub>j</sub></i> + <i>n<sub>ij</sub></i></div>
+    <p>The mean of the cross <i>i</i> × <i>j</i> is the grand mean plus the general combining ability (GCA) of each parent, <i>g<sub>i</sub></i> and <i>g<sub>j</sub></i>, plus the specific combining ability (SCA) of the pair, <i>s<sub>ij</sub></i>, plus the reciprocal effect <i>r<sub>ij</sub></i>, which exists only in Methods 1 and 3. The reciprocal effect splits into a maternal part, <i>m<sub>i</sub></i> − <i>m<sub>j</sub></i>, which depends only on which parent was the female, and a non-maternal part, <i>n<sub>ij</sub></i> (Cockerham, 1963). Griffing’s restrictions (Σ<i>g<sub>i</sub></i> = 0 and the SCA effects of each parent summing to zero) make the effects read as deviations from the average of the set.</p>
+  </div>
+  <p>Throughout the chapter you will use the <b>full 4 × 4 maize diallel</b> of Pérez López et al. (2020): four lines, L1 to L4, with their 12 direct and reciprocal crosses and the lines themselves, in complete blocks with six replications; the trait is grain test weight (PVG, in g/L). It is a Method 1 diallel, with everything the block can show, and its published results let you check the app. Section 4.8 uses the simulated α-lattice of Chapter 3 for the analysis across several environments.</p>
+
+  <!-- ====================================================================== 4.2 -->
+  <h2 id="s4-2"><span class="num">4.2</span>Data and model</h2>
+  <p>Block 4 does not read files: it takes the adjusted means of each entry and the error of each environment from Block 3, with any observations you excluded there. If the loaded data are not a complete Griffing diallel, the card tells you which block analyzes them (partial diallels, the North Carolina designs and line × tester in Block 6; generations in Block 7; genotype trials in Block 8 or 9). The card <span class="ui">1 · Data and model</span> summarizes the data in one line and offers the controls in Table 4.1.</p>
+  <figure>
+    <div class="marco"><img src="../img/en/b4-modelo.png" alt="The data and model card with the 4 by 4 maize diallel"></div>
+    <figcaption><b>Figure 4.2.</b> Card 1 with the 4 × 4 maize diallel. The tiles summarize the method, the entries, the grand mean, the error, the split of the sum of squares between GCA and SCA, and the Baker ratio.</figcaption>
+  </figure>
+  <table class="compacta">
+    <caption><b>Table 4.1.</b> The controls of card 1.</caption>
+    <thead><tr><th style="width:27%">Control</th><th style="width:26%">Options</th><th>What it is for</th></tr></thead>
+    <tbody>
+      <tr><td><span class="ui">Trait</span></td><td>those of Block 3</td><td>The whole block is recomputed for the chosen trait</td></tr>
+      <tr><td><span class="ui">Griffing method</span></td><td>those the data contain</td><td>Analyze a subset of the entries, as if the experiment had been designed with that method; the recognized one is marked</td></tr>
+      <tr><td><span class="ui">When reciprocals are dropped</span></td><td>direct cross · average of both orientations</td><td>Only in Methods 2 and 4 with data that include reciprocals: which value represents each pair</td></tr>
+      <tr><td><span class="ui">Model</span></td><td>I · fixed parents · II · random parents</td><td>Which <i>F</i> tests are shown first and how the components are read</td></tr>
+      <tr><td><span class="ui">Environments</span></td><td>fixed · random</td><td>With several environments: what each effect is tested against (Section 4.8)</td></tr>
+      <tr><td><span class="ui">Inbreeding of the parents (F)</span></td><td>from 0 to 1; 1 by default</td><td>Converts σ²<sub>GCA</sub> and σ²<sub>SCA</sub> into σ²<sub>A</sub> and σ²<sub>D</sub>: 1 for inbred lines, 0 for plants from a population</td></tr>
+      <tr><td><span class="ui">Scale of the sums of squares</span></td><td>entry means · plots</td><td>Changes only the presentation; the <i>F</i> tests are the same</td></tr>
+      <tr><td><span class="ui">Significance level</span></td><td>0.05 · 0.01 · 0.10</td><td>For the least significant differences and the readings</td></tr>
+    </tbody>
+  </table>
+  <p>With the maize data, the block analyzes the 16 entries expected in Method 1, with a grand mean of 792.01 g/L and an error of 44.0041 (the error mean square from Block 3 divided by the six replications) with 75 degrees of freedom. GCA accounts for 63% of the sum of squares between entries and SCA for 31%; the rest are reciprocal effects. The entries tile turns amber if any entry of the complete design is missing.</p>
+  <div class="caja nota">
+    <div class="caja-t"><span class="ico">i</span>Note · a method other than the design</div>
+    <p>With data from a Method 1 diallel you can request Methods 2, 3 or 4: the block takes only the entries that method uses (without reciprocals, without parents, or without either), repeats the Block 3 field analysis with them and estimates its own error. This gives you what an experiment designed with that method would have produced. Section 4.7 makes the comparison of all four at once.</p>
+  </div>
+
+  <!-- ====================================================================== 4.3 -->
+  <h2 id="s4-3"><span class="num">4.3</span>The analysis of variance of the diallel</h2>
+  <p>The card <span class="ui">2 · Analysis of variance of the diallel</span> partitions the variation between entries into GCA, SCA and reciprocal effects, and the latter into maternal and non-maternal. It has two <i>F</i> columns: the one for the chosen model, with its <i>p</i> value and its denominator, and the one for the other model, on the right, so you can compare without switching models.</p>
+  <figure>
+    <div class="marco"><img src="../img/en/b4-anova.png" alt="The analysis of variance of the maize diallel with maternal and non-maternal effects"></div>
+    <figcaption><b>Figure 4.3.</b> The analysis of variance of the 4 × 4 maize diallel. GCA and SCA are highly significant; the reciprocal effects are not significant as a whole, but their non-maternal part is (<i>p</i> = 0.0216).</figcaption>
+  </figure>
+  <table class="compacta" style="width:92%">
+    <caption><b>Table 4.2.</b> What each source is tested against, by model, in one environment.</caption>
+    <thead><tr><th style="width:30%">Source</th><th>Model I (fixed parents)</th><th>Model II (random parents)</th></tr></thead>
+    <tbody>
+      <tr><td>GCA</td><td>experimental error</td><td>SCA (approximate in Method 1)</td></tr>
+      <tr><td>SCA</td><td>experimental error</td><td>experimental error</td></tr>
+      <tr><td>Reciprocal, maternal and non-maternal</td><td>experimental error</td><td>experimental error</td></tr>
+    </tbody>
+  </table>
+  <p>In the maize data, GCA has <i>F</i> = 38.08 against the error (Model I), but only <i>F</i> = 4.10 against SCA (Model II), which is not significant with 3 and 6 degrees of freedom: with four parents there is very little information to speak about the variance of a population. That is the underlying difference between the models. Under Model I the question is whether these four lines differ (they clearly do); under Model II, whether the population they came from has additive variance, and four lines are not enough to say so.</p>
+  <div class="caja nota">
+    <div class="caja-t"><span class="ico">✓</span>Verified · the published values</div>
+    <p>With <span class="ui">Scale of the sums of squares</span> set to <span class="ui">plots</span>, the sums of squares are those of the source article: 30,162.40 for GCA, 14,715.59 for SCA, 2947.50 for reciprocals, 240.75 for maternal and 2706.75 for non-maternal effects, with <i>F</i> = 38.08, 9.29, 1.86, 0.30 and 3.42. The GCA effects and their standard errors (2.0311) also match to the last decimal.</p>
+  </div>
+  <p>With missing entries, the sums of squares are sequential, in the order GCA, SCA and reciprocals, and the note below the table says so. With several environments, the table adds the environments and the interactions of each source with them, and the collapsed panel <span class="ui">Analysis within each environment</span> repeats the analysis environment by environment (Section 4.8).</p>
+
+  <!-- ====================================================================== 4.4 -->
+  <h2 id="s4-4"><span class="num">4.4</span>The effects</h2>
+  <p>The card <span class="ui">3 · Effects</span> presents the estimates with their standard error and their <i>t</i> test. On the left, the GCA effects sorted from highest to lowest; on the right, the standard errors and least significant differences for each kind of comparison, because not all differences have the same precision: comparing two SCA effects that share a parent is not the same as comparing two with no parent in common.</p>
+  <figure>
+    <div class="marco"><img src="../img/en/b4-efectos.png" alt="The table of GCA effects and the table of least significant differences"></div>
+    <figcaption><b>Figure 4.4.</b> The GCA effects of the maize lines and the least significant differences. L3 passes on to its crosses 20 g/L more than the average; L2, 13.8 less. Two GCA effects differ if they are more than 6.61 g/L apart.</figcaption>
+  </figure>
+  <figure class="media">
+    <div class="marco"><img src="../img/en/b4-fig-gca.png" alt="The figure of GCA effects with confidence intervals"></div>
+    <figcaption><b>Figure 4.5.</b> The figure of GCA effects, with 95% confidence intervals, significance asterisks and the gray band of ± LSD/2 around zero. Positive effects are purple and negative ones pink; in the editor you can switch to bars, sort by name and remove the band or the intervals.</figcaption>
+  </figure>
+  <p><b>Specific combining ability</b> is shown as a color matrix: above the diagonal, the SCA of each cross; on the diagonal, that of each parent (ŝ<sub>ii</sub>, in Methods 1 and 2); below, when they exist, the reciprocal effects. Red is positive and blue negative, with the significance asterisks next to the value. The full SCA table, with standard error and <i>p</i>, is collapsed below the figure.</p>
+  <figure class="angosta">
+    <div class="marco"><img src="../img/en/b4-matriz.png" alt="The matrix of SCA effects and reciprocal effects"></div>
+    <figcaption><b>Figure 4.6.</b> SCA (above) and reciprocal effects (below) of the maize diallel. The best specific combination is L3 × L4 (ŝ = 14.8); the diagonal values, all negative, say that each line performs worse as a parent than its GCA predicts.</figcaption>
+  </figure>
+  <p>With reciprocals (Methods 1 and 3), the panel of <b>reciprocal, maternal and non-maternal effects</b> also appears: on the left, the maternal effect of each parent, <i>m<sub>i</sub></i>; on the right, for each pair, the reciprocal effect <i>r<sub>ij</sub></i> and its non-maternal part <i>n<sub>ij</sub></i>, each with its test.</p>
+  <figure>
+    <div class="marco"><img src="../img/en/b4-recip.png" alt="The tables of maternal effects and of reciprocal and non-maternal effects"></div>
+    <figcaption><b>Figure 4.7.</b> Maternal and reciprocal effects of the maize diallel. No parent has a maternal effect; the only difference between reciprocals is in the pair L1 × L4 (<i>r</i> = −10.92, <i>p</i> = 0.0226), and it is non-maternal.</figcaption>
+  </figure>
+  <div class="caja regla">
+    <div class="caja-t"><span class="ico">✓</span>Reading rule · which effect is useful for what</div>
+    <table class="compacta"><tbody>
+      <tr><td style="width:40%"><b>High, significant GCA</b> (ĝ<sub>i</sub>)</td><td>The parent passes its value on to all its crosses: useful for <b>forming populations and synthetics</b> and for choosing the parents of a program.</td></tr>
+      <tr><td><b>High, significant SCA</b> (ŝ<sub>ij</sub>)</td><td>The pair performs better than its GCA effects predict: useful for <b>hybrids</b> of that combination, not for choosing parents.</td></tr>
+      <tr><td><b>Maternal effect</b> (<i>m<sub>i</sub></i>)</td><td>Which parent is the female matters: use the parent in the favorable direction (cytoplasm, endosperm, seed size).</td></tr>
+      <tr><td><b>Non-maternal reciprocal</b> (<i>n<sub>ij</sub></i>)</td><td>The direction matters only in that pair; confirm it before drawing conclusions.</td></tr>
+    </tbody></table>
+  </div>
+
+  <!-- ====================================================================== 4.5 -->
+  <h2 id="s4-5"><span class="num">4.5</span>Variance components and genetic parameters</h2>
+  <p>The card <span class="ui">4 · Variance components and genetic parameters</span> estimates the Model II variances from Griffing’s expected mean squares (moment estimators), with their standard error and their percentage of the genetic variance. On the right it converts them into genetic parameters, and below it summarizes them in five tiles and a bar chart with intervals.</p>
+  <figure>
+    <div class="marco"><img src="../img/en/b4-param.png" alt="The variance components and genetic parameters of the maize diallel"></div>
+    <figcaption><b>Figure 4.8.</b> The components and parameters of the maize diallel. σ²<sub>maternal</sub> comes out negative and carries a dagger: it is reported as obtained.</figcaption>
+  </figure>
+  <div class="caja teoria">
+    <div class="caja-t"><span class="ico">θ</span>Theory in brief · from components to parameters</div>
+    <div class="formula" style="margin-bottom:0.04in">σ²<sub>A</sub> = 4σ²<sub>GCA</sub>/(1 + <i>F</i>) &nbsp;·&nbsp; σ²<sub>D</sub> = 4σ²<sub>SCA</sub>/(1 + <i>F</i>)² &nbsp;·&nbsp; Baker ratio = 2σ²<sub>GCA</sub>/(2σ²<sub>GCA</sub> + σ²<sub>SCA</sub>)<br>average degree of dominance = √(2σ²<sub>D</sub>/σ²<sub>A</sub>) &nbsp;·&nbsp; <i>h</i>² = σ²<sub>A</sub>/(σ²<sub>A</sub> + σ²<sub>D</sub> + σ²<sub>e</sub>) &nbsp;·&nbsp; <i>H</i>² = (σ²<sub>A</sub> + σ²<sub>D</sub>)/(σ²<sub>A</sub> + σ²<sub>D</sub> + σ²<sub>e</sub>)</div>
+    <p>The conversions assume no epistasis, genes in linkage equilibrium and parents with the stated inbreeding <i>F</i> (Griffing, 1956; Wright, 1985). The Baker (1978) ratio runs from 0 to 1: close to 1, GCA predicts the crosses well and additive action dominates. Heritabilities are given on a plot basis and on an entry-mean basis (with σ²<sub>e</sub> divided by the replications and the environments). The standard errors of the components come from the variance of the mean squares, 2MS²/df.</p>
+  </div>
+  <p>In the maize data, σ²<sub>A</sub> = 323.75 and σ²<sub>D</sub> = 224.47; the Baker ratio is 0.59, with additive predominance, and the average degree of dominance is 1.18. Narrow-sense heritability is 0.40 on a plot basis and 0.55 on an entry-mean basis. But the standard errors tell you how far to trust those numbers: σ²<sub>GCA</sub> = 161.87 ± 173.18 is not different from zero. With four parents the variances are imprecise, and the message boxes remind you of it.</p>
+  <div class="caja importante">
+    <div class="caja-t"><span class="ico">!</span>Important · what the card’s warnings say</div>
+    <ul>
+      <li><b>Negative components:</b> they are moment estimates and are reported as obtained, marked with †. They indicate a component close to zero or a model that does not describe the data well. If σ²<sub>GCA</sub> or σ²<sub>SCA</sub> is negative, the ratios and heritabilities are not computed.</li>
+      <li><b>Model I:</b> the parents were chosen on purpose, so σ²<sub>GCA</sub> and σ²<sub>SCA</sub> describe only this set. Reading them as the σ²<sub>A</sub> and σ²<sub>D</sub> of a population requires the parents to be a random sample of it.</li>
+      <li><b>Methods 1 and 2:</b> with the parents included, the components describe the descendant population; for the ancestral population from which the parents were taken, use Methods 3 or 4 (Kuehl et al., 1968; Wright, 1985).</li>
+    </ul>
+  </div>
+
+  <!-- ====================================================================== 4.6 -->
+  <h2 id="s4-6"><span class="num">4.6</span>Best parents and crosses</h2>
+  <p>The card <span class="ui">5 · Best parents and crosses</span> ranks parents and crosses according to what you are after: the <span class="ui">Objective</span> menu chooses <span class="ui">the highest value</span> (yield, grain weight) or <span class="ui">the lowest value</span> (days to flowering, height, incidence of a disease), and <span class="ui">Show</span> limits the table of crosses to 10, 20 or 50 rows, or all.</p>
+  <figure>
+    <div class="marco"><img src="../img/en/b4-mejores.png" alt="The parents ranked by their GCA and the crosses evaluated"></div>
+    <figcaption><b>Figure 4.9.</b> The maize parents by their GCA, with a reading in words, and the crosses evaluated with their mean, the prediction from GCA (μ + ĝ<sub>i</sub> + ĝ<sub>j</sub>) and their SCA. The parents appear among the crosses with their ŝ<sub>ii</sub>.</figcaption>
+  </figure>
+  <p>The <span class="ui">Reading</span> column marks each parent as <i>favourable</i>, <i>unfavourable</i> or <i>no difference</i>, according to the sign of its GCA and its significance in the desired direction. In the table of crosses, the difference between the observed mean and the one predicted from the GCA effects is the SCA: L3 × L4 averages 826.67 g/L, 14.76 more than L3 and L4 predict.</p>
+  <figure class="chica">
+    <div class="marco"><img src="../img/en/b4-obspred.png" alt="The figure of observed mean against the mean predicted from GCA"></div>
+    <figcaption><b>Figure 4.10.</b> Observed mean against the mean predicted from GCA. Points above the diagonal have positive SCA; the parents (squares), all below it, perform worse than their GCA effects predict. In the maize data, GCA explains 70% of the variation between entries (<i>r</i>² = 0.699).</figcaption>
+  </figure>
+  <p>At the end of the card, a reading summarizes the results in words. With the maize data it says that the parent with the best GCA is L3, that the crosses with the highest value are L3 × L4, L1 × L3 and L2 × L3, that the outstanding specific combinations are L3 × L4 and L1 × L4 (of interest for hybrids, not for choosing parents), and that there is a significant reciprocal effect, so it pays to watch which parent is used as the female.</p>
+  <p>If crosses of the design are missing, the table <span class="ui">Crosses not evaluated: prediction from GCA</span> also appears, with μ + ĝ<sub>i</sub> + ĝ<sub>j</sub> and its standard error for each cross that was not made. It is the average expected value of the combination, without its SCA, which cannot be known without evaluating it.</p>
+
+  <!-- ====================================================================== 4.7 -->
+  <h2 id="s4-7"><span class="num">4.7</span>The four methods on the same data</h2>
+  <p>The card <span class="ui">6 · The four methods on the same data</span> analyzes the data with each method they contain. Each method uses its own subset of entries and estimates its own error, as if the experiment had been designed that way. The table gives the number of entries, the error, the sums of squares of GCA, SCA and reciprocals, the components, the Baker ratio and what each method estimates; the figure below compares the sums of squares or the components.</p>
+  <figure>
+    <div class="marco"><img src="../img/en/b4-metodos.png" alt="The table comparing the four methods with the maize data"></div>
+    <figcaption><b>Figure 4.11.</b> The four methods with the maize data. Without the parents (Methods 3 and 4), σ²<sub>SCA</sub> drops from 224–284 to 65–77 and the Baker ratio rises from 0.47–0.59 to 0.89–0.91.</figcaption>
+  </figure>
+  <p>The comparison teaches something a single analysis hides. In Methods 1 and 2, the parents enter the analysis with their own very negative SCA effects (ŝ<sub>ii</sub>): the lines perform much worse than their crosses (inbreeding depression or, seen from the crosses, heterosis), and Griffing’s model loads that difference onto SCA. That is why σ²<sub>SCA</sub> comes out larger and the Baker ratio smaller. Among the crosses alone (Methods 3 and 4), GCA explains almost everything. None of the results is wrong: they describe different populations, the descendant one with parents and the ancestral one without them.</p>
+  <div class="caja dato">
+    <div class="dato-cifra">4</div>
+    <div class="dato-txt"><div class="caja-t">Key fact · the four methods, verified</div>With the 8 × 8 diallel from the book by Singh and Chaudhary (1979), Block 4 reproduces exactly, in all four methods, the sums of squares, the errors, the Model II components and the eight GCA effects of an independent implementation. Those data give a negative σ²<sub>GCA</sub> in all four methods, the typical case in which the ratios are not computed.</div>
+  </div>
+
+  <!-- ====================================================================== 4.8 -->
+  <h2 id="s4-8"><span class="num">4.8</span>Several environments</h2>
+  <p>With data from several environments, Block 4 performs a two-stage analysis: it takes the adjusted means of each environment from Block 3 and analyzes the entries × environments table with the pooled error. The analysis of variance table adds the environments and the interaction of each source with them (GCA × environments, SCA × environments and, in Methods 1 and 3, reciprocals × environments). The <span class="ui">Environments</span> control decides what the effects are tested against: with <b>fixed</b> environments, against the error; with <b>random</b> environments, each effect against its interaction with the environments. Under Model II with several environments, GCA is tested with a quasi-<i>F</i> and Satterthwaite degrees of freedom (Singh, 1973).</p>
+  <figure>
+    <div class="marco"><img src="../img/en/b4-amb-anova.png" alt="The analysis of variance of the diallel in three environments"></div>
+    <figcaption><b>Figure 4.12.</b> The simulated α-lattice (Method 2) at three locations. GCA changes between locations (GCA × environments, <i>p</i> = 0.0003); SCA does not (<i>p</i> = 0.145). The note explains the error of the second stage.</figcaption>
+  </figure>
+  <div class="caja nota">
+    <div class="caja-t"><span class="ico">i</span>Note · the error when there are incomplete blocks</div>
+    <p>The adjusted means of an α-lattice are less precise than MS<sub>error</sub>/<i>r</i>, so the error of the second stage is the average variance of the adjusted means, on the plot scale (Möhring and Piepho, 2009): in the example, 0.2008 instead of 0.1583. With balanced complete blocks the two are equal.</p>
+  </div>
+  <p>The figure <span class="ui">GCA in each environment</span> shows, for each parent, its effect at each location. Parallel lines indicate stable GCA; crossing lines, parents whose value depends on the environment. In the example, P5 is the best at Los Altos and Valle Verde and the second best at Chapultepec, while P9 goes from 0.15 at Los Altos to −0.55 at Valle Verde.</p>
+  <figure class="media">
+    <div class="marco"><img src="../img/en/b4-amb-gca.png" alt="The GCA of each parent at the three locations"></div>
+    <figcaption><b>Figure 4.13.</b> The GCA of the ten parents at each location of the simulated α-lattice.</figcaption>
+  </figure>
+  <p>Because the data are simulated, the block compares the estimates with the truth: below the GCA table, a note gives the correlation between the ĝ<sub>i</sub> and the true effects (0.863). With Method 2, σ²<sub>GCA</sub> comes out negative (−0.145) and σ²<sub>SCA</sub> very large (2.34): the crosses average 7.5 t/ha and the inbred parents 4.2, and that heterosis is added to SCA, as in Section 4.7. With Method 4, using only the crosses, the components come close to the simulated values (Table 4.3).</p>
+  <table class="compacta" style="width:86%">
+    <caption><b>Table 4.3.</b> Components of the simulated α-lattice with Method 4 and the values used to generate the data. σ²<sub>GCA</sub> is compared with the variance of the ten effects drawn, not with that of the model (0.16).</caption>
+    <thead><tr><th>Component</th><th class="n">Estimate ± SE</th><th class="n">True</th></tr></thead>
+    <tbody>
+      <tr><td>σ²<sub>GCA</sub></td><td class="n">0.080 ± 0.051</td><td class="n">0.052</td></tr>
+      <tr><td>σ²<sub>SCA</sub></td><td class="n">0.037 ± 0.032</td><td class="n">0.069</td></tr>
+      <tr><td>σ²<sub>GCA × environment</sub></td><td class="n">0.037 ± 0.024</td><td class="n">0.029</td></tr>
+      <tr><td>σ²<sub>SCA × environment</sub></td><td class="n">0.063 ± 0.053</td><td class="n">0</td></tr>
+    </tbody>
+  </table>
+  <p>With ten parents, the GCA and SCA variances are estimated with few degrees of freedom and their standard errors are of the same order as the estimates themselves; this is the limitation of any small diallel, not of the program.</p>
+
+  <!-- ====================================================================== 4.9 -->
+  <h2 id="s4-9"><span class="num">4.9</span>Special cases, downloads and moving on to Block 5</h2>
+  <h3>Means with an external error</h3>
+  <p>If Block 3 received entry means with the error of the original experiment (Section 3.8), Block 4 analyzes those means with that error. This is the case of Griffing’s (1956) example, 36 single crosses of maize from nine lines (Method 4) with an error of 21.05 with 2558 degrees of freedom on the mean scale: GCA has <i>F</i> = 110.49 and SCA 16.13; σ²<sub>GCA</sub> = 283.76 and σ²<sub>SCA</sub> = 318.39, with a Baker ratio of 0.64.</p>
+  <h3>Incomplete or unbalanced designs</h3>
+  <p>The block estimates the effects by least squares weighted by the number of plots, with Griffing’s restrictions imposed exactly. With complete, balanced data it reproduces Griffing’s formulas; with missing crosses or unequal replications it remains valid and the standard errors adjust to the data at hand. Because Griffing’s model has as many parameters as cells, something has to be assumed about what is missing, and the warnings in card 1 say what: SCA = 0 is assumed for the crosses that were not made, and non-maternal effect = 0 for the pairs evaluated in only one direction. With entries that have different numbers of plots, the components use the harmonic mean of the replications.</p>
+  <h3>Downloads and the next block</h3>
+  <p>At the end of card 6, <span class="ui">Assumptions, formulas and references</span> summarizes the model, the restrictions, the estimation and the references, for the methods section of a paper. There are two downloads: <span class="ui">Results (.xlsx)</span>, with six sheets (analysis of variance, effects, components, parameters, crosses with their mean, prediction and SCA, and comparison of methods), and <span class="ui">Effects (.csv)</span>, with the grand mean and all the GCA, SCA, maternal, reciprocal and non-maternal effects with their standard error, <i>t</i> and <i>p</i>. Each figure has its own download panel.</p>
+  <p>The <span class="ui">Continue: Hayman–Jinks →</span> button takes you to Block 5, which analyzes the same diallel from another angle: the Wr–Vr graph, Hayman and Jinks’s genetic parameters, and Gardner and Eberhart’s analysis for varieties and heterosis.</p>
+</section>
+
+</body>
+</html>
