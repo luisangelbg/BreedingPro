@@ -1,0 +1,617 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>BreedingPro · User’s Manual · Block 1: home, labs and theory</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,500;0,600;1,500&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../interior.css">
+<!-- reparte el contenido en hojas tamaño carta, con encabezados y números de página -->
+<script src="../paginar.js"></script>
+<style>
+  figure.chica .marco, figure.chica > svg { width: 72%; margin: 0 auto; }
+  figure.chica figcaption { margin-left: 14%; margin-right: 14%; }
+  /* several screenshots of one panel side by side */
+  .rejilla { display: grid; grid-template-columns: 1fr 1fr; gap: 0.1in 0.18in; }
+  .rejilla.angosta { width: 84%; margin: 0 auto; }
+  .rejilla .sub { font-family: var(--sans); font-size: 8.4pt; color: var(--negro); text-align: center; margin-top: 0.04in; }
+  .rejilla .sub b { font-weight: 600; }
+  td.n, th.n { text-align: right; white-space: nowrap; }
+  table.comparacion { font-size: 8pt; }
+  table.comparacion td:first-child { font-size: 8pt; }
+</style>
+</head>
+<body>
+
+<section class="capitulo" id="cap-b1" data-pestana="B1" data-orden="2" style="--acento: var(--b1)">
+  <div class="cap-apertura">
+    <div class="cap-num">B1</div>
+    <div class="cap-etiqueta">Chapter one · Block 1 · Home</div>
+    <h1 data-corto="Block 1 · Home, labs and theory">Home, labs and theory</h1>
+    <div class="cap-regla"></div>
+    <p class="cap-resumen">The app’s home page is not just a welcome page. It is the map of the whole program, it holds two labs where quantitative genetics can be seen in motion (a diallel whose genes you choose and a population selected cycle after cycle), and it gathers the theory and the references behind every calculation.</p>
+    <div class="cap-franja"><span class="k1"></span><span class="k1" style="opacity:.75"></span><span class="k1" style="opacity:.5"></span><span class="k1" style="opacity:.3"></span></div>
+    <ul class="cap-contenido">
+      <li><b>1.1</b>The app’s home page</li>
+      <li><b>1.2</b>The diallel lab</li>
+      <li><b>1.3</b>Five exercises with the diallel lab</li>
+      <li><b>1.4</b>The selection lab</li>
+      <li><b>1.5</b>Six exercises with the selection lab</li>
+      <li><b>1.6</b>The theory, in plain language</li>
+      <li><b>1.7</b>How to cite and references</li>
+    </ul>
+  </div>
+
+  <!-- ====================================================================== 1.1 -->
+  <h2 id="s1-1"><span class="num">1.1</span>The app’s home page</h2>
+  <p class="lead">When you open <code>index.html</code>, Block 1 appears. It reads from top to bottom, like a brochure: first what the program does and how to go through it, then two labs to experiment with, the map of the eleven analysis blocks, the methods, the theory and, at the end, how to cite it. The <span class="ui">In this block</span> index on the right lists its sections and takes you to any of them with a click.</p>
+
+  <table>
+    <caption><b>Table 1.1.</b> Sections of the home page, in the order in which they appear.</caption>
+    <thead><tr><th style="width:28%">Section in the app</th><th>What it contains</th><th style="width:27%">What it is for</th></tr></thead>
+    <tbody>
+      <tr><td><b>Introduction</b><br><span class="small">four buttons and five guarantees</span></td><td><span class="ui">Start with my data →</span>, <span class="ui">Try the labs</span>, <span class="ui">Read the theory</span> and <span class="ui">How to cite</span>; an illustration with a diallel, its GCAs and SCAs, a Wr–Vr graph and the response to selection.</td><td>Going straight to Block 3 or to any of the sections below.</td></tr>
+      <tr><td><span class="ui">How it works</span></td><td>The seven steps of a breeding program (Figure 1.1).</td><td>Placing each block within the breeding cycle.</td></tr>
+      <tr><td><span class="ui">Try it: two labs with real genetics</span></td><td>The diallel lab and the selection lab (Sections 1.2 to 1.5).</td><td>Understanding, by playing, what a Wr–Vr graph, GCA or the breeder’s equation say.</td></tr>
+      <tr><td><span class="ui">What's inside</span></td><td>One card per analysis block, from 2 to 12, with its illustration and what it calculates.</td><td>Jumping to a block with a click (or with <span class="ui">Enter</span> from the keyboard).</td></tr>
+      <tr><td><span class="ui">For the material you work with</span></td><td>Six kinds of material and what is worth analyzing with each (Figure 1.2).</td><td>Knowing which analyses make sense with your parents.</td></tr>
+      <tr><td><span class="ui">Methods covered</span></td><td>Gallery of 32 methods in seven families, with a filter (Table 1.4).</td><td>Seeing at a glance everything that can be calculated.</td></tr>
+      <tr><td><span class="ui">What it brings together</span></td><td>Ten capabilities of the program in a single workflow.</td><td>Justifying its use in a project or a thesis.</td></tr>
+      <tr><td><span class="ui">The theory, in plain language</span></td><td>Fifteen expandable topics with formulas, practical rules and references (Section 1.6).</td><td>Reviewing the theory before interpreting or defending results.</td></tr>
+      <tr><td><span class="ui">How to cite</span> and <span class="ui">References behind the calculations</span></td><td>The citation of the program ready to copy, and 63 references in seven families (Section 1.7).</td><td>Citing correctly in your thesis or paper.</td></tr>
+    </tbody>
+  </table>
+
+  <figure>
+    <div class="marco"><img src="../img/en/b1-flujo.png" alt="The How it works section with its seven steps"></div>
+    <figcaption><b>Figure 1.1.</b> The <span class="ui">How it works</span> section: seven steps in the order in which a breeding program is actually carried out, from the crossing plan to the paper.</figcaption>
+  </figure>
+
+  <table class="compacta">
+    <caption><b>Table 1.2.</b> The seven steps of the home page and the blocks that solve them.</caption>
+    <thead><tr><th style="width:8%">Step</th><th style="width:22%">In the app</th><th>What is done</th><th style="width:17%">Blocks</th></tr></thead>
+    <tbody>
+      <tr><td>1</td><td><span class="ui">Plan</span></td><td>Crossing plan, seed and pollinations, trial layout and power</td><td><span class="chip k2">2</span></td></tr>
+      <tr><td>2</td><td><span class="ui">Record and check</span></td><td>Data loading, recognized design, quality and field analysis</td><td><span class="chip k3">3</span></td></tr>
+      <tr><td>3</td><td><span class="ui">Combining ability</span></td><td>Effects and variances of GCA, SCA and reciprocals</td><td><span class="chip k4">4</span> <span class="chip k6">6</span></td></tr>
+      <tr><td>4</td><td><span class="ui">Gene action</span></td><td>Genetic components, degree of dominance, epistasis and heterosis</td><td><span class="chip k5">5</span> <span class="chip k6">6</span> <span class="chip k7">7</span></td></tr>
+      <tr><td>5</td><td><span class="ui">Select</span></td><td>Heritability, expected response, indices and stability</td><td><span class="chip k8">8</span> <span class="chip k9">9</span></td></tr>
+      <tr><td>6</td><td><span class="ui">Predict</span></td><td>Breeding values with a pedigree or markers, and untested hybrids</td><td><span class="chip k10">10</span> <span class="chip k11">11</span></td></tr>
+      <tr><td>7</td><td><span class="ui">Publish</span></td><td>Report, figures and results package</td><td><span class="chip k12">12</span></td></tr>
+    </tbody>
+  </table>
+
+  <h3>What's inside</h3>
+  <p>Eleven cards, one per analysis block, show its number, an illustration, the family of methods it belongs to and a paragraph with what it calculates. A click anywhere on the card opens the block; it is the same information as Table I.1 of the introduction, told from the app.</p>
+
+  <h3>For the material you work with</h3>
+  <p>The kind of material decides which analyses make sense: a Hayman–Jinks diallel requires homozygous lines, Gardner–Eberhart heterosis was designed for varieties, and the animal model needs a pedigree. The strip in Figure 1.2 sums it up in six cards, and Table 1.3 adds the blocks that correspond to each one.</p>
+  <figure>
+    <div class="marco"><img src="../img/en/b1-materiales.png" alt="Six material cards: lines, varieties, selfers, clonal crops, livestock and markers"></div>
+    <figcaption><b>Figure 1.2.</b> The <span class="ui">For the material you work with</span> section. Each card carries a tag underneath with the kind of material.</figcaption>
+  </figure>
+  <table class="compacta">
+    <caption><b>Table 1.3.</b> Material, the analyses that suit it and the blocks where they are done.</caption>
+    <thead><tr><th style="width:27%">Material</th><th>Analyses that make sense</th><th style="width:19%">Blocks</th></tr></thead>
+    <tbody>
+      <tr><td>Inbred lines and their crosses</td><td>Griffing and Hayman–Jinks diallels, line × tester, hybrid prediction</td><td><span class="chip k4">4</span> <span class="chip k5">5</span> <span class="chip k6">6</span> <span class="chip k11">11</span></td></tr>
+      <tr><td>Varieties and populations</td><td>Gardner and Eberhart heterosis, North Carolina designs, recurrent selection</td><td><span class="chip k5">5</span> <span class="chip k6">6</span> <span class="chip k8">8</span></td></tr>
+      <tr><td>Self-pollinated crops</td><td>Generations P<sub>1</sub> to BC<sub>2</sub>, triple test cross, pure lines in trials</td><td><span class="chip k6">6</span> <span class="chip k7">7</span> <span class="chip k8">8</span></td></tr>
+      <tr><td>Clonal and perennial crops</td><td>Half-sib families, clones in several environments, repeatability</td><td><span class="chip k8">8</span> <span class="chip k9">9</span> <span class="chip k10">10</span></td></tr>
+      <tr><td>Livestock and animal species</td><td>Animal model, sires, maternal effects and crossbreeding</td><td><span class="chip k10">10</span></td></tr>
+      <tr><td>Molecular markers</td><td>Genomic relationships, GBLUP and hybrid prediction</td><td><span class="chip k11">11</span></td></tr>
+    </tbody>
+  </table>
+
+  <h3>Methods covered</h3>
+  <p>The gallery shows 32 methods, each with an illustration of its own. The buttons above filter it by family and say how many methods each family has. Table 1.4 gathers them with the block where they are calculated.</p>
+  <table class="compacta">
+    <caption><b>Table 1.4.</b> The 32 methods of the gallery, by family.</caption>
+    <thead><tr><th style="width:17%">Family</th><th>Methods</th><th style="width:15%">Blocks</th></tr></thead>
+    <tbody>
+      <tr><td>Diallels · 9</td><td>Griffing Methods 1, 2, 3 and 4; reciprocal effects; Wr–Vr graph; Hayman’s ANOVA; Gardner and Eberhart; partial diallel</td><td><span class="chip k4">4</span> <span class="chip k5">5</span> <span class="chip k6">6</span></td></tr>
+      <tr><td>Mating · 5</td><td>North Carolina I and II; North Carolina III and triple test cross; line × tester; epistasis test</td><td><span class="chip k6">6</span></td></tr>
+      <tr><td>Generations · 3</td><td>Generation means; generation variances; heterosis</td><td><span class="chip k7">7</span></td></tr>
+      <tr><td>Selection · 4</td><td>Heritability; response to selection; selection indices; correlations and paths</td><td><span class="chip k8">8</span></td></tr>
+      <tr><td>G×E · 4</td><td>Stability regression; ecovalence and superiority; AMMI; GGE biplot</td><td><span class="chip k9">9</span></td></tr>
+      <tr><td>Mixed models · 3</td><td>REML and BLUP; animal model; crossbreeding</td><td><span class="chip k10">10</span></td></tr>
+      <tr><td>Genomics · 4</td><td>GBLUP; untested hybrids; double and three-way crosses; crosses between two groups</td><td><span class="chip k11">11</span></td></tr>
+    </tbody>
+  </table>
+
+  <h3>What it brings together</h3>
+  <p>Ten boxes sum up what the program brings together in a single workflow: from the crossing plan to the paper; every mating design; lost crosses and unbalanced data; assumptions put to the test; interpretation in words; plants, animals and markers; publication-ready figures; a reproducible report; Spanish and English; and data that never leave your computer.</p>
+
+  <div class="caja nota">
+    <div class="caja-t"><span class="ico">i</span>Note · the four buttons of the introduction</div>
+    <p><span class="ui">Start with my data →</span> opens Block 3. <span class="ui">Try the labs</span>, <span class="ui">Read the theory</span> and <span class="ui">How to cite</span> scroll down to their section of the same page; <span class="ui">Read the theory</span> also opens the first topic. The name <span class="ui">BreedingPro</span> on the top bar goes back to this home page from any block.</p>
+  </div>
+
+  <!-- ====================================================================== 1.2 -->
+  <h2 id="s1-2"><span class="num">1.2</span>The diallel lab</h2>
+  <p class="lead">Faced with a Wr–Vr graph, every breeding student wonders which genes would produce those points. The diallel lab travels the road backward: you decide how the genes act, and the app creates parents with those genes, crosses them, “sows” the plots with experimental error and analyzes the table with the same formulas it will apply to your data in Blocks 4 and 5. Since you know the truth, you can see when the analysis recovers it and when it goes wrong.</p>
+
+  <div class="caja teoria">
+    <div class="caja-t"><span class="ico">θ</span>Theory in brief · Hayman’s additive–dominance model</div>
+    <p>Each locus has two alleles. The homozygote AA adds <i>+a</i> to the trait, aa subtracts <i>a</i> and the heterozygote Aa contributes <i>d</i>; in the lab <i>a</i> = 1, so the <span class="ui">Dominance d/a</span> control gives the degree of dominance directly: 0 is additive action, between 0 and 1 partial dominance, 1 complete and above 1 overdominance (Hayman, 1954b). The parents are homozygous: at each locus they carry the allele that increases the trait with probability <i>u</i> and the one that decreases it with probability <i>v</i> = 1 − <i>u</i>. The value of a cross is the sum over its loci, and each plot adds 20 units and a normal error.</p>
+  </div>
+
+  <figure>
+    <svg viewBox="0 0 700 262" xmlns="http://www.w3.org/2000/svg" font-family="Jost, sans-serif" role="img" aria-label="How the diallel lab works: parents with genes, half diallel, plots with error and analysis">
+      <defs><marker id="fa" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#625d6c"/></marker></defs>
+      <g font-size="11.5" font-weight="600" fill="#5e2e8c">
+        <text x="8" y="16">1 · Parents</text>
+        <text x="180" y="16">2 · Half diallel</text>
+        <text x="330" y="16">3 · Plots with error</text>
+        <text x="530" y="16">4 · The analysis</text>
+      </g>
+      <!-- 1 · parents: + (purple) and − (gold) homozygous loci -->
+      <g font-size="9.5" fill="#625d6c" font-weight="600">
+        <text x="8" y="47">P1</text><text x="8" y="71">P2</text><text x="8" y="95">P3</text><text x="8" y="119">P4</text><text x="8" y="143">P5</text>
+      </g>
+      <g stroke="#fff" stroke-width="1">
+        <!-- P1: − − + − − − + − − − -->
+        <rect x="30" y="34" width="12" height="17" fill="#e3a41c"/><rect x="42" y="34" width="12" height="17" fill="#e3a41c"/><rect x="54" y="34" width="12" height="17" fill="#5e2e8c"/><rect x="66" y="34" width="12" height="17" fill="#e3a41c"/><rect x="78" y="34" width="12" height="17" fill="#e3a41c"/><rect x="90" y="34" width="12" height="17" fill="#e3a41c"/><rect x="102" y="34" width="12" height="17" fill="#5e2e8c"/><rect x="114" y="34" width="12" height="17" fill="#e3a41c"/><rect x="126" y="34" width="12" height="17" fill="#e3a41c"/><rect x="138" y="34" width="12" height="17" fill="#e3a41c"/>
+        <!-- P2: + + − + − + + − + − -->
+        <rect x="30" y="58" width="12" height="17" fill="#5e2e8c"/><rect x="42" y="58" width="12" height="17" fill="#5e2e8c"/><rect x="54" y="58" width="12" height="17" fill="#e3a41c"/><rect x="66" y="58" width="12" height="17" fill="#5e2e8c"/><rect x="78" y="58" width="12" height="17" fill="#e3a41c"/><rect x="90" y="58" width="12" height="17" fill="#5e2e8c"/><rect x="102" y="58" width="12" height="17" fill="#5e2e8c"/><rect x="114" y="58" width="12" height="17" fill="#e3a41c"/><rect x="126" y="58" width="12" height="17" fill="#5e2e8c"/><rect x="138" y="58" width="12" height="17" fill="#e3a41c"/>
+        <!-- P3: + − − + − − + + − − -->
+        <rect x="30" y="82" width="12" height="17" fill="#5e2e8c"/><rect x="42" y="82" width="12" height="17" fill="#e3a41c"/><rect x="54" y="82" width="12" height="17" fill="#e3a41c"/><rect x="66" y="82" width="12" height="17" fill="#5e2e8c"/><rect x="78" y="82" width="12" height="17" fill="#e3a41c"/><rect x="90" y="82" width="12" height="17" fill="#e3a41c"/><rect x="102" y="82" width="12" height="17" fill="#5e2e8c"/><rect x="114" y="82" width="12" height="17" fill="#5e2e8c"/><rect x="126" y="82" width="12" height="17" fill="#e3a41c"/><rect x="138" y="82" width="12" height="17" fill="#e3a41c"/>
+        <!-- P4: + + + − + + − + + + -->
+        <rect x="30" y="106" width="12" height="17" fill="#5e2e8c"/><rect x="42" y="106" width="12" height="17" fill="#5e2e8c"/><rect x="54" y="106" width="12" height="17" fill="#5e2e8c"/><rect x="66" y="106" width="12" height="17" fill="#e3a41c"/><rect x="78" y="106" width="12" height="17" fill="#5e2e8c"/><rect x="90" y="106" width="12" height="17" fill="#5e2e8c"/><rect x="102" y="106" width="12" height="17" fill="#e3a41c"/><rect x="114" y="106" width="12" height="17" fill="#5e2e8c"/><rect x="126" y="106" width="12" height="17" fill="#5e2e8c"/><rect x="138" y="106" width="12" height="17" fill="#5e2e8c"/>
+        <!-- P5: + + + + + − + + + + -->
+        <rect x="30" y="130" width="12" height="17" fill="#5e2e8c"/><rect x="42" y="130" width="12" height="17" fill="#5e2e8c"/><rect x="54" y="130" width="12" height="17" fill="#5e2e8c"/><rect x="66" y="130" width="12" height="17" fill="#5e2e8c"/><rect x="78" y="130" width="12" height="17" fill="#5e2e8c"/><rect x="90" y="130" width="12" height="17" fill="#e3a41c"/><rect x="102" y="130" width="12" height="17" fill="#5e2e8c"/><rect x="114" y="130" width="12" height="17" fill="#5e2e8c"/><rect x="126" y="130" width="12" height="17" fill="#5e2e8c"/><rect x="138" y="130" width="12" height="17" fill="#5e2e8c"/>
+      </g>
+      <g font-size="9" fill="#625d6c">
+        <rect x="30" y="156" width="9" height="9" fill="#5e2e8c"/><text x="43" y="164">AA (+a)</text>
+        <rect x="92" y="156" width="9" height="9" fill="#e3a41c"/><text x="105" y="164">aa (−a)</text>
+        <text x="8" y="182">one locus per square; the</text>
+        <text x="8" y="194">+ allele is drawn with probability u</text>
+      </g>
+      <path d="M154 90 L 172 90" stroke="#625d6c" stroke-width="1.5" marker-end="url(#fa)"/>
+      <!-- 2 · half diallel with parents -->
+      <g font-size="8.5" fill="#625d6c" font-weight="600" text-anchor="middle">
+        <text x="208" y="30">P1</text><text x="228" y="30">P2</text><text x="248" y="30">P3</text><text x="268" y="30">P4</text><text x="288" y="30">P5</text>
+      </g>
+      <g font-size="8.5" fill="#625d6c" font-weight="600" text-anchor="end">
+        <text x="195" y="47">P1</text><text x="195" y="67">P2</text><text x="195" y="87">P3</text><text x="195" y="107">P4</text><text x="195" y="127">P5</text>
+      </g>
+      <g stroke="#fff" stroke-width="1.5">
+        <rect x="198" y="34" width="20" height="20" fill="#fbf3df"/><rect x="218" y="34" width="20" height="20" fill="#b89bd6"/><rect x="238" y="34" width="20" height="20" fill="#d8c6ea"/><rect x="258" y="34" width="20" height="20" fill="#b89bd6"/><rect x="278" y="34" width="20" height="20" fill="#8f62bd"/>
+        <rect x="218" y="54" width="20" height="20" fill="#9d77c7"/><rect x="238" y="54" width="20" height="20" fill="#8f62bd"/><rect x="258" y="54" width="20" height="20" fill="#6a3a98"/><rect x="278" y="54" width="20" height="20" fill="#5e2e8c"/>
+        <rect x="238" y="74" width="20" height="20" fill="#d8c6ea"/><rect x="258" y="74" width="20" height="20" fill="#b89bd6"/><rect x="278" y="74" width="20" height="20" fill="#6a3a98"/>
+        <rect x="258" y="94" width="20" height="20" fill="#9d77c7"/><rect x="278" y="94" width="20" height="20" fill="#5e2e8c"/>
+        <rect x="278" y="114" width="20" height="20" fill="#4a2270"/>
+      </g>
+      <g fill="none" stroke="#221f28" stroke-width="1.6">
+        <rect x="199" y="35" width="18" height="18"/><rect x="219" y="55" width="18" height="18"/><rect x="239" y="75" width="18" height="18"/><rect x="259" y="95" width="18" height="18"/><rect x="279" y="115" width="18" height="18"/>
+      </g>
+      <g font-size="9" fill="#625d6c">
+        <text x="180" y="164">parents on the diagonal</text>
+        <text x="180" y="176">and F₁ above: p(p + 1)/2</text>
+        <text x="180" y="188">entries (Method 2)</text>
+      </g>
+      <path d="M304 90 L 322 90" stroke="#625d6c" stroke-width="1.5" marker-end="url(#fa)"/>
+      <!-- 3 · three plots per entry -->
+      <g font-size="9.5" fill="#221f28">
+        <text x="330" y="50" font-weight="600">P1</text>
+        <text x="330" y="84" font-weight="600">P1 × P2</text>
+        <text x="330" y="118" font-weight="600">P2 × P4</text>
+      </g>
+      <g font-size="9" text-anchor="middle" fill="#221f28">
+        <rect x="376" y="36" width="26" height="20" rx="3" fill="#e7f3ec" stroke="#2e8556"/><text x="389" y="50">10.3</text>
+        <rect x="405" y="36" width="26" height="20" rx="3" fill="#e7f3ec" stroke="#2e8556"/><text x="418" y="50">9.8</text>
+        <rect x="434" y="36" width="26" height="20" rx="3" fill="#e7f3ec" stroke="#2e8556"/><text x="447" y="50">10.2</text>
+        <rect x="376" y="70" width="26" height="20" rx="3" fill="#e7f3ec" stroke="#2e8556"/><text x="389" y="84">19.4</text>
+        <rect x="405" y="70" width="26" height="20" rx="3" fill="#e7f3ec" stroke="#2e8556"/><text x="418" y="84">18.1</text>
+        <rect x="434" y="70" width="26" height="20" rx="3" fill="#e7f3ec" stroke="#2e8556"/><text x="447" y="84">19.2</text>
+        <rect x="376" y="104" width="26" height="20" rx="3" fill="#e7f3ec" stroke="#2e8556"/><text x="389" y="118">24.9</text>
+        <rect x="405" y="104" width="26" height="20" rx="3" fill="#e7f3ec" stroke="#2e8556"/><text x="418" y="118">23.7</text>
+        <rect x="434" y="104" width="26" height="20" rx="3" fill="#e7f3ec" stroke="#2e8556"/><text x="447" y="118">24.6</text>
+      </g>
+      <g font-size="9.5" fill="#5e2e8c" font-weight="600">
+        <text x="466" y="50">→ 10.1</text><text x="466" y="84">→ 18.9</text><text x="466" y="118">→ 24.4</text>
+      </g>
+      <g font-size="9" fill="#625d6c">
+        <text x="330" y="140">…and so on for every entry of the diallel</text>
+        <text x="330" y="164">three replicates per entry; each</text>
+        <text x="330" y="176">plot = 20 + value of the cross +</text>
+        <text x="330" y="188">normal error with deviation σ</text>
+      </g>
+      <path d="M506 90 L 524 90" stroke="#625d6c" stroke-width="1.5" marker-end="url(#fa)"/>
+      <!-- 4 · analysis: Wr–Vr and GCA -->
+      <g stroke="#625d6c" stroke-width="1.1" fill="none"><path d="M534 34 L 534 108 L 606 108"/><path d="M620 34 L 620 108"/></g>
+      <path d="M534 108 L536 95.3 L539 87.9 L543 81 L551.5 70.4 L569 54.8 L586.5 42.8 L604 34" fill="none" stroke="#2e8556" stroke-width="1.8"/>
+      <path d="M536 96 L 602 47" stroke="#b7791f" stroke-width="1.8"/>
+      <g stroke="#fff" stroke-width="1">
+        <circle cx="545" cy="89.3" r="4" fill="#e3a41c"/><circle cx="556" cy="81.2" r="4" fill="#c0406a"/><circle cx="567" cy="73" r="4" fill="#c0406a"/><circle cx="580" cy="63.4" r="4" fill="#8f3a8a"/><circle cx="593" cy="53.7" r="4" fill="#5e2e8c"/>
+      </g>
+      <g font-size="8.5" fill="#625d6c"><text x="598" y="120" text-anchor="end">Vr</text><text x="530" y="40" text-anchor="end">Wr</text></g>
+      <path d="M620 72 L 694 72" stroke="#625d6c" stroke-width="1"/>
+      <g>
+        <rect x="625" y="72" width="10" height="29" fill="#5e2e8c"/><rect x="639" y="64" width="10" height="8" fill="#c0406a"/><rect x="653" y="72" width="10" height="12" fill="#8f3a8a"/><rect x="667" y="72" width="10" height="2" fill="#c0406a"/><rect x="681" y="51" width="10" height="21" fill="#e3a41c"/>
+      </g>
+      <g font-size="9" fill="#221f28" font-weight="600" text-anchor="middle"><text x="570" y="136">Hayman–Jinks</text><text x="657" y="136">GCA (Griffing 2)</text></g>
+      <g font-size="9" fill="#625d6c">
+        <text x="530" y="164">Vr, Wr, components and</text>
+        <text x="530" y="176">ratios; GCA and Baker’s</text>
+        <text x="530" y="188">ratio, as in Blocks 4 and 5</text>
+      </g>
+      <!-- the genetic model -->
+      <rect x="8" y="206" width="684" height="48" rx="8" fill="#f1ebf6" stroke="#5e2e8c" stroke-width="1"/>
+      <g font-size="10.5" fill="#221f28">
+        <text x="22" y="226"><tspan font-weight="600" fill="#5e2e8c">Value of a cross</tspan> = Σ over its loci:  +a if AA,  −a if aa,  d if Aa   (d positive or negative depending on the locus)</text>
+        <text x="22" y="244"><tspan font-weight="600" fill="#5e2e8c">Epistasis d × d</tspan>: loci are grouped in pairs (1–2, 3–4…); if the cross is heterozygous at both, the value of the control is added</text>
+      </g>
+    </svg>
+    <figcaption><b>Figure 1.3.</b> What the lab does every time you move a control. The parents are drawn with actual genes, crossed in a half diallel with parents, each entry is “sown” in three plots with error, and the table of means is analyzed as if it were real data. The plot values are illustrative; the means are those of the partial dominance scenario.</figcaption>
+  </figure>
+
+  <p>The seven controls in Table 1.5 are below the graphs. Each one changes one piece of the genetic model of Figure 1.3, and the app creates, sows and analyzes the diallel again as soon as you release it.</p>
+  <table class="compacta">
+    <caption><b>Table 1.5.</b> Controls of the diallel lab.</caption>
+    <thead><tr><th style="width:23%">Control</th><th style="width:14%">Range</th><th style="width:10%" class="c">Initial</th><th>What it represents</th></tr></thead>
+    <tbody>
+      <tr><td><span class="ui">Parents</span></td><td>4 to 12</td><td class="c">7</td><td>Number of parents <i>p</i>; the diallel has <i>p</i>(<i>p</i> + 1)/2 entries.</td></tr>
+      <tr><td><span class="ui">Loci</span></td><td>1 to 30</td><td class="c">12</td><td>Genes that may differ between parents.</td></tr>
+      <tr><td><span class="ui">Dominance d/a</span></td><td>0 to 2</td><td class="c">0.50</td><td>Degree of dominance at each locus.</td></tr>
+      <tr><td><span class="ui">Towards high values</span></td><td>0 to 100%</td><td class="c">100%</td><td>Fraction of loci at which the dominant allele is the one that increases the trait; at the rest, the one that decreases it is dominant.</td></tr>
+      <tr><td><span class="ui">Frequency u</span></td><td>0.10 to 0.90</td><td class="c">0.50</td><td>Probability that a parent carries, at each locus, the allele that increases the trait.</td></tr>
+      <tr><td><span class="ui">Epistasis d×d</span></td><td>−3 to +3</td><td class="c">0</td><td>Dominance × dominance interaction between pairs of loci: negative, duplicate; positive, complementary.</td></tr>
+      <tr><td><span class="ui">Plot error σ</span></td><td>0 to 3</td><td class="c">0.60</td><td>Standard deviation of the error of each of the three plots per entry.</td></tr>
+    </tbody>
+  </table>
+
+  <h3>What you see on screen</h3>
+  <figure>
+    <div class="marco" style="position:relative">
+      <img src="../img/en/b1-lab-dialelos.png" alt="The diallel lab with the partial dominance scenario">
+      <span class="marca" style="left:30.7%;top:5.5%">1</span>
+      <span class="marca" style="left:44.9%;top:18.5%">2</span>
+      <span class="marca" style="left:21.9%;top:24.2%">3</span>
+      <span class="marca" style="left:60.3%;top:24.2%">4</span>
+      <span class="marca" style="left:92.4%;top:24.2%">5</span>
+      <span class="marca" style="left:16.4%;top:72.3%">6</span>
+      <span class="marca" style="left:86.9%;top:85%">7</span>
+      <span class="marca" style="left:11.6%;top:88%">8</span>
+    </div>
+    <figcaption><b>Figure 1.4.</b> The diallel lab with the initial scenario, <span class="ui">Partial dominance</span>: seven parents, twelve loci and d/a = 0.50.</figcaption>
+    <ul class="leyenda-marcas">
+      <li><span class="n">1</span>The two tabs: diallel lab and selection lab.</li>
+      <li><span class="n">2</span><span class="ui">Scenario</span>, with eight ready-made configurations (Table 1.7), and <span class="ui">↻ New parents</span>, which draws a new group with the same settings.</li>
+      <li><span class="n">3</span>Diallel table of means: parents on the diagonal, with a black border; F<sub>1</sub>s above and their fainter copy below. Hovering the mouse shows each mean.</li>
+      <li><span class="n">4</span>Wr–Vr graph: limiting parabola (green), regression line (amber) and line of slope 1 through the midpoint (gray). Each parent goes from purple (few dominant alleles) to gold (many).</li>
+      <li><span class="n">5</span>GCA of each parent with its 95% confidence interval (Griffing’s Method 2, Model I).</li>
+      <li><span class="n">6</span>Six summary boxes (Table 1.6).</li>
+      <li><span class="n">7</span>The interpretation in words.</li>
+      <li><span class="n">8</span>The seven controls of the genetic model (Table 1.5).</li>
+    </ul>
+  </figure>
+
+  <table class="compacta">
+    <caption><b>Table 1.6.</b> The six summary boxes and their values when the model holds.</caption>
+    <thead><tr><th style="width:21%">Box</th><th>What it is</th><th style="width:33%">Without epistasis and with little error</th></tr></thead>
+    <tbody>
+      <tr><td><span class="ui">Slope b ± SE</span></td><td>Regression of Wr on Vr; underneath, the t of the test b = 1</td><td>Close to 1; if it moves away, there is epistasis or another broken assumption</td></tr>
+      <tr><td>(H<sub>1</sub>/D)<sup>½</sup></td><td>Mean degree of dominance; underneath, the d/a of the model</td><td>Close to the d/a you chose</td></tr>
+      <tr><td>H<sub>2</sub>/4H<sub>1</sub></td><td>Proportion of alleles that increase and that decrease the trait</td><td>¼ when <i>u</i> = <i>v</i> = ½; smaller if the frequencies differ</td></tr>
+      <tr><td>KD/KR</td><td>Dominant against recessive alleles in the parents</td><td>1 if they are balanced; larger with more dominant ones</td></tr>
+      <tr><td><span class="ui">Baker's ratio</span></td><td>2σ²<sub>GCA</sub>/(2σ²<sub>GCA</sub> + σ²<sub>SCA</sub>), from Griffing’s Method 2</td><td>1 with additive action; falls toward 0 as dominance weighs more</td></tr>
+      <tr><td><span class="ui">Mean heterosis</span></td><td>Mean of the F<sub>1</sub>s against the mean of the parents, as a percentage</td><td>0 without dominance; grows with d/a if dominance goes in a single direction</td></tr>
+    </tbody>
+  </table>
+  <p>Without dominance, H<sub>2</sub>/4H<sub>1</sub> and KD/KR make no sense, and their boxes show a dash with the caption <span class="ui">no dominance</span>. The components D, H<sub>1</sub>, H<sub>2</sub>, F and h² that feed the ratios are calculated as in Block 5 and are explained in the chapter on that block.</p>
+
+  <div class="caja teoria">
+    <div class="caja-t"><span class="ico">θ</span>Theory in brief · the error in a half diallel</div>
+    <p>Hayman’s classical error corrections assume a full diallel in which each cross is the average of itself and its reciprocal, with half the error. In a half diallel each cross is observed only once, and the corrections change: H<sub>1</sub> is corrected with −(5<i>p</i> − 4)E/<i>p</i> instead of −(3<i>p</i> − 2)E/<i>p</i>; H<sub>2</sub> with −4E + 4(<i>p</i> − 1)E/<i>p</i>² instead of −2E, and h² with −4(<i>p</i>² − 1)E/<i>p</i>³ instead of −4(<i>p</i> − 1)E/<i>p</i>². D and F do not change. In 20,000 diallels simulated during the validation of the program, the classical corrections inflated H<sub>1</sub> by about 1.7E and H<sub>2</sub> by 1.5E; those of the half diallel had no bias. The lab and Block 5 use the latter.</p>
+  </div>
+
+  <div class="caja nota">
+    <div class="caja-t"><span class="ico">i</span>Note · the same numbers every time</div>
+    <p>Each scenario starts with a fixed seed, which is why the values in this chapter are reproduced exactly. Moving a control keeps the seed: with the same parents and the same error, only what you moved changes. <span class="ui">↻ New parents</span> changes the seed, and choosing a scenario again brings back the original one.</p>
+  </div>
+
+  <div class="caja regla">
+    <div class="caja-t"><span class="ico">✓</span>Decision rule · how the app words the interpretation</div>
+    <table class="compacta"><tbody>
+      <tr><td style="width:47%"><b>If</b> b does not differ from 1 (|t| smaller than the critical value at 5% with <i>p</i> − 2 degrees of freedom)…</td><td><b>then</b> the additive–dominance model holds.</td></tr>
+      <tr><td><b>If</b> b departs from 1…</td><td><b>then</b> there is non-allelic interaction or another broken assumption, and the components are biased.</td></tr>
+      <tr><td><b>If</b> (H<sub>1</sub>/D)<sup>½</sup> &lt; 0.25…</td><td><b>then</b> gene action is practically additive.</td></tr>
+      <tr><td><b>If</b> the intercept of the line is positive and significant…</td><td><b>then</b> partial dominance.</td></tr>
+      <tr><td><b>If</b> it is negative and significant…</td><td><b>then</b> overdominance.</td></tr>
+      <tr><td><b>If</b> it does not differ from zero and (H<sub>1</sub>/D)<sup>½</sup> is between 0.8 and 1.2…</td><td><b>then</b> complete dominance. Outside that interval, the app warns that the intercept test has little power (Exercise 4).</td></tr>
+      <tr><td><b>If</b> r(Yr, Wr + Vr) &lt; −0.3 · &gt; 0.3…</td><td><b>then</b> the dominant · recessive alleles increase the trait; between both values the direction is unclear.</td></tr>
+    </tbody></table>
+    <p class="regla-pie">The app also names the two parents closest to the origin: they are the ones that carry the most dominant alleles.</p>
+  </div>
+
+  <!-- ====================================================================== 1.3 -->
+  <h2 id="s1-3"><span class="num">1.3</span>Five exercises with the diallel lab</h2>
+  <p>The eight scenarios of the menu are meant to be worked through in order. Table 1.7 says what each one changes with respect to the initial one and in which exercise it is used.</p>
+  <table class="compacta">
+    <caption><b>Table 1.7.</b> Scenarios of the diallel lab. Settings not listed keep their initial values (7 parents, 12 loci, d/a = 0.50, 100% towards high values, <i>u</i> = 0.50, no epistasis, σ = 0.60).</caption>
+    <thead><tr><th style="width:31%">Scenario</th><th>What changes</th><th style="width:12%" class="c">Exercise</th></tr></thead>
+    <tbody>
+      <tr><td><span class="ui">Partial dominance</span></td><td>Nothing: it is the initial scenario</td><td class="c">1</td></tr>
+      <tr><td><span class="ui">Complete dominance</span></td><td>d/a = 1</td><td class="c">1</td></tr>
+      <tr><td><span class="ui">Overdominance</span></td><td>d/a = 1.80</td><td class="c">1</td></tr>
+      <tr><td><span class="ui">Additive action only</span></td><td>d/a = 0</td><td class="c">1</td></tr>
+      <tr><td><span class="ui">Dominance in both directions</span></td><td>8 parents, 16 loci, d/a = 0.80, 50% towards high values</td><td class="c">2</td></tr>
+      <tr><td><span class="ui">Duplicate epistasis</span></td><td>8 parents, d/a = 0.80, epistasis −3, σ = 0.30</td><td class="c">3</td></tr>
+      <tr><td><span class="ui">Complementary epistasis</span></td><td>8 parents, d/a = 0.80, epistasis +3, σ = 0.30 (another seed)</td><td class="c">3</td></tr>
+      <tr><td><span class="ui">Large experimental error</span></td><td>σ = 2.50</td><td class="c">4</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Exercise 1 · Four degrees of dominance</h3>
+  <p>Choose <span class="ui">Additive action only</span> and then <span class="ui">Partial dominance</span>, <span class="ui">Complete dominance</span> and <span class="ui">Overdominance</span>. The four scenarios use the same parents and the same error; only d/a changes. Watch how the line moves down in the Wr–Vr graph (Figure 1.5) and write down the boxes (Table 1.8).</p>
+  <figure>
+    <div class="rejilla angosta">
+      <div><div class="marco"><img src="../img/en/b1-wrvr-aditiva.png" alt="Wr–Vr graph with additive action"></div><div class="sub"><b>A</b> · Additive action only, d/a = 0</div></div>
+      <div><div class="marco"><img src="../img/en/b1-wrvr-parcial.png" alt="Wr–Vr graph with partial dominance"></div><div class="sub"><b>B</b> · Partial dominance, d/a = 0.50</div></div>
+      <div><div class="marco"><img src="../img/en/b1-wrvr-completa.png" alt="Wr–Vr graph with complete dominance"></div><div class="sub"><b>C</b> · Complete dominance, d/a = 1</div></div>
+      <div><div class="marco"><img src="../img/en/b1-wrvr-sobre.png" alt="Wr–Vr graph with overdominance"></div><div class="sub"><b>D</b> · Overdominance, d/a = 1.80</div></div>
+    </div>
+    <figcaption><b>Figure 1.5.</b> The Wr–Vr graph of the same seven parents with four degrees of dominance. The line cuts the Wr axis lower and lower: above the origin (A, B), almost at the origin (C) and below it (D). Note that the scales of the axes change from one panel to another.</figcaption>
+  </figure>
+  <table class="compacta">
+    <caption><b>Table 1.8.</b> What the lab shows in Exercise 1.</caption>
+    <thead><tr><th>Scenario</th><th class="n">d/a</th><th class="n">(H<sub>1</sub>/D)<sup>½</sup></th><th class="n">Intercept a ± SE</th><th class="n">Baker</th><th class="n">Mean heterosis</th></tr></thead>
+    <tbody>
+      <tr><td>Additive action only</td><td class="n">0</td><td class="n">0.11</td><td class="n">6.73 ± 0.16</td><td class="n">0.99</td><td class="n">−1.1%</td></tr>
+      <tr><td>Partial dominance</td><td class="n">0.50</td><td class="n">0.54</td><td class="n">5.11 ± 0.49</td><td class="n">0.81</td><td class="n">14.5%</td></tr>
+      <tr><td>Complete dominance</td><td class="n">1.00</td><td class="n">1.08</td><td class="n">−0.79 ± 1.14</td><td class="n">0.45</td><td class="n">30.1%</td></tr>
+      <tr><td>Overdominance</td><td class="n">1.80</td><td class="n">1.95</td><td class="n">−17.96 ± 3.49</td><td class="n">0.07</td><td class="n">55%</td></tr>
+    </tbody>
+  </table>
+  <p>Three lessons come out of this exercise. <b>The line moves down as dominance grows</b>, and in all four cases the slope does not differ from 1 (from 0.93 to 1.04), because there is no epistasis. <b>(H<sub>1</sub>/D)<sup>½</sup> recovers the d/a of the model</b> with a small error that comes from having only seven parents; the 0.11 of additive action comes from the experimental error. <b>Baker’s ratio falls from 0.99 to 0.07</b> and mean heterosis rises from −1.1 to 55%: with additive action the value of a cross is predicted from the GCA of its parents, and with overdominance the crosses have to be tested.</p>
+  <p>Notice also the order of the parents along the line. P5, which carries the dominant allele at 9 of the 12 loci, always stays close to the origin, and P1, with only one, at the far end. With additive action the app omits that reading, because without dominance there are no dominant alleles to rank.</p>
+
+  <h3>Exercise 2 · Dominance that cancels out</h3>
+  <p>The <span class="ui">Dominance in both directions</span> scenario has d/a = 0.80 at every locus, but at half of them the allele that increases the trait is dominant and at the other half the one that decreases it. The lab shows (H<sub>1</sub>/D)<sup>½</sup> = 0.60, that is, clear dominance at each locus, and yet the <b>mean heterosis is −2.1%</b>: the dominance deviations cancel out when the loci are added up. This is the situation in which a diallel has a lot of SCA and almost no average heterosis.</p>
+  <div class="caja importante">
+    <div class="caja-t"><span class="ico">!</span>Important · the direction of dominance</div>
+    <p>In this scenario the app reads r(Yr, Wr + Vr) = 0.77 and concludes that the recessive alleles increase the trait. That correlation reflects the direction that prevails in <i>these eight</i> parents, not that of the model, which goes both ways. When dominance is bidirectional, the most reliable signal is the combination of a clear degree of dominance with a mean heterosis close to zero.</p>
+  </div>
+
+  <h3>Exercise 3 · When there is epistasis</h3>
+  <p>The <span class="ui">Duplicate epistasis</span> and <span class="ui">Complementary epistasis</span> scenarios add a dominance × dominance interaction of −3 and +3 to the partial dominance model (d/a = 0.80). In both, the slope departs from 1: b = 0.68 ± 0.08 (t = 3.88 with 6 degrees of freedom) in the duplicate one and b = 0.66 ± 0.07 (t = 4.61) in the complementary one, and the app warns that the components are biased. The bias is large: in the complementary one, (H<sub>1</sub>/D)<sup>½</sup> is 2.51, which would be read as overdominance, although the model has partial dominance (Figure 1.6 A).</p>
+  <figure>
+    <div class="rejilla angosta">
+      <div><div class="marco"><img src="../img/en/b1-wrvr-complementaria.png" alt="Wr–Vr graph with complementary epistasis"></div><div class="sub"><b>A</b> · Complementary epistasis (Exercise 3)</div></div>
+      <div><div class="marco"><img src="../img/en/b1-wrvr-ruido.png" alt="Wr–Vr graph with large experimental error"></div><div class="sub"><b>B</b> · Large experimental error (Exercise 4)</div></div>
+    </div>
+    <figcaption><b>Figure 1.6.</b> Two ways for the Wr–Vr graph to mislead. <b>A</b>: with epistasis, the points leave the line of slope 1 (gray) and the regression (amber) cuts the Wr axis below the origin, as if there were overdominance. <b>B</b>: with a lot of error, the points scatter and the intercept loses significance.</figcaption>
+  </figure>
+  <p>The b = 1 test, however, does not always detect epistasis. Click <span class="ui">↻ New parents</span> several times with duplicate epistasis and you will see samples in which the slope does not differ from 1; the app then adds: <i>“Beware: epistasis is present here”</i>. Table 1.9 measures how often this happens.</p>
+  <table class="compacta" style="width:78%">
+    <caption><b>Table 1.9.</b> Percentage of samples in which the b = 1 test is rejected at 5%, in 2,000 diallels simulated with the lab (12 loci, d/a = 0.80, <i>u</i> = 0.50, σ = 0.30).</caption>
+    <thead><tr><th>Model</th><th class="n">6 par.</th><th class="n">8 par.</th><th class="n">10 par.</th><th class="n">12 par.</th></tr></thead>
+    <tbody>
+      <tr><td>Duplicate epistasis (−3)</td><td class="n">27%</td><td class="n">41%</td><td class="n">51%</td><td class="n">60%</td></tr>
+      <tr><td>Complementary epistasis (+3)</td><td class="n">38%</td><td class="n">60%</td><td class="n">71%</td><td class="n">79%</td></tr>
+      <tr><td>No epistasis</td><td class="n">5%</td><td class="n">6%</td><td class="n">10%</td><td class="n">11%</td></tr>
+    </tbody>
+  </table>
+  <div class="caja dato">
+    <div class="dato-cifra">41%</div>
+    <div class="dato-txt"><div class="caja-t">Key fact</div>With eight parents, the b = 1 test detects duplicate epistasis in only 41 of every 100 samples. <b>A slope equal to 1 does not prove that there is no epistasis.</b> To test it directly there are the triple test cross (Block 6) and the scaling tests (Block 7).</div>
+  </div>
+  <p>The last row of Table 1.9 has a lesson of its own: without epistasis, the test is wrong in 5 to 11% of the samples, somewhat more than the nominal 5% when there are many parents for few loci, because the genes are then no longer distributed at random among the parents, which is another of Hayman’s assumptions.</p>
+
+  <h3>Exercise 4 · Large experimental error</h3>
+  <p>The <span class="ui">Large experimental error</span> scenario repeats the partial dominance one with σ = 2.50 instead of 0.60. The slope stays at 1 (1.00 ± 0.16), but its standard error triples, and the intercept, 4.22 ± 1.78, no longer differs from zero (t = 2.37, smaller than the critical value of 2.57 with 5 degrees of freedom). The app does not conclude “complete dominance”: it warns that (H<sub>1</sub>/D)<sup>½</sup> = 0.61 points to partial dominance and that, with this error, the intercept test has little power (Figure 1.6 B).</p>
+  <p>The error affects everything else: H<sub>2</sub>/4H<sub>1</sub> falls to 0.185 and KD/KR rises to 2.22, when the model has 0.25 and 1, and the standard error of each GCA goes from 0.09 to 0.38. Before sowing a real diallel, Block 2 calculates how many replicates are needed to detect the differences you care about.</p>
+
+  <h3>Exercise 5 · Unequal frequencies</h3>
+  <p>Choose <span class="ui">Complete dominance</span> and move <span class="ui">Frequency u</span> to 0.20 and then to 0.80. With <i>u</i> = 0.20 the alleles that increase the trait, which here are the dominant ones, are scarce: H<sub>2</sub>/4H<sub>1</sub> falls to 0.185 (theory gives <i>uv</i> = 0.16) and KD/KR to 0.36 (theory, 0.25), and (H<sub>1</sub>/D)<sup>½</sup> = 0.99 stays at complete dominance. With <i>u</i> = 0.80, KD/KR rises to 2.38, but (H<sub>1</sub>/D)<sup>½</sup> reaches 1.51 and the intercept, −2.27 ± 0.87, becomes significant: the app reads overdominance where there is only complete dominance.</p>
+  <div class="caja teoria">
+    <div class="caja-t"><span class="ico">θ</span>Theory in brief · apparent overdominance</div>
+    <p>With 80% favorable alleles, seven parents differ at few loci and the genes are no longer distributed at random among them. That association inflates H<sub>1</sub> relative to D and produces an apparent overdominance, a phenomenon well known in real diallels. That is why the degree of dominance is best read together with the number of parents and, when possible, confirmed with North Carolina design III (Block 6) or with the generation variances (Block 7).</p>
+  </div>
+
+  <!-- ====================================================================== 1.4 -->
+  <h2 id="s1-4"><span class="num">1.4</span>The selection lab</h2>
+  <p class="lead">The second lab puts the breeder’s equation, R = h²S, to the test. A population with actual genes is selected cycle after cycle; in each cycle the app calculates what the equation predicts with the additive variance of that moment and compares it with what the population really gains. This shows why the prediction works for one or two cycles and not for twenty.</p>
+
+  <div class="caja teoria">
+    <div class="caja-t"><span class="ico">θ</span>Theory in brief · what it simulates</div>
+    <p>A diploid population of <i>N</i> plants with <i>k</i> loci of equal effect (AA = +1, Aa = d, aa = −1), free recombination and no mutation; the environmental error is set at the start to give the requested heritability. In each cycle the best plants are selected on phenotype, and their <i>N</i> offspring come from random pairs among them (<i>c</i> = 1) or from a selected mother with any father (<i>c</i> = ½, open pollination). The predicted response is R = <i>c</i>·h²·S, with h² = σ²<sub>A</sub>/σ²<sub>P</sub> and σ²<sub>A</sub> = Σ 2<i>pq</i>α², where α = <i>a</i> + <i>d</i>(<i>q</i> − <i>p</i>) is the average effect of an allele substitution (Falconer and Mackay, 1996).</p>
+  </div>
+
+  <p>The seven controls in Table 1.10 are below the graphs. Any change creates a new population and takes it back to cycle 0.</p>
+  <table class="compacta">
+    <caption><b>Table 1.10.</b> Controls of the selection lab.</caption>
+    <thead><tr><th style="width:23%">Control</th><th style="width:15%">Range</th><th style="width:10%" class="c">Initial</th><th>What it represents</th></tr></thead>
+    <tbody>
+      <tr><td><span class="ui">Plants N</span></td><td>40 to 1,000</td><td class="c">400</td><td>Size of the population in each cycle.</td></tr>
+      <tr><td><span class="ui">Loci</span></td><td>1 to 100</td><td class="c">40</td><td>Genes of equal effect.</td></tr>
+      <tr><td><span class="ui">Initial h²</span></td><td>0.05 to 0.95</td><td class="c">0.40</td><td>Initial heritability (broad sense; without dominance it is the narrow-sense one).</td></tr>
+      <tr><td><span class="ui">Selected</span></td><td>1 to 50%</td><td class="c">10%</td><td>Selected fraction; it defines the intensity.</td></tr>
+      <tr><td><span class="ui">Initial frequency</span></td><td>0.05 to 0.95</td><td class="c">0.30</td><td>Initial frequency of the favorable allele at each locus.</td></tr>
+      <tr><td><span class="ui">Dominance d/a</span></td><td>0 to 1</td><td class="c">0</td><td>Degree of dominance of the favorable allele.</td></tr>
+      <tr><td><span class="ui">Parental control</span></td><td><i>c</i> = 1 or ½</td><td class="c">1</td><td>Both parents selected, or only the females with open pollination.</td></tr>
+    </tbody>
+  </table>
+
+  <h3>What you see on screen</h3>
+  <figure>
+    <div class="marco" style="position:relative">
+      <img src="../img/en/b1-lab-seleccion.png" alt="The selection lab after ten cycles of mass selection">
+      <span class="marca" style="left:62.2%;top:18.5%">1</span>
+      <span class="marca" style="left:37.8%;top:24.2%">2</span>
+      <span class="marca" style="left:77.3%;top:24.2%">3</span>
+      <span class="marca" style="left:12.4%;top:70.4%">4</span>
+      <span class="marca" style="left:46.4%;top:83.1%">5</span>
+      <span class="marca" style="left:11.9%;top:86.1%">6</span>
+    </div>
+    <figcaption><b>Figure 1.7.</b> The selection lab with the <span class="ui">Mass selection, moderate h²</span> scenario after ten cycles.</figcaption>
+    <ul class="leyenda-marcas">
+      <li><span class="n">1</span><span class="ui">Scenario</span>, with six configurations (Table 1.12), and the buttons: <span class="ui">▶ Run</span> advances one cycle every fraction of a second and turns into <span class="ui">❚❚ Pause</span>; <span class="ui">Cycle +1</span> advances one; <span class="ui">Reset</span> goes back to cycle 0; <span class="ui">New seed</span> draws another population.</li>
+      <li><span class="n">2</span>Phenotypic distribution of the cycle: selected plants in gold, the previous cycle as a gray outline, and the lines μ, μ + S and μ + R.</li>
+      <li><span class="n">3</span>Cumulative gain in initial phenotypic deviations: realized (purple), predicted cycle by cycle (gold), the one that assumes a constant h² (gray), and h² on the right axis (green).</li>
+      <li><span class="n">4</span>Eight boxes (Table 1.11).</li>
+      <li><span class="n">5</span>The interpretation of the cycle.</li>
+      <li><span class="n">6</span>The seven controls (Table 1.10).</li>
+    </ul>
+  </figure>
+
+  <table class="compacta">
+    <caption><b>Table 1.11.</b> The eight boxes of the selection lab.</caption>
+    <thead><tr><th style="width:23%">Box</th><th>What it is</th></tr></thead>
+    <tbody>
+      <tr><td><span class="ui">Cycle</span></td><td>Selection cycles completed, up to 25.</td></tr>
+      <tr><td><span class="ui">Intensity i</span></td><td>Observed S/σ<sub>P</sub>; underneath, the theoretical one for the selected fraction (1.75 with 10%).</td></tr>
+      <tr><td><span class="ui">Differential S</span></td><td>Mean of the selected plants minus the mean of the population.</td></tr>
+      <tr><td><span class="ui">R predicted</span></td><td><i>c</i>·h²·S: what the equation expects for the next cycle.</td></tr>
+      <tr><td><span class="ui">R realised</span></td><td>How much the mean advanced in this cycle; underneath, what had been predicted in the previous one.</td></tr>
+      <tr><td>h²</td><td>σ²<sub>A</sub>/σ²<sub>P</sub> of the current cycle; underneath, that of cycle 0.</td></tr>
+      <tr><td><span class="ui">Total gain</span></td><td>Cumulative advance, in phenotypic deviations of cycle 0 (σ).</td></tr>
+      <tr><td><span class="ui">Fixed loci</span></td><td>Loci at which one of the alleles was lost.</td></tr>
+    </tbody>
+  </table>
+
+  <div class="caja nota">
+    <div class="caja-t"><span class="ico">i</span>Note · why the h² in the box is not exactly the one requested</div>
+    <p>The control sets the environmental error from the genotypic variance of the population drawn, whereas the box calculates σ²<sub>A</sub> from the allele frequencies. With 400 plants the difference is minimal (0.41 against 0.40); with 60, sampling weighs more (0.29). With dominance the box shows only the additive part: 0.35 when 0.40 was requested.</p>
+  </div>
+
+  <!-- ====================================================================== 1.5 -->
+  <h2 id="s1-5"><span class="num">1.5</span>Six exercises with the selection lab</h2>
+  <p>Each scenario starts with the same seed, so the six populations start from comparable genotypes. For each one, choose the scenario and click <span class="ui">▶ Run</span> up to cycle 25, or <span class="ui">Cycle +1</span> to go step by step. Table 1.12 summarizes what happens.</p>
+  <table class="compacta">
+    <caption><b>Table 1.12.</b> The six scenarios after 5, 10 and 25 cycles. The gain is in phenotypic deviations of cycle 0; the last column is the additive variance lost by cycle 25.</caption>
+    <thead><tr><th style="width:26%">Scenario</th><th style="width:19%">What changes</th><th class="n">Initial h²</th><th class="n">5</th><th class="n">10</th><th class="n">25 cycles</th><th class="n">Fixed loci</th><th class="n">σ²<sub>A</sub> lost</th></tr></thead>
+    <tbody>
+      <tr><td><span class="ui">Mass selection, moderate h²</span></td><td>N 400, 40 loci, h² 0.40, 10%, <i>p</i> 0.30</td><td class="n">0.41</td><td class="n">3.58</td><td class="n">6.13</td><td class="n">8.63</td><td class="n">37 / 40</td><td class="n">99%</td></tr>
+      <tr><td><span class="ui">Low heritability</span></td><td>h² 0.10</td><td class="n">0.10</td><td class="n">0.69</td><td class="n">1.47</td><td class="n">3.28</td><td class="n">11 / 40</td><td class="n">53%</td></tr>
+      <tr><td><span class="ui">Few genes of large effect</span></td><td>4 loci, h² 0.50, <i>p</i> 0.20</td><td class="n">0.41</td><td class="n">3.58</td><td class="n">3.62</td><td class="n">3.69</td><td class="n">4 / 4</td><td class="n">100%</td></tr>
+      <tr><td><span class="ui">No pollen control (c = ½)</span></td><td><i>c</i> = ½</td><td class="n">0.41</td><td class="n">1.70</td><td class="n">3.37</td><td class="n">7.25</td><td class="n">1 / 40</td><td class="n">56%</td></tr>
+      <tr><td><span class="ui">Small population (drift)</span></td><td>N 60</td><td class="n">0.29</td><td class="n">2.53</td><td class="n">4.05</td><td class="n">5.49</td><td class="n">40 / 40</td><td class="n">100%</td></tr>
+      <tr><td><span class="ui">Complete dominance</span></td><td>d/a 1</td><td class="n">0.35</td><td class="n">2.24</td><td class="n">3.24</td><td class="n">3.76</td><td class="n">5 / 40</td><td class="n">95%</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Exercise 1 · The breeder’s equation and its limits</h3>
+  <p>With <span class="ui">Mass selection, moderate h²</span>, cycle 0 selects the best 10%: the observed intensity is 1.72 (the theoretical one, 1.75), S = 11.03 and h² = 0.41, so the equation predicts R = 4.47. In cycle 1 the population advances 4.67: <b>the prediction works</b>. In the following cycles the realized response stays somewhat below the predicted one (4.55 against 5.52 in cycle 2), because selection creates negative associations between loci that reduce the additive variance: this is the Bulmer effect (Bulmer, 1971).</p>
+  <p>At first h² rises, from 0.41 to 0.52 in cycle 5, because the frequency of the favorable allele moves from 0.30 toward 0.50, where 2<i>pq</i> is at its maximum. Then it falls: 0.35 in cycle 10, 0.15 in cycle 15 and 0.01 in cycle 25, with 37 of the 40 loci fixed. The cumulative gain levels off at 8.63&nbsp;σ, while the line that assumes a constant h² reaches 17.4&nbsp;σ (Figure 1.8 A).</p>
+  <figure>
+    <div class="rejilla angosta">
+      <div><div class="marco"><img src="../img/en/b1-tray-masal.png" alt="Trajectory of 25 cycles of mass selection"></div><div class="sub"><b>A</b> · Mass selection, <i>c</i> = 1</div></div>
+      <div><div class="marco"><img src="../img/en/b1-tray-polen.png" alt="Trajectory of 25 cycles without pollen control"></div><div class="sub"><b>B</b> · No pollen control, <i>c</i> = ½</div></div>
+    </div>
+    <figcaption><b>Figure 1.8.</b> Cumulative gain over 25 cycles. With both parents selected (A) the population advances twice as fast, but the additive variance is exhausted around cycle 20 and the gain levels off; without pollen control (B) it advances at half the rate and keeps variance. The vertical scales differ.</figcaption>
+  </figure>
+
+  <h3>Exercise 2 · Low heritability</h3>
+  <p>With h² = 0.10 the equation predicts little (R = 2.15) and the response of each cycle is erratic: 2.93 in cycle 1, 0.95 in cycle 2 and 0.97 in cycle 3, against predictions of 2.15, 2.45 and 2.59. In 25 cycles the population gains only 3.28&nbsp;σ, when the constant-h² line promised 4.2&nbsp;σ. That is why, with traits of low heritability, selection is done on family or replicate means, whose heritability is higher (Block 8).</p>
+
+  <h3>Exercise 3 · Few genes of large effect</h3>
+  <p>With four loci and an initial frequency of 0.20 the response is fast at first (1.12&nbsp;σ in the first cycle), but by cycle 10 all four loci are fixed, h² is 0 and the population stops at 3.6&nbsp;σ: this is the <b>selection limit</b>. With 40 loci the limit is farther away and is reached more slowly (Figure 1.9 A).</p>
+
+  <h3>Exercise 4 · No pollen control</h3>
+  <p>With <i>c</i> = ½ only the females are selected and the pollen comes from the whole population: the predicted R falls to 2.24, half that of mass selection, and after 10 cycles the gain is 3.37&nbsp;σ against 6.13&nbsp;σ. The counterpart is that the variance is exhausted more slowly: by cycle 25, 56% of σ²<sub>A</sub> has been lost (against 99%) and h² is still 0.23 (Figure 1.8 B). Controlling the pollen doubles the gain per cycle: that is the role of <i>c</i> in the breeder’s equation.</p>
+
+  <h3>Exercise 5 · Small population</h3>
+  <p>With 60 plants, selecting 10% leaves six parents per cycle, and drift fixes loci at random: 7 by cycle 5, 24 by cycle 10 and all 40 by cycle 25. Of them, 7 were fixed for the unfavorable allele, and the gain stops at 5.49&nbsp;σ against 8.63&nbsp;σ with 400 plants (Figure 1.9 B). A small effective size spends the variability the program will need in future cycles.</p>
+  <figure>
+    <div class="rejilla angosta">
+      <div><div class="marco"><img src="../img/en/b1-tray-mayores.png" alt="Trajectory with few genes of large effect"></div><div class="sub"><b>A</b> · Few genes of large effect</div></div>
+      <div><div class="marco"><img src="../img/en/b1-tray-pequena.png" alt="Trajectory with a small population"></div><div class="sub"><b>B</b> · Small population, N = 60</div></div>
+    </div>
+    <figcaption><b>Figure 1.9.</b> Two ways of exhausting the response. With four genes (A), selection fixes them in ten cycles and the gain reaches its limit; with a small population (B), drift fixes the loci at random, some for the unfavorable allele, and the limit is lower.</figcaption>
+  </figure>
+
+  <h3>Exercise 6 · Complete dominance</h3>
+  <p>With d/a = 1 the gain slows down early, 3.24&nbsp;σ after 10 cycles and 3.76&nbsp;σ after 25, although only 5 loci were fixed: the additive variance fell by 95%. When the favorable allele is dominant and becomes common, the unfavorable recessive that remains hides in the heterozygotes, where selection on phenotype does not see it; in the formula, α = <i>a</i> + <i>d</i>(<i>q</i> − <i>p</i>) approaches zero. The app explains this in its interpretation, and it is the reason for using progeny tests or selfing in the recurrent selection methods of Block 8.</p>
+
+  <div class="caja ejemplo">
+    <div class="caja-t"><span class="ico">▸</span>For the classroom · a 50-minute session</div>
+    <ol class="pasos" style="margin-bottom:0">
+      <li><b>10 min.</b> Diallels, Exercise 1: predict where the line will cut before changing the scenario.</li>
+      <li><b>10 min.</b> Exercise 3: click <span class="ui">↻ New parents</span> ten times and compare the detection rate with Table 1.9.</li>
+      <li><b>15 min.</b> Selection, Exercises 1 and 4: the gain over 10 cycles with and without pollen control.</li>
+      <li><b>15 min.</b> Exercises 3 and 5: what a selection limit is and how to protect variability.</li>
+    </ol>
+  </div>
+
+  <!-- ====================================================================== 1.6 -->
+  <h2 id="s1-6"><span class="num">1.6</span>The theory, in plain language</h2>
+  <p>The theory section gathers what is needed to run the analyses and defend them in a seminar. There are fifteen folded topics; a click on the title opens each one. Nine carry an illustration, the formulas appear in a fixed-width font and each topic names the papers they come from. The tag to the right of the title says which block it belongs to.</p>
+  <table class="compacta">
+    <caption><b>Table 1.13.</b> The fifteen theory topics and the chapter of this manual that develops them.</caption>
+    <thead><tr><th style="width:5%">#</th><th>Topic in the app</th><th style="width:22%">Tag</th><th style="width:13%">Expanded in</th></tr></thead>
+    <tbody>
+      <tr><td>1</td><td><span class="ui">What a breeding programme estimates</span></td><td>start here</td><td>Section I.3</td></tr>
+      <tr><td>2</td><td><span class="ui">General and specific combining ability</span></td><td>Sprague &amp; Tatum 1942</td><td><span class="chip k4">4</span></td></tr>
+      <tr><td>3</td><td><span class="ui">Griffing's four methods and two models</span></td><td>Block 4</td><td><span class="chip k4">4</span></td></tr>
+      <tr><td>4</td><td><span class="ui">Reciprocal, maternal and non-maternal effects</span></td><td>Methods 1 and 3</td><td><span class="chip k4">4</span></td></tr>
+      <tr><td>5</td><td><span class="ui">Hayman and Jinks: how the genes act</span></td><td>Block 5</td><td><span class="chip k5">5</span></td></tr>
+      <tr><td>6</td><td><span class="ui">Gardner and Eberhart: heterosis between varieties</span></td><td>Block 5</td><td><span class="chip k5">5</span></td></tr>
+      <tr><td>7</td><td><span class="ui">The methodologies compared: assumptions and similarities</span></td><td>which to use</td><td><span class="chip k4">4</span> <span class="chip k5">5</span></td></tr>
+      <tr><td>8</td><td><span class="ui">North Carolina, line × tester and triple test cross</span></td><td>Block 6</td><td><span class="chip k6">6</span></td></tr>
+      <tr><td>9</td><td><span class="ui">Generation means, epistasis and heterosis</span></td><td>Block 7</td><td><span class="chip k7">7</span></td></tr>
+      <tr><td>10</td><td><span class="ui">Heritability and response to selection</span></td><td>Block 8 · lab</td><td><span class="chip k8">8</span></td></tr>
+      <tr><td>11</td><td><span class="ui">Selection indices: several traits at once</span></td><td>Block 8</td><td><span class="chip k8">8</span></td></tr>
+      <tr><td>12</td><td><span class="ui">Genotype × environment interaction and stability</span></td><td>Block 9</td><td><span class="chip k9">9</span></td></tr>
+      <tr><td>13</td><td><span class="ui">Mixed models, BLUP and the animal model</span></td><td>Block 10</td><td><span class="chip k10">10</span></td></tr>
+      <tr><td>14</td><td><span class="ui">Genomic selection and hybrid prediction</span></td><td>Block 11</td><td><span class="chip k11">11</span></td></tr>
+      <tr><td>15</td><td><span class="ui">Which analysis answers which question</span></td><td>decision guide</td><td>Section I.8</td></tr>
+    </tbody>
+  </table>
+  <figure>
+    <div class="marco"><img src="../img/en/b1-teoria.png" alt="The topic on Griffing’s four methods, open"></div>
+    <figcaption><b>Figure 1.10.</b> The <span class="ui">Griffing's four methods and two models</span> topic open: the table of the four methods, the illustration of the entries each one evaluates, the <span class="ui">Which one to choose</span> box and the note on lost crosses.</figcaption>
+  </figure>
+  <p>Topic 7 deserves special attention. A table compares side by side Griffing’s Model I and Model II, Hayman–Jinks and Gardner–Eberhart: the question each one answers, which parents it assumes, which Griffing methods it allows, for which species it holds, how it treats reciprocal effects, heterosis and epistasis, what it estimates and the exact equivalences between them (Table 1.14). Block 5 applies those equivalences to your data.</p>
+  <div class="caja importante">
+    <div class="caja-t"><span class="ico">!</span>Important · a common mistake</div>
+    <p>Interpreting σ²<sub>GCA</sub> and σ²<sub>SCA</sub> as σ²<sub>A</sub> and σ²<sub>D</sub> when the parents were chosen on purpose (Model I). Genetic variances only make sense if the parents are a random sample of a defined population. The app reminds you of this at the end of this topic and in Block 4.</p>
+  </div>
+  <table class="compacta comparacion">
+    <caption><b>Table 1.14.</b> The comparison of the methodologies in topic 7, as it appears in the app. ● yes; ◐ partly or with conditions; ○ no, or assumed absent.</caption>
+    <thead><tr><th style="width:15%"></th><th>Griffing, Model I (fixed)</th><th>Griffing, Model II (random)</th><th>Hayman–Jinks</th><th>Gardner–Eberhart II and III</th></tr></thead>
+    <tbody>
+      <tr><td><b>Question it answers</b></td><td>Which parents and crosses are best in this set?</td><td>How much additive and dominance variance is there in the population the parents came from?</td><td>How do the genes act: degree and direction of dominance, number of gene groups?</td><td>How much heterosis is there, and of which kind, between varieties or populations?</td></tr>
+      <tr><td><b>Parents</b></td><td>Chosen on purpose; conclusions apply to them only</td><td>Random sample from a reference population</td><td>Homozygous (inbred) lines</td><td>Varieties or populations in equilibrium; also lines</td></tr>
+      <tr><td><b>Applicable Griffing methods</b></td><td>1, 2, 3 and 4</td><td>1, 2, 3 and 4; for the ancestral population, preferably 3 or 4</td><td>Needs the parents: 1 or 2</td><td>Half diallel with parents (as in Method 2)</td></tr>
+      <tr><td><b>Species</b></td><td>Selfers, outcrossers and polyploids</td><td>Selfers, outcrossers and polyploids</td><td><span class="parcial">◐</span> Diploids with inbred parents only</td><td>Selfers, outcrossers and polyploids</td></tr>
+      <tr><td><b>Reciprocal effects</b></td><td><span class="si">●</span> Estimated, with maternal and non-maternal split (Methods 1 and 3)</td><td><span class="si">●</span> Reciprocal, maternal and non-maternal variance (Methods 1 and 3)</td><td><span class="no">○</span> Assumed absent; averaged</td><td><span class="parcial">◐</span> Only if added to the model</td></tr>
+      <tr><td><b>Heterosis</b></td><td><span class="parcial">◐</span> Only as the parents-versus-crosses contrast</td><td><span class="parcial">◐</span> Not estimated directly</td><td><span class="parcial">◐</span> Direction and degree of dominance (h², b<sub>1</sub>)</td><td><span class="si">●</span> Average, per variety and specific</td></tr>
+      <tr><td><b>Epistasis and linkage</b></td><td><span class="parcial">◐</span> Not separated: absorbed into GCA and SCA</td><td><span class="parcial">◐</span> Bias σ²<sub>A</sub> and σ²<sub>D</sub> if present</td><td><span class="no">○</span> Assumed absent; tested with b = 1 and t²</td><td><span class="parcial">◐</span> Absorbed into specific heterosis</td></tr>
+      <tr><td><b>Estimates</b></td><td>ĝ<sub>i</sub>, ŝ<sub>ij</sub>, r̂<sub>ij</sub> (m̂<sub>i</sub>, n̂<sub>ij</sub>) and their standard errors</td><td>σ²<sub>GCA</sub>, σ²<sub>SCA</sub>, σ²<sub>R</sub> → σ²<sub>A</sub>, σ²<sub>D</sub>, h², Baker’s ratio</td><td>D, H<sub>1</sub>, H<sub>2</sub>, F, h², E, (H<sub>1</sub>/D)<sup>½</sup>, H<sub>2</sub>/4H<sub>1</sub>, KD/KR, dominance order</td><td>μ<sub>v</sub>, v<sub>j</sub>, <span style="text-decoration: overline">h</span>, h<sub>j</sub>, s<sub>jj′</sub> (II); GCA and SCA of the crosses (III)</td></tr>
+      <tr><td><b>Exact equivalences</b></td><td>Method 1: GCA, SCA and reciprocals = Hayman’s items a, b and c + d; Method 2: GCA and SCA = varieties and total heterosis of Analysis II</td><td>With inbred parents: σ²<sub>GCA</sub> = ¼(D + H<sub>1</sub> − H<sub>2</sub> − F) and σ²<sub>SCA</sub> = ¼H<sub>2</sub></td><td>Half-diallel b<sub>1</sub>, b<sub>2</sub> and b<sub>3</sub> = Gardner–Eberhart <span style="text-decoration: overline">h</span>, h<sub>j</sub> and s<sub>jj′</sub>; c = maternal, d = remaining reciprocal</td><td>ĝ<sub>j</sub> (III) = ½v̂<sub>j</sub> + ĥ<sub>j</sub> (II) = Method 4 ĝ<sub>j</sub>; s<sub>jj′</sub> = Method 4 SCA</td></tr>
+    </tbody>
+  </table>
+
+  <!-- ====================================================================== 1.7 -->
+  <h2 id="s1-7"><span class="num">1.7</span>How to cite and references</h2>
+  <p>At the end of the home page is the citation of the program, with the installed version, ready to copy. <span class="ui">Copy the citation</span> copies it in the language of the interface, and the button confirms with <span class="ui">✓ Copied</span>. The citation carries the program’s digital object identifier (DOI), 10.5281/zenodo.23005938, which always leads to the most recent version.</p>
+  <figure class="media">
+    <div class="marco"><img src="../img/en/b1-citar.png" alt="The citation of the program and the reference filters"></div>
+    <figcaption><b>Figure 1.11.</b> The <span class="ui">How to cite</span> section and the beginning of <span class="ui">References behind the calculations</span>, with the buttons that filter the 63 references by family.</figcaption>
+  </figure>
+  <p>Below are the <b>63 references</b> of the methods the program calculates, with authors, year, title and journal. The same family buttons as in the methods gallery filter the list (Table 1.15). Each statistic is cited again where it is used: in the last card of its block and in the Block 12 report.</p>
+  <table class="compacta">
+    <caption><b>Table 1.15.</b> The references of the home page, by family.</caption>
+    <thead><tr><th style="width:18%">Family</th><th class="n" style="width:7%">Ref.</th><th>Some examples</th></tr></thead>
+    <tbody>
+      <tr><td>Diallels</td><td class="n">19</td><td>Sprague and Tatum (1942); Griffing (1956a, 1956b); Hayman (1954a, 1954b); Jinks (1954); Gardner and Eberhart (1966); Möhring, Melchinger and Piepho (2011)</td></tr>
+      <tr><td>Mating</td><td class="n">4</td><td>Comstock and Robinson (1948, 1952); Kempthorne (1957); Kearsey and Jinks (1968)</td></tr>
+      <tr><td>Generations</td><td class="n">6</td><td>Mather (1949); Cavalli (1952); Hayman (1958); Jinks and Jones (1958); Lande (1981)</td></tr>
+      <tr><td>Selection</td><td class="n">16</td><td>Smith (1936); Hazel (1943); Falconer and Mackay (1996); Holland et al. (2003); Bulmer (1971)</td></tr>
+      <tr><td>G×E</td><td class="n">7</td><td>Finlay and Wilkinson (1963); Eberhart and Russell (1966); Shukla (1972); Gauch (1988); Yan et al. (2000)</td></tr>
+      <tr><td>Mixed models</td><td class="n">6</td><td>Henderson (1975, 1976); Patterson and Thompson (1971); Meuwissen and Luo (1992); Dickerson (1969)</td></tr>
+      <tr><td>Genomics</td><td class="n">5</td><td>Jenkins (1934); Bernardo (1994); Meuwissen, Hayes and Goddard (2001); VanRaden (2008); Technow et al. (2012)</td></tr>
+    </tbody>
+  </table>
+  <div class="caja importante">
+    <div class="caja-t"><span class="ico">!</span>Important · cite the methods too</div>
+    <p>If BreedingPro helped you with a thesis or a paper, cite the program and also the original papers of the methods you used. You do not have to look for them in the full list: the Block 12 report writes the methods section with the settings you used and includes in its references only the works it cites.</p>
+  </div>
+</section>
+
+</body>
+</html>

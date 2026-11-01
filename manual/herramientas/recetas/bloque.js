@@ -6,6 +6,6 @@
   document.querySelector('[data-ex="singh8"]').click(); await W(3500);
   goStep(4); await W(2500);
   const c = document.getElementById('b4Anova');
-  window.scrollTo({ top: c.getBoundingClientRect().top + window.scrollY - 70, behavior: 'instant' });
+  window.scrollTo({ top: c.getBoundingClientRect().top + window.scrollY - 112, behavior: 'instant' });
   await W(500);
 })()

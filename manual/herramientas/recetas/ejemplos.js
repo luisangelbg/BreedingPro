@@ -4,6 +4,6 @@
   goStep(3); await W(500);
   document.querySelector('[data-fam="all"]').click(); await W(400);
   const c = document.getElementById('b3Load');
-  window.scrollTo({ top: c.getBoundingClientRect().top + window.scrollY - 70, behavior: 'instant' });
+  window.scrollTo({ top: c.getBoundingClientRect().top + window.scrollY - 112, behavior: 'instant' });
   await W(400);
 })()
