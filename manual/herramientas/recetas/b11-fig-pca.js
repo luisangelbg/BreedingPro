@@ -17,5 +17,5 @@
   await ex11("technow");
   await chico("b11FigPca", 640, 480);
   const f = $("b11FigPca"); irA(f); await W(400);
-  caja([f.querySelector("svg")], 4);
+  caja([[...f.querySelectorAll("svg")].reduce((m, s) => { const r = s.getBoundingClientRect(), q = m ? m.getBoundingClientRect() : null; return !q || r.width * r.height > q.width * q.height ? s : m; }, null)], 4);
 })()

@@ -11,6 +11,6 @@
   const filas = (host, n) => { const t = $(host).querySelector("table"); return [t.querySelector("thead")].concat([...t.querySelectorAll("tbody tr")].slice(0, n)); };
   document.querySelectorAll(".book-scroll").forEach(n => { n.style.maxHeight = "none"; });
   await ex10("simFlock"); await run();
-  const h = [...$("b10Results").querySelectorAll("h3")].find(x => /Valores gen/.test(x.textContent)); irA(h); await W(400);
+  const h = [...$("b10Results").querySelectorAll("h3")].find(x => /Valores gen|Breeding values/.test(x.textContent)); irA(h); await W(400);
   caja([h, h.nextElementSibling].concat(filas("b10Ebv", 12)), 10);
 })()

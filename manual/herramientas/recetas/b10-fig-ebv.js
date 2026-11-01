@@ -13,5 +13,5 @@
   await ex10("simFlock"); await run();
   { const a = Fig.registry.b10FigEbv; a.cfg.topN = 20; a.cfg.width = 760; a.cfg.height = 460; a.redraw(); await W(600); }
   const f = $("b10FigEbv"); irA(f); await W(400);
-  caja([f.querySelector("svg")], 4);
+  caja([[...f.querySelectorAll("svg")].reduce((m, s) => { const r = s.getBoundingClientRect(), q = m ? m.getBoundingClientRect() : null; return !q || r.width * r.height > q.width * q.height ? s : m; }, null)], 4);
 })()

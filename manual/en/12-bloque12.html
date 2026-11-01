@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>BreedingPro · User’s Manual · Block 12: report, figures and results package</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,500;0,600;1,500&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../interior.css">
+<!-- splits the content into letter-size sheets, with running heads and page numbers -->
+<script src="../paginar.js"></script>
+<style>
+  figure.chica .marco, figure.chica > svg { width: 72%; margin: 0 auto; }
+  figure.chica figcaption { margin-left: 14%; margin-right: 14%; }
+  figure.angosta .marco { width: 58%; margin: 0 auto; }
+  figure.angosta figcaption { margin-left: 21%; margin-right: 21%; }
+  td.n, th.n { text-align: right; white-space: nowrap; }
+  td.c, th.c { text-align: center; }
+</style>
+</head>
+<body>
+
+<section class="capitulo" id="cap-b12" data-pestana="B12" data-orden="13" style="--acento: var(--b12)">
+  <div class="cap-apertura">
+    <div class="cap-num">B12</div>
+    <div class="cap-etiqueta">Chapter twelve · Block 12 · Report</div>
+    <h1 data-corto="Block 12 · Report, figures and results package">Report, figures and results package</h1>
+    <div class="cap-regla"></div>
+    <p class="cap-resumen">The last block gathers what the others did. It builds a report with the tables and figures of each block as they were left, a methods section written from the settings that were actually used and the list of references of each procedure. The report is printed as a PDF from the browser, and a ZIP package keeps everything separately: tables in CSV, figures in SVG and as high-resolution images, results workbooks and data.</p>
+    <div class="cap-franja"><span class="k12"></span><span class="k12" style="opacity:.75"></span><span class="k12" style="opacity:.5"></span><span class="k12" style="opacity:.3"></span></div>
+    <ul class="cap-contenido">
+      <li><b>12.1</b>What the block does</li>
+      <li><b>12.2</b>The content of the report</li>
+      <li><b>12.3</b>Preview, PDF and HTML</li>
+      <li><b>12.4</b>The written methods</li>
+      <li><b>12.5</b>Tables and figures</li>
+      <li><b>12.6</b>The ZIP package</li>
+      <li><b>12.7</b>How to cite and end of the tour</li>
+    </ul>
+  </div>
+
+  <!-- ====================================================================== 12.1 -->
+  <h2 id="s12-1"><span class="num">12.1</span>What the block does</h2>
+  <p class="lead">Block 12 computes nothing new: it takes the results already on screen in the other blocks and arranges them into a document. The rule is simple and worth keeping in mind: <b>each block enters with what it shows right now</b>. If you change a trait, a method or a figure in a block, come back here and build the report again.</p>
+  <table class="compacta">
+    <caption><b>Table 12.1.</b> The cards of Block 12.</caption>
+    <thead><tr><th style="width:34%">Card</th><th>What it gives</th></tr></thead>
+    <tbody>
+      <tr><td>1 · Content of the report</td><td>The blocks that go in, title, authors, notes and the optional parts</td></tr>
+      <tr><td>2 · Preview, PDF and HTML</td><td>The built report, to print it as a PDF, download it as HTML, open it in another tab or copy its methods</td></tr>
+      <tr><td>3 · ZIP package</td><td>The report and each of its pieces separately, ready for a paper or a thesis</td></tr>
+      <tr><td>4 · How to cite</td><td>The citation of the program, ready to copy</td></tr>
+    </tbody>
+  </table>
+  <p>The example of the chapter is the 4 × 4 maize diallel of Pérez López and colleagues (2020), loaded in Block 3 and analyzed in Blocks 4 (Griffing), 5 (Hayman–Jinks and Gardner–Eberhart) and 8 (genetic parameters). With those four blocks, the report has 28 tables, 16 figures and 17 references, and it is built in a fraction of a second.</p>
+
+  <!-- ====================================================================== 12.2 -->
+  <h2 id="s12-2"><span class="num">12.2</span>The content of the report</h2>
+  <p>Card <span class="ui">1 · Content of the report</span> shows a box for each analysis block, from 2 to 11. Those that already have results say <span class="ui">with results</span> and come ticked; the rest say <span class="ui">no results: open the block and run it</span>, and cannot be chosen. Unticking a box leaves that block out.</p>
+  <figure>
+    <div class="marco"><img src="../img/en/b12-contenido.png" alt="Card 1 · Content of the report with the boxes of Blocks 2 to 11, four of them with results and ticked, the Title, Author(s) and Notes at the top fields, the five checkboxes of the optional parts and the Build the report button"></div>
+    <figcaption><b>Figure 12.1.</b> Card 1 after analyzing the maize diallel in Blocks 3, 4, 5 and 8.</figcaption>
+  </figure>
+  <p>A block counts as analyzed only if its results correspond to the data loaded now: if you change files in Block 3, the blocks you have not reopened appear without results, even if they keep the earlier ones. There are two special cases. Block 10 runs a crossbreeding example the first time it is opened, and Block 8 fills its recurrent selection table with the example of Fehr (1987); the report takes them only if you ran the crossbreeding yourself or if the table uses values from Block 6 or values you typed. Block 2 contributes the crossing and trial plan, if you built one.</p>
+  <p>Below come the <span class="ui">Title</span>, the <span class="ui">Author(s)</span> and some <span class="ui">Notes at the top (optional)</span>, which appear as they are at the beginning of the report. Five checkboxes decide the optional parts:</p>
+  <ul>
+    <li><span class="ui">Methods written from the settings used</span> (ticked): the methods section of Section 12.4.</li>
+    <li><span class="ui">Include the folded tables</span>: the tables that sit inside folded boxes in the app, such as those for each entry or those of coefficients.</li>
+    <li><span class="ui">Background of the methods</span>: an appendix with the assumptions, formulas and references cards of each block included.</li>
+    <li><span class="ui">How to cite</span> (ticked): the citation of the program at the end.</li>
+    <li><span class="ui">Appendix with the data</span>: the complete data table, as analyzed.</li>
+  </ul>
+  <p>The report comes out in the language of the app. To have it in the other one, switch the language with the <span class="ui">ES</span> · <span class="ui">EN</span> buttons on the top bar and build it again: tables, figures, methods and references change together.</p>
+
+  <!-- ====================================================================== 12.3 -->
+  <h2 id="s12-3"><span class="num">12.3</span>Preview, PDF and HTML</h2>
+  <p><span class="ui">Build the report</span> opens card <span class="ui">2 · Preview, PDF and HTML</span>. Its tiles count the blocks, tables, figures and references, and give the size of the report; below, the whole report can be scrolled inside the card.</p>
+  <figure>
+    <div class="marco"><img src="../img/en/b12-vista.png" alt="Card 2 · Preview, PDF and HTML with the tiles of blocks, tables, figures, references and size, the four buttons and the beginning of the report in its frame"></div>
+    <figcaption><b>Figure 12.2.</b> The report of the maize diallel: title, author, date, contents and the data section, with the source of the example and a paragraph describing the trial.</figcaption>
+  </figure>
+  <p>The four buttons do the following:</p>
+  <ul>
+    <li><span class="ui">Print or save as PDF</span> opens the browser’s print dialog; for the PDF, choose <span class="ui">Save as PDF</span>. Figures go as vectors and lose no resolution at any size.</li>
+    <li><span class="ui">Download HTML</span> saves the report as a single file that opens in any browser, offline and without the app.</li>
+    <li><span class="ui">Open in a new tab</span> shows it full screen, to read it or print it from there.</li>
+    <li><span class="ui">Copy the methods</span> copies the methods section with its references to the clipboard, as plain text, ready to paste into a manuscript.</li>
+  </ul>
+  <table class="compacta">
+    <caption><b>Table 12.2.</b> The sections of the report.</caption>
+    <thead><tr><th style="width:28%">Section</th><th>What it contains</th></tr></thead>
+    <tbody>
+      <tr><td>Header and contents</td><td>Title, authors, date, data file, number of tables and figures, your notes and the links to each section</td></tr>
+      <tr><td>1. Data</td><td>The file, the source of the data if it is an example and a paragraph describing the trial</td></tr>
+      <tr><td>2. Methods</td><td>One paragraph per block, with the settings used and the original citation of each procedure</td></tr>
+      <tr><td>One section per block</td><td>Its tables and figures, in the order of the app, numbered and with their titles</td></tr>
+      <tr><td>References</td><td>Only the works cited in the methods, by author and year</td></tr>
+      <tr><td>Background of the methods</td><td>Optional: the assumptions, formulas and references cards of the blocks included</td></tr>
+      <tr><td>How to cite and data</td><td>The citation of the program and, if requested, the appendix with the analyzed data</td></tr>
+    </tbody>
+  </table>
+
+  <!-- ====================================================================== 12.4 -->
+  <h2 id="s12-4"><span class="num">12.4</span>The written methods</h2>
+  <p>The methods section is not a template with blanks: each block writes its paragraph from what it actually did. It says which design it recognized, which method and which model it used, how it estimated each quantity, what significance level it applied and what checks it made, and it cites each author by name and year.</p>
+  <figure>
+    <div class="marco"><img src="../img/en/b12-informe-metodos.png" alt="The methods section of the maize diallel report, with one paragraph for each of the four blocks"></div>
+    <figcaption><b>Figure 12.3.</b> The methods of the maize diallel: one paragraph for each of the four blocks, with Griffing’s method 1, model I, Hayman’s partition with the Walters and Gale item, and the proportion selected in Block 8.</figcaption>
+  </figure>
+  <p>References are registered as the text cites them, so the final list has exactly the works named, not one more; the program’s tests check that none is left uncited. When two works by the same author and year are cited, such as Hayman (1954a) and Hayman (1954b), they carry a letter; if only one is cited, the year goes alone. In Spanish, two authors are joined with “y” and three or more are abbreviated with “et al.”, the usual form in papers; in English, with “&amp;”. If some block were left without a paragraph, the card warns about it.</p>
+  <div class="caja importante">
+    <div class="caja-t"><span class="ico">!</span>Important · review the methods before using them</div>
+    <p>The text describes what the app did with the data, but it cannot know what happened in the field: the location, the dates, crop management or how each trait was measured. Complete it with that information and read it carefully before pasting it into a manuscript; you are the one who signs the paper.</p>
+  </div>
+
+  <!-- ====================================================================== 12.5 -->
+  <h2 id="s12-5"><span class="num">12.5</span>Tables and figures</h2>
+  <p>Each block section gathers the tables and figures of its cards, in the order in which they appear in the app. Tables are numbered consecutively throughout the report and take as their title the heading they sit under; when a card has two tables under the same heading, they are told apart as “part 1 of 2” and “part 2 of 2”. Buttons, menus, figure editors and the text of the other language are removed.</p>
+  <figure>
+    <div class="marco"><img src="../img/en/b12-informe-tabla.png" alt="A table and a figure of the maize diallel report: the general combining ability effects and their figure"></div>
+    <figcaption><b>Figure 12.4.</b> General combining ability in the report: Table 7 and Figure 6, just as they were in Block 4 (between them goes Table 8, of least significant differences, which is omitted here).</figcaption>
+  </figure>
+  <p>Figures go in as you left them in their editor: with your titles, colors, font sizes and proportions. If you want a different figure in the report, change it in its block before building it. They go as vector graphics (SVG), so they print sharp at any size.</p>
+
+  <!-- ====================================================================== 12.6 -->
+  <h2 id="s12-6"><span class="num">12.6</span>The ZIP package</h2>
+  <p>Card <span class="ui">3 · ZIP package</span> saves the report and all its pieces separately, which is what a journal asks for or what is worth archiving with a thesis. The <span class="ui">Figures besides SVG</span> menu adds each figure as PNG, as TIFF (the format many journals ask for) or in no other format; <span class="ui">Resolution</span> goes from 150 to 900&nbsp;dpi. Two checkboxes add the results workbook (.xlsx) of each block and the analyzed data.</p>
+  <figure>
+    <div class="marco"><img src="../img/en/b12-zip.png" alt="Card 3 · ZIP package with the Figures besides SVG and Resolution menus, the two checkboxes, the note on the image size and the Download the ZIP package button"></div>
+    <figcaption><b>Figure 12.5.</b> Card 3. The note works out how many pixels the images will have at the chosen resolution: here, 94 million for 16 figures at 300&nbsp;dpi.</figcaption>
+  </figure>
+  <table class="compacta">
+    <caption><b>Table 12.3.</b> What the package contains.</caption>
+    <thead><tr><th style="width:30%">File or folder</th><th>Content</th></tr></thead>
+    <tbody>
+      <tr><td><code>report.html</code></td><td>The same report as the preview</td></tr>
+      <tr><td><code>tables/</code></td><td>Each table in CSV, with its number and title in the file name</td></tr>
+      <tr><td><code>figures/svg/</code> and <code>figures/png/</code> (or <code>tiff/</code>)</td><td>Each figure as a vector and as an image at the chosen resolution</td></tr>
+      <tr><td><code>results/</code></td><td>The results workbook of each block, the same as its download button</td></tr>
+      <tr><td><code>data/</code></td><td>The data table as analyzed</td></tr>
+      <tr><td><code>methods.txt</code></td><td>The methods section and the references as plain text</td></tr>
+      <tr><td><code>README.txt</code></td><td>What each file is, with the program version and the date</td></tr>
+    </tbody>
+  </table>
+  <p>TIFF goes uncompressed and weighs about 3 bytes per pixel: the 16 figures of the example at 600&nbsp;dpi would add up to more than 1&nbsp;GB. For a journal it is usually enough to download as TIFF, from each figure’s panel, only the ones you will submit. If a figure is too large for the requested resolution, it is saved at the highest the browser allows and the note warns about it. With many figures, the conversion takes a few seconds and a notice shows the progress.</p>
+
+  <!-- ====================================================================== 12.7 -->
+  <h2 id="s12-7"><span class="num">12.7</span>How to cite and end of the tour</h2>
+  <p>Card <span class="ui">4 · How to cite</span> gives the citation of the program with its version and its DOI (10.5281/zenodo.23005938, which always leads to the most recent version), and <span class="ui">Copy the citation</span> puts it on the clipboard. The same citation appears at the end of the report and on the home page of the app.</p>
+  <figure>
+    <div class="marco"><img src="../img/en/b12-cita.png" alt="Card 4 · How to cite with the citation of BreedingPro and the Copy the citation button"></div>
+    <figcaption><b>Figure 12.6.</b> The citation of BreedingPro, version 1.0.1.</figcaption>
+  </figure>
+  <p>Besides the program, cite the original papers of the methods you used: the methods section names them and the reference list gathers them, so all you need to do is keep them when you edit the text.</p>
+  <div class="caja nota">
+    <div class="caja-t"><span class="ico">✓</span>Verified · the fidelity of the report</div>
+    <p>In a session with six blocks, an independent routine went through the app page and compared each cell with the report: 40 tables and 4,052 cells, none different; the 26 figures, identical to those of the app; no leftover buttons, menus, editors, text of the other language or empty values. The package, opened with the operating system’s ZIP reader, had its 103 files complete and error-free, and the report printed as a PDF kept all the figures as vectors.</p>
+  </div>
+  <p>This ends the tour of the blocks. <span class="ui">← Genomics</span> returns to Block 11 and <span class="ui">Back to home</span>, to the home page. The appendices that follow gather the file formats, the decision rules, a glossary, troubleshooting and the references.</p>
+</section>
+
+</body>
+</html>

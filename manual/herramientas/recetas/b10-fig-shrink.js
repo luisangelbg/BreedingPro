@@ -11,5 +11,5 @@
   await ensayo("A");
   { const a = Fig.registry.b10FigShrink; a.cfg.width = 640; a.cfg.height = 470; a.redraw(); await W(600); }
   const f = $("b10FigShrink"); irA(f); await W(400);
-  caja([f.querySelector("svg")], 4);
+  caja([[...f.querySelectorAll("svg")].reduce((m, s) => { const r = s.getBoundingClientRect(), q = m ? m.getBoundingClientRect() : null; return !q || r.width * r.height > q.width * q.height ? s : m; }, null)], 4);
 })()

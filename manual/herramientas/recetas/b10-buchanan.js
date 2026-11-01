@@ -12,6 +12,6 @@
   document.querySelectorAll(".book-scroll").forEach(n => { n.style.maxHeight = "none"; });
   await xex("buchanan");
   const m = $("b10XMsg"); irA(m); await W(400);
-  const h = [...$("b10XResults").querySelectorAll("h3")].find(x => /Predicciones/.test(x.textContent));
+  const h = [...$("b10XResults").querySelectorAll("h3")].find(x => /Predicciones|Predictions/.test(x.textContent));
   caja([h, $("b10XPred"), $("b10XPredNote")], 10);
 })()

@@ -1,0 +1,1009 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>BreedingPro · User’s Manual · Appendices</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,500;0,600;1,500&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../interior.css">
+<!-- splits the content into letter-size sheets, with running heads and page numbers -->
+<script src="../paginar.js"></script>
+<style>
+  td.n, th.n { text-align: right; white-space: nowrap; }
+  td.c, th.c { text-align: center; }
+  td.f { font-family: var(--serif); font-size: 10.5pt; color: var(--negro); }
+  .caja-t .sec-ref { margin-left: auto; letter-spacing: 0.08em; font-size: 7.4pt; opacity: 0.85; }
+  /* example files */
+  .pre-t { font-family: var(--sans); font-size: 8.5pt; color: var(--gris); margin: 0.12in 0 0; letter-spacing: 0.02em; }
+  .pre-t b { color: var(--negro); font-weight: 500; }
+  pre.archivo { font-family: var(--mono); font-size: 7.9pt; line-height: 1.38; color: var(--negro); background: #f6f8fc; border: 1px solid var(--linea); border-left: 3px solid var(--acento); border-radius: 0 4px 4px 0; padding: 0.07in 0.12in; margin: 0.05in 0 0.18in; white-space: pre-wrap; word-break: break-all; break-inside: avoid; }
+  /* index of rules */
+  ul.indice-reglas { list-style: none; padding: 0; margin: 0.12in 0 0.2in; font-family: var(--sans); font-size: 8.8pt; }
+  ul.indice-reglas li { display: grid; grid-template-columns: 2.9em 31% 1fr; column-gap: 0.12in; align-items: baseline; margin: 0; padding: 0.045in 0; border-top: 1px solid var(--linea); break-inside: avoid; }
+  ul.indice-reglas li:last-child { border-bottom: 1px solid var(--linea); }
+  ul.indice-reglas .ir-t { font-weight: 500; color: var(--negro); }
+  ul.indice-reglas .ir-i b { color: var(--negro); font-weight: 500; margin-right: 0.3em; }
+  ul.indice-reglas .ir-i span { white-space: nowrap; margin-right: 0.9em; }
+  .hoja[data-pestana="A"] .caja.regla { margin: 0.1in 0 0.14in; }
+  h3.ap-cap { font-size: 13pt; }
+  h3.ap-cap .chip { font-size: 8.5pt; margin-right: 0.55em; position: relative; top: -0.12em; }
+  /* glossary */
+  tr.letra td { background: #eef1f6 !important; font-family: var(--serif); font-size: 12.5pt; font-weight: 600; color: var(--negro); }
+  td.termino b { font-family: var(--serif); font-size: 10.5pt; }
+  /* references */
+  ul.refs { list-style: none; padding: 0; margin: 0.12in 0 0.2in; font-size: 9.7pt; line-height: 1.36; }
+  ul.refs li { padding-left: 1.5em; text-indent: -1.5em; margin-bottom: 0.32em; break-inside: avoid; text-align: left; hyphens: manual; }
+  ul.refs .doi { font-family: var(--sans); font-size: 0.8em; color: var(--gris); overflow-wrap: anywhere; }
+  ul.refs .m { color: var(--marino); font-size: 0.85em; }
+</style>
+</head>
+<body>
+
+<section class="capitulo" id="apendices" data-pestana="A" data-orden="14" style="--acento: var(--bx)">
+  <div class="cap-apertura">
+    <div class="cap-num">A–F</div>
+    <div class="cap-etiqueta">Appendices · reference material</div>
+    <h1 data-corto="Appendices">Appendices</h1>
+    <div class="cap-regla"></div>
+    <p class="cap-resumen">The appendices are not read from start to finish: they are consulted. Here you will find the exact rules by which the app reads and writes each file, the decision rules of the whole manual gathered in one place, a glossary of terms, acronyms and symbols, the solutions to the most common problems, the full references of the methods and the data, and the third-party components with their licenses.</p>
+    <div class="cap-franja"><span class="kx"></span><span class="kx" style="opacity:.75"></span><span class="kx" style="opacity:.5"></span><span class="kx" style="opacity:.3"></span></div>
+    <ul class="cap-contenido">
+      <li><b>A</b>File formats</li>
+      <li><b>B</b>Summary of decision rules</li>
+      <li><b>C</b>Glossary</li>
+      <li><b>D</b>Troubleshooting</li>
+      <li><b>E</b>References</li>
+      <li><b>F</b>Third-party components</li>
+    </ul>
+  </div>
+
+  <!-- ====================================================================== A -->
+  <h2 id="ap-a"><span class="num">A</span>File formats</h2>
+  <p class="lead">Chapter 3 explains how to lay out a plot table and how the app recognizes the role of each column and the design (Tables 3.1 to 3.3); Chapters 10 and 11 describe the tables specific to their blocks. This appendix gathers the exact rules in one place: which files are read, what counts as missing, the line that declares the design, the generation codes, the tables of Blocks 10 and 11 and the format of each file the app downloads.</p>
+
+  <h3>A.1 Files that are read</h3>
+  <table class="compacta">
+    <caption><b>Table A.1.</b> Ways of giving the data to the app and how they are read.</caption>
+    <thead><tr><th style="width:23%">Source</th><th style="width:34%">How it is read</th><th>What you should know</th></tr></thead>
+    <tbody>
+      <tr><td><b>Spreadsheet</b><br><code>.xlsx .xls .xlsm .ods</code></td><td>In Block 3 the sheet with the most data is opened, and the <span class="ui">Workbook sheet</span> menu switches to another.</td><td>Numbers are stored as numbers, so the decimal separator does not matter.</td></tr>
+      <tr><td><b>Delimited text</b><br><code>.csv .tsv .txt</code></td><td>The separator is inferred from the first 30 lines: tab if it appears at least half as often as the semicolon; otherwise semicolon if there are more semicolons than commas; otherwise comma.</td><td>UTF-8 encoding, with or without a byte-order mark. Double quotes are accepted. Spaces do not separate columns. Empty rows are ignored, and so are lines that start with <code>#</code> before the headers, except the declaration line (Section A.3).</td></tr>
+      <tr><td>The app’s <b>data sheet</b></td><td>A block copied from any spreadsheet, or text separated by commas, semicolons or tabs, is pasted with Ctrl+V.</td><td>Up to 20,000 rows and 5,000 columns. It is saved in the browser every time it changes (Section 3.2).</td></tr>
+      <tr><td><b>Block 2 field book</b></td><td>It passes to Block 3 without downloading anything, empty or with a simulated yield.</td><td>It brings the declaration line, so the design is not inferred: it is read (Section 2.8).</td></tr>
+    </tbody>
+  </table>
+
+  <div class="dos">
+    <div class="caja nota" style="margin:0">
+      <div class="caja-t"><span class="ico">i</span>Missing values</div>
+      <p style="margin:0">The empty cell, <code>NA</code>, <code>N/A</code>, <code>NaN</code>, <code>null</code>, <code>.</code>, <code>..</code>, <code>-</code>, <code>--</code>, <code>?</code>, <code>*</code>, <code>missing</code>, <code>perdido</code>, <code>faltante</code>, <code>s/d</code>, <code>sd</code>, <code>nd</code>, <code>n.d.</code> and the errors <code>#N/A</code>, <code>#VALUE!</code> and <code>#DIV/0!</code> are missing, in upper or lower case. In a trait, any other text (<code>12.5a</code>) also becomes missing, and card 2 says how many there were and in which row the first one is.</p>
+    </div>
+    <div class="caja nota" style="margin:0">
+      <div class="caja-t"><span class="ico">i</span>Decimal separator</div>
+      <p style="margin:0">On <span class="ui">automatic</span>, each column uses a decimal comma if it has more values like <code>12,5</code> or <code>1.234,5</code> than like <code>12.5</code>. The <span class="ui">Decimal separator</span> menu imposes point or comma on all of them. In a comma-separated CSV, an unquoted <code>12,5</code> splits the row into two columns: save that file with semicolons.</p>
+    </div>
+  </div>
+
+  <h3>A.2 The plot table</h3>
+  <p>One row per plot (or per plant) and one column per datum; the first row with content carries the column names, in Spanish or in English. Names are compared without accents, case, spaces or signs, and Table 3.1 gives the ones recognized for each of the 16 roles. Two identical column names are told apart by adding <code>(2)</code>, <code>(3)</code>… The rest is summarized in Table A.2.</p>
+  <table class="compacta">
+    <caption><b>Table A.2.</b> How the pedigree, the type of each entry and the generations are written.</caption>
+    <thead><tr><th style="width:21%">Datum</th><th>How it is written</th><th style="width:9%" class="c">See</th></tr></thead>
+    <tbody>
+      <tr><td><b>Pedigree in two columns</b></td><td>Female (or line, F<sub>2</sub> plant, parent 1) and male (or tester, parent 2). If there is also an entries column with numbers that correspond one to one with the pedigree, the entry is named by its pedigree (<code>L1 × L2</code>) and the number is kept.</td><td class="c">3.3</td></tr>
+      <tr><td><b>Pedigree in the name</b></td><td><code>A × B</code>, <code>A x B</code>, <code>A/B</code>, <code>A*B</code> or compact codes such as <code>1x3</code>, provided at least half of the names are crosses and the parents recur among them. A name equal to a parent is that parent.</td><td class="c">3.3</td></tr>
+      <tr><td><b>Entry type</b></td><td><code>testigo</code>, <code>check</code>, <code>control</code> or <code>comercial</code>; <code>progenitor</code> or <code>parental</code>; <code>recíproca</code>; <code>línea</code>; <code>probador</code>; <code>F1</code>, <code>cruza</code> or <code>híbrido</code>. Without that column it is inferred: female equal to male is a parent, female different from male an F<sub>1</sub>, and an entry without parents in data with crosses, a check.</td><td class="c">3.3</td></tr>
+      <tr><td><b>Generations</b></td><td><code>P1</code>, <code>P2</code>, <code>F1</code>, <code>F2</code>, <code>F3</code>; the reciprocal F<sub>1</sub> <code>RF1</code>, <code>F1R</code> or <code>F1rec</code>; the backcrosses <code>BC1</code>, <code>RC1</code>, <code>B1</code>, <code>retrocruza1</code> (and those to P<sub>2</sub>); the selfed backcrosses <code>BC1S</code>, <code>BC11</code>, <code>B11</code>, <code>BS1</code> (and <code>BC2S</code>, <code>B22</code>, <code>BS2</code>). They go in the generation column, in the type column or in the entry name.</td><td class="c">7.1</td></tr>
+      <tr><td><b>Check in a generation trial</b></td><td>One more entry that is not a generation: its name in the entries column, or written in the generation column itself (<code>Testigo</code>, <code>H-520</code>), which Block 3 reads as a check. It enters only standard heterosis.</td><td class="c">7.7</td></tr>
+      <tr><td><b>Data per plant</b></td><td>Several rows with the same plot, or a <code>Plant</code> column. Each plot is summarized by the mean of its plants and the sampling error is kept apart.</td><td class="c">3.8</td></tr>
+      <tr><td><b>Unreplicated means</b></td><td>One value per entry. The error of the original experiment (mean square, degrees of freedom, scale and replicates) is typed in card 3 of Block 3.</td><td class="c">3.8</td></tr>
+    </tbody>
+  </table>
+
+  <div class="caja importante">
+    <div class="caja-t"><span class="ico">!</span>Important · details that confuse when loading a table</div>
+    <ul style="margin:0">
+      <li><b>Identification numbers.</b> A numeric column with a name the app does not recognize (<code>Lot</code>, <code>Furrow</code>, <code>Code</code>) is taken as a response trait. Switch it to <span class="ui">Ignore</span>.</li>
+      <li><b>Females and males that share codes.</b> In the North Carolina designs and line × tester, <code>1 × 1</code> is a cross between two different plants, not a parent; the app marks them with ♀ and ♂. If the codes recur across sets, it prefixes the set (<code>S1·3</code>).</li>
+      <li><b>Entry names.</b> They are compared exactly between tables: to join the trial with the pedigree of Block 10 or with the markers of Block 11, each entry must carry the same name in both files.</li>
+    </ul>
+  </div>
+
+  <h3>A.3 The declaration line of the field book</h3>
+  <p>Every Block 2 field book begins, if the checkbox <span class="ui">Include the line that describes the design</span> is left ticked, with a line like this one:</p>
+  <pre class="archivo">#BreedingPro fieldbook, mating=griffing, method=4, field=alpha, reps=3, k=5, locations=2, entries=30, seed=2026, F=1</pre>
+  <p>These are <code>key=value</code> pairs separated by commas. If the spreadsheet spread the line over several cells, Block 3 joins it back together. Keys are case-sensitive; a numeric value is read as a number.</p>
+  <table class="compacta">
+    <caption><b>Table A.3.</b> Keys of the declaration line and who uses them.</caption>
+    <thead><tr><th style="width:13%">Key</th><th style="width:47%">Values</th><th>Use</th></tr></thead>
+    <tbody>
+      <tr><td><code>mating</code></td><td><code>griffing</code>, <code>partial</code> (partial diallel), <code>nc1</code>, <code>nc2</code>, <code>nc3</code> (North Carolina designs), <code>ttc</code> (triple test cross), <code>lxt</code> (line × tester), <code>generations</code>; the Block 3 menu adds <code>none</code> (genotype trial).</td><td>Block 3 takes the mating design without inferring it (confidence <i>declared</i>).</td></tr>
+      <tr><td><code>method</code></td><td>1 to 4; only with <code>griffing</code>.</td><td>Griffing’s method.</td></tr>
+      <tr><td><code>field</code></td><td><code>rcbd</code> (randomized complete blocks), <code>alpha</code> (α-lattice), <code>crd</code> (completely randomized), <code>augmented</code>; Block 3 also accepts <code>ibd</code> (incomplete blocks), <code>rowcol</code> (row–column) and <code>means</code>.</td><td>The field design.</td></tr>
+      <tr><td><code>F</code></td><td>Inbreeding of the parents: 0, 0.5, 0.75 or 1.</td><td>Block 6 takes it as the starting value of the control <span class="ui">Inbreeding of the parents (F)</span>.</td></tr>
+      <tr><td><code>reps</code>, <code>k</code>, <code>blocks</code>, <code>locations</code>, <code>entries</code>, <code>seed</code></td><td>Replicates, lattice block size, blocks of the augmented design, locations, entries and random seed.</td><td>Record of the plan. With the seed, Block 2 regenerates the same field map.</td></tr>
+    </tbody>
+  </table>
+  <p>Below the line go the headers of eleven fixed columns —<code>Location</code>, <code>Plot</code>, <code>Replicate</code>, <code>Block</code>, <code>Row</code>, <code>Column</code>, <code>Entry</code>, <code>Genotype</code>, <code>Female</code>, <code>Male</code> and <code>Type</code>— and one empty column for each trait typed in card 3 of Block 2 (Table 2.8). With the app in Spanish, the headers come out in Spanish; Block 3 understands them in both languages. The data are recorded in the empty columns without changing the names of the fixed ones.</p>
+
+  <h3>A.4 The tables of Block 10</h3>
+  <table class="compacta">
+    <caption><b>Table A.4.</b> What the cards of Block 10 read. The column roles are described in Table 10.3.</caption>
+    <thead><tr><th style="width:20%">Table</th><th>How it is written</th><th style="width:9%" class="c">See</th></tr></thead>
+    <tbody>
+      <tr><td><b>Records</b><br><span class="small">card 1</span></td><td>One row per record with the individual, its sire and its dam; an unknown parent is written <code>0</code> or <code>NA</code>, or left empty. Roles are proposed from the name: <code>Animal</code>, <code>ID</code>, <code>Individual</code> or <code>Genotype</code> is the individual; <code>Sire</code>, <code>Father</code> or <code>Bull</code>, the sire; <code>Dam</code> or <code>Mother</code>, the dam; <code>CG</code>, <code>Litter</code> or <code>Group</code>, a random effect; a numeric column with few integer values, a fixed effect, and one with many values, the response trait. In plants, the seed parent goes in as the dam.</td><td class="c">10.2</td></tr>
+      <tr><td><b>Separate pedigree</b><br><span class="small">optional</span></td><td>Individual, sire and dam columns with ancestors that have no records, so that the relationships reach further back. Parents without a row of their own are added as founders.</td><td class="c">10.2</td></tr>
+      <tr><td><b>Groups</b><br><span class="small">card 4, estimate</span></td><td>One row per group: <code>cross, n, mean, SE</code>. The number and the standard error can be left empty (<code>1×2, , 309</code>); with every SE given, the weights are 1/SE² and there is a lack-of-fit test.</td><td class="c">10.6</td></tr>
+      <tr><td><b>Crosses</b></td><td>Sire first: <code>A</code>, <code>A×B</code>, <code>C×(A×B)</code>, <code>(A×B)×(A×B)</code>. The sign can be <code>×</code>, <code>*</code>, <code>·</code> or an <code>x</code> between spaces. For prediction also <code>rot(A,B)</code> and <code>rot(A,B,C)</code> (rotations) and <code>comp(A,B,C)</code> (composite with equal parts) or <code>comp(A:0.5,B:0.25,C:0.25)</code>.</td><td class="c">10.6</td></tr>
+      <tr><td><b>Parameters</b><br><span class="small">predict with known parameters</span></td><td>One row per parameter with its value: <code>mu, 14.3</code>, <code>gI:B, -3.18</code>, <code>gM:B, …</code>, <code>hI, -0.04</code>, <code>hM, …</code>, <code>rI, -6.20</code>. Those not written are zero: the breed with no effect written is the reference.</td><td class="c">10.6</td></tr>
+      <tr><td><b>Breed means</b><br><span class="small">heterosis in percent</span></td><td>One row per purebred (<code>A, 460</code>) and, separately, the percentages of individual and maternal heterosis and of recombination loss.</td><td class="c">10.6</td></tr>
+    </tbody>
+  </table>
+
+  <h3>A.5 The tables of Block 11</h3>
+  <table class="compacta">
+    <caption><b>Table A.5.</b> What the cards of Block 11 read. The marker codings are in Table 11.3.</caption>
+    <thead><tr><th style="width:20%">Table</th><th>How it is written</th><th style="width:9%" class="c">See</th></tr></thead>
+    <tbody>
+      <tr><td><b>Markers</b><br><span class="small">card 1</span></td><td>One row per individual, with its identifier in the first column and one column per marker; if the file comes the other way around, the checkbox <span class="ui">Markers in rows</span> transposes it. Dosages 0/1/2, −1/0/1, presence or absence 0/1 (the menu <span class="ui">A 0/1 file means</span> decides whether they are pure lines or dosages) or letters (<code>AA/AB/BB</code>, <code>A/C/G/T</code>, and the two-base codes <code>R Y S W K M</code> as heterozygotes). Missing: empty, <code>NA</code>, <code>-</code> or <code>N</code>.</td><td class="c">11.2</td></tr>
+      <tr><td><b>Phenotypes</b><br><span class="small">card 3</span></td><td>The identifier in the first column and one column per trait. Those of the example or the Block 3 trial also serve, if its entries have markers.</td><td class="c">11.4</td></tr>
+      <tr><td><b>Hybrids</b><br><span class="small">card 5</span></td><td>One row per evaluated hybrid: the line of group 1, that of group 2 and the traits (adjusted means). The names of the first two columns are those of the groups. The markers of all the lines go in card 1.</td><td class="c">11.6</td></tr>
+      <tr><td><b>Three-way and double crosses</b></td><td>One per line, <code>(A×B)×C</code> or <code>(A×B)×(C×D)</code>, with the lines on each side from different groups.</td><td class="c">11.6</td></tr>
+    </tbody>
+  </table>
+
+  <h3>A.6 Files the app produces</h3>
+  <p>All CSV tables are written comma-separated, with a decimal point and up to 12 significant digits, in UTF-8 with a byte-order mark (spreadsheets open them with the accents right) and with Windows line endings. A field that contains a comma, a semicolon, quotes or a line break goes in double quotes. In the <code>.xlsx</code> workbooks, each table takes its own sheet; sheet names follow the language of the app, and some column headers use fixed symbols or abbreviations (<code>sigma2A</code>, <code>SE</code>, <code>GEBV</code>). The file name is formed from the block and the trait, without accents or signs (<code>griffing_Yield.xlsx</code>). The names below are those of the app in English.</p>
+  <table class="compacta">
+    <caption><b>Table A.6.</b> What each block downloads. The figures, the report and the package are described in Sections I.6, 12.3 and 12.6.</caption>
+    <thead><tr><th style="width:9%">Block</th><th style="width:25%">File</th><th>Content</th></tr></thead>
+    <tbody>
+      <tr><td><span class="chip k2">B2</span></td><td><code>field_book.xlsx</code> · <code>field_book.csv</code> · <code>entries.csv</code></td><td>Sheets <code>FieldBook</code>, <code>Entries</code>, <code>CrossingBlock</code> and <code>Design</code>; the CSV, only the field book, with the declaration line if requested; the list of crosses and entries.</td></tr>
+      <tr><td><span class="chip k3">B3</span></td><td><code>data_and_design_….xlsx</code> · <code>adjusted_means.csv</code> · <code>cleaned_data.csv</code></td><td>Sheets <code>Means</code>, <code>ANOVA</code>, <code>Quality</code>, <code>Data</code> and <code>Design</code>; the adjusted means by trait and environment; the original table with the <code>Excluded</code> column (Table 3.7).</td></tr>
+      <tr><td><span class="chip k3">B3</span></td><td>Data sheet: <span class="ui">Save as</span></td><td><code>.xlsx</code>, <code>.ods</code>, <code>.csv</code> with commas or with semicolons, or <code>.tsv</code>, with the values as they were typed.</td></tr>
+      <tr><td><span class="chip k4">B4</span></td><td><code>griffing_….xlsx</code> · <code>griffing_effects.csv</code></td><td>Sheets <code>ANOVA</code>, <code>Effects</code>, <code>Components</code>, <code>Parameters</code>, <code>Crosses</code> and, if the methods were compared, <code>Comparison</code>; the CSV, the effects with their standard errors.</td></tr>
+      <tr><td><span class="chip k5">B5</span></td><td><code>hayman_gardner_….xlsx</code> · <code>diallel_table.csv</code></td><td>Sheets <code>Hayman</code>, <code>Components</code>, <code>Arrays</code> (V<sub>r</sub>, W<sub>r</sub>), <code>Gardner-Eberhart</code>, <code>Heterosis</code> and <code>Diallel table</code>.</td></tr>
+      <tr><td><span class="chip k6">B6</span></td><td><code>mating_….xlsx</code></td><td>Sheets <code>ANOVA</code>, <code>Components</code>, <code>Parameters</code>, <code>Effects</code> and, depending on the design, <code>Sums and differences</code> or <code>Heterosis</code>.</td></tr>
+      <tr><td><span class="chip k7">B7</span></td><td><code>generations_….xlsx</code></td><td>Sheets <code>Generations</code>, <code>Scaling</code>, <code>Models</code>, <code>Parameters</code>, <code>Perfect fit</code>, <code>Variances</code>, <code>Factors</code> and <code>Heterosis</code>.</td></tr>
+      <tr><td><span class="chip k8">B8</span></td><td><code>selection.xlsx</code></td><td>Sheets <code>Parameters</code>, <code>rG</code>, <code>rP</code>, <code>rE</code>, <code>P</code>, <code>G</code>, <code>Indices</code>, <code>Selection</code> and <code>Methods</code>.</td></tr>
+      <tr><td><span class="chip k9">B9</span></td><td><code>gxe_interaction_….xlsx</code></td><td>Sheets <code>GxE table</code> (with the imputed cells), <code>ANOVA</code>, <code>Regression</code>, <code>Variances</code>, <code>Ranks</code>, <code>AMMI axes</code>, <code>AMMI genotypes</code>, <code>AMMI environments</code>, <code>GGE</code> and <code>Two stages</code>.</td></tr>
+      <tr><td><span class="chip k10">B10</span></td><td><code>blup_and_crossbreeding.xlsx</code></td><td>Sheets <code>Pedigree</code> (with F and b), <code>Components</code>, <code>Breeding values</code>, one for each fixed factor, <code>Trial BLUP</code>, <code>Dickerson</code>, <code>Breed diallel</code> and <code>Predictions</code>.</td></tr>
+      <tr><td><span class="chip k11">B11</span></td><td><code>genomics.xlsx</code></td><td>Sheets <code>Markers</code>, <code>G</code> (up to 1,500 individuals), <code>GEBV</code>, <code>Effects</code>, <code>Validation</code> and <code>Hybrids</code>.</td></tr>
+      <tr><td><span class="chip k12">B12</span></td><td>Report <code>.html</code> · package <code>.zip</code></td><td>The name comes from the title of the report. The package brings <code>report.html</code>, <code>tables/</code>, <code>figures/</code>, <code>results/</code>, <code>data/</code>, <code>methods.txt</code> and <code>README.txt</code> (Table 12.3).</td></tr>
+      <tr><td>Figures</td><td>Panel of each figure</td><td>PNG, JPG, WEBP and TIFF (uncompressed) up to 900&nbsp;dpi, or SVG, which is vector; the panel gives the size in pixels and in centimeters.</td></tr>
+    </tbody>
+  </table>
+  <p>Only the sheets that have results go into a workbook: a Block 6 with a North Carolina II brings no <code>Sums and differences</code>, and a Block 10 without crossbreeding brings no <code>Dickerson</code>.</p>
+
+  <!-- ====================================================================== B -->
+  <h2 id="ap-b" data-nueva-hoja><span class="num">B</span>Summary of decision rules</h2>
+  <p class="lead">The decision rules of the manual, in the order of the app. Those of the introduction and of Chapters 1 to 5 are repeated just as they appear there; those of Blocks 6 to 12, whose chapters give the criteria within the text, are summarized here in the same format. Each box names the section that explains the theory it rests on. They are guides for interpretation, not laws: knowledge of your species and of your program always comes first.</p>
+  <ul class="indice-reglas">
+    <li><span class="chip k0">In</span><span class="ir-t">Introduction</span><span class="ir-i"><span><b>I.8</b>Which block to use</span> <span><b>I.9</b>Reading a P value</span></span></li>
+    <li><span class="chip k1">B1</span><span class="ir-t">Home, laboratories and theory</span><span class="ir-i"><span><b>1.2</b>How the app words the interpretation</span></span></li>
+    <li><span class="chip k2">B2</span><span class="ir-t">Planning crosses, trial and power</span><span class="ir-i"><span><b>2.4</b>Which field design to use</span></span></li>
+    <li><span class="chip k3">B3</span><span class="ir-t">Data and field analysis</span><span class="ir-i"><span><b>3.6</b>The quality of the trial</span> <span><b>3.9</b>Before moving on to the genetic blocks</span></span></li>
+    <li><span class="chip k4">B4</span><span class="ir-t">Griffing’s diallels</span><span class="ir-i"><span><b>4.4</b>Which effect is useful for what</span></span></li>
+    <li><span class="chip k5">B5</span><span class="ir-t">Hayman–Jinks and Gardner–Eberhart</span><span class="ir-i"><span><b>5.5</b>The Wr–Vr graph</span></span></li>
+    <li><span class="chip k6">B6</span><span class="ir-t">Mating designs</span><span class="ir-i"><span><b>6.2</b>The inbreeding F of the parents</span> <span><b>6.5</b>Components and tests</span></span></li>
+    <li><span class="chip k7">B7</span><span class="ir-t">Generations and heterosis</span><span class="ir-i"><span><b>7.3</b>The variance of each mean</span> <span><b>7.4</b>Scaling, models and heterosis</span></span></li>
+    <li><span class="chip k8">B8</span><span class="ir-t">Genetic parameters and selection</span><span class="ir-i"><span><b>8.2</b>Reading a heritability</span> <span><b>8.6</b>When to trust path analysis</span> <span><b>8.7</b>Which index to use</span></span></li>
+    <li><span class="chip k9">B9</span><span class="ir-t">Genotype × environment interaction</span><span class="ir-i"><span><b>9.2</b>Interaction and stability</span> <span><b>9.7</b>AMMI and the GGE biplot</span></span></li>
+    <li><span class="chip k10">B10</span><span class="ir-t">Mixed models, BLUP and crossbreeding</span><span class="ir-i"><span><b>10.3</b>The mixed model</span> <span><b>10.5</b>Breeding values and crossbreeding</span></span></li>
+    <li><span class="chip k11">B11</span><span class="ir-t">Genomics and hybrid prediction</span><span class="ir-i"><span><b>11.2</b>Markers and GBLUP</span> <span><b>11.5</b>Validation and hybrids</span></span></li>
+    <li><span class="chip k12">B12</span><span class="ir-t">Report, figures and package</span><span class="ir-i"><span><b>12.3</b>Which output to use</span></span></li>
+  </ul>
+
+  <h3 class="ap-cap"><span class="chip k0">In</span>Introduction to BreedingPro</h3>
+
+  <div class="caja regla">
+    <div class="caja-t"><span class="ico">✓</span>Decision rule · which block to use<span class="sec-ref">Section I.8</span></div>
+    <table class="compacta"><tbody>
+      <tr><td style="width:44%"><b>If</b> the table has female and male from a group of parents crossed among themselves…</td><td><b>then</b> Griffing (4), Hayman–Jinks (5) and parameters (8).</td></tr>
+      <tr><td><b>If</b> males and females are different groups (NC, L × T) or the diallel is partial…</td><td><b>then</b> mating designs (6) and parameters (8).</td></tr>
+      <tr><td><b>If</b> there is a generation column (P₁, P₂, F₁, F₂…)…</td><td><b>then</b> generations (7).</td></tr>
+      <tr><td><b>If</b> they are genotypes in several locations or years…</td><td><b>then</b> parameters (8), stability (9) and, with a pedigree, BLUP (10).</td></tr>
+      <tr><td><b>If</b> you have a pedigree or markers…</td><td><b>then</b> BLUP (10) or genomics (11).</td></tr>
+    </tbody></table>
+    <p class="regla-pie">Block 3 makes this choice for you when it recognizes the design and shows it in card <span class="ui">3 · Recognised design</span>.</p>
+  </div>
+
+  <div class="caja regla">
+    <div class="caja-t"><span class="ico">✓</span>Reading rule · a P value<span class="sec-ref">Section I.9</span></div>
+    <table class="compacta"><tbody>
+      <tr><td style="width:44%"><b>If</b> P &lt; 0.001 (***)…</td><td><b>then</b> very strong evidence.</td></tr>
+      <tr><td><b>If</b> 0.001 ≤ P &lt; 0.01 (**)…</td><td><b>then</b> strong evidence.</td></tr>
+      <tr><td><b>If</b> 0.01 ≤ P &lt; 0.05 (*)…</td><td><b>then</b> moderate evidence.</td></tr>
+      <tr><td><b>If</b> P ≥ 0.05 (ns)…</td><td><b>then</b> not significant at 5%.</td></tr>
+    </tbody></table>
+    <p class="regla-pie">A P value does not measure the importance of an effect: also look at its size and its standard error.</p>
+  </div>
+
+  <h3 class="ap-cap"><span class="chip k1">B1</span>Home, laboratories and theory</h3>
+
+  <div class="caja regla">
+    <div class="caja-t"><span class="ico">✓</span>Decision rule · how the app words the interpretation<span class="sec-ref">Section 1.2</span></div>
+    <table class="compacta"><tbody>
+      <tr><td style="width:47%"><b>If</b> b does not differ from 1 (|t| below the 5% critical value with <i>p</i> − 2 degrees of freedom)…</td><td><b>then</b> the additive–dominance model holds.</td></tr>
+      <tr><td><b>If</b> b departs from 1…</td><td><b>then</b> there is non-allelic interaction or another broken assumption, and the components are biased.</td></tr>
+      <tr><td><b>If</b> (H<sub>1</sub>/D)<sup>½</sup> &lt; 0.25…</td><td><b>then</b> gene action is practically additive.</td></tr>
+      <tr><td><b>If</b> the intercept of the line is positive and significant…</td><td><b>then</b> partial dominance.</td></tr>
+      <tr><td><b>If</b> it is negative and significant…</td><td><b>then</b> overdominance.</td></tr>
+      <tr><td><b>If</b> it does not differ from zero and (H<sub>1</sub>/D)<sup>½</sup> is between 0.8 and 1.2…</td><td><b>then</b> complete dominance. Outside that interval, the app warns that the intercept test has little power (practice 4).</td></tr>
+      <tr><td><b>If</b> r(Yr, Wr + Vr) &lt; −0.3 · &gt; 0.3…</td><td><b>then</b> the dominant · recessive alleles increase the trait; between both values the direction is unclear.</td></tr>
+    </tbody></table>
+    <p class="regla-pie">The app also names the two parents closest to the origin: they are the ones carrying the most dominant alleles.</p>
+  </div>
+
+  <h3 class="ap-cap"><span class="chip k2">B2</span>Planning crosses, trial and power</h3>
+
+  <div class="caja regla">
+    <div class="caja-t"><span class="ico">✓</span>Decision rule · which field design to use<span class="sec-ref">Section 2.4</span></div>
+    <table class="compacta"><tbody>
+      <tr><td style="width:46%"><b>If</b> there are few entries (up to 15 or 20) and the land is uniform over the size of a replicate…</td><td><b>then</b> randomized complete blocks.</td></tr>
+      <tr><td><b>If</b> there are many entries and a complete replicate no longer fits on homogeneous soil…</td><td><b>then</b> α-lattice, with blocks of a size close to √<i>v</i>.</td></tr>
+      <tr><td><b>If</b> there are many new entries and seed for a single plot of each…</td><td><b>then</b> augmented, with at least two checks and 12 or more error degrees of freedom.</td></tr>
+      <tr><td><b>If</b> the plots are pots or homogeneous units (greenhouse, laboratory)…</td><td><b>then</b> completely randomized.</td></tr>
+    </tbody></table>
+    <p class="regla-pie">The app requires at least two replicates, except in the augmented design, and warns when the error is left with fewer than 12 degrees of freedom.</p>
+  </div>
+
+  <h3 class="ap-cap"><span class="chip k3">B3</span>Data, recognized design and field analysis</h3>
+
+  <div class="caja regla">
+    <div class="caja-t"><span class="ico">✓</span>Reading rule · the quality of the trial<span class="sec-ref">Section 3.6</span></div>
+    <table class="compacta">
+      <thead><tr><th style="width:36%">Test</th><th style="width:26%">Good</th><th>To check</th></tr></thead>
+      <tbody>
+        <tr><td><b>Normality</b> of the residuals (Shapiro–Wilk)</td><td>p ≥ 0.05: holds</td><td>p &lt; 0.05: check the Q–Q plot</td></tr>
+        <tr><td><b>Additivity</b> replicate × entry (Tukey, 1 df)</td><td>p ≥ 0.05: additive</td><td>p &lt; 0.05: not additive; try a transformation</td></tr>
+        <tr><td><b>Outliers</b> (Bonferroni)</td><td>none</td><td>there are some: check them in card 4</td></tr>
+        <tr><td><b>Repeatability</b> (H²<sub>c</sub>)</td><td>≥ 0.5: informative trial</td><td>0.3 to 0.5: moderate; &lt; 0.3: low</td></tr>
+        <tr><td><b>Precision</b> (CV)</td><td>≤ 12%: good</td><td>12 to 20%: acceptable; &gt; 20%: low</td></tr>
+        <tr><td><b>Gain</b> from incomplete blocks</td><td>≥ 5%: the blocks helped</td><td>&lt; 5%: little gain</td></tr>
+      </tbody>
+    </table>
+    <p class="regla-pie">The CV limits are indicative: they depend on the crop and the trait. If Bartlett’s test of the combined analysis gives p &lt; 0.05, use the two-stage analysis of Block 9.</p>
+  </div>
+
+  <div class="caja regla">
+    <div class="caja-t"><span class="ico">✓</span>Practical rule · before moving on to the genetic blocks<span class="sec-ref">Section 3.9</span></div>
+    <table class="compacta"><tbody>
+      <tr><td style="width:46%"><b>If</b> a column ended up with the wrong role or on <span class="ui">Ignore</span>…</td><td><b>then</b> correct it in card 2: everything else depends on it.</td></tr>
+      <tr><td><b>If</b> the mating design has medium or low confidence…</td><td><b>then</b> read the reasons and check <span class="ui">Recognised entries</span> and the figure of crosses present.</td></tr>
+      <tr><td><b>If</b> there are outliers…</td><td><b>then</b> compare them with the field book and exclude only proven errors.</td></tr>
+      <tr><td><b>If</b> normality or additivity fail…</td><td><b>then</b> consider transforming the trait before loading it again.</td></tr>
+    </tbody></table>
+    <p class="regla-pie">The genetic blocks use exactly what remains in Block 3: its data, its design, the excluded observations and the external error.</p>
+  </div>
+
+  <h3 class="ap-cap"><span class="chip k4">B4</span>Griffing’s diallels</h3>
+
+  <div class="caja regla">
+    <div class="caja-t"><span class="ico">✓</span>Reading rule · which effect is useful for what<span class="sec-ref">Section 4.4</span></div>
+    <table class="compacta"><tbody>
+      <tr><td style="width:40%"><b>High, significant GCA</b> (ĝ<sub>i</sub>)</td><td>The parent passes its value on to all its crosses: useful for <b>forming populations and synthetics</b> and for choosing the parents of a program.</td></tr>
+      <tr><td><b>High, significant SCA</b> (ŝ<sub>ij</sub>)</td><td>The pair performs better than its GCA effects predict: useful for <b>hybrids</b> of that combination, not for choosing parents.</td></tr>
+      <tr><td><b>Maternal effect</b> (<i>m<sub>i</sub></i>)</td><td>Which parent is the female matters: use the parent in the favorable direction (cytoplasm, endosperm, seed size).</td></tr>
+      <tr><td><b>Non-maternal reciprocal</b> (<i>n<sub>ij</sub></i>)</td><td>The direction matters only in that pair; confirm it before drawing conclusions.</td></tr>
+    </tbody></table>
+    <p class="regla-pie">Baker’s ratio sums up the balance: close to 1, GCA predicts the crosses well and additive action dominates (Section 4.5).</p>
+  </div>
+
+  <h3 class="ap-cap"><span class="chip k5">B5</span>Hayman–Jinks and Gardner–Eberhart</h3>
+
+  <div class="caja regla">
+    <div class="caja-t"><span class="ico">✓</span>Reading rule · the Wr–Vr graph<span class="sec-ref">Section 5.5</span></div>
+    <table class="compacta"><tbody>
+      <tr><td style="width:42%"><b>Slope</b> that does not depart from 1</td><td>The additive–dominance model is adequate; if it departs, there is epistasis or genes correlated between parents.</td></tr>
+      <tr><td><b>Intercept</b> positive · zero · negative</td><td>Partial dominance · complete dominance · overdominance.</td></tr>
+      <tr><td><b>Distance from the origin</b> of each point</td><td>Near: the parent carries mostly dominant alleles; far: recessive ones.</td></tr>
+      <tr><td><b>Correlation</b> between the parent’s value and Wr + Vr</td><td>Positive: dominant alleles decrease the trait; negative: they increase it.</td></tr>
+    </tbody></table>
+  </div>
+
+  <h3 class="ap-cap"><span class="chip k6">B6</span>Mating designs</h3>
+
+  <div class="caja regla">
+    <div class="caja-t"><span class="ico">✓</span>Decision rule · the inbreeding F of the parents<span class="sec-ref">Section 6.2</span></div>
+    <table class="compacta"><tbody>
+      <tr><td style="width:46%"><b>If</b> the parents are inbred lines (line × tester, partial diallels of lines)…</td><td><b>then</b> F = 1.</td></tr>
+      <tr><td><b>If</b> they are plants from a population (North Carolina designs, triple test cross)…</td><td><b>then</b> F = 0.</td></tr>
+      <tr><td><b>If</b> they are lines with few generations of selfing…</td><td><b>then</b> F = 0.5 or 0.75, depending on the generation.</td></tr>
+      <tr><td><b>If</b> the Block 2 field book declared another value…</td><td><b>then</b> the app uses that one: confirm it.</td></tr>
+    </tbody></table>
+    <p class="regla-pie">With the same mean squares, going from F = 0 to F = 1 divides σ²<sub>A</sub> by 2 and σ²<sub>D</sub> by 4.</p>
+  </div>
+
+  <div class="caja regla">
+    <div class="caja-t"><span class="ico">✓</span>Reading rule · components and tests of a design<span class="sec-ref">Sections 6.5 to 6.8</span></div>
+    <table class="compacta"><tbody>
+      <tr><td style="width:46%"><b>If</b> a component comes out negative…</td><td><b>then</b> the true variance is close to zero or replicates are lacking. It is reported as it comes out; with a negative σ²<sub>D</sub> there is no degree of dominance, H² or Baker’s ratio.</td></tr>
+      <tr><td><b>If</b> the two σ²<sub>A</sub> of a North Carolina II, that of males and that of females, differ greatly…</td><td><b>then</b> suspect maternal effects or that males and females do not come from the same population.</td></tr>
+      <tr><td><b>If</b> in the triple test cross the contrast L<sub>1</sub> + L<sub>2</sub> − 2L<sub>3</sub> is significant…</td><td><b>then</b> there is epistasis, provided L<sub>3</sub> really is the F<sub>1</sub>: check <span class="ui">F₁ tester (L₃)</span>.</td></tr>
+      <tr><td><b>If</b> in line × tester the interaction dominates and σ²<sub>A</sub> is imprecise…</td><td><b>then</b> almost all the variation among crosses is specific; a few purposely chosen testers do not estimate the σ²<sub>A</sub> of a population.</td></tr>
+    </tbody></table>
+    <p class="regla-pie">The test that a component is zero is the F of its source, not its standard error.</p>
+  </div>
+
+  <h3 class="ap-cap"><span class="chip k7">B7</span>Generations and heterosis</h3>
+
+  <div class="caja regla">
+    <div class="caja-t"><span class="ico">✓</span>Decision rule · the variance of each mean<span class="sec-ref">Section 7.3</span></div>
+    <table class="compacta"><tbody>
+      <tr><td style="width:46%"><b>If</b> the plants were randomized one by one (or there is one plant per plot)…</td><td><b>then</b> the variance among individuals divided by their number, s²/n.</td></tr>
+      <tr><td><b>If</b> there are replicated plots of several plants…</td><td><b>then</b> the plot error without blocks, which is what <span class="ui">automatic</span> does.</td></tr>
+      <tr><td><b>If</b> there is a single value per plot…</td><td><b>then</b> the residual mean square; there is no D, H, F, E nor effective factors.</td></tr>
+      <tr><td><b>If</b> there are plots and <span class="ui">among individuals / n</span> is forced…</td><td><b>then</b> the standard errors come out too small and any difference looks significant: do not do it.</td></tr>
+    </tbody></table>
+    <p class="regla-pie">The blocks do not enter the variance of the means: each generation is in all of them and their effect cancels out in the comparisons.</p>
+  </div>
+
+  <div class="caja regla">
+    <div class="caja-t"><span class="ico">✓</span>Reading rule · scaling, models and heterosis<span class="sec-ref">Sections 7.4 to 7.7</span></div>
+    <table class="compacta"><tbody>
+      <tr><td style="width:46%"><b>If</b> a single scaling test is significant…</td><td><b>then</b> the additive–dominance model is not enough; the joint test says which epistasis is needed.</td></tr>
+      <tr><td><b>If</b> the scaling tests fail…</td><td><b>then</b> before adding epistasis try a transformation of the trait: it may be a scale effect.</td></tr>
+      <tr><td><b>If</b> [h] and [l] are significant with the same sign · with opposite signs…</td><td><b>then</b> complementary · duplicate epistasis (in the chosen metric).</td></tr>
+      <tr><td><b>If</b> D comes out negative…</td><td><b>then</b> there are few plants, linkage or epistasis; read Warner’s h² and H² from the F<sub>2</sub>.</td></tr>
+      <tr><td><b>If</b> the question is gene action · whether the F<sub>1</sub> is worthwhile…</td><td><b>then</b> read heterosis over the parents · standard heterosis against the check.</td></tr>
+    </tbody></table>
+    <p class="regla-pie">The difference is what is tested, with its standard error and Satterthwaite degrees of freedom; the percentage only helps to read it.</p>
+  </div>
+
+  <h3 class="ap-cap"><span class="chip k8">B8</span>Genetic parameters and selection</h3>
+
+  <div class="caja regla">
+    <div class="caja-t"><span class="ico">✓</span>Reading rule · a heritability<span class="sec-ref">Sections 8.2 to 8.4</span></div>
+    <table class="compacta"><tbody>
+      <tr><td style="width:46%"><b>If</b> H² on a mean basis &lt; 0.3 · 0.3 to 0.6 · &gt; 0.6…</td><td><b>then</b> low · medium · high (the gray band of Figure 8.2).</td></tr>
+      <tr><td><b>If</b> Knapp’s interval is wide (few genotypes)…</td><td><b>then</b> the class is uncertain: report the interval, not just the value.</td></tr>
+      <tr><td><b>If</b> there are several environments…</td><td><b>then</b> use the combined H², with σ²<sub>GE</sub>; that of a single environment mixes the interaction with the genetic part.</td></tr>
+      <tr><td><b>If</b> the trial has incomplete blocks or is unbalanced…</td><td><b>then</b> Cullis’s H².</td></tr>
+    </tbody></table>
+    <p class="regla-pie">With a negative σ²<sub>G</sub> the heritability is reported as it is, but genetic advance is taken as zero.</p>
+  </div>
+
+  <div class="caja regla">
+    <div class="caja-t"><span class="ico">✓</span>Decision rule · when to trust path analysis<span class="sec-ref">Section 8.6</span></div>
+    <table class="compacta"><tbody>
+      <tr><td style="width:46%"><b>If</b> the app does not show the table (the matrix is not positive definite or R² &gt; 1)…</td><td><b>then</b> use the phenotypic correlations, remove traits with small σ²<sub>G</sub> or increase the ridge constant.</td></tr>
+      <tr><td><b>If</b> the condition number exceeds 100 or there are large VIFs…</td><td><b>then</b> the direct effects are unstable even if the matrix is valid.</td></tr>
+      <tr><td><b>If</b> a direct effect is small and the total correlation large…</td><td><b>then</b> the trait acts through others: its indirect effects tell you so.</td></tr>
+    </tbody></table>
+  </div>
+
+  <div class="caja regla">
+    <div class="caja-t"><span class="ico">✓</span>Decision rule · which selection index to use<span class="sec-ref">Sections 8.7 and 8.8</span></div>
+    <table class="compacta"><tbody>
+      <tr><td style="width:46%"><b>If</b> P, G and the economic weights are well estimated…</td><td><b>then</b> Smith–Hazel.</td></tr>
+      <tr><td><b>If</b> G and P are unreliable…</td><td><b>then</b> the base index (b = w).</td></tr>
+      <tr><td><b>If</b> a trait must not change…</td><td><b>then</b> the restricted index.</td></tr>
+      <tr><td><b>If</b> the ratio between gains matters…</td><td><b>then</b> the proportional gains index, with θ &gt; 0.</td></tr>
+      <tr><td><b>If</b> there are no economic weights…</td><td><b>then</b> the desired gains index, or the eigen index (ESIM) for the most heritable combination.</td></tr>
+      <tr><td><b>If</b> there is neither P nor G…</td><td><b>then</b> the rank-sum of Mulamba and Mock or Elston’s index.</td></tr>
+    </tbody></table>
+    <p class="regla-pie">The coefficients are not interpreted one by one: what matters are the expected gains in each trait.</p>
+  </div>
+
+  <h3 class="ap-cap"><span class="chip k9">B9</span>Genotype × environment interaction</h3>
+
+  <div class="caja regla">
+    <div class="caja-t"><span class="ico">✓</span>Reading rule · interaction and stability<span class="sec-ref">Sections 9.2 to 9.6</span></div>
+    <table class="compacta"><tbody>
+      <tr><td style="width:46%"><b>If</b> the environments are a sample of the region · are the only ones of interest…</td><td><b>then</b> test the genotypes against the interaction · against the error.</td></tr>
+      <tr><td><b>If</b> Bartlett’s test rejects equal errors…</td><td><b>then</b> read the two-stage analysis.</td></tr>
+      <tr><td><b>If</b> b does not differ from 1 and S²<sub>d</sub> is not significant…</td><td><b>then</b> broad, predictable adaptation; b &gt; 1, it takes advantage of good environments; b &lt; 1, it holds up in poor ones.</td></tr>
+      <tr><td><b>If</b> S²<sub>d</sub> is significant…</td><td><b>then</b> the genotype’s response is unpredictable, even if its mean is high.</td></tr>
+      <tr><td><b>If</b> you sort by the mean rank of the summary…</td><td><b>then</b> use it to order the discussion, not to decide: it adds up statistics that measure different things.</td></tr>
+    </tbody></table>
+    <p class="regla-pie">Static stability, in which the genotype yields the same in every environment, is rarely desirable for yield: a genotype that does not change does not take advantage of good environments.</p>
+  </div>
+
+  <div class="caja regla">
+    <div class="caja-t"><span class="ico">✓</span>Decision rule · AMMI and the GGE biplot<span class="sec-ref">Sections 9.7 and 9.8</span></div>
+    <table class="compacta"><tbody>
+      <tr><td style="width:46%"><b>If</b> you must decide how many AMMI axes to retain…</td><td><b>then</b> Cornelius’s residual test; Gollob’s is liberal.</td></tr>
+      <tr><td><b>If</b> a genotype has a high mean and a low WAAS…</td><td><b>then</b> it is desirable: quadrant IV of WAAS against the mean.</td></tr>
+      <tr><td><b>If</b> the first two GGE components explain less than 60%…</td><td><b>then</b> read the biplot with caution.</td></tr>
+      <tr><td><b>If</b> the which-won-where view forms sectors…</td><td><b>then</b> they are mega-environments only if the pattern recurs in other years.</td></tr>
+      <tr><td><b>If</b> you are looking for a test environment…</td><td><b>then</b> one that is long and close to the average-environment axis; a long one with a large angle serves to discard unstable genotypes.</td></tr>
+    </tbody></table>
+  </div>
+
+  <h3 class="ap-cap"><span class="chip k10">B10</span>Mixed models, BLUP and crossbreeding</h3>
+
+  <div class="caja regla">
+    <div class="caja-t"><span class="ico">✓</span>Decision rule · the mixed model<span class="sec-ref">Sections 10.3 and 10.4</span></div>
+    <table class="compacta"><tbody>
+      <tr><td style="width:46%"><b>If</b> there are hundreds of records · only a few…</td><td><b>then</b> estimate the variances by REML · give them as known, from the literature or from a larger population.</td></tr>
+      <tr><td><b>If</b> you want to know whether a random effect is needed…</td><td><b>then</b> read the likelihood ratio against the ½χ²<sub>0</sub> + ½χ²<sub>1</sub> mixture; compare only models with the same fixed effects.</td></tr>
+      <tr><td><b>If</b> there are many small contemporary groups…</td><td><b>then</b> the group as a random effect.</td></tr>
+      <tr><td><b>If</b> there are individuals with several records…</td><td><b>then</b> add the permanent environment.</td></tr>
+      <tr><td><b>If</b> the model exceeds 2,600 unknowns…</td><td><b>then</b> trim the pedigree to the ancestors of the individuals with records.</td></tr>
+    </tbody></table>
+  </div>
+
+  <div class="caja regla">
+    <div class="caja-t"><span class="ico">✓</span>Reading rule · breeding values and crossbreeding<span class="sec-ref">Sections 10.3, 10.5 and 10.6</span></div>
+    <table class="compacta"><tbody>
+      <tr><td style="width:46%"><b>If</b> the standard error of prediction is as large as the differences…</td><td><b>then</b> still choose by breeding value: it already discounts that uncertainty.</td></tr>
+      <tr><td><b>If</b> plots are missing, replicates are unequal or the heritability is low…</td><td><b>then</b> the trial BLUP beats the mean; with families of few plots, the relationships (K = A) help most.</td></tr>
+      <tr><td><b>If</b> you split the additive and non-additive parts with few families…</td><td><b>then</b> the split is not reliable: also look at the additive-only model.</td></tr>
+      <tr><td><b>If</b> you take the recombination loss from a paper…</td><td><b>then</b> use its same convention, /4 or /2.</td></tr>
+      <tr><td><b>If</b> a parameter comes out not estimable…</td><td><b>then</b> the groups do not separate it: add backcrosses, F<sub>2</sub> or three-breed crosses.</td></tr>
+    </tbody></table>
+  </div>
+
+  <h3 class="ap-cap"><span class="chip k11">B11</span>Genomic selection and hybrid prediction</h3>
+
+  <div class="caja regla">
+    <div class="caja-t"><span class="ico">✓</span>Decision rule · markers and GBLUP<span class="sec-ref">Sections 11.2 to 11.4</span></div>
+    <table class="compacta"><tbody>
+      <tr><td style="width:46%"><b>If</b> you have no other criterion for quality control…</td><td><b>then</b> the default values: up to 20% missing per marker and per individual, and a MAF of 0.05 or more.</td></tr>
+      <tr><td><b>If</b> there are few markers and Block 10 has the pedigree…</td><td><b>then</b> blend G with A (<span class="ui">Weight of the pedigree</span>).</td></tr>
+      <tr><td><b>If</b> an individual hardly resembles its supposed sire genomically…</td><td><b>then</b> suspect a pedigree error.</td></tr>
+      <tr><td><b>If</b> the genomic heritability comes out lower than that of the trial…</td><td><b>then</b> some of the QTL are not in disequilibrium with the panel.</td></tr>
+      <tr><td><b>If</b> a marker has a large effect…</td><td><b>then</b> it deserves a look, not a conclusion: association is tested with other methods.</td></tr>
+    </tbody></table>
+  </div>
+
+  <div class="caja regla">
+    <div class="caja-t"><span class="ico">✓</span>Reading rule · validation and hybrid prediction<span class="sec-ref">Sections 11.5 and 11.6</span></div>
+    <table class="compacta"><tbody>
+      <tr><td style="width:46%"><b>If</b> you want to know how well the model predicts…</td><td><b>then</b> read the cross-validation, not the correlation with the individual’s own record, and leave <span class="ui">Re-estimate the variances in every training set</span> ticked.</td></tr>
+      <tr><td><b>If</b> the slope of the validation is close to 1…</td><td><b>then</b> the predictions neither exaggerate nor shrink the differences.</td></tr>
+      <tr><td><b>If</b> you compare genomic with phenotypic selection per year…</td><td><b>then</b> use the program’s real years per cycle: the ratio depends almost entirely on them.</td></tr>
+      <tr><td><b>If</b> T0 drops sharply compared with T2…</td><td><b>then</b> the new lines have no close relatives among the evaluated ones.</td></tr>
+      <tr><td><b>If</b> two lines are almost identical…</td><td><b>then</b> keep one: their crosses will give practically the same.</td></tr>
+    </tbody></table>
+  </div>
+
+  <h3 class="ap-cap"><span class="chip k12">B12</span>Report, figures and results package</h3>
+
+  <div class="caja regla">
+    <div class="caja-t"><span class="ico">✓</span>Decision rule · which output to use<span class="sec-ref">Sections 12.3 and 12.6</span></div>
+    <table class="compacta"><tbody>
+      <tr><td style="width:46%"><b>If</b> you are going to read, review or print…</td><td><b>then</b> the preview and <span class="ui">Print or save as PDF</span>.</td></tr>
+      <tr><td><b>If</b> you share it with someone who does not have the app…</td><td><b>then</b> <span class="ui">Download HTML</span>: it opens in any browser, offline.</td></tr>
+      <tr><td><b>If</b> you are writing a manuscript…</td><td><b>then</b> <span class="ui">Copy the methods</span>, and complete them with what happened in the field.</td></tr>
+      <tr><td><b>If</b> you are submitting to a journal or archiving a thesis…</td><td><b>then</b> the ZIP package; TIFF only for the figures you submit.</td></tr>
+      <tr><td><b>If</b> you need it in the other language…</td><td><b>then</b> switch <span class="ui">ES · EN</span> and build it again.</td></tr>
+    </tbody></table>
+    <p class="regla-pie">Each block enters with what it shows at that moment: if you change something in a block, build the report again.</p>
+  </div>
+
+  <!-- ====================================================================== C -->
+  <h2 id="ap-c"><span class="num">C</span>Glossary</h2>
+  <p class="lead">The terms, acronyms and symbols of the manual with a brief definition and the section where they are explained at leisure. Below each term, in parentheses, goes its Spanish name when it differs, as it appears in the app with the ES button and in the literature in Spanish.</p>
+
+  <h3>C.1 Acronyms</h3>
+  <table class="compacta">
+    <caption><b>Table C.1.</b> Acronyms of the manual and the app. In parentheses, the Spanish acronym when the app in Spanish or the Spanish literature uses a different one.</caption>
+    <thead><tr><th style="width:11%">Acronym</th><th style="width:39%">Meaning</th><th style="width:11%">Acronym</th><th>Meaning</th></tr></thead>
+    <tbody>
+      <tr><td><b>AMMI</b></td><td>Additive main effects and multiplicative interaction</td><td><b>GCA</b></td><td>General combining ability (ACG)</td></tr>
+      <tr><td><b>ANOVA</b></td><td>Analysis of variance</td><td><b>GEBV</b></td><td>Genomic estimated breeding value, in the results sheets</td></tr>
+      <tr><td><b>ASV</b></td><td>AMMI stability value (Block 9); in Block 11, the average semivariance of K (SM)</td><td><b>GGE</b></td><td>Genotype plus genotype × environment: what the GGE biplot draws</td></tr>
+      <tr><td><b>BC</b></td><td>Backcross (RC): BC<sub>1</sub> to P<sub>1</sub>, BC<sub>2</sub> to P<sub>2</sub></td><td><b>IPCA</b></td><td>Interaction principal component axis, in AMMI</td></tr>
+      <tr><td><b>BLUP</b></td><td>Best linear unbiased predictor</td><td><b>L × T</b></td><td>Line × tester (L × P)</td></tr>
+      <tr><td><b>CI</b></td><td>Confidence interval (IC)</td><td><b>LSD</b></td><td>Least significant difference (DMS)</td></tr>
+      <tr><td><b>CRD</b></td><td>Completely randomized design (CA)</td><td><b>MAF</b></td><td>Minor allele frequency</td></tr>
+      <tr><td><b>CV</b></td><td>Coefficient of variation; CV<sub>g</sub>, CV<sub>p</sub> and CV<sub>e</sub>: genetic, phenotypic and environmental</td><td><b>MS · MSE</b></td><td>Mean square · error mean square (CM · CME)</td></tr>
+      <tr><td><b>CV1</b></td><td>Cross-validation scheme that predicts new individuals</td><td><b>NC I, II, III</b></td><td>North Carolina designs (CN I, II, III)</td></tr>
+      <tr><td><b>DArT</b></td><td>Diversity Arrays Technology markers</td><td><b>PEV</b></td><td>Prediction error variance</td></tr>
+      <tr><td><b>df</b></td><td>Degrees of freedom (gl)</td><td><b>QTL</b></td><td>Quantitative trait locus</td></tr>
+      <tr><td><b>dpi</b></td><td>Dots per inch (ppp)</td><td><b>RCBD</b></td><td>Randomized complete block design (BCA)</td></tr>
+      <tr><td><b>EBV</b></td><td>Estimated breeding value (VG)</td><td><b>REML</b></td><td>Restricted maximum likelihood</td></tr>
+      <tr><td><b>EM</b></td><td>Expectation–maximization algorithm</td><td><b>RR-BLUP</b></td><td>Ridge-regression BLUP on the markers</td></tr>
+      <tr><td><b>ESIM</b></td><td>Eigen selection index</td><td><b>SCA</b></td><td>Specific combining ability (ACE)</td></tr>
+      <tr><td><b>F<sub>1</sub>, F<sub>2</sub>, F<sub>3</sub></b></td><td>First, second and third filial generation</td><td><b>SD · SE</b></td><td>Standard deviation · standard error (DE · EE)</td></tr>
+      <tr><td><b>G×E</b></td><td>Genotype × environment interaction (G×A)</td><td><b>SEP</b></td><td>Standard error of prediction: √PEV (EEP)</td></tr>
+      <tr><td><b>GA</b></td><td>Expected genetic advance (AG)</td><td><b>SNP</b></td><td>Single nucleotide polymorphism</td></tr>
+      <tr><td><b>GBLUP</b></td><td>Genomic BLUP: BLUP with the marker relationship matrix</td><td><b>SS</b></td><td>Sum of squares (SC)</td></tr>
+      <tr><td><b>T0, T1, T2</b></td><td>Classes of the hybrid validation: none, one or both parents with hybrids in the training set</td><td><b>TA</b></td><td>Transmitting ability: half the breeding value (HT)</td></tr>
+      <tr><td><b>VIF</b></td><td>Variance inflation factor</td><td><b>WAAS · WAASY</b></td><td>Weighted average of absolute AMMI scores · combined with the mean</td></tr>
+    </tbody>
+  </table>
+
+  <h3>C.2 Terms</h3>
+  <table class="compacta">
+    <caption><b>Table C.2.</b> Glossary in alphabetical order.</caption>
+    <thead><tr><th style="width:25%">Term</th><th>Definition</th><th style="width:9%" class="c">Section</th></tr></thead>
+    <tbody>
+      <tr class="letra"><td colspan="3">A</td></tr>
+      <tr><td class="termino"><b>Accuracy</b><br><span class="small">(exactitud)</span></td><td>Correlation between the true and the predicted value. In cross-validation it is approximated by r/√h².</td><td class="c">10.3, 11.5</td></tr>
+      <tr><td class="termino"><b>Additive and dominance variance</b> (σ²<sub>A</sub>, σ²<sub>D</sub>)<br><span class="small">(varianza aditiva y de dominancia)</span></td><td>Variance of the breeding values and of the dominance deviations. Selection exploits σ²<sub>A</sub>; hybrids also exploit σ²<sub>D</sub>.</td><td class="c">I.3, 4.5</td></tr>
+      <tr><td class="termino"><b>Adjusted mean</b><br><span class="small">(media ajustada)</span></td><td>Mean of an entry corrected for the effects of the design (blocks, replicates), comparable across entries.</td><td class="c">3.6</td></tr>
+      <tr><td class="termino"><b>Alpha lattice</b><br><span class="small">(látice α)</span></td><td>Resolvable incomplete block design: each replicate is divided into small blocks, which absorb the heterogeneity of the land.</td><td class="c">2.4</td></tr>
+      <tr><td class="termino"><b>AMMI</b></td><td>Model that fits the effects of genotypes and environments and decomposes the interaction into a few multiplicative axes (IPCA); the rest is taken as noise.</td><td class="c">9.7</td></tr>
+      <tr><td class="termino"><b>Animal model</b><br><span class="small">(modelo animal)</span></td><td>Mixed model in which each individual in the pedigree has its breeding value, whether or not it has records.</td><td class="c">10.3</td></tr>
+      <tr><td class="termino"><b>Augmented design</b><br><span class="small">(bloques aumentados)</span></td><td>Design in which some checks are repeated in each block and the new entries appear only once; the checks estimate the block effects.</td><td class="c">2.4, 3.8</td></tr>
+      <tr><td class="termino"><b>Average degree of dominance</b><br><span class="small">(grado medio de dominancia)</span></td><td>√(H<sub>1</sub>/D) or √(2σ²<sub>D</sub>/σ²<sub>A</sub>): 0 without dominance, between 0 and 1 partial, 1 complete and more than 1 apparent overdominance.</td><td class="c">4.5, 5.4</td></tr>
+      <tr><td class="termino"><b>Average semivariance</b> (ASV)<br><span class="small">(semivarianza media, SM)</span></td><td>tr(K)/n − 1′K1/n²: converts σ²<sub>g</sub> into the genetic variance among the individuals analyzed.</td><td class="c">11.4</td></tr>
+      <tr class="letra"><td colspan="3">B</td></tr>
+      <tr><td class="termino"><b>Baker’s ratio</b><br><span class="small">(razón de Baker)</span></td><td>2σ²<sub>GCA</sub>/(2σ²<sub>GCA</sub> + σ²<sub>SCA</sub>): close to 1, GCA predicts the crosses well.</td><td class="c">4.5</td></tr>
+      <tr><td class="termino"><b>Bending</b><br><span class="small">(doblado de una matriz)</span></td><td>Correction of an impossible covariance matrix (negative eigenvalues) to make it possible, changing it as little as possible.</td><td class="c">8.7</td></tr>
+      <tr><td class="termino"><b>BLUP</b></td><td>Prediction of a random effect that shrinks extreme values toward the mean according to their precision and makes use of relationships.</td><td class="c">10.3</td></tr>
+      <tr><td class="termino"><b>Boundary</b><br><span class="small">(frontera)</span></td><td>A variance estimated by REML that ends up at zero. It is reported as such, without a standard error, and its test uses a mixture of χ².</td><td class="c">I.9, 10.3</td></tr>
+      <tr><td class="termino"><b>Breeding value</b><br><span class="small">(valor genético)</span></td><td>Value of an individual as a parent: twice the mean deviation of its progeny from the population.</td><td class="c">10.3</td></tr>
+      <tr><td class="termino"><b>Broad-sense heritability</b> (H²)<br><span class="small">(heredabilidad en sentido amplio)</span></td><td>Genetic fraction of the phenotypic variance, σ²<sub>G</sub>/σ²<sub>P</sub>, on a plot or a genotype-mean basis.</td><td class="c">I.3, 8.2</td></tr>
+      <tr class="letra"><td colspan="3">C</td></tr>
+      <tr><td class="termino"><b>Check</b><br><span class="small">(testigo)</span></td><td>Known variety or hybrid sown with the entries to compare them; it does not enter selection.</td><td class="c">3.3, 7.7</td></tr>
+      <tr><td class="termino"><b>Coancestry</b><br><span class="small">(coancestría)</span></td><td>Probability that two alleles taken at random, one from each individual, are identical by descent. The inbreeding of an offspring is the coancestry of its parents.</td><td class="c">10.2</td></tr>
+      <tr><td class="termino"><b>Combined analysis</b><br><span class="small">(análisis combinado)</span></td><td>The analysis of all environments together, with the entry × environment interaction. It is fitted in one stage or, if the model is very large, in two.</td><td class="c">3.7</td></tr>
+      <tr><td class="termino"><b>Condition number</b><br><span class="small">(número de condición)</span></td><td>Ratio between the largest and the smallest eigenvalue of the correlation matrix; more than 100 indicates strong collinearity.</td><td class="c">8.6</td></tr>
+      <tr><td class="termino"><b>Contemporary group</b><br><span class="small">(grupo contemporáneo)</span></td><td>Animals raised together, under the same management and season; it is fitted as a fixed or random effect.</td><td class="c">10.4</td></tr>
+      <tr><td class="termino"><b>Cross-validation</b><br><span class="small">(validación cruzada)</span></td><td>Predicting a group of individuals with a model fitted without them and comparing with what was observed; it measures the real predictive ability.</td><td class="c">11.5</td></tr>
+      <tr><td class="termino"><b>Cullis heritability</b><br><span class="small">(heredabilidad de Cullis)</span></td><td>Generalized heritability 1 − v<sub>Δ</sub>/(2σ²<sub>g</sub>), with the average variance of a difference between two means; valid with unbalanced data and incomplete blocks.</td><td class="c">3.6</td></tr>
+      <tr class="letra"><td colspan="3">D</td></tr>
+      <tr><td class="termino"><b>Diallel cross</b><br><span class="small">(dialelo)</span></td><td>All possible crosses among a group of parents. Griffing distinguished four methods, depending on whether the parents and the reciprocals are included.</td><td class="c">4.1</td></tr>
+      <tr class="letra"><td colspan="3">E</td></tr>
+      <tr><td class="termino"><b>Ecovalence</b><br><span class="small">(ecovalencia)</span></td><td>Sum of the squared residuals of a genotype in the additive model: its contribution to the interaction (Wricke).</td><td class="c">9.5</td></tr>
+      <tr><td class="termino"><b>Effective factors</b><br><span class="small">(factores efectivos)</span></td><td>Minimum number of genes that separate two parents, estimated with the Castle–Wright formula. It is a lower bound.</td><td class="c">7.8</td></tr>
+      <tr><td class="termino"><b>Efficiency</b><br><span class="small">(eficiencia)</span></td><td>How much a design with incomplete blocks improves on complete blocks in the precision of comparisons among entries.</td><td class="c">2.4, 3.6</td></tr>
+      <tr><td class="termino"><b>Environmental index</b><br><span class="small">(índice ambiental)</span></td><td>Mean of an environment minus the grand mean: it measures how good the environment was.</td><td class="c">9.4</td></tr>
+      <tr><td class="termino"><b>Epistasis</b></td><td>Interaction between genes at different loci. In generation means: additive × additive [i], additive × dominance [j] and dominance × dominance [l]; complementary or duplicate depending on the signs of [h] and [l].</td><td class="c">7.1, 7.5</td></tr>
+      <tr><td class="termino"><b>Expected mean square</b><br><span class="small">(cuadrado medio esperado)</span></td><td>Combination of variances that a mean square estimates. Block 6 computes it for the actual experiment, by traces, instead of copying it from a table.</td><td class="c">6.3</td></tr>
+      <tr class="letra"><td colspan="3">F</td></tr>
+      <tr><td class="termino"><b>F∞ and F<sub>2</sub> metrics</b><br><span class="small">(métrica F∞ y F₂)</span></td><td>Two origins for the parameters of generation means: the mean of the pure lines the cross can yield (Mather and Jinks) or the F<sub>2</sub> (Hayman).</td><td class="c">7.5</td></tr>
+      <tr><td class="termino"><b>Founder</b><br><span class="small">(fundador)</span></td><td>Individual in the pedigree with no known parents; the founders form the base, whose mean breeding value is 0.</td><td class="c">10.2</td></tr>
+      <tr class="letra"><td colspan="3">G</td></tr>
+      <tr><td class="termino"><b>GBLUP</b></td><td>BLUP with the genomic relationship matrix G. It is equivalent to ridge regression on all the markers (RR-BLUP).</td><td class="c">11.4</td></tr>
+      <tr><td class="termino"><b>General combining ability</b> (GCA)<br><span class="small">(aptitud combinatoria general, ACG)</span></td><td>Average performance of a parent in its crosses, as a deviation from the grand mean. It depends mainly on the additive variance.</td><td class="c">I.3, 4.4</td></tr>
+      <tr><td class="termino"><b>Genetic advance</b> (GA)<br><span class="small">(avance genético, AG)</span></td><td>How much the mean would rise if the chosen proportion were selected on its phenotypic mean: i·σ<sub>P</sub>·H².</td><td class="c">8.2</td></tr>
+      <tr><td class="termino"><b>Genomic heritability</b><br><span class="small">(heredabilidad genómica)</span></td><td>The part of the variance the markers capture. It is lower than the true one if some of the QTL are not in disequilibrium with the panel.</td><td class="c">11.4</td></tr>
+      <tr><td class="termino"><b>Genotype × environment interaction</b><br><span class="small">(interacción genotipo × ambiente)</span></td><td>Change in the ranking of or the differences among genotypes from one environment to another.</td><td class="c">9.2</td></tr>
+      <tr class="letra"><td colspan="3">H</td></tr>
+      <tr><td class="termino"><b>Heterosis</b></td><td>Superiority of the F<sub>1</sub> over the mean of its parents or over the better of them. In a variety diallel it is split into average, variety and specific heterosis.</td><td class="c">5.6, 7.7</td></tr>
+      <tr><td class="termino"><b>Heterotic group</b><br><span class="small">(grupo heterótico)</span></td><td>Set of lines that are crossed with those of another group and not among themselves, such as the dent and flint lines of maize.</td><td class="c">11.6</td></tr>
+      <tr class="letra"><td colspan="3">I</td></tr>
+      <tr><td class="termino"><b>Ideal genotype</b><br><span class="small">(genotipo ideal)</span></td><td>Point of the GGE biplot with the highest mean and the greatest stability; it serves as a reference for comparing the others.</td><td class="c">9.8</td></tr>
+      <tr><td class="termino"><b>Inbreeding coefficient</b> (F)<br><span class="small">(consanguinidad)</span></td><td>Probability that the two alleles at a locus of an individual are identical by descent. It is 1 in a pure line.</td><td class="c">10.2</td></tr>
+      <tr><td class="termino"><b>Inbreeding depression</b><br><span class="small">(depresión endogámica)</span></td><td>What the F<sub>2</sub> loses relative to the F<sub>1</sub>: F<sub>1</sub> − F<sub>2</sub>. Without epistasis, the F<sub>2</sub> keeps half the heterosis.</td><td class="c">7.7</td></tr>
+      <tr><td class="termino"><b>Individual and maternal heterosis</b><br><span class="small">(heterosis individual y materna)</span></td><td>In crossbreeding, the advantage of the crossbred individual and that of having a crossbred dam.</td><td class="c">10.6</td></tr>
+      <tr class="letra"><td colspan="3">J</td></tr>
+      <tr><td class="termino"><b>Joint scaling test</b><br><span class="small">(prueba conjunta de escala)</span></td><td>Weighted least-squares fit of the means of all generations; its χ² says whether the model is enough (Cavalli).</td><td class="c">7.5</td></tr>
+      <tr class="letra"><td colspan="3">L</td></tr>
+      <tr><td class="termino"><b>Least significant difference</b> (LSD)<br><span class="small">(diferencia mínima significativa, DMS)</span></td><td>The smallest difference between two means that is significant at the chosen level.</td><td class="c">I.9, 3.6</td></tr>
+      <tr><td class="termino"><b>Line × tester</b><br><span class="small">(línea × probador)</span></td><td>Each line is crossed with a few testers; it gives the GCA of lines and testers and the SCA of their crosses.</td><td class="c">6.8</td></tr>
+      <tr class="letra"><td colspan="3">M</td></tr>
+      <tr><td class="termino"><b>Maternal effect</b><br><span class="small">(efecto materno)</span></td><td>Part of an individual’s value that depends on its mother and not on its own genes. In a diallel, the systematic difference between reciprocal crosses; in the animal model, the maternal breeding value of the dam.</td><td class="c">4.4, 10.4</td></tr>
+      <tr><td class="termino"><b>Mega-environment</b><br><span class="small">(megaambiente)</span></td><td>Group of environments with the same winning genotype, which recurs over the years.</td><td class="c">9.8</td></tr>
+      <tr><td class="termino"><b>Mendelian sampling</b><br><span class="small">(muestreo mendeliano)</span></td><td>The part of an offspring’s breeding value that is not the average of its parents; its relative variance, b, enters the inverse of A.</td><td class="c">10.2</td></tr>
+      <tr><td class="termino"><b>Model I and model II</b><br><span class="small">(modelo I y modelo II)</span></td><td>Fixed parents or environments (only those are of interest) or random ones (a sample from a population). It changes the denominator of some tests.</td><td class="c">I.9, 4.1</td></tr>
+      <tr class="letra"><td colspan="3">N</td></tr>
+      <tr><td class="termino"><b>Narrow-sense heritability</b> (h²)<br><span class="small">(heredabilidad en sentido estrecho)</span></td><td>Additive fraction of the phenotypic variance, σ²<sub>A</sub>/σ²<sub>P</sub>: the one that determines the response to selection.</td><td class="c">4.5, 7.6</td></tr>
+      <tr><td class="termino"><b>North Carolina designs I, II and III</b><br><span class="small">(Carolina del Norte I, II y III)</span></td><td>Mating designs of Comstock and Robinson: hierarchical (each male with its own females), factorial (males × females) and each F<sub>2</sub> plant crossed to both parents of the F<sub>1</sub>.</td><td class="c">6.1</td></tr>
+      <tr class="letra"><td colspan="3">P</td></tr>
+      <tr><td class="termino"><b>Partial diallel</b><br><span class="small">(dialelo parcial)</span></td><td>Each parent is crossed with only s of the others, almost always in the circulant order of Kempthorne and Curnow.</td><td class="c">6.9</td></tr>
+      <tr><td class="termino"><b>Path analysis</b><br><span class="small">(análisis de sendas)</span></td><td>Decomposes the correlation of each trait with a dependent one into a direct effect and indirect effects through the others.</td><td class="c">8.6</td></tr>
+      <tr><td class="termino"><b>Permanent environment</b><br><span class="small">(ambiente permanente)</span></td><td>An individual’s own effect, with no relationships, that is repeated in all its records: what it has of good or bad from its history and not from its genes.</td><td class="c">10.4</td></tr>
+      <tr><td class="termino"><b>Plot error</b><br><span class="small">(error de parcela)</span></td><td>Variation among plots of the same entry not explained by their plants; in Block 7, σ²<sub>p</sub>.</td><td class="c">7.3</td></tr>
+      <tr><td class="termino"><b>Potence ratio</b><br><span class="small">(relación de potencia)</span></td><td>(F<sub>1</sub> − MP)/(½|P<sub>1</sub> − P<sub>2</sub>|): 0 intermediate inheritance, ±1 complete dominance, more than 1 apparent overdominance.</td><td class="c">7.7</td></tr>
+      <tr><td class="termino"><b>Power</b><br><span class="small">(potencia)</span></td><td>Probability that a test detects a difference that exists. Block 2 computes it before sowing.</td><td class="c">2.6</td></tr>
+      <tr class="letra"><td colspan="3">Q</td></tr>
+      <tr><td class="termino"><b>Quasi-F</b><br><span class="small">(cuasi-F)</span></td><td>F test whose denominator is a combination of mean squares, with Satterthwaite degrees of freedom; it is used when no single source serves as denominator.</td><td class="c">6.3</td></tr>
+      <tr class="letra"><td colspan="3">R</td></tr>
+      <tr><td class="termino"><b>Reciprocal effects</b><br><span class="small">(efectos recíprocos)</span></td><td>Differences between A × B and B × A. They are split into maternal (of the female) and non-maternal (specific to the pair).</td><td class="c">4.4</td></tr>
+      <tr><td class="termino"><b>Recombination loss</b><br><span class="small">(pérdida por recombinación)</span></td><td>What is lost when the favorable gene combinations of each breed are broken up; it appears in crosses whose parents are already crosses.</td><td class="c">10.6</td></tr>
+      <tr><td class="termino"><b>Relationship matrix</b> (A, G)<br><span class="small">(parentesco)</span></td><td>Twice the coancestry between two individuals: A from the pedigree, G from the markers.</td><td class="c">10.2, 11.3</td></tr>
+      <tr><td class="termino"><b>Reliability</b><br><span class="small">(confiabilidad)</span></td><td>Square of the correlation between the true and the predicted breeding value: 1 − PEV/[(1 + F)σ²<sub>a</sub>]. Its square root is the accuracy.</td><td class="c">10.3</td></tr>
+      <tr><td class="termino"><b>Reliability index</b> (Annicchiarico)<br><span class="small">(confiabilidad de Annicchiarico)</span></td><td>Relative performance, as a percentage of the mean of each environment, that a genotype exceeds with probability 1 − α.</td><td class="c">9.5</td></tr>
+      <tr><td class="termino"><b>Repeatability</b><br><span class="small">(repetibilidad)</span></td><td>Correlation between repeated records of an individual, (σ²<sub>a</sub> + σ²<sub>pe</sub>)/σ²<sub>P</sub>. The trial heritability of Block 3 is also a repeatability.</td><td class="c">3.6, 10.4</td></tr>
+      <tr><td class="termino"><b>Response to selection</b><br><span class="small">(respuesta a la selección)</span></td><td>Advance of the mean in the next generation: R = h²S = i·h·σ<sub>A</sub>.</td><td class="c">I.3, 8.9</td></tr>
+      <tr><td class="termino"><b>Restricted maximum likelihood</b> (REML)<br><span class="small">(máxima verosimilitud restringida)</span></td><td>Method for estimating variance components that discounts the degrees of freedom of the fixed effects; with balanced data it matches the moment estimators when these are not negative.</td><td class="c">3.6, 10.3</td></tr>
+      <tr><td class="termino"><b>Ridge</b><br><span class="small">(cresta)</span></td><td>Small amount added to the diagonal of a matrix so that it can be inverted or stabilized: the constant k of path analysis and the λ of the G matrix.</td><td class="c">8.6, 11.3</td></tr>
+      <tr><td class="termino"><b>Rotation and composite</b><br><span class="small">(rotación y compuesta)</span></td><td>Crossbreeding systems: in rotation, sires of two or three breeds are used in turn; the composite is a population formed from several breeds that mates at random.</td><td class="c">10.6</td></tr>
+      <tr class="letra"><td colspan="3">S</td></tr>
+      <tr><td class="termino"><b>Sampling error</b><br><span class="small">(error de muestreo)</span></td><td>Variation among the plants of the same plot; it is separated from the plot error when there are data per plant.</td><td class="c">3.8</td></tr>
+      <tr><td class="termino"><b>Scaling tests</b><br><span class="small">(pruebas de escala)</span></td><td>Contrasts A, B, C and D among generation means that are zero if the additive–dominance model is enough (Mather).</td><td class="c">7.4</td></tr>
+      <tr><td class="termino"><b>Selection index</b><br><span class="small">(índice de selección)</span></td><td>Linear combination of traits, I = b′y, for choosing the genotypes that most improve an aggregate breeding value.</td><td class="c">8.7</td></tr>
+      <tr><td class="termino"><b>Selection intensity</b> (i)<br><span class="small">(intensidad de selección)</span></td><td>Superiority of the selected individuals in standard deviations. Some books call it k.</td><td class="c">8.3</td></tr>
+      <tr><td class="termino"><b>Sire model</b><br><span class="small">(modelo de padres)</span></td><td>Model in which the random effect is the transmitting ability of each sire; smaller, but it ignores the dams.</td><td class="c">10.4</td></tr>
+      <tr><td class="termino"><b>Specific combining ability</b> (SCA)<br><span class="small">(aptitud combinatoria específica, ACE)</span></td><td>How much a cross yields above or below what the GCA of its parents predicts. It reflects dominance and epistasis.</td><td class="c">I.3, 4.4</td></tr>
+      <tr><td class="termino"><b>Stability variance</b><br><span class="small">(varianza de estabilidad)</span></td><td>The contribution of a genotype to the interaction in the form of a variance, which can be tested against the error (Shukla).</td><td class="c">9.5</td></tr>
+      <tr><td class="termino"><b>Standard heterosis</b><br><span class="small">(heterosis estándar)</span></td><td>Difference between the F<sub>1</sub> and a check sown in the same trial, as a percentage of the check mean.</td><td class="c">7.7</td></tr>
+      <tr><td class="termino"><b>Static and dynamic stability</b><br><span class="small">(estabilidad estática y dinámica)</span></td><td>Yielding the same in every environment, or following the average pattern of the environments. Stability statistics measure one or the other.</td><td class="c">9.9</td></tr>
+      <tr><td class="termino"><b>Studentized residual</b><br><span class="small">(residual estudentizado)</span></td><td>Residual of a plot divided by its standard deviation estimated without it; it is used to flag outliers.</td><td class="c">3.5</td></tr>
+      <tr><td class="termino"><b>Superiority measure</b> (Lin and Binns)<br><span class="small">(superioridad de Lin y Binns)</span></td><td>Mean distance of a genotype from the best one in each environment; the smaller, the better. It combines mean and stability.</td><td class="c">9.5</td></tr>
+      <tr class="letra"><td colspan="3">T</td></tr>
+      <tr><td class="termino"><b>Three-way and double crosses</b><br><span class="small">(cruzas triples y dobles)</span></td><td>Crosses of three or four lines; they are predicted with Jenkins’s rules from the nonparental single crosses.</td><td class="c">11.6</td></tr>
+      <tr><td class="termino"><b>Triple test cross</b><br><span class="small">(cruza triple de prueba)</span></td><td>Each F<sub>2</sub> plant is crossed with both parents and with their F<sub>1</sub>; besides σ²<sub>A</sub> and σ²<sub>D</sub>, it tests epistasis.</td><td class="c">6.7</td></tr>
+      <tr><td class="termino"><b>Two-stage analysis</b><br><span class="small">(análisis en dos etapas)</span></td><td>First the adjusted means of each environment with their error; then a model of the genotype × environment table in which each mean is weighted by the precision of its environment.</td><td class="c">9.3</td></tr>
+      <tr class="letra"><td colspan="3">W</td></tr>
+      <tr><td class="termino"><b>WAAS</b></td><td>Average of the absolute values of a genotype’s scores on the retained AMMI axes, weighted by the interaction each axis explains; the smaller, the more stable.</td><td class="c">9.7</td></tr>
+      <tr><td class="termino"><b>Wr–Vr graph</b><br><span class="small">(gráfico Wr–Vr)</span></td><td>Covariance of each array with the parents against its variance; its line tells the degree of dominance, and the position of each parent, how many dominant alleles it carries.</td><td class="c">5.5</td></tr>
+    </tbody>
+  </table>
+
+  <h3>C.3 Symbols with more than one meaning</h3>
+  <table class="compacta">
+    <caption><b>Table C.3.</b> The literature uses the same letters for different quantities; the block and the section make clear which one is meant.</caption>
+    <thead><tr><th style="width:12%">Symbol</th><th>Meanings (section)</th></tr></thead>
+    <tbody>
+      <tr><td class="f">F</td><td>Inbreeding of the individual or of the parents (6.2, 10.2) · component F of the variances, Σdh (5.4, 7.6) · F statistic (I.9) · generations F<sub>1</sub>, F<sub>2</sub>, F<sub>3</sub> (7.1).</td></tr>
+      <tr><td class="f">D, H</td><td>Hayman’s additive and dominance components, D, H<sub>1</sub> and H<sub>2</sub> (5.4), and those of the generation variances (7.6) · scaling test D (7.4) · aggregate breeding value H = w′g of the index (8.7).</td></tr>
+      <tr><td class="f">E</td><td>Environmental component (5.4, 7.6) · efficiency factor of a lattice (2.4).</td></tr>
+      <tr><td class="f">h, H²</td><td>Narrow-sense heritability h² and broad-sense H² (4.5, 8.2) · dominance effect [h] of the means (7.1) · Hayman’s h², the net dominance (5.4) · heterosis coefficients h<sup>I</sup> and h<sup>M</sup> (10.6) · phenotypic accuracy h (11.5).</td></tr>
+      <tr><td class="f">i</td><td>Selection intensity (8.3) · additive × additive epistasis [i] (7.1).</td></tr>
+      <tr><td class="f">b</td><td>Slope on the environmental index (9.4) · slope of the Wr–Vr line (5.5) · Mendelian sampling variance (10.2) · coefficients of a selection index (8.7).</td></tr>
+      <tr><td class="f">r</td><td>Number of replicates (3.6) · correlation (8.5) · reliability r² (10.3) · predictive ability (11.5) · recombination loss r<sup>I</sup> (10.6).</td></tr>
+      <tr><td class="f">A</td><td>Pedigree relationship matrix (10.2) · scaling test A (7.4) · additive variance σ²<sub>A</sub> (4.5).</td></tr>
+      <tr><td class="f">G</td><td>Genomic relationship matrix (11.3) · genotypic covariance matrix of an index (8.7) · effect of the genotypes in the GGE biplot (9.8).</td></tr>
+      <tr><td class="f">P</td><td>Phenotypic covariance matrix (8.7) · parents P<sub>1</sub> and P<sub>2</sub> (7.1) · P value (I.9).</td></tr>
+      <tr><td class="f">W</td><td>Wricke’s ecovalence W<sub>i</sub> (9.5) · Annicchiarico’s reliability W<sub>i</sub> (9.5) · Hayman’s covariance W<sub>r</sub> (5.5).</td></tr>
+      <tr><td class="f">S</td><td>Selection differential (I.3, 8.8) · deviations from regression S²<sub>d</sub> (9.4) · Huehn’s rank statistics S<sup>(1)</sup> to S<sup>(6)</sup> (9.6) · in Spanish, the average semivariance SM, which the app in English calls ASV (11.4).</td></tr>
+      <tr><td class="f">d</td><td>Additive effects [d] of the means (7.1) · desired gains of an index (8.7) · dominance deviation at a locus, d/a (1.2).</td></tr>
+      <tr><td class="f">k</td><td>Plants per plot (7.3) · ridge constant of path analysis (8.6) · block size of a lattice (A.3) · selection intensity in some books (8.3).</td></tr>
+      <tr><td class="f">λ</td><td>Ridge of the G matrix (11.3) · eigenvalue λ² of the eigen index (8.7).</td></tr>
+      <tr><td class="f">s</td><td>Crosses per parent in a partial diallel (6.9) · SCA effect ŝ<sub>ij</sub> (4.4) · variance among plants s² (7.3).</td></tr>
+      <tr><td class="f">m</td><td>Mean of the generation means (7.1) · maternal effect m<sub>i</sub> of a diallel (4.4) · fraction m² of the maternal genetic effect (10.4).</td></tr>
+      <tr><td class="f">σ²<sub>p</sub>, σ²<sub>P</sub></td><td>Plot error of Block 7 (7.3) · phenotypic variance of the animal model (10.3).</td></tr>
+    </tbody>
+  </table>
+
+  <!-- ====================================================================== D -->
+  <h2 id="ap-d"><span class="num">D</span>Troubleshooting</h2>
+  <p class="lead">The most common problems, grouped by the moment they appear. Messages go in quotation marks, as they are seen on screen with the app in English; <code>{n}</code> marks a part that changes. Messages in red stop the analysis; amber ones only warn.</p>
+
+  <h3>D.1 Opening the app and keeping your work</h3>
+  <table class="compacta">
+    <caption><b>Table D.1.</b> Problems when opening the app and when coming back to it.</caption>
+    <thead><tr><th style="width:27%">Symptom or message</th><th style="width:27%">Cause</th><th>What to do</th><th style="width:7%" class="c">See</th></tr></thead>
+    <tbody>
+      <tr><td>The page shows no colors or buttons, or does not respond.</td><td>Folders next to <code>index.html</code> are missing (<code>js/</code>, <code>css/</code>, <code>vendor/</code>) or the browser is old.</td><td>Copy the whole <code>BreedingPro</code> folder and use an up-to-date browser.</td><td class="c">I.5</td></tr>
+      <tr><td>The institution does not allow pages to be opened as local files.</td><td>A browser or network policy.</td><td>Use <code>Open BreedingPro.bat</code>: it opens the same app with a server on your own computer (port 9200). Nothing leaves the machine.</td><td class="c">I.5</td></tr>
+      <tr><td>When the page is reloaded, the data and results disappear.</td><td>The app remembers only the language, the theme, the figure style and the Block 3 data sheet.</td><td>Download <span class="ui">Results (.xlsx)</span> from each block or the Block 12 package before closing, and load the file again.</td><td class="c">I.5</td></tr>
+      <tr><td>The data sheet does not appear on another computer, in another browser or in a private window.</td><td>It is saved in the browser where it was typed, and separately for each way of opening the app (double click or local server).</td><td>Always open the app the same way; to take the sheet elsewhere, <span class="ui">Save as</span>.</td><td class="c">3.2</td></tr>
+      <tr><td>The Block 2 field map came out different when built again.</td><td>Another random seed.</td><td>Type the seed saved in the <code>Design</code> sheet of the workbook or in the declaration line.</td><td class="c">2.5</td></tr>
+    </tbody>
+  </table>
+
+  <h3>D.2 Loading the data</h3>
+  <table class="compacta">
+    <caption><b>Table D.2.</b> Problems when reading a table in Block 3.</caption>
+    <thead><tr><th style="width:27%">Symptom or message</th><th style="width:27%">Cause</th><th>What to do</th><th style="width:7%" class="c">See</th></tr></thead>
+    <tbody>
+      <tr><td>“The entries column (genotype, cross or parents) is missing.” Cards 3 to 5 do not appear.</td><td>No column has the entry role, nor those of female and male.</td><td>In card 2, give the role <span class="ui">Entry / genotype</span> to the names column, or <span class="ui">Female / line / parent 1</span> and <span class="ui">Male / tester / parent 2</span> to the pedigree columns.</td><td class="c">3.3</td></tr>
+      <tr><td>“There is no response trait: mark at least one numeric column as "Response trait".”</td><td>The data columns were read as text or given another role.</td><td>Check the decimal separator and any text inside the numbers; mark the traits.</td><td class="c">3.3</td></tr>
+      <tr><td>A column of lot, furrow or code numbers appears as a trait.</td><td>Its name is not recognized and 90% or more of its cells are numbers.</td><td>Switch it to <span class="ui">Ignore</span>.</td><td class="c">3.3</td></tr>
+      <tr><td>Card 2 warns of non-numeric values in a trait.</td><td>Cells such as <code>12.5a</code> or notes written next to the datum: they are taken as missing.</td><td><span class="ui">Correct in the data sheet</span>, fix the value and <span class="ui">Use these data →</span>.</td><td class="c">3.2</td></tr>
+      <tr><td>Decimals are misread: <code>12,5</code> as text or as 125.</td><td>The column mixes decimal comma and point, or a comma-separated CSV carries decimal commas.</td><td>Choose the <span class="ui">Decimal separator</span>, or save the CSV with semicolons.</td><td class="c">3.3</td></tr>
+      <tr><td>The wrong sheet of the workbook was opened.</td><td>The one with the most data is opened.</td><td>Choose another in <span class="ui">Workbook sheet</span>.</td><td class="c">3.2</td></tr>
+      <tr><td>“The workbook has no sheets with data.”</td><td>The workbook is empty or its sheets have no values.</td><td>Check the file in the spreadsheet and save it with the values.</td><td class="c">3.2</td></tr>
+      <tr><td>The data come in wide form: one column per replicate or per environment.</td><td>The app needs one row per plot.</td><td><span class="ui">Columns → rows…</span>; a diallel in matrix form, with <span class="ui">Diallel table → rows</span>.</td><td class="c">3.3</td></tr>
+      <tr><td>Pasting does not work in the data sheet grid.</td><td>The browser does not allow the clipboard to be read.</td><td>Open <span class="ui">Pasting does not work in this browser? Paste into this box instead</span> and paste into the text box.</td><td class="c">3.2</td></tr>
+    </tbody>
+  </table>
+
+  <h3>D.3 Recognized design and field analysis</h3>
+  <table class="compacta">
+    <caption><b>Table D.3.</b> Problems with the design and the analysis of each environment.</caption>
+    <thead><tr><th style="width:27%">Symptom or message</th><th style="width:27%">Cause</th><th>What to do</th><th style="width:7%" class="c">See</th></tr></thead>
+    <tbody>
+      <tr><td>The mating design comes out with medium or low confidence.</td><td>Entries of the complete design are missing, the partial diallel is not circulant, crosses of the factorial are missing, the females of a North Carolina II repeat codes across males or there are fewer than 20 F<sub>2</sub> plants.</td><td>Read the reasons, check <span class="ui">Recognised entries</span> and, if needed, choose the design in the <span class="ui">Mating design</span> menu.</td><td class="c">3.4</td></tr>
+      <tr><td>A North Carolina I is recognized as II.</td><td>The females of each male repeat codes with those of other males.</td><td>Choose <span class="ui">North Carolina I</span> in the menu, or give the females unique codes.</td><td class="c">3.4</td></tr>
+      <tr><td>“{n} plots hold more than one entry (e.g., plot {k}).”</td><td>A data-entry error in the plot or entry column.</td><td>Correct the data: a plot cannot have two entries.</td><td class="c">3.4</td></tr>
+      <tr><td>The row–column design is not used even though the data have row and column.</td><td>It is never chosen on its own.</td><td>Choose <span class="ui">Rows and columns</span> in the <span class="ui">Field design</span> menu.</td><td class="c">3.4</td></tr>
+      <tr><td>A lattice or a row–column design was analyzed as complete blocks.</td><td>The data have no real incomplete blocks, or the row and column columns are missing.</td><td>That is correct; if it is not, check the roles of the block, row and column columns.</td><td class="c">3.8</td></tr>
+      <tr><td>The environment is left without an error, without tests or LSD.</td><td>A single value per entry: they are means.</td><td>Type the <span class="ui">Error of the original experiment</span>: mean square, degrees of freedom, scale and replicates.</td><td class="c">3.8</td></tr>
+      <tr><td>Two plots of the same entry come out as outliers with the same |t|.</td><td>With two replicates, the two residuals of an entry are equal and of opposite sign.</td><td>Decide with the field book which one is wrong; exclude only proven errors.</td><td class="c">3.5</td></tr>
+      <tr><td>An adjusted mean carries a dagger (†).</td><td>The entry is not connected with the others in the design.</td><td>Check that it is in blocks that share entries with others.</td><td class="c">3.6</td></tr>
+      <tr><td>The combined analysis says it was done in two stages.</td><td>The one-stage model would have more than 1,400 parameters.</td><td>That is normal; entries that are not in every environment are left out of the second stage.</td><td class="c">3.7</td></tr>
+      <tr><td>The combined analysis warns that the F tests are approximate.</td><td>Bartlett’s test rejects that the errors of the environments are equal.</td><td>Use the two-stage analysis of Block 9.</td><td class="c">3.7</td></tr>
+    </tbody>
+  </table>
+
+  <h3>D.4 Genetic and selection blocks</h3>
+  <table class="compacta">
+    <caption><b>Table D.4.</b> Messages and missing results in Blocks 4 to 9.</caption>
+    <thead><tr><th style="width:27%">Symptom or message</th><th style="width:27%">Cause</th><th>What to do</th><th style="width:7%" class="c">See</th></tr></thead>
+    <tbody>
+      <tr><td>A block says the data are not of its design.</td><td>Block 3 recognized another mating design.</td><td>Go to the block that card 1 indicates, or correct the design in Block 3.</td><td class="c">3.9</td></tr>
+      <tr><td>A variance component comes out negative and carries a dagger.</td><td>The true variance is close to zero, or there are few replicates or parents.</td><td>It is reported as it comes out; the parameters that use it are not computed. More parents or replicates estimate it better.</td><td class="c">4.5, 6.5</td></tr>
+      <tr><td>σ²<sub>A</sub> and σ²<sub>D</sub> change a lot from one analysis to another with the same data.</td><td>The inbreeding F of the parents changed.</td><td>Check the control <span class="ui">Inbreeding of the parents (F)</span>.</td><td class="c">6.2</td></tr>
+      <tr><td>The triple test cross shows highly significant epistasis for no apparent reason.</td><td>The F<sub>1</sub> tester is not the one the app assumed.</td><td>Choose the right one in <span class="ui">F₁ tester (L₃)</span>.</td><td class="c">6.7</td></tr>
+      <tr><td>Block 7 gives no D, H, F, E or effective factors.</td><td>There is one value per plot: without plants there is no variance among individuals.</td><td>Load the data per plant.</td><td class="c">7.3</td></tr>
+      <tr><td>In Block 7 everything is significant and the standard errors are tiny.</td><td>The variance of each mean was forced to <span class="ui">among individuals / n</span> with data in plots.</td><td>Go back to <span class="ui">automatic</span>.</td><td class="c">7.3</td></tr>
+      <tr><td>In Block 8, a genotypic correlation comes out outside [−1, 1] or is left empty.</td><td>Small σ²<sub>G</sub> (the moment estimator is not bounded) or negative σ²<sub>G</sub>.</td><td>It is not truncated: read it with caution or remove that trait.</td><td class="c">8.5</td></tr>
+      <tr><td>In Block 8, the path table does not appear.</td><td>The correlation matrix is not positive definite, or R² would come out greater than 1.</td><td>Use the phenotypic correlations, remove traits with small σ²<sub>G</sub> or increase the ridge constant.</td><td class="c">8.6</td></tr>
+      <tr><td>“Some index has an accuracy or heritability above 1…”</td><td>The estimated G matrix does not fit inside P in some direction.</td><td>Remove the traits with very small σ²<sub>G</sub> or use the base index.</td><td class="c">8.7</td></tr>
+      <tr><td>In Block 8, the genetic advance of a trait is zero.</td><td>With several environments, its σ²<sub>G</sub> came out negative.</td><td>That is as it should be: the trait has almost no genetic variance across environments.</td><td class="c">8.4</td></tr>
+      <tr><td>“At least 3 genotypes and 2 environments with data are needed.”</td><td>Block 3 has no location or year column.</td><td>Give the role <span class="ui">Location / environment</span> or <span class="ui">Year / season</span> to the column that tells them apart.</td><td class="c">9.1</td></tr>
+      <tr><td>In Block 9, some cells carry an asterisk.</td><td>They were missing and were estimated by EM-AMMI; the interaction loses one degree of freedom for each.</td><td>Check whether those combinations are really missing.</td><td class="c">9.2</td></tr>
+      <tr><td>In Block 9, Annicchiarico’s reliability does not appear.</td><td>It is computed only when the larger value is the better one.</td><td>That is expected for days to flowering or disease incidence.</td><td class="c">9.5</td></tr>
+      <tr><td>The GGE biplot carries a caution notice.</td><td>The first two components explain less than 60% of G + G×E.</td><td>Read it with caution and rely on AMMI and the stability statistics.</td><td class="c">9.8</td></tr>
+    </tbody>
+  </table>
+
+  <h3>D.5 BLUP and genomics</h3>
+  <table class="compacta">
+    <caption><b>Table D.5.</b> Problems in Blocks 10 and 11.</caption>
+    <thead><tr><th style="width:27%">Symptom or message</th><th style="width:27%">Cause</th><th>What to do</th><th style="width:7%" class="c">See</th></tr></thead>
+    <tbody>
+      <tr><td>“The individual column is missing.”</td><td>No column has the individual role.</td><td>Assign it in <span class="ui">Role of every column</span>.</td><td class="c">10.2</td></tr>
+      <tr><td>“The pedigree file needs individual, sire and dam columns.”</td><td>The separate pedigree does not have three recognizable columns.</td><td>Name them as in Table A.4 (individual, sire and dam).</td><td class="c">10.2</td></tr>
+      <tr><td>Pedigree warnings: an individual repeated with different parents, an individual that is its own parent, a loop, or the same individual as sire and dam.</td><td>Data-entry errors in the pedigree, or selfs in plants.</td><td>The app keeps the first row and deletes the impossible parent; correct the file. In plants, tick <span class="ui">Plants: selfing allowed</span>.</td><td class="c">10.2</td></tr>
+      <tr><td>“The system of equations has {n} unknowns; this block solves exactly (dense matrices) up to 2600…”</td><td>The pedigree is too large for the exact calculation in the browser.</td><td>Trim the pedigree to the ancestors of the individuals with records or analyze it in parts.</td><td class="c">10.3</td></tr>
+      <tr><td>“Type every variance (greater than zero) or choose to estimate them by REML.”</td><td>A given variance is missing.</td><td>Complete them or switch to REML.</td><td class="c">10.4</td></tr>
+      <tr><td>REML gives meaningless values or estimates nothing useful.</td><td>Too few records.</td><td>Give the variances as known.</td><td class="c">10.4</td></tr>
+      <tr><td>The permanent environment is left out with a notice.</td><td>No individual has more than one record.</td><td>That is correct: the effect is not estimable.</td><td class="c">10.4</td></tr>
+      <tr><td>Card 3 does not find the pedigree of the entries.</td><td>The names in the trial and in the pedigree do not match.</td><td>Use the same name in both files.</td><td class="c">10.5</td></tr>
+      <tr><td>“Type at least two breeds.” · “unknown breed in "{cross}" (position {k})” · “missing ")" in "{cross}"”</td><td>The list of breeds or the way a cross is written.</td><td>Write the breeds separated by commas and the crosses as in Table A.4.</td><td class="c">10.6</td></tr>
+      <tr><td>A Dickerson parameter comes out not estimable.</td><td>The groups do not separate it.</td><td>Add groups that contain it (backcrosses, F<sub>2</sub>, three-breed crosses) or remove the parameter with its checkbox.</td><td class="c">10.6</td></tr>
+      <tr><td>The markers are read the wrong way around: one individual per column.</td><td>The file has the markers in rows.</td><td>Tick <span class="ui">Markers in rows</span>.</td><td class="c">11.2</td></tr>
+      <tr><td>“Too few individuals have both phenotype and markers.”</td><td>The identifiers of the phenotype file, or the entries of Block 3, do not match those of the markers.</td><td>Use the same identifiers in both files.</td><td class="c">11.4</td></tr>
+      <tr><td><span class="ui">Weight of the pedigree (Block 10)</span> does not appear.</td><td>Block 10 has no pedigree that includes every individual with markers.</td><td>Load that pedigree in card 1 of Block 10.</td><td class="c">11.3</td></tr>
+      <tr><td>The checkbox <span class="ui">Include the SCA (K₁ ⊗ K₂)</span> is disabled.</td><td>There are more than 700 evaluated hybrids: the SCA kernel would be too large.</td><td>Predict with the GCA.</td><td class="c">11.6</td></tr>
+      <tr><td>“Too few hybrids have a phenotype and genotyped parents.”</td><td>The lines in the hybrid table are not in the marker file.</td><td>Check the names of the lines in both files.</td><td class="c">11.6</td></tr>
+      <tr><td>“Write a three-way or double cross, for example (A×B)×C.” or a cross that is not predicted.</td><td>The way it is written, or a cross that needs crosses within the same group.</td><td>Write one cross per line, with the lines on each side from different groups.</td><td class="c">11.6</td></tr>
+    </tbody>
+  </table>
+
+  <h3>D.6 Report and figures</h3>
+  <table class="compacta">
+    <caption><b>Table D.6.</b> Problems when building the report and exporting.</caption>
+    <thead><tr><th style="width:27%">Symptom or message</th><th style="width:27%">Cause</th><th>What to do</th><th style="width:7%" class="c">See</th></tr></thead>
+    <tbody>
+      <tr><td>A block appears with <i>no results</i> and cannot be chosen.</td><td>It has not been opened with the data loaded now.</td><td>Open the block, run it and come back to Block 12.</td><td class="c">12.2</td></tr>
+      <tr><td>The report does not include the crossbreeding of Block 10 or the recurrent selection of Block 8.</td><td>The examples those blocks load on their own do not count as your analyses.</td><td>Run the crossbreeding, or type your values in the recurrent selection table.</td><td class="c">12.2</td></tr>
+      <tr><td>The report shows values from before a change.</td><td>Each block enters with what it showed when the report was built.</td><td>Build the report again.</td><td class="c">12.1</td></tr>
+      <tr><td>A figure in the report is not as you wanted it.</td><td>It goes in as it was left in its editor.</td><td>Change it in its block and build the report again.</td><td class="c">12.5</td></tr>
+      <tr><td>The ZIP package weighs more than a gigabyte.</td><td>TIFF figures go uncompressed: about 3 bytes per pixel.</td><td>Leave the package figures in SVG or PNG and download as TIFF, from their panel, only the ones you submit.</td><td class="c">12.6</td></tr>
+      <tr><td>A figure was saved at fewer dpi than requested, with a notice.</td><td>The browser limits the image size.</td><td>Lower the resolution or the size of the figure, or use SVG.</td><td class="c">12.6</td></tr>
+    </tbody>
+  </table>
+
+  <!-- ====================================================================== E -->
+  <h2 id="ap-e"><span class="num">E</span>References</h2>
+  <p class="lead">The works cited in the manual and in the texts of the app —the home page, the assumptions, formulas and references cards of each block, and the examples—, with their full details.</p>
+  <p>The symbol <span class="m" style="color:var(--marino)">◆</span> marks those that the methods section of Block 12 can name: with them you complete the reference list of a paper (Section 12.4). Five original titles include the name of a program; in its place goes <b>[…]</b>. Chapters 3 to 5 cite “Hayman (1954)” and “Griffing (1956)” without a letter: they are Hayman (1954a) and Griffing (1956b). DOIs are given for the open-access papers from which example data come. The titles of works published in Spanish are kept in Spanish.</p>
+  <ul class="refs">
+    <li>Aguilar, I., Misztal, I., Johnson, D.L., Legarra, A., Tsuruta, S. and Lawlor, T.J. (2010). A unified approach to utilize phenotypic, full pedigree, and genomic information for genetic evaluation of Holstein final score. <i>Journal of Dairy Science</i> 93: 743–752. <span class="m">◆</span></li>
+    <li>Annicchiarico, P. (1992). Cultivar adaptation and recommendation from alfalfa trials in Northern Italy. <i>Journal of Genetics and Breeding</i> 46: 269–278. <span class="m">◆</span></li>
+    <li>Baker, R.J. (1978). Issues in diallel analysis. <i>Crop Science</i> 18: 533–536. <span class="m">◆</span></li>
+    <li>Bartlett, M.S. (1937). Properties of sufficiency and statistical tests. <i>Proceedings of the Royal Society of London A</i> 160: 268–282. <span class="m">◆</span></li>
+    <li>Becker, H.C. and Léon, J. (1988). Stability analysis in plant breeding. <i>Plant Breeding</i> 101: 1–23.</li>
+    <li>Bernardo, R. (1994). Prediction of maize single-cross performance using RFLPs and information from related hybrids. <i>Crop Science</i> 34: 20–25. <span class="m">◆</span></li>
+    <li>Buchanan, D.S. and Northcutt, S.L. (n.d.). <i>Genetic principles of crossbreeding</i>. Beef Cattle Handbook BCH-1400.</li>
+    <li>Bulmer, M.G. (1971). The effect of selection on genetic variability. <i>The American Naturalist</i> 105: 201–211. <span class="m">◆</span></li>
+    <li>Bulmer, M.G. (1980). <i>The Mathematical Theory of Quantitative Genetics</i>. Clarendon Press, Oxford.</li>
+    <li>Burgueño, J., de los Campos, G., Weigel, K. and Crossa, J. (2012). Genomic prediction of breeding values when modeling genotype × environment interaction using pedigree and dense molecular markers. <i>Crop Science</i> 52: 707–719. <span class="m">◆</span></li>
+    <li>Burrows, P.M. (1972). Expected selection differentials for directional selection. <i>Biometrics</i> 28: 1091–1100. <span class="m">◆</span></li>
+    <li>Burton, G.W. and DeVane, E.H. (1953). Estimating heritability in tall fescue from replicated clonal material. <i>Agronomy Journal</i> 45: 478–481. <span class="m">◆</span></li>
+    <li>Carvalho, S.P. and Cruz, C.D. (1996). Diagnosis of multicollinearity: assessment of the condition of correlation matrices used in genetic studies. <i>Brazilian Journal of Genetics</i> 19: 479–484.</li>
+    <li>Cavalli, L.L. (1952). An analysis of linkage in quantitative inheritance. In: Reeve, E.C.R. and Waddington, C.H. (eds.), <i>Quantitative Inheritance</i>. HMSO, London, pp. 135–144. <span class="m">◆</span></li>
+    <li>Cerón-Rojas, J.J. and Crossa, J. (2018). <i>Linear Selection Indices in Modern Plant Breeding</i>. Springer, Cham. <span class="m">◆</span></li>
+    <li>Cerón-Rojas, J.J., Crossa, J., Sahagún-Castellanos, J., Castillo-González, F. and Santacruz-Varela, A. (2006). A selection index method based on eigenanalysis. <i>Crop Science</i> 46: 1711–1721.</li>
+    <li>Christie, B.R. and Shattuck, V.I. (1992). The diallel cross: design, analysis, and use for plant breeders. <i>Plant Breeding Reviews</i> 9: 9–36.</li>
+    <li>Cockerham, C.C. (1954). An extension of the concept of partitioning hereditary variance for analysis of covariances among relatives when epistasis is present. <i>Genetics</i> 39: 859–882.</li>
+    <li>Cockerham, C.C. (1963). Estimation of genetic variances. In: Hanson, W.D. and Robinson, H.F. (eds.), <i>Statistical Genetics and Plant Breeding</i>. NAS-NRC Publ. 982, Washington, pp. 53–94. <span class="m">◆</span></li>
+    <li>Cockerham, C.C. (1986). Modifications in estimating the number of genes for a quantitative character. <i>Genetics</i> 114: 659–664. <span class="m">◆</span></li>
+    <li>Comstock, R.E. and Robinson, H.F. (1948). The components of genetic variance in populations of biparental progenies and their use in estimating the average degree of dominance. <i>Biometrics</i> 4: 254–266. <span class="m">◆</span></li>
+    <li>Comstock, R.E. and Robinson, H.F. (1952). Estimation of average dominance of genes. In: Gowen, J.W. (ed.), <i>Heterosis</i>. Iowa State College Press, Ames, pp. 494–516. <span class="m">◆</span></li>
+    <li>Cook, R.D. and Weisberg, S. (1982). <i>Residuals and Influence in Regression</i>. Chapman &amp; Hall, New York. <span class="m">◆</span></li>
+    <li>Cornelius, P.L., Seyedsadr, M. and Crossa, J. (1992). Using the shifted multiplicative model to search for “separability” in crop cultivar trials. <i>Theoretical and Applied Genetics</i> 84: 161–172. <span class="m">◆</span></li>
+    <li>Crossa, J., de los Campos, G., Pérez, P., Gianola, D., Burgueño, J., Araus, J.L., Makumbi, D., Singh, R.P., Dreisigacker, S., Yan, J., Arief, V., Bänziger, M. and Braun, H.J. (2010). Prediction of genetic values of quantitative traits in plant breeding using pedigree and molecular markers. <i>Genetics</i> 186: 713–724. <span class="m">◆</span></li>
+    <li>Cullis, B.R., Smith, A.B. and Coombes, N.E. (2006). On the design of early generation variety trials with correlated data. <i>Journal of Agricultural, Biological and Environmental Statistics</i> 11: 381–393. <span class="m">◆</span></li>
+    <li>Dewey, D.R. and Lu, K.H. (1959). A correlation and path-coefficient analysis of components of crested wheatgrass seed production. <i>Agronomy Journal</i> 51: 515–518. <span class="m">◆</span></li>
+    <li>Dickerson, G.E. (1969). Experimental approaches in utilising breed resources. <i>Animal Breeding Abstracts</i> 37: 191–202. <span class="m">◆</span></li>
+    <li>Dickerson, G.E. (1973). Inbreeding and heterosis in animals. In: <i>Proceedings of the Animal Breeding and Genetics Symposium in Honor of Dr. J. L. Lush</i>. American Society of Animal Science, Champaign, pp. 54–77. <span class="m">◆</span></li>
+    <li>Eberhart, S.A. and Russell, W.A. (1966). Stability parameters for comparing varieties. <i>Crop Science</i> 6: 36–40. <span class="m">◆</span></li>
+    <li>Eisen, E.J., Hörstgen-Schwark, G., Saxton, A.M. and Bandy, T.R. (1983). Genetic interpretation and analysis of diallel crosses with animals. <i>Theoretical and Applied Genetics</i> 65: 17–23. <span class="m">◆</span></li>
+    <li>Elston, R.C. (1963). A weight-free index for the purpose of ranking or selection with respect to several traits at a time. <i>Biometrics</i> 19: 85–97. <span class="m">◆</span></li>
+    <li>Falconer, D.S. and Mackay, T.F.C. (1996). <i>Introduction to Quantitative Genetics</i>, 4th ed. Longman, Harlow.</li>
+    <li>Farshadfar, E. (2008). Incorporation of AMMI stability value and grain yield in a single non-parametric index (GSI) in bread wheat. <i>Pakistan Journal of Biological Sciences</i> 11: 1791–1796. <span class="m">◆</span></li>
+    <li>Federer, W.T. (1956). Augmented (or hoonuiaku) designs. <i>Hawaiian Planters’ Record</i> 55: 191–208. <span class="m">◆</span></li>
+    <li>Fehr, W.R. (1987). <i>Principles of Cultivar Development</i>, vol. 1. Macmillan, New York. <span class="m">◆</span></li>
+    <li>Feldmann, M.J., Piepho, H.P. and Knapp, S.J. (2022). Average semivariance directly yields accurate estimates of the genomic variance in complex trait analyses. <i>G3 Genes|Genomes|Genetics</i> 12: jkac080. <span class="m">◆</span></li>
+    <li>Finlay, K.W. and Wilkinson, G.N. (1963). The analysis of adaptation in a plant-breeding programme. <i>Australian Journal of Agricultural Research</i> 14: 742–754. <span class="m">◆</span></li>
+    <li>Gale, J.S., Mather, K. and Jinks, J.L. (1977). Joint scaling tests. <i>Heredity</i> 38: 47–51. <span class="doi">doi:10.1038/hdy.1977.6</span> <span class="m">◆</span></li>
+    <li>Gardner, C.O. and Eberhart, S.A. (1966). Analysis and interpretation of the variety cross diallel and related populations. <i>Biometrics</i> 22: 439–452. <span class="m">◆</span></li>
+    <li>Gauch, H.G. (1988). Model selection and validation for yield trials with interaction. <i>Biometrics</i> 44: 705–715. <span class="m">◆</span></li>
+    <li>Gauch, H.G. and Zobel, R.W. (1990). Imputing missing yield trial data. <i>Theoretical and Applied Genetics</i> 79: 753–761. <span class="m">◆</span></li>
+    <li>Gilmour, A.R., Thompson, R. and Cullis, B.R. (1995). Average information REML: an efficient algorithm for variance parameter estimation in linear mixed models. <i>Biometrics</i> 51: 1440–1450. <span class="m">◆</span></li>
+    <li>Gollob, H.F. (1968). A statistical model which combines features of factor analytic and analysis of variance techniques. <i>Psychometrika</i> 33: 73–115. <span class="m">◆</span></li>
+    <li>Griffing, B. (1956a). A generalised treatment of the use of diallel crosses in quantitative inheritance. <i>Heredity</i> 10: 31–50. <span class="m">◆</span></li>
+    <li>Griffing, B. (1956b). Concept of general and specific combining ability in relation to diallel crossing systems. <i>Australian Journal of Biological Sciences</i> 9: 463–493. <span class="m">◆</span></li>
+    <li>Habier, D., Fernando, R.L. and Dekkers, J.C.M. (2007). The impact of genetic relationship information on genome-assisted breeding values. <i>Genetics</i> 177: 2389–2397. <span class="m">◆</span></li>
+    <li>Hallauer, A.R., Carena, M.J. and Miranda Filho, J.B. (2010). <i>Quantitative Genetics in Maize Breeding</i>, 3rd ed. Springer, New York. <span class="m">◆</span></li>
+    <li>Hayes, J.F. and Hill, W.G. (1981). Modification of estimates of parameters in the construction of genetic selection indices (‘bending’). <i>Biometrics</i> 37: 483–493.</li>
+    <li>Hayman, B.I. (1954a). The analysis of variance of diallel tables. <i>Biometrics</i> 10: 235–244. <span class="m">◆</span></li>
+    <li>Hayman, B.I. (1954b). The theory and analysis of diallel crosses. <i>Genetics</i> 39: 789–809. <span class="m">◆</span></li>
+    <li>Hayman, B.I. (1958). The separation of epistatic from additive and dominance variation in generation means. <i>Heredity</i> 12: 371–390. <span class="m">◆</span></li>
+    <li>Hazel, L.N. (1943). The genetic basis for constructing selection indexes. <i>Genetics</i> 28: 476–490. <span class="m">◆</span></li>
+    <li>Heffner, E.L., Lorenz, A.J., Jannink, J.L. and Sorrells, M.E. (2010). Plant breeding with genomic selection: gain per unit time and cost. <i>Crop Science</i> 50: 1681–1690. <span class="m">◆</span></li>
+    <li>Henderson, C.R. (1975). Best linear unbiased estimation and prediction under a selection model. <i>Biometrics</i> 31: 423–447. <span class="m">◆</span></li>
+    <li>Henderson, C.R. (1976). A simple method for computing the inverse of a numerator relationship matrix used in prediction of breeding values. <i>Biometrics</i> 32: 69–83. <span class="m">◆</span></li>
+    <li>Holland, J.B., Nyquist, W.E. and Cervantes-Martínez, C.T. (2003). Estimating and interpreting heritability for plant breeding: an update. <i>Plant Breeding Reviews</i> 22: 9–112. <span class="m">◆</span></li>
+    <li>Huehn, M. (1979). Beiträge zur Erfassung der phänotypischen Stabilität. <i>EDV in Medizin und Biologie</i> 10: 112–117. <span class="m">◆</span></li>
+    <li>Huehn, M. (1990). Nonparametric measures of phenotypic stability. Part 1: Theory. <i>Euphytica</i> 47: 189–194.</li>
+    <li>Itoh, Y. and Yamada, Y. (1987). Comparisons of selection indices achieving predetermined proportional gains. <i>Genetics Selection Evolution</i> 19: 69–82.</li>
+    <li>Jasso-Bobadilla, G., González-Huerta, A., Pérez-López, D.J., Franco-Martínez, J.R.P., Rubí-Arriaga, M. and Mejía-Carranza, J. (2022). Uso de […] para validar resultados en un dialélico parcial con ocho líneas de maíz evaluadas en un ambiente. <i>Revista Mexicana de Ciencias Agrícolas</i> 13: 41–52. <span class="doi">doi:10.29312/remexca.v13i1.3097</span></li>
+    <li>Jayasekara, N.E.M. and Jinks, J.L. (1976). Effect of gene dispersion on estimates of components of generation means and variances. <i>Heredity</i> 36: 31–40.</li>
+    <li>Jenkins, M.T. (1934). Methods of estimating the performance of double crosses in corn. <i>Journal of the American Society of Agronomy</i> 26: 199–204. <span class="m">◆</span></li>
+    <li>Jinks, J.L. (1954). The analysis of continuous variation in a diallel cross of <i>Nicotiana rustica</i> varieties. <i>Genetics</i> 39: 767–788. <span class="m">◆</span></li>
+    <li>Jinks, J.L. and Jones, R.M. (1958). Estimation of the components of heterosis. <i>Genetics</i> 43: 223–234. <span class="m">◆</span></li>
+    <li>Johansen, S. (1980). The Welch–James approximation to the distribution of the residual sum of squares in a weighted linear regression. <i>Biometrika</i> 67: 85–92.</li>
+    <li>Johnson, H.W., Robinson, H.F. and Comstock, R.E. (1955). Estimates of genetic and environmental variability in soybeans. <i>Agronomy Journal</i> 47: 314–318. <span class="m">◆</span></li>
+    <li>Kang, M.S. (1993). Simultaneous selection for yield and stability in crop performance trials: consequences for growers. <i>Agronomy Journal</i> 85: 754–757. <span class="m">◆</span></li>
+    <li>Kang, M.S. and Magari, R. (1995). […]: a […] program for calculating stability and yield-stability statistics. <i>Agronomy Journal</i> 87: 276–277.</li>
+    <li>Kearsey, M.J. (1980). The efficiency of the North Carolina Expt. III and the selfing, backcrossing series for estimating additive and dominance variation. <i>Heredity</i> 45: 73–82.</li>
+    <li>Kearsey, M.J. and Jinks, J.L. (1968). A general method of detecting additive, dominance and epistatic variation for metrical traits. I. Theory. <i>Heredity</i> 23: 403–409. <span class="m">◆</span></li>
+    <li>Kearsey, M.J. and Pooni, H.S. (1996). <i>The Genetical Analysis of Quantitative Traits</i>. Chapman &amp; Hall, London. <span class="m">◆</span></li>
+    <li>Kempthorne, O. (1957). <i>An Introduction to Genetic Statistics</i>. John Wiley &amp; Sons, New York. <span class="m">◆</span></li>
+    <li>Kempthorne, O. and Curnow, R.N. (1961). The partial diallel cross. <i>Biometrics</i> 17: 229–250. <span class="m">◆</span></li>
+    <li>Kempthorne, O. and Nordskog, A.W. (1959). Restricted selection indices. <i>Biometrics</i> 15: 10–19. <span class="m">◆</span></li>
+    <li>Kinghorn, B. (1980). The expression of “recombination loss” in quantitative traits. <i>Zeitschrift für Tierzüchtung und Züchtungsbiologie</i> 97: 138–143. <span class="m">◆</span></li>
+    <li>Knapp, S.J., Stroup, W.W. and Ross, W.M. (1985). Exact confidence intervals for heritability on a progeny mean basis. <i>Crop Science</i> 25: 192–194. <span class="m">◆</span></li>
+    <li>Kuehl, R.O., Rawlings, J.O. and Cockerham, C.C. (1968). Reference populations for diallel experiments. <i>Biometrics</i> 24: 881–901.</li>
+    <li>Lande, R. (1981). The minimum number of genes contributing to quantitative variation between and within populations. <i>Genetics</i> 99: 541–553. <span class="m">◆</span></li>
+    <li>Legarra, A. (2016). Comparing estimates of genetic variance across different relationship models. <i>Theoretical Population Biology</i> 107: 26–30. <span class="m">◆</span></li>
+    <li>Lin, C.S. and Binns, M.R. (1988). A superiority measure of cultivar performance for cultivar × location data. <i>Canadian Journal of Plant Science</i> 68: 193–198. <span class="m">◆</span></li>
+    <li>Lin, C.S., Binns, M.R. and Lefkovitch, L.P. (1986). Stability analysis: where do we stand? <i>Crop Science</i> 26: 894–900.</li>
+    <li>Lonnquist, J.H. and Gardner, C.O. (1961). Heterosis in intervarietal crosses in maize and its implication in breeding procedures. <i>Crop Science</i> 1: 179–183.</li>
+    <li>Mallard, J. (1972). The theory and computation of selection indices with constraints: a critical synthesis. <i>Biometrics</i> 28: 713–735.</li>
+    <li>Mather, K. (1949). <i>Biometrical Genetics: The Study of Continuous Variation</i>. Methuen, London. <span class="m">◆</span></li>
+    <li>Mather, K. and Jinks, J.L. (1982). <i>Biometrical Genetics</i>, 3rd ed. Chapman &amp; Hall, London. <span class="m">◆</span></li>
+    <li>Meuwissen, T.H.E., Hayes, B.J. and Goddard, M.E. (2001). Prediction of total genetic value using genome-wide dense marker maps. <i>Genetics</i> 157: 1819–1829. <span class="m">◆</span></li>
+    <li>Meuwissen, T.H.E. and Luo, Z. (1992). Computing inbreeding coefficients in large populations. <i>Genetics Selection Evolution</i> 24: 305–313. <span class="m">◆</span></li>
+    <li>Möhring, J., Melchinger, A.E. and Piepho, H.P. (2011). REML-based diallel analysis. <i>Crop Science</i> 51: 470–478.</li>
+    <li>Möhring, J. and Piepho, H.P. (2009). Comparison of weighting in two-stage analysis of plant breeding trials. <i>Crop Science</i> 49: 1977–1988. <span class="m">◆</span></li>
+    <li>Morley Jones, R. (1965). Analysis of variance of the half diallel table. <i>Heredity</i> 20: 117–121. <span class="m">◆</span></li>
+    <li>Mrode, R.A. (2014). <i>Linear Models for the Prediction of Animal Breeding Values</i>, 3rd ed. CABI, Wallingford. <span class="m">◆</span></li>
+    <li>Mulamba, N.N. and Mock, J.J. (1978). Improvement of yield potential of the Eto Blanco maize population by breeding for plant traits. <i>Egyptian Journal of Genetics and Cytology</i> 7: 40–51. <span class="m">◆</span></li>
+    <li>Nassar, R. and Huehn, M. (1987). Studies on estimation of phenotypic stability: tests of significance for nonparametric measures of phenotypic stability. <i>Biometrics</i> 43: 45–53. <span class="m">◆</span></li>
+    <li>Núñez, J.R., Anderton, C.R. and Renslow, R.S. (2018). Optimizing colormaps with consideration for color vision deficiency to enable accurate interpretation of scientific data. <i>PLOS ONE</i> 13: e0199239. <span class="doi">doi:10.1371/journal.pone.0199239</span></li>
+    <li>Oakey, H., Verbyla, A., Pitchford, W., Cullis, B. and Kuchel, H. (2006). Joint modeling of additive and non-additive genetic line effects in single field trials. <i>Theoretical and Applied Genetics</i> 113: 809–819. <span class="m">◆</span></li>
+    <li>Okabe, M. and Ito, K. (2008). Color Universal Design (CUD): how to make figures and presentations that are friendly to colorblind people. Web page. <span class="doi">https://jfly.uni-koeln.de/color/</span></li>
+    <li>Olivoto, T., Lúcio, A.D., da Silva, J.A.G., Marchioro, V.S., de Souza, V.Q. and Jost, E. (2019). Mean performance and stability in multi-environment trials I: combining features of AMMI and BLUP techniques. <i>Agronomy Journal</i> 111: 2949–2960. <span class="m">◆</span></li>
+    <li>Onofri, A., Terzaroli, N. and Russi, L. (2021). Linear models for diallel crosses: a review with […] functions. <i>Theoretical and Applied Genetics</i> 134: 585–601. <span class="doi">doi:10.1007/s00122-020-03716-8</span></li>
+    <li>Patterson, H.D. and Thompson, R. (1971). Recovery of inter-block information when block sizes are unequal. <i>Biometrika</i> 58: 545–554. <span class="m">◆</span></li>
+    <li>Patterson, H.D. and Williams, E.R. (1976). A new class of resolvable incomplete block designs. <i>Biometrika</i> 63: 83–92. <span class="m">◆</span></li>
+    <li>Pérez López, D.J., Saavedra Guevara, C., Rubí Arriaga, M., Franco Martínez, J.R.P., Gutiérrez Rodríguez, F. and González Huerta, A. (2020). Código de […] para analizar un dialélico completo y heterosis. Un ambiente. <i>Revista Mexicana de Ciencias Agrícolas</i> 11: 829–840. <span class="doi">doi:10.29312/remexca.v11i4.2249</span></li>
+    <li>Perkins, J.M. and Jinks, J.L. (1968). Environmental and genotype-environmental components of variability. III. Multiple lines and crosses. <i>Heredity</i> 23: 339–356. <span class="m">◆</span></li>
+    <li>Pesek, J. and Baker, R.J. (1969). Desired improvement in relation to selection indices. <i>Canadian Journal of Plant Science</i> 49: 803–804. <span class="m">◆</span></li>
+    <li>Piepho, H.P. (1995). Robustness of statistical tests for multiplicative terms in the additive main effects and multiplicative interaction model for cultivar trials. <i>Theoretical and Applied Genetics</i> 90: 438–443.</li>
+    <li>Purchase, J.L., Hatting, H. and van Deventer, C.S. (2000). Genotype × environment interaction of winter wheat in South Africa: II. Stability analysis of yield performance. <i>South African Journal of Plant and Soil</i> 17: 101–107. <span class="m">◆</span></li>
+    <li>Quaas, R.L. (1976). Computing the diagonal elements and inverse of a large numerator relationship matrix. <i>Biometrics</i> 32: 949–953. <span class="m">◆</span></li>
+    <li>Saavedra Guevara, C., Pérez López, D.J., González Huerta, A., Franco Martínez, J.R.P., Rubí Arriaga, M. and Ramírez Dávila, J.F. (2021). Métodos de Griffing: revisión sobre su importancia y aplicación en fitomejoramiento convencional. <i>Revista Mexicana de Ciencias Agrícolas</i> 12: 1275–1286. <span class="doi">doi:10.29312/remexca.v12i7.3040</span></li>
+    <li>Satterthwaite, F.E. (1946). An approximate distribution of estimates of variance components. <i>Biometrics Bulletin</i> 2: 110–114.</li>
+    <li>Schaeffer, L.R. (2014). <i>Making Covariance Matrices Positive Definite</i>. Centre for Genetic Improvement of Livestock, University of Guelph, Guelph. <span class="doi">http://animalbiosciences.uoguelph.ca/~lrs/ELARES/PDforce.pdf</span></li>
+    <li>Schaeffer, L.R. (2019). <i>Animal Models</i>. University of Guelph, Guelph. <span class="m">◆</span></li>
+    <li>Self, S.G. and Liang, K.Y. (1987). Asymptotic properties of maximum likelihood estimators and likelihood ratio tests under nonstandard conditions. <i>Journal of the American Statistical Association</i> 82: 605–610. <span class="m">◆</span></li>
+    <li>Shukla, G.K. (1972). Some statistical aspects of partitioning genotype-environmental components of variability. <i>Heredity</i> 29: 237–245. <span class="m">◆</span></li>
+    <li>Singh, D. (1973). Diallel analysis for combining ability over several environments. II. <i>Indian Journal of Genetics and Plant Breeding</i> 33: 469–481. <span class="m">◆</span></li>
+    <li>Singh, R.K. and Chaudhary, B.D. (1979). <i>Biometrical Methods in Quantitative Genetic Analysis</i>. Kalyani Publishers, New Delhi.</li>
+    <li>Smith, A.B., Cullis, B.R. and Thompson, R. (2005). The analysis of crop cultivar breeding and evaluation trials: an overview of current mixed model approaches. <i>Journal of Agricultural Science</i> 143: 449–462. <span class="m">◆</span></li>
+    <li>Smith, H.F. (1936). A discriminant function for plant selection. <i>Annals of Eugenics</i> 7: 240–250. <span class="m">◆</span></li>
+    <li>Sprague, G.F. and Eberhart, S.A. (1977). Corn breeding. In: Sprague, G.F. (ed.), <i>Corn and Corn Improvement</i>, 2nd ed. American Society of Agronomy, Madison, pp. 305–362. <span class="m">◆</span></li>
+    <li>Sprague, G.F. and Tatum, L.A. (1942). General vs. specific combining ability in single crosses of corn. <i>Journal of the American Society of Agronomy</i> 34: 923–932. <span class="m">◆</span></li>
+    <li>Steel, R.G.D., Torrie, J.H. and Dickey, D.A. (1997). <i>Principles and Procedures of Statistics: A Biometrical Approach</i>, 3rd ed. McGraw-Hill, New York. <span class="m">◆</span></li>
+    <li>Tallis, G.M. (1985). Constrained selection. <i>Japanese Journal of Genetics</i> 60: 151–155.</li>
+    <li>Technow, F., Riedelsheimer, C., Schrag, T.A. and Melchinger, A.E. (2012). Genomic prediction of hybrid performance in maize with models incorporating dominance and population specific marker effects. <i>Theoretical and Applied Genetics</i> 125: 1181–1194. <span class="m">◆</span></li>
+    <li>Technow, F., Schrag, T.A., Schipprack, W., Bauer, E., Simianer, H. and Melchinger, A.E. (2014). Genome properties and prospects of genomic prediction of hybrid performance in a breeding program of maize. <i>Genetics</i> 197: 1343–1355. <span class="m">◆</span></li>
+    <li>Tesema, Z., Deribe, B., Tilahun, M., Kefale, A., Alebachew, G.W., Alemayehu, K., Getachew, T., Kebede, D., Taye, M. and Gizaw, S. (2023). Estimation of crossbreeding and genetic parameters for reproductive traits of Boer × Central Highland goats in Ethiopia. <i>PLOS ONE</i> 18: e0291996. <span class="doi">doi:10.1371/journal.pone.0291996</span></li>
+    <li>Tol, P. (2021). <i>Colour Schemes</i>. Technical note SRON/EPS/TN/09-002, issue 3.2. <span class="doi">https://sronpersonalpages.nl/~pault/data/colourschemes.pdf</span></li>
+    <li>Topham, P.B. (1966). Diallel analysis involving maternal and maternal interaction effects. <i>Heredity</i> 21: 665–674.</li>
+    <li>Tukey, J.W. (1949). One degree of freedom for non-additivity. <i>Biometrics</i> 5: 232–242. <span class="m">◆</span></li>
+    <li>VanRaden, P.M. (2008). Efficient methods to compute genomic predictions. <i>Journal of Dairy Science</i> 91: 4414–4423. <span class="m">◆</span></li>
+    <li>Walsh, B. and Lynch, M. (2018). <i>Evolution and Selection of Quantitative Traits</i>. Oxford University Press, Oxford.</li>
+    <li>Walters, D.E. and Gale, J.S. (1977). A note on the Hayman analysis of variance for a full diallel table. <i>Heredity</i> 38: 401–407. <span class="m">◆</span></li>
+    <li>Warner, J.N. (1952). A method for estimating heritability. <i>Agronomy Journal</i> 44: 427–430. <span class="m">◆</span></li>
+    <li>van der Werf, J. (n.d.). <i>Crossbreeding</i>. Lecture notes GENE251/351, lecture 20. University of New England, Armidale.</li>
+    <li>Willham, R.L. (1963). The covariance between relatives for characters composed of components contributed by related individuals. <i>Biometrics</i> 19: 18–27. <span class="m">◆</span></li>
+    <li>Willham, R.L. (1972). The role of maternal effects in animal breeding: III. Biometrical aspects of maternal effects in animals. <i>Journal of Animal Science</i> 35: 1288–1293.</li>
+    <li>Williams, J.S. (1962). The evaluation of a selection index. <i>Biometrics</i> 18: 375–393. <span class="m">◆</span></li>
+    <li>Wricke, G. (1962). Über eine Methode zur Erfassung der ökologischen Streubreite in Feldversuchen. <i>Zeitschrift für Pflanzenzüchtung</i> 47: 92–96. <span class="m">◆</span></li>
+    <li>Wright, A.J. (1985). Diallel designs, analyses, and reference populations. <i>Heredity</i> 54: 307–311. <span class="m">◆</span></li>
+    <li>Yan, W., Hunt, L.A., Sheng, Q. and Szlavnics, Z. (2000). Cultivar evaluation and mega-environment investigation based on the GGE biplot. <i>Crop Science</i> 40: 597–605. <span class="m">◆</span></li>
+    <li>Yan, W. and Kang, M.S. (2003). <i>GGE Biplot Analysis: A Graphical Tool for Breeders, Geneticists, and Agronomists</i>. CRC Press, Boca Raton.</li>
+    <li>Yan, W. and Tinker, N.A. (2006). Biplot analysis of multi-environment trial data: principles and applications. <i>Canadian Journal of Plant Science</i> 86: 623–645. <span class="m">◆</span></li>
+    <li>Yang, J., Benyamin, B., McEvoy, B.P. et al. (2010). Common SNPs explain a large proportion of the heritability for human height. <i>Nature Genetics</i> 42: 565–569.</li>
+    <li>Zhang, Y., Kang, M.S. and Lamkey, K.R. (2005). […]: a comprehensive program for Griffing’s and Gardner–Eberhart analyses. <i>Agronomy Journal</i> 97: 1097–1106.</li>
+  </ul>
+
+  <div class="caja nota">
+    <div class="caja-t"><span class="ico">i</span>Note · corrections made in the app while preparing the appendices</div>
+    <p>Comparing the references and notices of the app with the original sources made it possible to correct:</p>
+    <ul style="margin:0">
+      <li>The eigen index (ESIM) was attributed to Cerón-Rojas and colleagues (2008); the paper that proposes it is from 2006. It was corrected in the app and in Table 8.3.</li>
+      <li>The reference list of Block 8 omitted eleven works that its notes cite: Williams (1962), Elston (1963), Burrows (1972), Mallard (1972), Bulmer (1980), Hayes and Hill (1981), Tallis (1985), Itoh and Yamada (1987), Carvalho and Cruz (1996), Cerón-Rojas and colleagues (2006) and Schaeffer (2014).</li>
+      <li>The entry for Saavedra Guevara and colleagues (2021) on the home page had the wrong title and last page, and that for Jasso-Bobadilla and colleagues (2022), the wrong last page.</li>
+      <li>The third-party notices file did not list the examples of Blocks 8 to 11 or their terms of use.</li>
+    </ul>
+  </div>
+
+  <!-- ====================================================================== F -->
+  <h2 id="ap-f"><span class="num">F</span>Third-party components</h2>
+  <p class="lead">BreedingPro is an original work: its code, its figure engine, its own palettes and scales, its illustrations and its simulated data were made for this program. Only one software component is third-party; the palettes and published data it uses are declared here with their terms.</p>
+
+  <table class="compacta">
+    <caption><b>Table F.1.</b> Third-party software component included in the app.</caption>
+    <thead><tr><th style="width:27%">Component</th><th style="width:9%">Version</th><th style="width:15%">License</th><th>Use and notice</th></tr></thead>
+    <tbody>
+      <tr><td><b>Spreadsheet reading and writing library</b><br><code>vendor/xlsx.full.min.js</code></td><td>0.18.5</td><td>Apache 2.0</td><td>Reads <code>.xlsx</code>, <code>.xls</code>, <code>.xlsm</code> and <code>.ods</code> workbooks and writes the <code>.xlsx</code> files of every block and the <code>.ods</code> of the data sheet. It is an unmodified copy that is not part of the original work. Its copyright notice, its source and the full text of the license are in <code>vendor/THIRD-PARTY-NOTICES.txt</code>, which must always accompany the app.</td></tr>
+    </tbody>
+  </table>
+
+  <div class="caja importante">
+    <div class="caja-t"><span class="ico">!</span>Important · when sharing or redistributing the app</div>
+    <p style="margin:0">The code of BreedingPro is distributed under the GNU General Public License, version 3 or later (file <code>LICENSE</code>). If you share the folder, keep it complete: <code>LICENSE</code>, <code>vendor/THIRD-PARTY-NOTICES.txt</code> and the library in <code>vendor/</code> travel together. If you publish a figure with the Okabe and Ito palette, Tol’s, or the Cividis scale, or a result obtained with an example, cite their authors. The program is cited with its DOI, 10.5281/zenodo.23005938 (see below and the manual’s credits).</p>
+  </div>
+
+  <table class="compacta">
+    <caption><b>Table F.2.</b> Published color palettes and scales offered by the figure editor.</caption>
+    <thead><tr><th style="width:25%">Resource</th><th style="width:27%">Authorship</th><th style="width:23%">Terms</th><th>In the editor</th></tr></thead>
+    <tbody>
+      <tr><td><b>Color-blind-safe palette</b></td><td>Okabe and Ito (2008): eight colors; the app adds a gray and a dark brown.</td><td>Freely accessible guide; the app and the manual cite its authors.</td><td><span class="ui">Okabe &amp; Ito 2008 (colour-blind safe)</span></td></tr>
+      <tr><td><b>Qualitative color schemes</b></td><td>Tol (2021): <i>bright</i> scheme plus black and two colors of the <i>vibrant</i> scheme.</td><td>Freely accessible technical note; the author is cited.</td><td><span class="ui">Tol 2021 (colour-blind safe)</span></td></tr>
+      <tr><td><b>Viridis, Magma, Inferno and Plasma scales</b></td><td>Nathaniel J. Smith and Stéfan van der Walt; Viridis also with Eric Firing (2015).</td><td>Dedicated to the public domain (CC0 1.0); their authors appreciate credit.</td><td>Continuous scales of the heat maps, with five colors of each.</td></tr>
+      <tr><td><b>Cividis scale</b></td><td>Núñez, Anderton and Renslow (2018).</td><td>Open-access paper (CC BY 4.0); it is cited.</td><td><span class="ui">Cividis (colour-blind safe)</span></td></tr>
+    </tbody>
+  </table>
+  <p>The other thirteen qualitative palettes of the editor, such as <span class="ui">Purple maize (BreedingPro)</span> or <span class="ui">Harvest</span>, and the eight scales of Figure F.1 are the app’s own.</p>
+
+  <figure>
+    <svg viewBox="0 0 700 262" xmlns="http://www.w3.org/2000/svg" font-family="Jost, sans-serif" role="img" aria-label="The app's eight own color scales">
+      <defs>
+        <linearGradient id="gRdylbu"><stop offset="0" stop-color="#274387"/><stop offset=".25" stop-color="#69aed5"/><stop offset=".5" stop-color="#fcf5c7"/><stop offset=".75" stop-color="#ed9c55"/><stop offset="1" stop-color="#a51e24"/></linearGradient>
+        <linearGradient id="gRdbu"><stop offset="0" stop-color="#023869"/><stop offset=".25" stop-color="#97c5de"/><stop offset=".5" stop-color="#f6efe6"/><stop offset=".75" stop-color="#e5a692"/><stop offset="1" stop-color="#902822"/></linearGradient>
+        <linearGradient id="gSpectral"><stop offset="0" stop-color="#564597"/><stop offset=".25" stop-color="#52c8b4"/><stop offset=".5" stop-color="#f1f4b6"/><stop offset=".75" stop-color="#f89a56"/><stop offset="1" stop-color="#a61f47"/></linearGradient>
+        <linearGradient id="gBluered"><stop offset="0" stop-color="#1e4798"/><stop offset=".5" stop-color="#f3ede6"/><stop offset="1" stop-color="#be3025"/></linearGradient>
+        <linearGradient id="gGreens"><stop offset="0" stop-color="#f1f7dd"/><stop offset=".5" stop-color="#59b47d"/><stop offset="1" stop-color="#003f33"/></linearGradient>
+        <linearGradient id="gYlgn"><stop offset="0" stop-color="#fcfacb"/><stop offset=".333" stop-color="#bde07e"/><stop offset=".667" stop-color="#47944c"/><stop offset="1" stop-color="#034741"/></linearGradient>
+        <linearGradient id="gBrowns"><stop offset="0" stop-color="#fdf5e6"/><stop offset=".5" stop-color="#cc9966"/><stop offset="1" stop-color="#663300"/></linearGradient>
+        <linearGradient id="gHeat"><stop offset="0" stop-color="#fff7d9"/><stop offset=".5" stop-color="#fd923e"/><stop offset="1" stop-color="#9e122b"/></linearGradient>
+      </defs>
+      <text x="0" y="12" font-size="10" letter-spacing="1.2" font-weight="500" fill="#111">THE APP’S OWN HEAT-MAP SCALES</text>
+      <g font-size="11" fill="#111">
+        <text x="0" y="41">Red–Yellow–Blue</text><rect x="160" y="28" width="430" height="18" fill="url(#gRdylbu)" stroke="#c9ced8" stroke-width=".6"/><text x="604" y="41" fill="#5d6472">diverging</text>
+        <text x="0" y="69">Red–Blue (diverging)</text><rect x="160" y="56" width="430" height="18" fill="url(#gRdbu)" stroke="#c9ced8" stroke-width=".6"/><text x="604" y="69" fill="#5d6472">diverging</text>
+        <text x="0" y="97">Spectral</text><rect x="160" y="84" width="430" height="18" fill="url(#gSpectral)" stroke="#c9ced8" stroke-width=".6"/><text x="604" y="97" fill="#5d6472">diverging</text>
+        <text x="0" y="125">Blue–White–Red</text><rect x="160" y="112" width="430" height="18" fill="url(#gBluered)" stroke="#c9ced8" stroke-width=".6"/><text x="604" y="125" fill="#5d6472">diverging</text>
+        <text x="0" y="153">Greens</text><rect x="160" y="140" width="430" height="18" fill="url(#gGreens)" stroke="#c9ced8" stroke-width=".6"/><text x="604" y="153" fill="#5d6472">sequential</text>
+        <text x="0" y="181">Yellow–Green</text><rect x="160" y="168" width="430" height="18" fill="url(#gYlgn)" stroke="#c9ced8" stroke-width=".6"/><text x="604" y="181" fill="#5d6472">sequential</text>
+        <text x="0" y="209">Browns (soil)</text><rect x="160" y="196" width="430" height="18" fill="url(#gBrowns)" stroke="#c9ced8" stroke-width=".6"/><text x="604" y="209" fill="#5d6472">sequential</text>
+        <text x="0" y="237">Heat</text><rect x="160" y="224" width="430" height="18" fill="url(#gHeat)" stroke="#c9ced8" stroke-width=".6"/><text x="604" y="237" fill="#5d6472">sequential</text>
+      </g>
+      <g font-size="9" fill="#5d6472" text-anchor="middle"><text x="160" y="258">minimum</text><text x="375" y="258">center</text><text x="590" y="258">maximum</text></g>
+    </svg>
+    <figcaption><b>Figure F.1.</b> The eight heat-map scales designed for the app, with their names in the menu. They start from colors anchored in a perceptual color space: in the diverging ones, lightness rises toward the center and falls equally toward the ends; in the sequential ones, it falls continuously. The ends of the diverging scales remain distinguishable with red–green color blindness.</figcaption>
+  </figure>
+
+  <table class="compacta">
+    <caption><b>Table F.3.</b> Published data used by the examples. If you publish something made with one of them, cite the original work.</caption>
+    <thead><tr><th style="width:26%">Example</th><th style="width:34%">Source</th><th>Terms</th></tr></thead>
+    <tbody>
+      <tr><td>Maize: full 4 × 4 diallel</td><td>Pérez López and colleagues (2020)</td><td>Open-access paper, CC BY-NC 4.0: non-commercial use with attribution.</td></tr>
+      <tr><td>Maize: partial diallel of 8 lines</td><td>Jasso-Bobadilla and colleagues (2022); design of Kempthorne and Curnow (1961)</td><td>CC BY-NC 4.0.</td></tr>
+      <tr><td><i>Nicotiana rustica</i>: 8 × 8 diallel</td><td>Hayman (1954a), table 5, reproduced by Onofri and colleagues (2021)</td><td>Open copy under a CC BY 4.0 license.</td></tr>
+      <tr><td>Diallel with parents in two environments</td><td>Zhang, Kang and Lamkey (2005), reproduced by Onofri and colleagues (2021)</td><td>CC BY 4.0.</td></tr>
+      <tr><td>Crosses between maize varieties</td><td>Lonnquist and Gardner (1961); Gardner and Eberhart (1966); Onofri and colleagues (2021)</td><td>CC BY 4.0.</td></tr>
+      <tr><td>Textbook 8 × 8 diallel; North Carolina I and III; line × tester</td><td>Singh and Chaudhary (1979)</td><td>Transcriptions distributed under the GPL in free software.</td></tr>
+      <tr><td>Maize: means of 36 single crosses</td><td>Griffing (1956b)</td><td>Transcription distributed under the GPL.</td></tr>
+      <tr><td>Potato: North Carolina II; potato: 28 clones in 6 locations</td><td>International Potato Center (CIP), Peru: Majes; Ayacucho, Huancayo, La Molina and San Ramón (2002–2003)</td><td>Distributed under the GPL in free software.</td></tr>
+      <tr><td>Maize: 13 hybrids (one and four environments); oat: 10 genotypes in 14 environments</td><td>T. Olivoto, author of the data</td><td>Distributed by their author under GPL v3.</td></tr>
+      <tr><td>Means of 17 genotypes in 12 environments</td><td>Kang (1993); Kang and Magari (1995)</td><td>Distributed under the GPL.</td></tr>
+      <tr><td><i>N. rustica</i>: six generations</td><td>Gale, Mather and Jinks (1977), table 1, first set</td><td>Only the published statistics are used (number, mean and variance of each generation); the plants were reconstructed with those exact values.</td></tr>
+      <tr><td>Block 10: animal and sire models</td><td>Mrode (2014), examples 3.1, 3.2 and the litter example; Schaeffer (2019), tables 3.1, 6.1 and 6.2</td><td>Short textbook examples, reproduced with their source to check the calculations.</td></tr>
+      <tr><td>Block 10: crossbreeding</td><td>van der Werf (n.d.); Tesema and colleagues (2023); Buchanan and Northcutt (n.d.)</td><td>A few published means and parameters, with their source; the paper by Tesema and colleagues is CC BY 4.0.</td></tr>
+      <tr><td>Block 11: wheat with DArT markers; dent × flint maize hybrids</td><td>Crossa and colleagues (2010), data of the International Maize and Wheat Improvement Center (CIMMYT); Technow and colleagues (2014), with 2,000 of the 35,478 SNPs</td><td>Distributed under the GPL in free software.</td></tr>
+      <tr><td>All the simulated ones</td><td>BreedingPro, with fixed seeds</td><td>Free of rights; their true values come with the example.</td></tr>
+    </tbody>
+  </table>
+
+  <p><b>Manual resources.</b> The typefaces Cormorant, Crimson Pro and Jost (Christian Thalmann, Jacques Le Bailly and Owen Earl) are under the SIL Open Font License (OFL) 1.1; the app uses no external typefaces. The illustrations and diagrams are original, and the screenshots come from the app itself.</p>
+
+  <h3>How to cite</h3>
+  <div class="cita">Barrera-Guzmán, L. Á. (2026). <i>BreedingPro: a browser-based platform for diallel crosses, mating designs, genetic parameters and prediction in plant and animal breeding</i> (Version 1.0.1) [Computer software]. https://doi.org/10.5281/zenodo.23005938</div>
+  <div class="cita">Barrera-Guzmán, L. Á. (2026). <i>BreedingPro: User’s Manual</i> (1st English ed.). Distributed with BreedingPro, version 1.0.1. https://doi.org/10.5281/zenodo.23005938</div>
+  <p class="small">The citation of the program is the one given by the <span class="ui">How to cite</span> section of the app’s home page and card <span class="ui">4 · How to cite</span> of Block 12, and the one that closes every Block 12 report in English. The DOI is the concept DOI: it always leads to the most recent version. Each archived version also has its own (version 1.0.0, 10.5281/zenodo.23005939).</p>
+
+</section>
+
+</body>
+</html>

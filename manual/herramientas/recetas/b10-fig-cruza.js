@@ -13,5 +13,5 @@
   await xex("sim3");
   { const a = Fig.registry.b10FigX; a.cfg.width = 700; a.cfg.height = 420; a.redraw(); await W(600); }
   const f = $("b10FigX"); irA(f); await W(400);
-  caja([f.querySelector("svg")], 4);
+  caja([[...f.querySelectorAll("svg")].reduce((m, s) => { const r = s.getBoundingClientRect(), q = m ? m.getBoundingClientRect() : null; return !q || r.width * r.height > q.width * q.height ? s : m; }, null)], 4);
 })()

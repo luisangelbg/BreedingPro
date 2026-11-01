@@ -1,0 +1,267 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>BreedingPro · User’s Manual · Block 10: mixed models, BLUP and crossbreeding</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,500;0,600;1,500&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../interior.css">
+<!-- splits the content into letter-size sheets, with running heads and page numbers -->
+<script src="../paginar.js"></script>
+<style>
+  figure.chica .marco, figure.chica > svg { width: 72%; margin: 0 auto; }
+  figure.chica figcaption { margin-left: 14%; margin-right: 14%; }
+  figure.angosta .marco { width: 58%; margin: 0 auto; }
+  figure.angosta figcaption { margin-left: 21%; margin-right: 21%; }
+  td.n, th.n { text-align: right; white-space: nowrap; }
+  td.c, th.c { text-align: center; }
+  .formula { font-family: var(--sans); font-size: 9pt; background: #f6f3fa; border-radius: 4px; padding: 0.07in 0.12in; margin: 0.06in 0 0.12in; line-height: 1.6; }
+  .sb { text-decoration: overline; }
+</style>
+</head>
+<body>
+
+<section class="capitulo" id="cap-b10" data-pestana="B10" data-orden="11" style="--acento: var(--b10)">
+  <div class="cap-apertura">
+    <div class="cap-num">B10</div>
+    <div class="cap-etiqueta">Chapter ten · Block 10 · BLUP and crossbreeding</div>
+    <h1 data-corto="Block 10 · Mixed models, BLUP and crossbreeding">Mixed models, BLUP and crossbreeding</h1>
+    <div class="cap-regla"></div>
+    <p class="cap-resumen">Relationship says how alike two individuals are, and with it a record also tells you about the individual’s parents, its sibs and its progeny. Block 10 reads the pedigree, computes inbreeding and the relationship matrix, predicts breeding values with the animal or the sire model, estimates the variance components by REML, predicts the genotypes of a trial with their relationships and, for crossbreeding, estimates Dickerson’s parameters and predicts crosses, rotations and composites.</p>
+    <div class="cap-franja"><span class="k10"></span><span class="k10" style="opacity:.75"></span><span class="k10" style="opacity:.5"></span><span class="k10" style="opacity:.3"></span></div>
+    <ul class="cap-contenido">
+      <li><b>10.1</b>What the block does</li>
+      <li><b>10.2</b>Records and pedigree</li>
+      <li><b>10.3</b>The animal model</li>
+      <li><b>10.4</b>Sires, repeated records and other effects</li>
+      <li><b>10.5</b>BLUP of the genotypes of a trial</li>
+      <li><b>10.6</b>Crossbreeding</li>
+      <li><b>10.7</b>Downloads and next step</li>
+    </ul>
+  </div>
+
+  <!-- ====================================================================== 10.1 -->
+  <h2 id="s10-1"><span class="num">10.1</span>What the block does</h2>
+  <p class="lead">Unlike the previous blocks, Block 10 nearly always works with data of its own: records of individuals with their sire and dam in cards 1 and 2, and means of breeds and their crosses in card 4. Only card 3 uses the trial loaded in Block 3, to which it adds the pedigree from card 1. It serves animals and plants alike: it accepts selfing, parents that are already pure lines and lines derived through several generations of selfing.</p>
+  <table class="compacta">
+    <caption><b>Table 10.1.</b> The cards of Block 10.</caption>
+    <thead><tr><th style="width:36%">Card</th><th>What it gives</th></tr></thead>
+    <tbody>
+      <tr><td>1 · Records and pedigree</td><td>Reading and checking of the pedigree, inbreeding, Mendelian sampling variance and relationship matrix A</td></tr>
+      <tr><td>2 · Animal model: breeding values (BLUP) and components (REML)</td><td>Animal or sire model, with permanent environment, maternal effect and other random factors; breeding values with their reliability; genetic trend</td></tr>
+      <tr><td>3 · BLUP of the trial genotypes (Block 3) with the pedigree</td><td>Prediction of the entries of a trial with independent genotypes, with their relationships, or with an additive and a non-additive part</td></tr>
+      <tr><td>4 · Crossbreeding: Dickerson's parameters and prediction of systems</td><td>Direct and maternal breed effects, heterosis and recombination loss; prediction of crosses, rotations and composites</td></tr>
+      <tr><td>5 · Assumptions, formulas and references</td><td>The models, their formulas and the references</td></tr>
+    </tbody>
+  </table>
+  <p>The thread of the chapter is a simulated sheep flock: 439 lambs born over three years, progeny of 60 rams and 320 ewes, weighed at weaning. It was simulated with σ²<sub>a</sub> = 30 and σ²<sub>e</sub> = 70 (<i>h</i>² = 0.30), a sex effect and a year effect, and each year’s replacements were drawn at random from the lambs, with no selection. The examples of Mrode (2014) and Schaeffer (2019) serve for the checks; plants come in with the pedigree of the 60 lines of the simulated trial of Block 3, and crossbreeding with a simulated three-breed experiment and four published examples.</p>
+
+  <!-- ====================================================================== 10.2 -->
+  <h2 id="s10-2"><span class="num">10.2</span>Records and pedigree</h2>
+  <p>Card <span class="ui">1 · Records and pedigree</span> expects one row per record with the individual, its sire and its dam; an unknown parent is written 0 or NA, or left empty. Parents without a row of their own are added as founders: in the flock there are 170, the 20 rams and 150 ewes of the first year. <span class="ui">Records (file)</span> reads .xlsx, .xls, .xlsm, .ods, .csv, .tsv and .txt files; <span class="ui">Separate pedigree (optional)</span> adds a second file with ancestors that have no records, so that the relationships reach further back. Seven examples load ready-made data (Table 10.2).</p>
+  <figure>
+    <div class="marco"><img src="../img/en/b10-datos.png" alt="Card 1 · Records and pedigree with the seven example buttons, Simulated: sheep flock, h² = 0.3 loaded (439 rows), the notice that 170 parents without a row of their own were added as founders, the tiles Individuals 609, Founders 170, Generations 4, Sires / dams 60 / 320, Inbred 21, Mean F 0.0023 and Largest F 0.1563, and the table of inbreeding by generation"></div>
+    <figcaption><b>Figure 10.1.</b> Card 1 with the simulated flock: 609 individuals in four generations, 21 of them inbred, with a largest F of 0.1563.</figcaption>
+  </figure>
+  <table class="compacta">
+    <caption><b>Table 10.2.</b> The examples of cards 1 and 2.</caption>
+    <thead><tr><th style="width:36%">Example</th><th>Data</th><th style="width:27%">Shows</th></tr></thead>
+    <tbody>
+      <tr><td>Mrode: animal model (Ex. 3.1)</td><td>5 calves with records, 8 individuals; σ²<sub>a</sub> = 20 and σ²<sub>e</sub> = 40</td><td>The animal model</td></tr>
+      <tr><td>Mrode: sire model (Ex. 3.2)</td><td>The same data, σ²<sub>s</sub> = 5 and σ²<sub>e</sub> = 55</td><td>The sire model</td></tr>
+      <tr><td>Schaeffer: random contemporary groups</td><td>15 records, 29 individuals; fixed year, random contemporary group</td><td>Other random factors</td></tr>
+      <tr><td>Schaeffer: repeated records</td><td>22 records of 12 individuals</td><td>The permanent environment</td></tr>
+      <tr><td>Mrode: litter effect (Ex. 5.2)</td><td>10 piglets from three litters, 15 individuals</td><td>The litter as a random effect</td></tr>
+      <tr><td>Simulated: sheep flock, <i>h</i>² = 0.3</td><td>439 lambs, 609 individuals</td><td>REML and the thread of the chapter</td></tr>
+      <tr><td>Simulated: pedigree of inbred lines</td><td>8 parents and 60 F<sub>6</sub> lines</td><td>Selfing; card 3</td></tr>
+    </tbody>
+  </table>
+  <p>The folded box <span class="ui">Role of every column</span> has a menu for each column with the roles of Table 10.3. The app proposes them from the name: Animal, ID, Individual or Genotype is the individual; Sire, Father or Bull, the sire; Dam or Mother, the dam; CG, Litter or Group, a random effect; a numeric column with few integer values, a fixed effect, and one with many values, the response trait. In plants, the seed parent goes in as the dam and the pollen parent as the sire.</p>
+  <table class="compacta">
+    <caption><b>Table 10.3.</b> The column roles.</caption>
+    <thead><tr><th style="width:34%">Role</th><th>What it is for</th></tr></thead>
+    <tbody>
+      <tr><td>Individual</td><td>The identifier; it is repeated if the individual has several records</td></tr>
+      <tr><td>Sire (or parent 1) · Dam (or parent 2)</td><td>The parents</td></tr>
+      <tr><td>Response trait</td><td>The traits analyzed; card 2 picks one</td></tr>
+      <tr><td>Fixed effect (factor)</td><td>Sex, year, herd, season or type of birth</td></tr>
+      <tr><td>Covariate</td><td>Age at weighing or birth weight, with a linear regression</td></tr>
+      <tr><td>Random effect (factor)</td><td>Contemporary group or litter, with its own variance</td></tr>
+      <tr><td>Generations of selfing</td><td>The <i>t</i> generations of each line since the cross of its parents</td></tr>
+      <tr><td>Founder inbreeding</td><td>The F of a founder: 1 for a pure line</td></tr>
+      <tr><td>Birth year (trend)</td><td>Only for the genetic trend</td></tr>
+      <tr><td>Ignore</td><td>The column is left out</td></tr>
+    </tbody>
+  </table>
+  <p>The card checks the pedigree before using it and warns about each problem: an individual that appears twice with different parents (the first row is kept), an individual that is its own parent (that parent is deleted), a loop in which someone turns out to be its own ancestor, and the same individual as sire and as dam, which is normal in monoecious plants but not in animals. It then sorts the pedigree so that parents come before their progeny and gives a summary, the inbreeding by generation and, when the pedigree has up to 60 individuals, the relationship matrix A as a heat map.</p>
+  <figure class="chica">
+    <div class="marco"><img src="../img/en/b10-fig-ped.png" alt="Bar chart of the mean inbreeding of the flock by pedigree generation, with diamonds for the largest F of each generation"></div>
+    <figcaption><b>Figure 10.2.</b> Inbreeding of the flock by generation: the bars are the mean F and the diamonds, the largest. Inbreeding appears in the second generation, from half-sib matings.</figcaption>
+  </figure>
+  <p>The folded box <span class="ui">Individuals, inbreeding and Mendelian sampling</span> lists each individual with its generation, its selfings, its F and its <i>b</i>, the Mendelian sampling variance relative to σ²<sub>a</sub>; an asterisk marks the added founders. Inbreeding comes from the path vectors of Meuwissen and Luo (1992), and the inverse A<sup>−1</sup> is built directly with the rules of Henderson (1976) and Quaas (1976): for each individual, 1/<i>b</i> is added to its diagonal, −1/(2<i>b</i>) to the cells with its parents and 1/(4<i>b</i>) to the cell of the parents with each other. So the model never needs to invert A.</p>
+  <div class="formula"><span style="white-space:nowrap"><i>b</i> = ½ − ¼(F<sub>s</sub> + F<sub>d</sub>)</span> with both parents known, <span style="white-space:nowrap">¾ − ¼F<sub>s</sub></span> with one and 1 with none; <span style="white-space:nowrap">log|A| = Σ log <i>b</i></span></div>
+  <figure class="angosta">
+    <div class="marco"><img src="../img/en/b10-fig-a.png" alt="Heat map of the relationship matrix A of Schaeffer's example with contemporary groups, 29 individuals"></div>
+    <figcaption><b>Figure 10.3.</b> The A matrix of Schaeffer’s example with contemporary groups: 29 individuals, the 14 founders first. Parent and offspring and the full sibs 15 and 16 have a relationship of 0.5; half sibs, such as 22 and 23, 0.25.</figcaption>
+  </figure>
+  <p>In plants you tick <span class="ui">Plants: selfing allowed</span>, and an individual with the same sire and dam is a self and not an error. The lines example brings the pedigree of the 68 entries of the simulated trial of Block 3: 8 parents that are pure lines (founder inbreeding = 1) and 60 lines, five from each of 12 single crosses, with five generations of selfing. A line with <i>t</i> selfings since the cross of its parents <i>s</i> and <i>d</i> keeps the relationships of its F<sub>1</sub> with everyone else and has</p>
+  <div class="formula"><span style="white-space:nowrap">F = 1 − (½)<sup><i>t</i></sup>(1 − <i>f</i><sub>sd</sub>)</span>, with <i>f</i><sub>sd</sub> the coancestry coefficient of its parents; its <span style="white-space:nowrap"><i>b</i> = (1 + F) − ¼(<i>a</i><sub>ss</sub> + <i>a</i><sub>dd</sub> + 2<i>a</i><sub>sd</sub>)</span> enters Quaas’s rules unchanged.</div>
+  <p>With pure, unrelated parents, <i>f</i><sub>sd</sub> = 0 and each F<sub>6</sub> line has F = 1 − 1/32 = 0.9688; the mean F of the 68 entries is 0.9724 (Figure 10.4).</p>
+  <figure>
+    <div class="marco"><img src="../img/en/b10-lineas.png" alt="Pedigree summary of the inbred lines: individuals, founders, generations and inbreeding tiles and the table by generation"></div>
+    <figcaption><b>Figure 10.4.</b> The pedigree of the lines: 8 founders with F = 1 and 60 lines with F = 0.9688.</figcaption>
+  </figure>
+  <div class="caja nota">
+    <div class="caja-t"><span class="ico">✓</span>Verified · the published values</div>
+    <p>In Schaeffer’s seven-animal pedigree (2019, tables 2.9 to 2.14), the F values are 0, 0, 0, 0, 0.125, 0.25 and 0.28125, <i>b</i><sub>7</sub> = 0.40625, and A and A<sup>−1</sup> match the published ones; in Mrode’s (2014, table 2.1), F<sub>5</sub> = F<sub>6</sub> = 0.125 and A·A<sup>−1</sup> is the identity to within 10<sup>−12</sup>. For the 68 lines, the app’s A<sup>−1</sup> is the inverse of the A computed separately by the tabular method, to within 1.8 × 10<sup>−15</sup>.</p>
+  </div>
+
+  <!-- ====================================================================== 10.3 -->
+  <h2 id="s10-3"><span class="num">10.3</span>The animal model</h2>
+  <p>Card <span class="ui">2 · Animal model: breeding values (BLUP) and components (REML)</span> has three menus: the <span class="ui">Trait</span>; the <span class="ui">Model</span>, <span class="ui">animal (every individual)</span> or <span class="ui">sire</span>, and the <span class="ui">Variances</span>, <span class="ui">estimate them by REML</span> or <span class="ui">give them (known)</span>. Two checkboxes add the <span class="ui">Permanent environment (repeated records)</span> and the <span class="ui">Maternal genetic effect</span>. The line beneath says which fixed and random effects go in; they are changed in the role table of card 1. <span class="ui">Fit the model</span> solves.</p>
+  <div class="formula"><span style="white-space:nowrap"><b>y</b> = X<b>b</b> + Z<b>a</b> + <b>e</b></span>, with <span style="white-space:nowrap">var(<b>a</b>) = Aσ²<sub>a</sub></span> and <span style="white-space:nowrap">var(<b>e</b>) = Iσ²<sub>e</sub></span>; Henderson’s mixed-model equations with <span style="white-space:nowrap">A<sup>−1</sup>σ²<sub>e</sub>/σ²<sub>a</sub></span> added to the block of <b>a</b>; <span style="white-space:nowrap">PEV = σ²<sub>e</sub>C<sup>aa</sup></span></div>
+  <p>The animal model gives a breeding value to every individual in the pedigree, whether or not it has records. The equations are solved exactly, with dense matrices, up to 2,600 unknowns; beyond that, the app says so and suggests trimming the pedigree to the ancestors of the individuals with records. The components are estimated by restricted maximum likelihood with average-information iterations (Gilmour, Thompson and Cullis, 1995), a few EM steps at the start and bounds at zero.</p>
+  <figure>
+    <div class="marco"><img src="../img/en/b10-modelo.png" alt="Card 2 with the flock: the menus Trait, Model and Variances, the Fit the model button, the variance component tiles and table, and the table Is every random effect needed?"></div>
+    <figcaption><b>Figure 10.5.</b> Card 2 with the flock: REML converged in 9 iterations. σ²<sub>a</sub> = 20.79 ± 9.47 and σ²<sub>e</sub> = 84.32 ± 9.43, with <i>h</i>² = 0.198 ± 0.086; the likelihood ratio says that σ²<sub>a</sub> is not zero.</figcaption>
+  </figure>
+  <p>The estimated heritability, 0.198, lies 1.2 standard errors from the true one, 0.30: with 439 records of a single weighing, the additive variance is estimated with little precision. The note warns about it: in small samples, the ±1.96 standard-error interval of a variance covers less than it claims (in simulations with about 150 records, 90% instead of 95%). The table <span class="ui">Is every random effect needed?</span> compares the restricted likelihood with and without each effect; the ratio, 8.20, is compared with the ½χ²<sub>0</sub> + ½χ²<sub>1</sub> mixture of a variance on the boundary (Self and Liang, 1987) and gives <i>p</i> = 0.0021. That comparison holds only between models with the same fixed effects.</p>
+  <p>The folded box <span class="ui">Fixed effects (least-squares means)</span> gives the mean of each level with its standard error. In the flock, males weigh 31.49 ± 0.96 and females 30.03 ± 0.96; the years, 30.63, 30.16 and 31.48.</p>
+  <figure>
+    <div class="marco"><img src="../img/en/b10-ebv.png" alt="The Breeding values table of the flock sorted from highest to lowest, with the Order and Rows menus"></div>
+    <figcaption><b>Figure 10.6.</b> The first 12 breeding values of the flock. The menus choose the order (highest or lowest breeding value, highest reliability or identifier) and how many rows are shown (25, 50, 100 or all).</figcaption>
+  </figure>
+  <p>The breeding value is a deviation from the base of the pedigree, the founders, whose expected mean is 0. It combines the individual’s own record with those of all its relatives, in the proportion their relationship dictates. A0282 has the highest record in the table (64.26), yet comes second; A0294 is third with only 46.20 because it is the sire of the first, A0386, and has more progeny: its reliability, 0.377, is the highest of the 12 rows. The 170 founders without records also receive a breeding value, from their progeny alone: ram S4 is 16th (4.34, with reliability 0.389).</p>
+  <div class="formula">SEP = √PEV; <span style="white-space:nowrap">reliability <i>r</i>² = 1 − PEV/[(1 + F)σ²<sub>a</sub>]</span>; accuracy <i>r</i> = √<i>r</i>²</div>
+  <p>The formula of several textbooks, 1 − PEV/σ²<sub>a</sub>, overstates the reliability of inbred individuals; the app includes 1 + F. In the flock, reliabilities range from 0.05 to 0.47: with a heritability of 0.2, a single record says little. Because the flock is simulated, the note gives the correlation between the estimated and the true breeding value of the 609 individuals: 0.619.</p>
+  <figure class="chica">
+    <div class="marco"><img src="../img/en/b10-fig-ebv.png" alt="The 20 best breeding values of the flock with whiskers of plus or minus one standard error of prediction"></div>
+    <figcaption><b>Figure 10.7.</b> The 20 best breeding values with ± SEP. Color separates individuals with records from those without, and intensity shows accuracy. Its panel switches the view to value against accuracy.</figcaption>
+  </figure>
+  <p>The whiskers of Figure 10.7 are wide: the SEP of almost 4&nbsp;kg is as large as the differences among the top places. Even so, the breeding value is the best bet: it already discounts that uncertainty, and choosing those with the highest breeding values gives the greatest expected response even if the exact order of the first few is uncertain.</p>
+  <figure class="chica">
+    <div class="marco"><img src="../img/en/b10-fig-tendencia.png" alt="Line chart of the mean breeding value of the flock by pedigree generation"></div>
+    <figcaption><b>Figure 10.8.</b> The genetic trend of the flock: the mean breeding value by pedigree generation. Because the replacements were chosen at random, there is no real trend; −0.24 in the third generation is small next to a SEP of 3.8.</figcaption>
+  </figure>
+  <p>The <span class="ui">Trend by</span> menu groups by pedigree generation, by birth year or by any fixed or random factor. In a program with selection, the slope of that line is the genetic response achieved.</p>
+  <div class="caja nota">
+    <div class="caja-t"><span class="ico">✓</span>Verified · the published values</div>
+    <p>With Mrode’s example 3.1 (2014) and σ²<sub>a</sub> = 20, σ²<sub>e</sub> = 40, the sex effects are 4.3585 (males) and 3.4044 (females), and the breeding values of animals 1 to 8, 0.0984, −0.0188, −0.0411, −0.0087, −0.1857, 0.1769, −0.2495 and 0.1826, equal to the published ones to within 10<sup>−7</sup>; animal 1 has PEV 18.84 and reliability 0.058. The REML of the flock agrees with an independent maximization of the restricted likelihood (log L = −1634.0949).</p>
+  </div>
+
+  <!-- ====================================================================== 10.4 -->
+  <h2 id="s10-4"><span class="num">10.4</span>Sires, repeated records and other effects</h2>
+  <p><b>The sire model.</b> With <span class="ui">Model: sire</span>, the random effect is the transmitting ability of each sire, half its breeding value, with the relationships of the sires and their ancestors. Its variance is σ²<sub>s</sub> = ¼σ²<sub>a</sub>, so <i>h</i>² = 4σ²<sub>s</sub>/σ²<sub>P</sub>, and the column <span class="ui">EBV (2 × TA)</span> gives twice the transmitting ability so that it reads on the scale of the animal model. The records and mean columns become those of each sire’s progeny, and the records of individuals with no known sire do not contribute to the sire effect (the app counts them in a notice). It is a smaller model than the animal model, but it ignores the dams and assumes that their mates are a random sample.</p>
+  <p><b>Repeated records.</b> The checkbox <span class="ui">Permanent environment (repeated records)</span> adds an effect of each individual, with no relationships, that is repeated in all its records: what an individual has of good or bad from its history and not from its genes. Repeatability is <i>t</i> = (σ²<sub>a</sub> + σ²<sub>pe</sub>)/σ²<sub>P</sub>. If no individual has more than one record, the effect is not estimable and the app leaves it out with a notice.</p>
+  <figure>
+    <div class="marco"><img src="../img/en/b10-repetibilidad.png" alt="The variance component tiles and table of Schaeffer's repeated-records example"></div>
+    <figcaption><b>Figure 10.9.</b> Schaeffer’s repeated-records example with its variances: <i>h</i>² = 0.209, repeatability 0.302 and contemporary group 0.116 of the phenotypic variance.</figcaption>
+  </figure>
+  <p>In that example, the breeding value table adds the column <span class="ui">Permanent environment</span>. Animal 21, with two records averaging 83.50, has the highest breeding value (6.86) and a permanent environment of 3.05: part of what it yields above average does not pass to its progeny.</p>
+  <p><b>The maternal effect.</b> The checkbox <span class="ui">Maternal genetic effect</span> adds the maternal breeding value of each individual’s dam, also with A, with no covariance with the direct effect (Willham, 1963). The tiles give <i>m</i>² and the total heritability (σ²<sub>a</sub> + ½σ²<sub>m</sub>)/σ²<sub>P</sub>, and the table, the <span class="ui">Maternal value</span> of each individual. If the direct–maternal covariance exists, the total heritability is (σ²<sub>a</sub> + 1.5σ<sub>am</sub> + 0.5σ²<sub>m</sub>)/σ²<sub>P</sub> (Willham, 1972), and the note warns about it.</p>
+  <p><b>Other random factors.</b> Each column with the role <span class="ui">Random effect (factor)</span> enters with its own variance, independent of the others, and its tile gives the fraction of the phenotypic variance it explains: the contemporary group in Schaeffer’s examples and the litter in Mrode’s (σ²<sub>a</sub> = 20, litter 15 and σ²<sub>e</sub> = 65, with <i>h</i>² = 0.20 and litter 0.15). A random contemporary group pays off when there are many small groups: with the group fixed, in a group of two or three animals the group effect takes almost the whole record; with the group random, that effect shrinks toward zero and the record says more about the animal.</p>
+  <p><b>Given or estimated variances.</b> With <span class="ui">give them (known)</span> a box appears for each variance; it is used when they come from a larger population or from the literature, and the solutions are those of Henderson’s equations with those values, without standard errors or tests. With few records, such as Mrode’s five calves, REML cannot estimate anything useful; with the flock it can.</p>
+  <div class="caja nota">
+    <div class="caja-t"><span class="ico">✓</span>Verified · the published values</div>
+    <p>Mrode’s sire model (2014, Ex. 3.2): sex 4.3357 and 3.3820, and transmitting abilities of sires 1, 3 and 4 equal to 0.0220, 0.0140 and −0.0430. Schaeffer (2019), table 3.1: years 94.82 and 87.14, contemporary groups ±2.0653 and ±3.6688, and breeding values of animals 25, 28 and 17 equal to 7.8180, 7.3074 and −6.4880. Tables 6.1 and 6.2: breeding values of animals 7, 11 and 21 equal to 1.3535, 3.2348 and 6.8624, with permanent environments of −0.0910, 2.5214 and 3.0512. Schaeffer prints reliabilities of 0.2442 and 0.1980 computed with rounded values; the exact ones are 0.24414 and 0.1986.</p>
+  </div>
+
+  <!-- ====================================================================== 10.5 -->
+  <h2 id="s10-5"><span class="num">10.5</span>BLUP of the genotypes of a trial</h2>
+  <p>Card <span class="ui">3 · BLUP of the trial genotypes (Block 3) with the pedigree</span> joins the trial loaded in Block 3 with the pedigree from card 1; the entries must carry the same name in both. The notice at the top counts how many do (here, all 68). Without a trial in Block 3, the card asks you to load one; if no name matches, it says so, and with the simulated lines trial it suggests loading their pedigree. That pedigree has no response trait, so card 2 warns that it serves only for card 3.</p>
+  <p>The <span class="ui">Genetic effect</span> menu has three models: <span class="ui">independent genotypes (K = I)</span>, the usual BLUP; <span class="ui">additive with the pedigree (K = A)</span>, in which relatives share information, and <span class="ui">additive (A) + non-additive (I)</span>, with one part inherited through the pedigree and another specific to each genotype (Oakey and colleagues, 2006). Environments and replicates within environments are fixed and the genotype × environment interaction is random; with a single environment, only the replicates are fixed. The predicted value is the mean of the fixed effects plus the genotypic BLUP, and the heritability is the generalized one of Cullis, Smith and Coombes (2006).</p>
+  <div class="formula"><span style="white-space:nowrap"><i>H</i>² = 1 − <span class="sb">v</span>/(2σ²<sub>G</sub>)</span>, with <span class="sb">v</span> the mean PEV of a difference between two entries; with A, <span style="white-space:nowrap">σ²<sub>G</sub> = (1 + <span class="sb">F</span>)σ²<sub>a</sub></span>, and with A + I σ²<sub>i</sub> is added to it</div>
+  <figure>
+    <div class="marco"><img src="../img/en/b10-ensayo.png" alt="Card 3 with the Trait and Genetic effect menus set to additive with the pedigree (K = A), the Fit button and the variance component tiles of the simulated lines"></div>
+    <figcaption><b>Figure 10.10.</b> The simulated lines with K = A: σ²<sub>a</sub> = 0.333 (the true one is 0.3), Cullis <i>H</i>² 0.889, and a higher log L than with K = I.</figcaption>
+  </figure>
+  <table class="compacta">
+    <caption><b>Table 10.4.</b> The three models with the simulated lines (true values: σ²<sub>a</sub> = 0.3, σ²<sub>i</sub> = 0.1, σ²<sub>GE</sub> = 0.1 and σ²<sub>e</sub> = 0.4).</caption>
+    <thead><tr><th>Model</th><th class="n">σ²<sub>a</sub></th><th class="n">σ²<sub>i</sub> or σ²<sub>G</sub></th><th class="n">σ²<sub>GE</sub></th><th class="n">Cullis <i>H</i>²</th><th class="n">Correlation with the truth</th></tr></thead>
+    <tbody>
+      <tr><td>K = I</td><td class="n">—</td><td class="n">σ²<sub>G</sub> = 0.386</td><td class="n">0.060</td><td class="n">0.799</td><td class="n">0.897</td></tr>
+      <tr><td>K = A</td><td class="n">0.333</td><td class="n">—</td><td class="n">0.061</td><td class="n">0.889</td><td class="n">0.896</td></tr>
+      <tr><td>A + I</td><td class="n">0.091</td><td class="n">σ²<sub>i</sub> = 0.239</td><td class="n">0.060</td><td class="n">0.819</td><td class="n">0.899</td></tr>
+    </tbody>
+  </table>
+  <p>With K = A, the tile <span class="ui">log L: A against I</span> reads 1.386: the two models have the same parameters, so the higher log L says that the relationships fit better. The two σ²<sub>G</sub> are not comparable: with K = A it refers to the population of the founders, (1 + <span class="sb">F</span>)σ²<sub>a</sub> = 0.657; with K = I, to the 68 entries as they are, 0.386, which come from only 8 parents.</p>
+  <figure>
+    <div class="marco"><img src="../img/en/b10-ensayo-tabla.png" alt="The ten best lines by their predicted value with the pedigree relationships"></div>
+    <figcaption><b>Figure 10.11.</b> The 10 best entries with K = A. L51 has the second-best observed mean, but comes third: its family (P3 × P7) is worse than that of L57 (P4 × P8).</figcaption>
+  </figure>
+  <p>For each entry, the table gives its parents, its F, its plots, the observed mean, the additive part, the predicted value, the SEP and the reliability; with A + I it adds the non-additive part. Parent P8 is sixth with a reliability of 0.804, higher than that of the lines (0.754), because it has 15 descendant lines that tell about it.</p>
+  <figure class="chica">
+    <div class="marco"><img src="../img/en/b10-fig-shrink.png" alt="Scatter of the predicted value against the observed mean of each entry, with the 1 : 1 diagonal and the ten best highlighted"></div>
+    <figcaption><b>Figure 10.12.</b> Predicted value against observed mean. BLUP shrinks the extreme means toward the mean of the fixed effects (the horizontal line); the dashed diagonal is 1 : 1 and the 10 best are highlighted.</figcaption>
+  </figure>
+  <p>Here the trial is balanced and the heritability is high, so BLUP and the observed mean rank almost the same (correlations with the truth of 0.896 and 0.897). BLUP wins when plots are missing, when the entries have different numbers of replicates or when the heritability is low; the relationships win when there are families with few plots each.</p>
+  <div class="caja importante">
+    <div class="caja-t"><span class="ico">!</span>Important · additive and non-additive in a single trial</div>
+    <p>With A + I, the test of the additive part is significant (χ² = 3.24, <i>p</i> = 0.036), but the split is not reliable: σ²<sub>a</sub> = 0.091 and σ²<sub>i</sub> = 0.239 for true values of 0.3 and 0.1. Separating the two parts takes many families with varied relationships; with 12 crosses they are confounded, and you should also look at the additive-only model, as the card’s note says.</p>
+  </div>
+
+  <!-- ====================================================================== 10.6 -->
+  <h2 id="s10-6"><span class="num">10.6</span>Crossbreeding</h2>
+  <p>Card <span class="ui">4 · Crossbreeding: Dickerson's parameters and prediction of systems</span> works with group means. Each group is written as a cross, sire first: A, A×B, C×(A×B), (A×B)×(A×B). For prediction you can add rot(A,B) and rot(A,B,C), the two- and three-breed rotations at equilibrium averaged over the cycle, and comp(A,B,C), the composite with equal parts after random mating; comp(A:0.5,B:0.25,C:0.25) accepts other proportions.</p>
+  <div class="formula">mean of a group = <span style="white-space:nowrap">μ + Σ <i>p</i><sub><i>k</i></sub><i>g</i><sup>I</sup><sub><i>k</i></sub> + Σ <i>p</i><sub>dam,<i>k</i></sub><i>g</i><sup>M</sup><sub><i>k</i></sub> + <i>h</i><sup>I</sup>H<sup>I</sup> + <i>h</i><sup>M</sup>H<sup>M</sup> + <i>r</i><sup>I</sup>R<sup>I</sup></span>, with <span style="white-space:nowrap"><i>h</i><sup>I</sup> = 1 − Σ <i>p</i><sub>sire,<i>k</i></sub><i>p</i><sub>dam,<i>k</i></sub></span>, <i>h</i><sup>M</sup> the <i>h</i><sup>I</sup> of the dam and <span style="white-space:nowrap"><i>r</i><sup>I</sup> = (<i>h</i><sub>sire</sub> + <i>h</i><sub>dam</sub>)/4</span></div>
+  <p>It is Dickerson’s model (1969, 1973): <i>g</i><sup>I</sup> and <i>g</i><sup>M</sup> are the direct and maternal additive effects of each breed, H<sup>I</sup> and H<sup>M</sup> the heterosis of the individual and that of its dam, and R<sup>I</sup> the recombination loss, what is lost when the favorable gene combinations of each breed are broken up. The <span class="ui">What to do</span> menu has three options: estimate the parameters from group means, predict with known parameters, or predict from breed means and heterosis in percent. Five examples cover them (Table 10.5).</p>
+  <table class="compacta">
+    <caption><b>Table 10.5.</b> The crossbreeding examples.</caption>
+    <thead><tr><th style="width:36%">Example</th><th>Data</th><th style="width:25%">What it does</th></tr></thead>
+    <tbody>
+      <tr><td>Simulated: three breeds</td><td>16 groups of 30 animals: purebreds, F<sub>1</sub>, backcrosses, F<sub>2</sub> and three-breed crosses</td><td>Estimates all the parameters</td></tr>
+      <tr><td>Simulated: four-breed diallel</td><td>4 purebreds and their 12 reciprocal F<sub>1</sub></td><td>Heterosis of each pair of breeds</td></tr>
+      <tr><td>Two-breed diallel (van der Werf)</td><td>The 4 means of a two-breed diallel</td><td>Exact fit</td></tr>
+      <tr><td>Boer × local goats (Tesema et al. 2023)</td><td>Published parameters</td><td>Predicts with parameters</td></tr>
+      <tr><td>Heterosis in percent (Buchanan &amp; Northcutt)</td><td>Means of three breeds, heterosis of 4.7 and 4.2%</td><td>Predicts in percent</td></tr>
+    </tbody>
+  </table>
+  <figure>
+    <div class="marco"><img src="../img/en/b10-cruza-datos.png" alt="Card 4 with the groups of the simulated three-breed experiment: cross, n, mean and SE, the list of crosses and systems to predict and the Compute button"></div>
+    <figcaption><b>Figure 10.13.</b> Card 4 with the three-breed experiment: one row per group with its cross, its number of animals, its mean and the standard error of the mean. Beneath go the list of what you want to predict and the <span class="ui">Compute</span> button.</figcaption>
+  </figure>
+  <p>To estimate, each row of <span class="ui">Groups</span> carries the cross, <i>n</i>, the mean and its standard error. If all groups have a standard error, the weights are 1/SE² and there is a lack-of-fit test; if not, the weights are <i>n</i>, or equal if there is no <i>n</i> either. Breed effects are estimated with Σ<i>g</i><sup>I</sup> = Σ<i>g</i><sup>M</sup> = 0, as deviations from the average of the breeds. The checkboxes remove or add the maternal breed effects, maternal heterosis, recombination loss and the heterosis of each pair of breeds; a parameter that the groups cannot separate is marked as not estimable, and so are the predictions that depend on it.</p>
+  <figure>
+    <div class="marco"><img src="../img/en/b10-cruza-par.png" alt="The crossbreeding parameters estimated in the simulated experiment next to the true values of the simulation"></div>
+    <figcaption><b>Figure 10.14.</b> The parameters of the three-breed experiment next to the true ones of the simulation. The lack of fit is not significant (χ² = 10.81 with 8 degrees of freedom, <i>p</i> = 0.21).</figcaption>
+  </figure>
+  <p>The direct and maternal effects come close to the true ones. Direct heterosis, 10.40 ± 1.20 against 8, falls just outside its 95% interval (8.05 to 12.75); in 1,000 simulated experiments those intervals cover between 93 and 95% of the time, as they should. The recombination loss, −4.11, has a standard error of 6.06: only the groups whose parents are already crosses separate it, and with 30 animals per group that is not enough. That is the usual situation in real experiments.</p>
+  <figure>
+    <div class="marco"><img src="../img/en/b10-cruza-pred.png" alt="The predictions of crosses, rotations and composites with their standard errors and coefficients"></div>
+    <figcaption><b>Figure 10.15.</b> The predictions with their standard errors and their heterosis and recombination coefficients. The terminal cross A×(B×C) is the best (115.36).</figcaption>
+  </figure>
+  <p>A×(B×C) combines the best direct effect, that of A, with a crossbred dam that brings maternal heterosis and the favorable maternal effects of B and C. The rotations retain ⅔ (two breeds) and 6/7 (three breeds) of the heterosis; the three-breed composite retains ⅔, but its recombination coefficient, ⅓, is larger than that of the rotations. The folded box <span class="ui">Coefficients of every group</span> gives the breed proportions of each group and of its dam with their coefficients, useful for checking that a cross was written as intended.</p>
+  <figure class="chica">
+    <div class="marco"><img src="../img/en/b10-fig-cruza.png" alt="Predicted performance of the purebreds, crosses and systems with standard-error whiskers, colored by kind"></div>
+    <figcaption><b>Figure 10.16.</b> The predicted performance with ± SE, by color: purebreds, crosses and systems.</figcaption>
+  </figure>
+  <p><b>The breed diallel.</b> With the checkbox <span class="ui">Heterosis of every pair of breeds</span>, each pair has its own direct heterosis, and if the groups form a diallel, the table <span class="ui">Breed diallel: average, breed and specific heterosis</span> splits it into average, breed and specific heterosis (Eisen and colleagues, 1983). In the simulated four-breed diallel, with true heterosis values of 4, 6, 2, 3, 5 and 4, the estimates are 4.15, 4.70, 2.83, 0.77, 5.37 and 2.85 (lack of fit <i>p</i> = 0.18).</p>
+  <figure>
+    <div class="marco"><img src="../img/en/b10-dialelo.png" alt="The decomposition of the heterosis of the four-breed diallel into average, breed and specific heterosis"></div>
+    <figcaption><b>Figure 10.17.</b> Average heterosis is 3.44 ± 0.57; A is the breed that gives the most heterosis in its crosses and C the least. With four breeds, specific heterosis has only two degrees of freedom and its values come in equal pairs.</figcaption>
+  </figure>
+  <p><b>Known parameters.</b> With <span class="ui">predict with known parameters</span>, the card asks for a list of parameters with their values (mu, gI:B, gM:B, hI, hM, rI) and predicts any cross; those not written are zero, so the breed with no effect written is the reference. The example of Tesema and colleagues (2023) uses their estimates for litter weaning weight in Boer × Central Highland goats: μ = 14.3 (the local breed), Boer <i>g</i><sup>I</sup> = −3.18, heterosis −0.04 and recombination loss −6.20. The predictions are 12.67 for the F<sub>1</sub>, 10.35 for the backcross to Boer, 11.94 for the backcross to the local breed and 9.59 for the F<sub>2</sub>.</p>
+  <p><b>Heterosis in percent.</b> The third option starts from the mean of each breed and the percentages of individual and maternal heterosis and of recombination loss, and predicts multiplicatively: <span style="white-space:nowrap">average of the breeds × (1 + H<sub>I</sub><i>h</i><sup>I</sup>) × (1 + H<sub>M</sub><i>h</i><sup>M</sup>) × (1 − R·<i>r</i><sup>I</sup>)</span>. This is how extension guides teach it.</p>
+  <figure>
+    <div class="marco"><img src="../img/en/b10-buchanan.png" alt="The predictions with heterosis in percent of the Buchanan and Northcutt example"></div>
+    <figcaption><b>Figure 10.18.</b> The example of Buchanan and Northcutt: breeds of 460, 480 and 500 with individual heterosis of 4.7% and maternal heterosis of 4.2%. The F<sub>1</sub> A×B weighs 470 × 1.047 = 492.09.</figcaption>
+  </figure>
+  <div class="caja teoria">
+    <div class="caja-t"><span class="ico">∑</span>Theory in brief · two scales of the recombination loss</div>
+    <p>The <span class="ui">Recombination loss</span> menu has two conventions: (<i>h</i><sub>sire</sub> + <i>h</i><sub>dam</sub>)/4, in which the F<sub>2</sub> has <i>r</i><sup>I</sup> = ½ (Kinghorn, 1980; it is the one Tesema and colleagues use), and (<i>h</i><sub>sire</sub> + <i>h</i><sub>dam</sub>)/2, in which it has 1 (Dickerson, 1973). The predictions are the same with both; only the scale of the parameter changes, which is half as large with the second. When you take a published value, use the convention of the paper.</p>
+  </div>
+  <div class="caja nota">
+    <div class="caja-t"><span class="ico">✓</span>Verified · the published values</div>
+    <p>Van der Werf’s two-breed diallel gives <i>g</i><sup>I</sup><sub>1</sub> − <i>g</i><sup>I</sup><sub>2</sub> = 20, <i>g</i><sup>M</sup> = ∓2.5 and direct heterosis 20, exactly. The predictions of Tesema and colleagues (2023, tables 3 and 4) are 14.30, 12.67, 10.35, 11.94 and 9.59, as published; those of Buchanan and Northcutt, 492.09 for A × B and 507.80 for C × (A × B) with individual heterosis only; with maternal heterosis, the paper gives 529.13 because it rounds the intermediate step, and the app, 529.12. The parameters of the three-breed experiment and of the four-breed diallel agree with an independent fit to within 3.6 × 10<sup>−13</sup>.</p>
+  </div>
+
+  <!-- ====================================================================== 10.7 -->
+  <h2 id="s10-7"><span class="num">10.7</span>Downloads and next step</h2>
+  <p>Card <span class="ui">5 · Assumptions, formulas and references</span> summarizes the pedigree and the relationships, BLUP and REML, the models and crossbreeding, with their references. <span class="ui">Results (.xlsx)</span> downloads, each on its own sheet, the pedigree with F and <i>b</i>, the variance components, the breeding values, the means of each fixed factor, the BLUP of the trial entries, Dickerson’s parameters, the breed diallel decomposition and the predictions. Each figure has its download panel.</p>
+  <p><span class="ui">Continue</span> takes you to Block 11 (genomics), where the relationships come from the markers instead of the pedigree. The back button returns to Block 9 (<span class="ui">← G×E</span>) when the Block 3 data have several environments, and to Block 8 (<span class="ui">← Selection</span>) when they do not.</p>
+</section>
+
+</body>
+</html>

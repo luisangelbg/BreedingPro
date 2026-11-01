@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>BreedingPro · User’s Manual · Block 11: genomic selection and hybrid prediction</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,500;0,600;1,500&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../interior.css">
+<!-- splits the content into letter-size sheets, with running heads and page numbers -->
+<script src="../paginar.js"></script>
+<style>
+  figure.chica .marco, figure.chica > svg { width: 72%; margin: 0 auto; }
+  figure.chica figcaption { margin-left: 14%; margin-right: 14%; }
+  figure.angosta .marco { width: 58%; margin: 0 auto; }
+  figure.angosta figcaption { margin-left: 21%; margin-right: 21%; }
+  td.n, th.n { text-align: right; white-space: nowrap; }
+  td.c, th.c { text-align: center; }
+  .formula { font-family: var(--sans); font-size: 9pt; background: #f6f3fa; border-radius: 4px; padding: 0.07in 0.12in; margin: 0.06in 0 0.12in; line-height: 1.6; }
+</style>
+</head>
+<body>
+
+<section class="capitulo" id="cap-b11" data-pestana="B11" data-orden="12" style="--acento: var(--b11)">
+  <div class="cap-apertura">
+    <div class="cap-num">B11</div>
+    <div class="cap-etiqueta">Chapter eleven · Block 11 · Genomics</div>
+    <h1 data-corto="Block 11 · Genomic selection and hybrid prediction">Genomic selection and hybrid prediction</h1>
+    <div class="cap-regla"></div>
+    <p class="cap-resumen">Markers measure the actual relationship between two individuals, not the one expected from the pedigree, and with it you can predict the value of an individual that was never evaluated. Block 11 checks the markers, builds the genomic relationship matrix, fits GBLUP with the genomic heritability and the marker effects, measures by cross-validation how well it predicts and how much is gained per year, and predicts every possible single cross between two heterotic groups.</p>
+    <div class="cap-franja"><span class="k11"></span><span class="k11" style="opacity:.75"></span><span class="k11" style="opacity:.5"></span><span class="k11" style="opacity:.3"></span></div>
+    <ul class="cap-contenido">
+      <li><b>11.1</b>What the block does</li>
+      <li><b>11.2</b>Markers and quality control</li>
+      <li><b>11.3</b>Genomic relationships</li>
+      <li><b>11.4</b>GBLUP: genomic values</li>
+      <li><b>11.5</b>Cross-validation and response per year</li>
+      <li><b>11.6</b>Hybrid prediction</li>
+      <li><b>11.7</b>Downloads and next step</li>
+    </ul>
+  </div>
+
+  <!-- ====================================================================== 11.1 -->
+  <h2 id="s11-1"><span class="num">11.1</span>What the block does</h2>
+  <p class="lead">Block 11 works with a marker file and, depending on the question, with phenotypes of individuals or with evaluated hybrids. The phenotypes can come with the example, from a file of your own or from the Block 3 trial, if its entries have markers. Everything is computed in the browser: with 600 lines and 1,200 markers, GBLUP takes a few seconds, and a cross-validation with 5 folds and 2 replicates, about fifteen.</p>
+  <table class="compacta">
+    <caption><b>Table 11.1.</b> The cards of Block 11.</caption>
+    <thead><tr><th style="width:36%">Card</th><th>What it gives</th></tr></thead>
+    <tbody>
+      <tr><td>1 · Markers</td><td>Reading of any common coding, quality control, imputation, allele frequencies and population structure</td></tr>
+      <tr><td>2 · Genomic relationships</td><td>VanRaden’s G matrix (methods 1 and 2), a ridge to invert it and an optional blend with the Block 10 pedigree</td></tr>
+      <tr><td>3 · GBLUP: genomic values</td><td>Components by REML, genomic heritability, genomic value of each individual and marker effects</td></tr>
+      <tr><td>4 · Cross-validation and response per year</td><td>Predictive ability for new individuals and genetic gain per year, phenotypic against genomic</td></tr>
+      <tr><td>5 · Hybrid prediction</td><td>GCA of two heterotic groups (and SCA), all single crosses, T2, T1 and T0 validation, three-way and double crosses</td></tr>
+      <tr><td>6 · Assumptions, formulas and references</td><td>The models, their formulas and the references</td></tr>
+    </tbody>
+  </table>
+  <table class="compacta">
+    <caption><b>Table 11.2.</b> The examples of Block 11.</caption>
+    <thead><tr><th style="width:34%">Example</th><th>Data</th><th style="width:24%">Used for</th></tr></thead>
+    <tbody>
+      <tr><td>CIMMYT wheat: 599 lines, 1279 DArT, 4 environments</td><td>Standardized yield of 599 lines in four environments (Crossa and colleagues, 2010)</td><td>Cards 1 to 4: the thread of the chapter</td></tr>
+      <tr><td>Dent × Flint maize: 1254 hybrids</td><td>123 dent and 86 flint lines with 2,000 SNPs; 1,254 of their 10,578 crosses evaluated (Technow and colleagues, 2014)</td><td>Card 5</td></tr>
+      <tr><td>Simulated: 300 lines, 1000 SNPs, <i>h</i>² = 0.4</td><td>Doubled-haploid lines with 60 QTL off the panel; the true value is known</td><td>Checking GBLUP and the validation</td></tr>
+      <tr><td>Simulated: two-group hybrids, 200 of 750</td><td>30 × 25 lines, 100 QTL with dominance; the true value of the 750 crosses is known</td><td>Checking hybrid prediction</td></tr>
+    </tbody>
+  </table>
+
+  <!-- ====================================================================== 11.2 -->
+  <h2 id="s11-2"><span class="num">11.2</span>Markers and quality control</h2>
+  <p>Card <span class="ui">1 · Markers</span> reads one row per individual, with its identifier in the first column and one column per marker; if the file comes the other way around, the checkbox <span class="ui">Markers in rows</span> transposes it. It accepts the codings of Table 11.3 and recognizes on its own which one it is; an empty cell, NA, “-” or “N” is a missing value.</p>
+  <table class="compacta">
+    <caption><b>Table 11.3.</b> The codings card 1 reads. All are converted to dosages 0, 1 and 2 of the counted allele.</caption>
+    <thead><tr><th style="width:30%">Coding</th><th>How it is read</th></tr></thead>
+    <tbody>
+      <tr><td>Dosage 0/1/2</td><td>As is</td></tr>
+      <tr><td>−1/0/1</td><td>1 is added</td></tr>
+      <tr><td>Presence/absence 0/1</td><td>The menu <span class="ui">A 0/1 file means</span> decides: pure lines (0 → 0, 1 → 2) or dosages kept as they are</td></tr>
+      <tr><td>Letters (AA/AB/BB, A/C/G/T)</td><td>The second allele of each marker is counted; the two-base IUPAC codes (R, Y, S, W, K, M) are heterozygotes</td></tr>
+    </tbody>
+  </table>
+  <figure>
+    <div class="marco"><img src="../img/en/b11-marcadores.png" alt="Card 1 · Markers with the CIMMYT wheat: the example buttons, the file and coding controls, the three quality-control limits and the tiles with the individuals and markers kept, the markers removed, the fraction imputed, the mean MAF and the heterozygosity"></div>
+    <figcaption><b>Figure 11.1.</b> Card 1 with the wheat: of 1,279 DArT markers, 1,183 remain, because 96 have a minor allele frequency below 0.05. The lines are pure, so heterozygosity is 0.</figcaption>
+  </figure>
+  <p>Quality control has three limits: the maximum missing rate per marker and per individual (20% each) and the minimum minor allele frequency (MAF, 0.05). Monomorphic markers are also removed, and missing data are replaced by the mean dosage of the marker, 2<i>p</i>. The tiles say how many individuals and markers remained, why each one was removed, what fraction was imputed, and the mean MAF and heterozygosity.</p>
+  <figure class="chica">
+    <div class="marco"><img src="../img/en/b11-fig-maf.png" alt="Histogram of the minor allele frequency of the wheat markers"></div>
+    <figcaption><b>Figure 11.2.</b> Minor allele frequency of the 1,183 wheat markers. A panel with many rare markers says little about relationships.</figcaption>
+  </figure>
+  <p>The card’s second figure shows the principal components of the G matrix, which reveal the structure of the population. When hybrids are loaded, each line is colored by its heterotic group (Figure 11.3). In the wheat, the first three components explain 15.4, 6.2 and 4.5% of the variation.</p>
+  <figure class="chica">
+    <div class="marco"><img src="../img/en/b11-fig-pca.png" alt="Scatter of the first two principal components of G for the dent and flint maize lines, colored by heterotic group"></div>
+    <figcaption><b>Figure 11.3.</b> Principal components of G in Technow’s maize: the first, with 26.8% of the variation, completely separates the dent lines from the flint lines.</figcaption>
+  </figure>
+
+  <!-- ====================================================================== 11.3 -->
+  <h2 id="s11-3"><span class="num">11.3</span>Genomic relationships</h2>
+  <p>Card <span class="ui">2 · Genomic relationships</span> builds VanRaden’s (2008) G matrix. The <span class="ui">Matrix</span> menu offers method 1, with centered markers, and method 2, with each marker standardized, which gives more weight to rare ones. Because the allele frequencies come from the data themselves, each row of G sums to zero and G cannot be inverted; the <span class="ui">Ridge λ</span> adds a small amount to the diagonal (by default, 0.001 times the mean diagonal).</p>
+  <div class="formula">method 1: <span style="white-space:nowrap">G = ZZ′/(2Σ<i>p</i><sub><i>j</i></sub><i>q</i><sub><i>j</i></sub>)</span>, with <span style="white-space:nowrap">Z = M − 2P</span> &nbsp;·&nbsp; method 2: <span style="white-space:nowrap">G = Z*Z*′/<i>m</i></span>, with each column divided by <span style="white-space:nowrap">√(2<i>p</i><sub><i>j</i></sub><i>q</i><sub><i>j</i></sub>)</span> &nbsp;·&nbsp; <span style="white-space:nowrap">K = G + λI</span></div>
+  <figure>
+    <div class="marco"><img src="../img/en/b11-parentesco.png" alt="Card 2 · Genomic relationships with the wheat: the Matrix and Ridge menus and the tiles of the G matrix"></div>
+    <figcaption><b>Figure 11.4.</b> Card 2 with the wheat. In pure lines coded 0/2 the mean diagonal is 2 = 1 + F, the same scale as the pedigree A matrix.</figcaption>
+  </figure>
+  <p>If Block 10 has a pedigree that includes every individual with markers, the menu <span class="ui">Weight of the pedigree (Block 10)</span> appears, which blends (1 − <i>w</i>)G + <i>w</i>A, along with a figure that compares G against A pair by pair. The blend smooths G when there are few markers (VanRaden, 2008; Aguilar and colleagues, 2010); the comparison uncovers pedigree errors, such as an individual whose genomic relationship with its supposed sire is close to zero.</p>
+  <figure class="angosta">
+    <div class="marco"><img src="../img/en/b11-fig-g.png" alt="Heat map of the genomic relationship matrix of the wheat, averaged in blocks of five lines"></div>
+    <figcaption><b>Figure 11.5.</b> The G matrix of the wheat, with the lines sorted by the first component and averaged in blocks of 5 so that it fits. Two large groups of related lines are visible.</figcaption>
+  </figure>
+
+  <!-- ====================================================================== 11.4 -->
+  <h2 id="s11-4"><span class="num">11.4</span>GBLUP: genomic values</h2>
+  <p>Card <span class="ui">3 · GBLUP: genomic values</span> has two menus. <span class="ui">Phenotypes</span> says where they come from: those loaded with the example, those of a file (<span class="ui">Phenotypes (file: identifier and traits)</span>, with the identifier in the first column) or the Block 3 trial. With the trial, the model is fitted in one stage on the plots, with environments and replicates fixed and the interaction with the environment random if there are replicates within each environment. The card reports how many entries have markers; the rest are left out. <span class="ui">Trait</span> picks the trait, and <span class="ui">Fit GBLUP</span> solves.</p>
+  <div class="formula"><span style="white-space:nowrap"><b>y</b> = μ + <b>g</b> + <b>e</b></span>, with <span style="white-space:nowrap"><b>g</b> ~ N(0, Kσ²<sub>g</sub>)</span> &nbsp;·&nbsp; <span style="white-space:nowrap"><i>h</i>²<sub>genomic</sub> = σ²<sub>g</sub>·ASV/(σ²<sub>g</sub>·ASV + σ²<sub>e</sub>)</span>, with <span style="white-space:nowrap">ASV = tr(K)/<i>n</i> − 1′K1/<i>n</i>²</span></div>
+  <p>ASV is the average semivariance of K (Legarra, 2016; Feldmann and colleagues, 2022): it converts σ²<sub>g</sub> into the genetic variance among the individuals analyzed. In pure lines it is almost 2, because the variance among lines is twice that of a non-inbred population.</p>
+  <figure>
+    <div class="marco"><img src="../img/en/b11-gblup.png" alt="Card 3 · GBLUP with the wheat yield in the first environment: the Phenotypes and Trait menus, the Fit GBLUP button and the variance component tiles"></div>
+    <figcaption><b>Figure 11.6.</b> GBLUP of the wheat yield in environment E1: σ²<sub>g</sub> = 0.294 ± 0.055, σ²<sub>e</sub> = 0.555 ± 0.046 and a genomic heritability of 0.515 ± 0.059.</figcaption>
+  </figure>
+  <p>The genomic heritability is the one the markers capture. If some of the QTL are not in linkage disequilibrium with the panel, it comes out lower than the true one: in the simulated example, with 60 QTL off the panel and <i>h</i>² = 0.40, it gives 0.385 ± 0.088.</p>
+  <figure>
+    <div class="marco"><img src="../img/en/b11-gebv.png" alt="The ten best genomic values of the wheat with phenotype, predicted value, standard error and reliability"></div>
+    <figcaption><b>Figure 11.7.</b> The 10 best genomic values of the wheat. Because yield comes standardized within each environment (mean 0, variance 1), the estimated mean is 0 and the predicted value equals the genomic one.</figcaption>
+  </figure>
+  <p>The table sorts the individuals by their genomic value and gives the phenotype, the predicted value (mean plus genomic value), the standard error of prediction and the reliability, 1 − PEV/(K<sub><i>ii</i></sub>σ²<sub>g</sub>); in the wheat it ranges from 0.60 to 0.96. An individual without a phenotype also receives its value, from its relationship with those that have one, and its row is highlighted: this is how lines not yet sown are predicted.</p>
+  <figure class="angosta">
+    <div class="marco"><img src="../img/en/b11-fig-gebv.png" alt="Scatter of the phenotype against the predicted value of the wheat lines"></div>
+    <figcaption><b>Figure 11.8.</b> Phenotype against predicted value in the wheat. The correlation of 0.806 is optimistic: each line is predicted with its own record; cross-validation measures the one for new lines.</figcaption>
+  </figure>
+  <p><b>Marker effects.</b> GBLUP is equivalent to ridge regression on all the markers (RR-BLUP; Meuwissen, Hayes and Goddard, 2001), and the effect of each marker is recovered from the genomic values: <span style="white-space:nowrap">β̂ = Z′K<sup>−1</sup>ĝ/(2Σ<i>pq</i>)</span>. The figure plots them in absolute value in the order of the file, and the folded box <span class="ui">The 15 largest effects</span> lists them with their allele frequency.</p>
+  <figure>
+    <div class="marco"><img src="../img/en/b11-fig-efectos.png" alt="The absolute effects of the 1,183 wheat markers in file order"></div>
+    <figcaption><b>Figure 11.9.</b> The marker effects of the wheat. None stands out: the largest is 0.034 standard deviations, which corresponds to a trait with many genes of small effect.</figcaption>
+  </figure>
+  <div class="caja importante">
+    <div class="caja-t"><span class="ico">!</span>Important · a large effect is not a gene found</div>
+    <p>GBLUP spreads the effect of a QTL among all the markers in disequilibrium with it, and shrinks them all equally. A marker with a large effect deserves a look, not a conclusion: association is tested with other methods. Because of the ridge λ, the effects reproduce the genomic values almost exactly: Zβ̂ = ĝ − λK<sup>−1</sup>ĝ.</p>
+  </div>
+
+  <!-- ====================================================================== 11.5 -->
+  <h2 id="s11-5"><span class="num">11.5</span>Cross-validation and response per year</h2>
+  <p>What matters about a genomic model is how well it predicts individuals that were not evaluated. Card <span class="ui">4 · Cross-validation and response per year</span> splits the individuals with phenotypes into <span class="ui">Folds</span> (2, 5 or 10), predicts each fold with a model fitted without it and repeats the split as many times as <span class="ui">Replicates</span> says. It is the CV1 scheme of Burgueño and colleagues (2012): new individuals. The checkbox <span class="ui">Re-estimate the variances in every training set</span>, ticked by default, refits REML without the test fold; estimating them beforehand with all the data inflates the predictive ability. <span class="ui">Compare with the pedigree (A)</span> adds the same exercise with A, if Block 10 has the pedigree.</p>
+  <figure>
+    <div class="marco"><img src="../img/en/b11-cv.png" alt="Card 4 with the cross-validation of the wheat: Folds, Replicates, the two checkboxes, the Validate button and the table of predictive ability, accuracy, slope and mean squared error"></div>
+    <figcaption><b>Figure 11.10.</b> The validation of the wheat, with 5 folds and 2 replicates: predictive ability 0.488, an approximate accuracy of 0.680 and a slope of 0.983.</figcaption>
+  </figure>
+  <p>The table gives the predictive ability r(predicted, observed), with its deviation among replicates; the approximate accuracy, r/√<i>h</i>², which corrects for the noise of the phenotype it is compared with; the slope of the regression of observed on predicted, whose value close to 1 indicates that the predictions neither exaggerate nor shrink the differences; and the mean squared error. A figure plots each replicate.</p>
+  <div class="caja nota">
+    <div class="caja-t"><span class="ico">✓</span>Verified · with the true value</div>
+    <p>In the simulated lines, the validation gives r = 0.320 and r/√<i>h</i>² = 0.516; the correlation with the true breeding value, which is unknown in real data, is 0.510. In 15 simulated populations, r/√<i>h</i>² overstated the true accuracy by only 0.015 on average.</p>
+  </div>
+  <p><b>Response per year.</b> Below, the card compares phenotypic with genomic selection in gain per year, which is where genomics wins: its cycle is shorter even if its accuracy is lower (Heffner and colleagues, 2010). The fields are filled from the GBLUP fit and can be changed: <span class="ui">Proportion selected</span>, σ<sub>A</sub> (by default, √(σ²<sub>g</sub>·ASV)), <span class="ui">Phenotypic accuracy (h)</span> (by default, √<i>h</i>²) and the years per cycle of each scheme. The genomic accuracy comes from the validation.</p>
+  <div class="formula">Δ<i>G</i> per year = <span style="white-space:nowrap"><i>i</i>·<i>r</i>·σ<sub>A</sub>/<i>L</i></span>, with <i>r</i> = <i>h</i> in phenotypic selection and <i>r</i> = accuracy from the validation in genomic selection</div>
+  <figure>
+    <div class="marco"><img src="../img/en/b11-respuesta.png" alt="The expected response per year with phenotypic and genomic selection in the wheat"></div>
+    <figcaption><b>Figure 11.11.</b> With 10% selected and cycles of 4 years for phenotypic and 1.5 for genomic selection, genomic selection gains 2.5 times more per year in the wheat.</figcaption>
+  </figure>
+  <p>The ratio depends almost entirely on the years per cycle: with equal cycles, genomic selection would gain less (0.680 against 0.718 accuracy). That is why the calculation makes sense only with the program’s real cycles.</p>
+
+  <!-- ====================================================================== 11.6 -->
+  <h2 id="s11-6"><span class="num">11.6</span>Hybrid prediction</h2>
+  <p>In a hybrid program, a small fraction of the possible crosses between two heterotic groups is evaluated. Card <span class="ui">5 · Hybrid prediction</span> predicts all the others. It takes a table with one row per evaluated hybrid: the line of group 1, that of group 2 and the traits (adjusted means); the names of the first two columns are those of the groups. The markers of all the lines go in card 1.</p>
+  <div class="formula"><span style="white-space:nowrap"><i>y</i> = μ + GCA<sub>1</sub> + GCA<sub>2</sub> [+ SCA] + <i>e</i></span>, with <span style="white-space:nowrap">Var(GCA<sub>1</sub>) = K<sub>1</sub>σ²<sub>1</sub></span>, <span style="white-space:nowrap">Var(GCA<sub>2</sub>) = K<sub>2</sub>σ²<sub>2</sub></span> and <span style="white-space:nowrap">Var(SCA) = (K<sub>1</sub> ⊗ K<sub>2</sub>)σ²<sub>SCA</sub></span></div>
+  <p>K<sub>1</sub> and K<sub>2</sub> are the genomic relationships within each group, computed with that group’s frequencies (Bernardo, 1994; Technow and colleagues, 2014). An untested hybrid is predicted with the GCA of its two lines, and with the SCA if the checkbox <span class="ui">Include the SCA (K₁ ⊗ K₂)</span> is ticked. With more than 700 evaluated hybrids, that checkbox is disabled: the SCA kernel would be too large to solve exactly in the browser.</p>
+  <figure>
+    <div class="marco"><img src="../img/en/b11-hibridos.png" alt="Card 5 · Hybrid prediction with the dent × flint maize: the file and trait controls, the Include the SCA checkbox, the Fit and predict button and the variance tiles"></div>
+    <figcaption><b>Figure 11.12.</b> Technow’s maize: 1,254 hybrids evaluated out of 10,578 possible. The GCA variance of the dent lines is 16.7 ± 2.7, that of the flint lines 10.6 ± 2.1, and the residual 17.8 ± 0.8.</figcaption>
+  </figure>
+  <p>The trait is GY, grain yield. The GCA variances are on the scale of K; the variance among lines is σ²·ASV, and the note gives the ASV of each group. The table <span class="ui">Best untested single crosses</span> ranks the 9,324 crosses that were not sown.</p>
+  <figure>
+    <div class="marco"><img src="../img/en/b11-hib-top.png" alt="The ten best untested crosses of the maize with the GCA of each line and the predicted value"></div>
+    <figcaption><b>Figure 11.13.</b> The 10 best untested crosses. D3606 and D3607 can hardly be told apart (GCA of 17.2748 and 17.2740): they are almost identical sister lines, and the list alternates them with each flint line.</figcaption>
+  </figure>
+  <p>The standard error in the table includes only the GCA part. When two lines are almost identical, such as D3606 and D3607, keep only one: their crosses will give practically the same.</p>
+  <figure class="chica">
+    <div class="marco"><img src="../img/en/b11-fig-hib.png" alt="Heat map of the predicted performance of every single cross of the maize, with the lines sorted by GCA and the evaluated hybrids outlined"></div>
+    <figcaption><b>Figure 11.14.</b> The predicted performance of the 10,578 crosses, with the lines sorted by their GCA. The outlined cells are the evaluated hybrids; the best new crosses are in the upper left corner.</figcaption>
+  </figure>
+  <p>A second figure, not shown here, compares observed with predicted values in the evaluated hybrids. In the simulated example, with SCA, its variance is estimated as 0 (on the boundary), and the correlation of the predictions with the true value of the 550 untested crosses is 0.780.</p>
+  <h3>Cross-validation of hybrids</h3>
+  <p><span class="ui">Validate hybrids</span> runs two 5-fold schemes, repeated as many times as <span class="ui">Replicates of 5 folds</span> says (1, 2 or 5). In the first, hybrids are set aside at random; in the second, lines with all their hybrids (Technow and colleagues, 2014). The predictions are grouped by how many parents of the test hybrid had other hybrids in the training set: T2 (both), T1 (one) and T0 (none). T0 is the hardest and most useful case: predicting crosses of new lines, solely from their relationship with the evaluated ones.</p>
+  <figure>
+    <div class="marco"><img src="../img/en/b11-hib-cv.png" alt="The cross-validation of the maize hybrids by classes T2, T1 and T0"></div>
+    <figcaption><b>Figure 11.15.</b> The validation of the maize hybrids: 0.868 in T2, 0.812 in T1 and 0.804 in T0. The drop is small, probably because many lines have almost identical sisters among the evaluated ones, such as D3606 and D3607.</figcaption>
+  </figure>
+  <p>In the simulated example the drop is sharp, as expected when new lines have no close relatives among the evaluated ones: 0.668 in T2, 0.328 in T1 and −0.074 in T0, with only 35 hybrids in that class. With the true values, 0.802, 0.454 and −0.094. GCA predicts well when the lines already have evaluated hybrids; for new lines, it depends on how much they resemble those that do.</p>
+  <h3>Three-way and double crosses</h3>
+  <p>The last box predicts crosses of three and four lines with Jenkins’s (1934) rules: a three-way cross (A×B)×C with ½(AC + BC) and a double cross (A×B)×(C×D) with the average of the four nonparental single crosses AC, AD, BC and BD. You write one cross per line, with the lines on each side from different groups; when the model is fitted, the app proposes three with the best lines.</p>
+  <figure>
+    <div class="marco"><img src="../img/en/b11-jenkins.png" alt="The three-way and double crosses predicted by Jenkins's rules"></div>
+    <figcaption><b>Figure 11.16.</b> Two three-way crosses and one double cross with the best lines of each group. A cross that needs crosses within the same group is not predicted: the model knows only crosses between groups.</figcaption>
+  </figure>
+  <div class="caja nota">
+    <div class="caja-t"><span class="ico">✓</span>Verified · independent reconstruction</div>
+    <p>With the wheat, G (methods 1 and 2), its principal components, the REML components and the 599 genomic values agree with a reconstruction that maximizes the restricted likelihood with a general-purpose optimizer and solves Henderson’s equations directly (differences of 10<sup>−8</sup> or less). With the maize, the GCA variances 16.6942 and 10.6027 and the residual 17.7859, the 12 untested crosses that were checked and Jenkins’s rules agree just as well. In 40 simulated populations with a true heritability of 0.40, the genomic heritability averaged 0.344: the markers captured 85% of the genetic variance, as the note of card 3 warns.</p>
+  </div>
+
+  <!-- ====================================================================== 11.7 -->
+  <h2 id="s11-7"><span class="num">11.7</span>Downloads and next step</h2>
+  <p>Card <span class="ui">6 · Assumptions, formulas and references</span> summarizes genomic relationships, GBLUP and RR-BLUP, cross-validation and hybrid prediction, with their references. <span class="ui">Results (.xlsx)</span> downloads, each on its own sheet, the frequencies and quality of each marker, the G matrix (up to 1,500 individuals), the genomic values, the marker effects, the validation of each replicate and the prediction of every single cross. Each figure has its download panel.</p>
+  <p><span class="ui">Continue</span> takes you to Block 12, the report, which gathers the analyses of all the blocks; <span class="ui">← BLUP</span> returns to Block 10.</p>
+</section>
+
+</body>
+</html>

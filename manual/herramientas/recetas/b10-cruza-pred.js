@@ -11,6 +11,6 @@
   const filas = (host, n) => { const t = $(host).querySelector("table"); return [t.querySelector("thead")].concat([...t.querySelectorAll("tbody tr")].slice(0, n)); };
   document.querySelectorAll(".book-scroll").forEach(n => { n.style.maxHeight = "none"; });
   await xex("sim3");
-  const h = [...$("b10XResults").querySelectorAll("h3")].find(x => /Predicciones/.test(x.textContent)); irA(h); await W(400);
+  const h = [...$("b10XResults").querySelectorAll("h3")].find(x => /Predicciones|Predictions/.test(x.textContent)); irA(h); await W(400);
   caja([h, $("b10XPred"), $("b10XPredNote")], 10);
 })()
