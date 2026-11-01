@@ -1,6 +1,6 @@
 /* BreedingPro — Block 6 interface: the mating designs that are not complete diallels.
    North Carolina I, II and III, the triple test cross, line × tester and partial diallels,
-   analysed on the plot values that Block 3 adjusted. */
+   analyzed on the plot values that Block 3 adjusted. */
 
 (function () {
   const B6 = { trait: 0, env: null, F: 0, Fset: false, goal: 'high', alpha: 0.05, l3: null, res: null, cache: new Map(), built: false, hetKind: 'mph' };
@@ -99,7 +99,7 @@
     if (!DESIGN_NAME[D.mating.design]) return {
       ok: false,
       es: D.mating.design === 'griffing' ? 'Su diseño es un dialelo completo: se analiza en los Bloques 4 y 5.' : 'Este bloque analiza Carolina del Norte I, II y III, la cruza triple de prueba, línea × probador y dialelos parciales.',
-      en: D.mating.design === 'griffing' ? 'Your design is a complete diallel: it is analysed in Blocks 4 and 5.' : 'This block analyses North Carolina I, II and III, the triple test cross, line × tester and partial diallels.',
+      en: D.mating.design === 'griffing' ? 'Your design is a complete diallel: it is analyzed in Blocks 4 and 5.' : 'This block analyzes North Carolina I, II and III, the triple test cross, line × tester and partial diallels.',
     };
     if (!D.ds.traits.length) return { ok: false, es: 'No hay variables respuesta.', en: 'There are no response traits.' };
     return { ok: true };
@@ -450,22 +450,22 @@
       add('Grado medio de dominancia', 'Average degree of dominance', '√(H/D)', sd.dominance, NaN, sd.dominance > 1 ? T('sobredominancia media', 'average overdominance') : sd.dominance > 0 ? T('dominancia parcial', 'partial dominance') : '');
       add('F = Σa·d', 'F = Σa·d', T('−2 Cov(suma, diferencia)', '−2 Cov(sum, difference)'), sd.Fcomp, NaN,
         !isFinite(sd.pCor) || sd.pCor >= 0.05 ? T('sin dirección definida', 'no defined direction')
-          : sd.corSD < 0 ? T(`dominancia hacia ${sd.testers[0]}`, `dominance towards ${sd.testers[0]}`) : T(`dominancia hacia ${sd.testers[1]}`, `dominance towards ${sd.testers[1]}`));
+          : sd.corSD < 0 ? T(`dominancia hacia ${sd.testers[0]}`, `dominance toward ${sd.testers[0]}`) : T(`dominancia hacia ${sd.testers[1]}`, `dominance toward ${sd.testers[1]}`));
     } else if (G) {
       add('Cov(medios hermanos)', 'Cov(half sibs)', '(1+F)σ²A/4', G.covHS, G.seHS, '');
       add('Cov(hermanos completos)', 'Cov(full sibs)', '(1+F)σ²A/2 + ((1+F)/2)²σ²D', G.covFS, G.seFS, '');
-      add('σ²A', 'σ²A', '4·Cov(MH)/(1+F)', G.s2A, G.seA, T('varianza aditiva', 'additive variance'));
+      add('σ²A', 'σ²A', T('4·Cov(MH)/(1+F)', '4·Cov(HS)/(1+F)'), G.s2A, G.seA, T('varianza aditiva', 'additive variance'));
       add('σ²D', 'σ²D', res.design === 'nc1' ? '4(σ²<sub>h</sub> − σ²<sub>m</sub>)/(1+F)²' : '4σ²<sub>' + (res.design === 'lxt' || res.design === 'partial' ? T('ACE', 'SCA') : T('mh', 'mf')) + '</sub>/(1+F)²', G.s2D, G.seD, T('varianza de dominancia', 'dominance variance'));
       add('Grado medio de dominancia', 'Average degree of dominance', '√(2σ²D/σ²A)', G.dominance, NaN, G.dominance > 1 ? T('sobredominancia media', 'average overdominance') : G.dominance >= 0 ? T('dominancia parcial', 'partial dominance') : '');
-      if (isFinite(G.baker)) add('Razón de Baker', "Baker's ratio", '2σ²ACG/(2σ²ACG + σ²ACE)', G.baker, NaN, G.baker > 0.5 ? T('predominan los efectos aditivos', 'additive effects predominate') : T('predomina la dominancia', 'dominance predominates'));
-      if (isFinite(G.s2AE)) add('σ²A × ambientes', 'σ²A × environments', '4σ²(ACG×A)/(1+F)', G.s2AE, NaN, '');
-      if (isFinite(G.s2DE)) add('σ²D × ambientes', 'σ²D × environments', '4σ²(ACE×A)/(1+F)²', G.s2DE, NaN, '');
+      if (isFinite(G.baker)) add('Razón de Baker', "Baker's ratio", T('2σ²ACG/(2σ²ACG + σ²ACE)', '2σ²GCA/(2σ²GCA + σ²SCA)'), G.baker, NaN, G.baker > 0.5 ? T('predominan los efectos aditivos', 'additive effects predominate') : T('predomina la dominancia', 'dominance predominates'));
+      if (isFinite(G.s2AE)) add('σ²A × ambientes', 'σ²A × environments', T('4σ²(ACG×A)/(1+F)', '4σ²(GCA×E)/(1+F)'), G.s2AE, NaN, '');
+      if (isFinite(G.s2DE)) add('σ²D × ambientes', 'σ²D × environments', T('4σ²(ACE×A)/(1+F)²', '4σ²(SCA×E)/(1+F)²'), G.s2DE, NaN, '');
     }
     if (G) {
-      add('h² en sentido estrecho', 'Narrow-sense h²', 'σ²A/σ²F (base de parcela)', G.h2ns, NaN, '');
-      add('H² en sentido amplio', 'Broad-sense H²', '(σ²A + σ²D)/σ²F', G.h2bs, NaN, '');
+      add('h² en sentido estrecho', 'Narrow-sense h²', T('σ²A/σ²F (base de parcela)', 'σ²A/σ²P (plot basis)'), G.h2ns, NaN, '');
+      add('H² en sentido amplio', 'Broad-sense H²', T('(σ²A + σ²D)/σ²F', '(σ²A + σ²D)/σ²P'), G.h2bs, NaN, '');
       if (isFinite(G.h2nsPlant)) add('h² en base de planta', 'h² on a plant basis', 'σ²A/(σ²A + σ²D + σ²e + σ²w)', G.h2nsPlant, NaN, '');
-      if (isFinite(G.h2nsMean)) add('h² en base de media de familia', 'h² on a family-mean basis', 'σ²A/(σ²A + σ²D + CM<sub>e</sub>/re)', G.h2nsMean, NaN, '');
+      if (isFinite(G.h2nsMean)) add('h² en base de media de familia', 'h² on a family-mean basis', T('σ²A/(σ²A + σ²D + CM<sub>e</sub>/re)', 'σ²A/(σ²A + σ²D + MS<sub>e</sub>/re)'), G.h2nsMean, NaN, '');
     }
     table('b6ParamTable', [
       { label: T('Parámetro', 'Parameter'), get: r => T(r.es, r.en) },
@@ -507,7 +507,7 @@
         [T('Media de las diferencias', 'Mean of the differences'), sd.meanDiff, `t = ${f2(sd.tMeanDiff)} · ${pEq(sd.pMeanDiff)}`, T('diferencia aditiva entre los dos probadores', 'additive difference between the two testers')],
         [T('Correlación suma–diferencia', 'Sum–difference correlation'), sd.corSD, `${pEq(sd.pCor)}`,
           !isFinite(sd.pCor) || sd.pCor >= 0.05 ? T('sin dirección definida de la dominancia', 'no defined direction of dominance')
-            : sd.corSD < 0 ? T(`dominancia hacia ${sd.testers[0]}`, `dominance towards ${sd.testers[0]}`) : T(`dominancia hacia ${sd.testers[1]}`, `dominance towards ${sd.testers[1]}`)],
+            : sd.corSD < 0 ? T(`dominancia hacia ${sd.testers[0]}`, `dominance toward ${sd.testers[0]}`) : T(`dominancia hacia ${sd.testers[1]}`, `dominance toward ${sd.testers[1]}`)],
       ];
       table('b6SdTable', [
         { label: T('Cantidad', 'Quantity'), get: r => r[0] },
@@ -697,7 +697,7 @@
     if (!B6.Fset) B6.F = defaultF(D);
     renderPickers();
     B6.res = analyse();
-    if (!B6.res || !B6.res.rows) { msg('b6SetupMsg', [{ level: 'error', es: 'No se pudo analizar el diseño de apareamiento.', en: 'The mating design could not be analysed.' }]); return; }
+    if (!B6.res || !B6.res.rows) { msg('b6SetupMsg', [{ level: 'error', es: 'No se pudo analizar el diseño de apareamiento.', en: 'The mating design could not be analyzed.' }]); return; }
     state.mating6 = { trait: D.ds.traits[B6.trait].name, res: B6.res };
     renderSetup();
     renderAnova();

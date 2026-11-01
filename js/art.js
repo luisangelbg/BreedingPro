@@ -1,5 +1,5 @@
 /* BreedingPro — hand-drawn SVG illustrations.
-   Every picture is generated here with CSS-variable colours, so the whole app
+   Every picture is generated here with CSS-variable colors, so the whole app
    follows the light/dark theme and nothing depends on external images.
    Each function returns an SVG string. */
 
@@ -276,7 +276,7 @@
     let s = line(18, 92, 190, 92, 'var(--border-strong)', 1.2);
     bars.forEach((b, i) => { const x = 28 + i * 33, h = b[1] * 10; s += rect(x, 92 - h, 22, h, V(b[2]), 'rx="3"'); s += txt(x + 11, 104, b[0], 'art-mut', 8, 'middle', 'font-weight="700"'); });
     s += `<path d="M${28 + 2 * 33 + 11} ${92 - 43} L ${28 + 3 * 33 + 11} ${92 - 74}" stroke="var(--accent)" stroke-width="1.6" stroke-dasharray="3 2" fill="none"/>`;
-    s += txt(160, 14, '+72%', 'art-txt', 10, 'middle', 'font-weight="800" fill="var(--accent)"');
+    s += txt(160, 14, '+72 %', 'art-txt', 10, 'middle', 'font-weight="800" fill="var(--accent)"');
     return wrap('0 0 200 110', s);
   }
   function doubleCross() {

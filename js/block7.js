@@ -36,7 +36,7 @@
   function status() {
     const D = state.data;
     if (!D) return { ok: false, es: 'Cargue los datos en el Bloque 3.', en: 'Load the data in Block 3.' };
-    if (D.mating.design !== 'generations') return { ok: false, es: 'Este bloque analiza generaciones (P₁, P₂, F₁, F₂, F₃, retrocruzas). Su diseño se analiza en otro bloque.', en: 'This block analyses generations (P₁, P₂, F₁, F₂, F₃, backcrosses). Your design is analysed in another block.' };
+    if (D.mating.design !== 'generations') return { ok: false, es: 'Este bloque analiza generaciones (P₁, P₂, F₁, F₂, F₃, retrocruzas). Su diseño se analiza en otro bloque.', en: 'This block analyzes generations (P₁, P₂, F₁, F₂, F₃, backcrosses). Your design is analyzed in another block.' };
     if (!D.ds.traits.length) return { ok: false, es: 'No hay variables respuesta.', en: 'There are no response traits.' };
     return { ok: true };
   }
@@ -198,7 +198,7 @@
       }
       if (B7.metric === 'H' && res.jinksJones) {
         parts.push(T(`En la convención de Jinks y Jones (la que muchos artículos citan como «Hayman 1958») [j] = 2j = ${fmtNum(res.jinksJones.j, 4)} ± ${fmtNum(res.jinksJones.seJ, 4)}; el resto de los parámetros no cambia.`,
-          `In the Jinks & Jones convention (the one many papers cite as "Hayman 1958") [j] = 2j = ${fmtNum(res.jinksJones.j, 4)} ± ${fmtNum(res.jinksJones.seJ, 4)}; the other parameters are unchanged.`));
+          `In the Jinks & Jones convention (the one many papers cite as “Hayman 1958”) [j] = 2j = ${fmtNum(res.jinksJones.j, 4)} ± ${fmtNum(res.jinksJones.seJ, 4)}; the other parameters are unchanged.`));
         parts.push(T(`Equivalencia con la métrica F∞ de Mather y Jinks: m = ${fmtNum(res.jinksJones.m, 4)}, [d] = ${fmtNum(res.jinksJones.d, 4)}, [h] = ${fmtNum(res.jinksJones.h, 4)}, [i] = ${fmtNum(res.jinksJones.i, 4)}, [l] = ${fmtNum(res.jinksJones.l, 4)}.`,
           `Equivalence with Mather & Jinks's F∞ metric: m = ${fmtNum(res.jinksJones.m, 4)}, [d] = ${fmtNum(res.jinksJones.d, 4)}, [h] = ${fmtNum(res.jinksJones.h, 4)}, [i] = ${fmtNum(res.jinksJones.i, 4)}, [l] = ${fmtNum(res.jinksJones.l, 4)}.`));
       }
@@ -291,7 +291,7 @@
       ], H.list);
       const parts = [];
       if (H.potence) parts.push(T(`Relación de potencia (F₁ − media de progenitores)/(½|P₁ − P₂|) = ${fmtNum(H.potence.value, 3)} ± ${fmtNum(H.potence.se, 3)}: ${Math.abs(H.potence.value) > 1 ? 'sobredominancia aparente' : Math.abs(H.potence.value) > 0.5 ? 'dominancia parcial a completa' : 'dominancia débil'} hacia ${H.potence.value >= 0 ? 'el progenitor de valor más alto' : 'el de valor más bajo'}.`,
-        `Potence ratio (F₁ − mid-parent)/(½|P₁ − P₂|) = ${fmtNum(H.potence.value, 3)} ± ${fmtNum(H.potence.se, 3)}: ${Math.abs(H.potence.value) > 1 ? 'apparent overdominance' : Math.abs(H.potence.value) > 0.5 ? 'partial to complete dominance' : 'weak dominance'} towards ${H.potence.value >= 0 ? 'the higher parent' : 'the lower parent'}.`));
+        `Potence ratio (F₁ − mid-parent)/(½|P₁ − P₂|) = ${fmtNum(H.potence.value, 3)} ± ${fmtNum(H.potence.se, 3)}: ${Math.abs(H.potence.value) > 1 ? 'apparent overdominance' : Math.abs(H.potence.value) > 0.5 ? 'partial to complete dominance' : 'weak dominance'} toward ${H.potence.value >= 0 ? 'the higher parent' : 'the lower parent'}.`));
       if (isFinite(H.expectedF2)) parts.push(T(`Sin epistasis la F₂ debería quedar a la mitad del camino de la heterosis de la F₁: se esperaba ${fmtNum(H.expectedF2, 3)} y se observó ${fmtNum(H.observedF2, 3)}.`,
         `Without epistasis the F₂ should keep half of the F₁ heterosis: ${fmtNum(H.expectedF2, 3)} was expected and ${fmtNum(H.observedF2, 3)} observed.`));
       const ch = res.models.chosen;
@@ -352,7 +352,7 @@
       },
       {
         es: ['Dos métricas que no son lo mismo', 'Con α = f(AA) − f(aa) y β = f(Aa): la métrica F∞ de Mather y Jinks escribe μ = m + α[d] + β[h] + α²[i] + αβ[j] + β²[l], y la F₂ de Hayman μ = m + αd + (β−½)h + α²i + 2α(β−½)j + (β−½)²l. Se relacionan por m_F∞ = m_H − ½h + ¼l, [d] = d − j, [h] = h − l, [i] = i, [j] = 2j, [l] = l. El χ² es el mismo en las dos (es una reparametrización), pero los signos de h pueden cambiar, y la clasificación de la epistasis (complementaria si [h] y [l] tienen el mismo signo, duplicada si no) debe leerse en la métrica que se informa. Muchos artículos que citan «Hayman (1958)» usan en realidad la convención de Jinks y Jones (1958), que es la de Hayman con [j] = 2j.'],
-        en: ['Two metrics that are not the same', 'With α = f(AA) − f(aa) and β = f(Aa): Mather & Jinks\'s F∞ metric writes μ = m + α[d] + β[h] + α²[i] + αβ[j] + β²[l] and Hayman\'s F₂ metric μ = m + αd + (β−½)h + α²i + 2α(β−½)j + (β−½)²l. They are related by m_F∞ = m_H − ½h + ¼l, [d] = d − j, [h] = h − l, [i] = i, [j] = 2j, [l] = l. The χ² is the same in both (it is a reparametrisation), but the signs of h can change, and the classification of epistasis (complementary when [h] and [l] share their sign, duplicate otherwise) has to be read in the metric being reported. Many papers that cite "Hayman (1958)" in fact use the Jinks & Jones (1958) convention, which is Hayman\'s with [j] = 2j.'],
+        en: ['Two metrics that are not the same', 'With α = f(AA) − f(aa) and β = f(Aa): Mather & Jinks\'s F∞ metric writes μ = m + α[d] + β[h] + α²[i] + αβ[j] + β²[l] and Hayman\'s F₂ metric μ = m + αd + (β−½)h + α²i + 2α(β−½)j + (β−½)²l. They are related by m_F∞ = m_H − ½h + ¼l, [d] = d − j, [h] = h − l, [i] = i, [j] = 2j, [l] = l. The χ² is the same in both (it is a reparametrization), but the signs of h can change, and the classification of epistasis (complementary when [h] and [l] share their sign, duplicate otherwise) has to be read in the metric being reported. Many papers that cite “Hayman (1958)” in fact use the Jinks & Jones (1958) convention, which is Hayman\'s with [j] = 2j.'],
       },
       {
         es: ['Varianzas de las generaciones', 'Con D = Σd², H = Σh², F = Σdh y E ambiental: V(F₂) = ½D + ¼H + E, V(RC₁) = ¼D + ¼H − ½F + E, V(RC₂) = ¼D + ¼H + ½F + E, V(F₃) = ¾D + 3/16H + E y V(RC autofecundada) = ½D + 3/16H ∓ ¼F + E (las dos últimas deducidas de las frecuencias genotípicas y comprobadas por simulación). Los progenitores y la F₁ estiman E. Con ligamiento, epistasis o interacción con el ambiente, D y H quedan sesgados.'],
@@ -368,7 +368,7 @@
       },
       {
         es: ['Supuestos', 'Progenitores homocigóticos, herencia diploide, sin efectos maternos ni recíprocos (compárese F₁ con su recíproca si están las dos), sin ligamiento entre genes que interactúan, escala adecuada (si las pruebas de escala fallan, conviene transformar la variable antes de añadir epistasis) y sin selección diferencial de plantas. Las varianzas de las medias deben venir del error que corresponde al diseño: entre plantas cuando están individualmente aleatorizadas y del error de parcela cuando hay parcelas repetidas (Hayman 1958). En ese caso la varianza de una media de parcela de la generación g es σ²p + s²g/k: el error de parcela, común a todas las generaciones, más la varianza entre las plantas de g dividida entre las plantas por parcela. σ²p sale del cuadrado medio residual de las medias de parcela una vez quitados los bloques (que son comunes a todas las generaciones y no afectan las comparaciones entre ellas), menos su parte debida a las plantas. Los grados de libertad de las pruebas t son los de Satterthwaite (1946).'],
-        en: ['Assumptions', 'Homozygous parents, diploid inheritance, no maternal or reciprocal effects (compare the F₁ with its reciprocal when both are there), no linkage between interacting genes, an adequate scale (when the scaling tests fail, transforming the trait is worth trying before adding epistasis) and no differential survival of plants. The variances of the means must come from the error the design provides: among plants when they are individually randomised and from the plot error when there are replicated plots (Hayman 1958). Then the variance of one plot mean of generation g is σ²p + s²g/k: the plot error, shared by every generation, plus the variance among the plants of g over the plants per plot. σ²p comes from the residual mean square of the plot means once the blocks are taken out (they are shared by every generation and do not affect the comparisons among them), minus its plant part. The t tests use Satterthwaite (1946) degrees of freedom.'],
+        en: ['Assumptions', 'Homozygous parents, diploid inheritance, no maternal or reciprocal effects (compare the F₁ with its reciprocal when both are there), no linkage between interacting genes, an adequate scale (when the scaling tests fail, transforming the trait is worth trying before adding epistasis) and no differential survival of plants. The variances of the means must come from the error the design provides: among plants when they are individually randomized and from the plot error when there are replicated plots (Hayman 1958). Then the variance of one plot mean of generation g is σ²p + s²g/k: the plot error, shared by every generation, plus the variance among the plants of g over the plants per plot. σ²p comes from the residual mean square of the plot means once the blocks are taken out (they are shared by every generation and do not affect the comparisons among them), minus its plant part. The t tests use Satterthwaite (1946) degrees of freedom.'],
       },
     ];
     const cites = [
@@ -445,7 +445,7 @@
     renderMeans();
     renderVariances();
     renderHeterosis();
-    /* generations are not analysed by Blocks 8 to 11 (they need genotypes): the next step is the report */
+    /* generations are not analyzed by Blocks 8 to 11 (they need genotypes): the next step is the report */
     const s = STEPS[11];
     el('b7Next').disabled = !s.ready;
     el('b7NextLabel').innerHTML = s.ready ? T(`Continuar: ${s.es} →`, `Continue: ${s.en} →`) : T(`Siguiente: ${s.es} (Bloque 12, en construcción)`, `Next: ${s.en} (Block 12, under construction)`);

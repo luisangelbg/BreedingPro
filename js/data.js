@@ -8,7 +8,7 @@
    makes the records; Data.recognize works out the mating design (Griffing 1–4,
    partial diallel, North Carolina I–III, triple test cross, line × tester,
    generations) and, for every environment, the field design (completely
-   randomised, complete blocks, resolvable incomplete blocks / α-lattice,
+   randomized, complete blocks, resolvable incomplete blocks / α-lattice,
    incomplete blocks, augmented, entry means). */
 
 const Data = {};
@@ -355,7 +355,7 @@ Data.build = (table, roles, o) => {
   const keep = records.map(r => r.i);
   traits.forEach(t => { t.y = Float64Array.from(keep, i => t.y[i]); t.missing = Array.prototype.filter.call(t.y, v => isNaN(v)).length; });
   records.forEach((r, k) => { r.k = k; });
-  if (!traits.length) issues.push({ level: 'error', es: 'No hay ninguna variable respuesta: marque al menos una columna numérica como «Variable respuesta».', en: 'There is no response trait: mark at least one numeric column as "Response trait".' });
+  if (!traits.length) issues.push({ level: 'error', es: 'No hay ninguna variable respuesta: marque al menos una columna numérica como «Variable respuesta».', en: 'There is no response trait: mark at least one numeric column as “Response trait”.' });
   return { records, traits, issues, roles: roles.slice(), header: table.header.slice(), meta: table.meta, splitUsed, byPedigree, setQualified, hasSet, separate, roleNames: Object.fromEntries(Data.ROLES.map(R => [R.key, table.header[roles.indexOf(R.key)]]).filter(x => x[1])) };
 };
 
@@ -462,7 +462,7 @@ Data.recognizeMating = (ds, ov) => {
         if (out.circulant) out.k = (p + 1 - counts[0]) / 2;
       }
       say(out.circulant ? `Dialelo parcial circulante (Kempthorne y Curnow 1961): ${p} progenitores, cada uno en s = ${out.s} cruzas.` : allEqual ? `Dialelo parcial balanceado: cada progenitor entra en ${out.s} cruzas, pero no en el orden circulante; se analizará por mínimos cuadrados.` : `Dialelo incompleto y desbalanceado (${U.size} de ${full} cruzas); se analizará por mínimos cuadrados.`,
-        out.circulant ? `Circulant partial diallel (Kempthorne & Curnow 1961): ${p} parents, each in s = ${out.s} crosses.` : allEqual ? `Balanced partial diallel: every parent enters ${out.s} crosses, but not in circulant order; it will be analysed by least squares.` : `Incomplete, unbalanced diallel (${U.size} of ${full} crosses); it will be analysed by least squares.`);
+        out.circulant ? `Circulant partial diallel (Kempthorne & Curnow 1961): ${p} parents, each in s = ${out.s} crosses.` : allEqual ? `Balanced partial diallel: every parent enters ${out.s} crosses, but not in circulant order; it will be analyzed by least squares.` : `Incomplete, unbalanced diallel (${U.size} of ${full} crosses); it will be analyzed by least squares.`);
       if (!out.circulant) out.confidence = 'medium';
     } else {
       out.design = 'griffing';
@@ -533,7 +533,7 @@ Data.recognizeField = (ds, mating, ov) => {
   const checks = new Set(mating.checks || []);
   const hasRole = role => ds.roles.includes(role);
   const envs = [...byEnv.entries()].sort((a, b) => LM.natCmp(a[0], b[0])).map(([name, recs]) => {
-    const E = { name: name || T('Única', 'Single'), key: name, n: recs.length, issues: [] };
+    const E = { name: name || T('Única', 'Single environment'), key: name, n: recs.length, issues: [] };
     /* plots */
     const plotKey = r => hasRole('plot') && r.plot ? 'p' + r.plot : [r.rep, r.block, r.row, r.col, r.set, r.entry].join('|');
     const plots = new Map();

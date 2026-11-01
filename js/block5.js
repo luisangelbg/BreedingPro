@@ -46,7 +46,7 @@
   function status() {
     const D = state.data;
     if (!D) return { ok: false, es: 'Cargue los datos en el Bloque 3.', en: 'Load the data in Block 3.' };
-    if (D.mating.design !== 'griffing') return { ok: false, es: 'Estos análisis son para dialelos completos entre progenitores. Su diseño se analiza en otro bloque.', en: 'These analyses are for complete diallels between parents. Your design is analysed in another block.' };
+    if (D.mating.design !== 'griffing') return { ok: false, es: 'Estos análisis son para dialelos completos entre progenitores. Su diseño se analiza en otro bloque.', en: 'These analyses are for complete diallels between parents. Your design is analyzed in another block.' };
     if (!D.ds.traits.length) return { ok: false, es: 'No hay variables respuesta.', en: 'There are no response traits.' };
     return { ok: true };
   }
@@ -118,7 +118,7 @@
       classic: B5.corr === 'classic',
     });
     res.built = b;
-    /* the same table analysed with Griffing's methods, for the equivalences */
+    /* the same table analyzed with Griffing's methods, for the equivalences */
     res.griffing = {};
     const gcells = b.cells.map(c => Object.assign({}, c, { env: '' }));
     const gopt = { parents: b.parents, envs: [{ key: '', name: '', mse: b.mse, dfe: b.dfe, r: b.r }], F: 1, alpha: B5.alpha };
@@ -151,8 +151,8 @@
     const A = res.anova, items = A.items, df = A.df;
     const totalItems = A.rows.reduce((s, x) => s + x.ss, 0);
     tiles.push(['Aditivo (a)', 'Additive (a)', fmtNum(100 * items.a / totalItems, 0) + ' %', T(`SC ${fmtNum(items.a, 2)} · ${sig(A.rows[0].p).replace(/<[^>]+>/g, '')}`, `SS ${fmtNum(items.a, 2)} · ${sig(A.rows[0].p).replace(/<[^>]+>/g, '')}`)]);
-    tiles.push(['Dominancia (b)', 'Dominance (b)', fmtNum(100 * items.b / totalItems, 0) + ' %', T(`b₁ ${fmtNum(100 * items.b1 / totalItems, 0)} % · b₂ ${fmtNum(100 * items.b2 / totalItems, 0)} % · b₃ ${fmtNum(100 * items.b3 / totalItems, 0)} %`, `b₁ ${fmtNum(100 * items.b1 / totalItems, 0)}% · b₂ ${fmtNum(100 * items.b2 / totalItems, 0)}% · b₃ ${fmtNum(100 * items.b3 / totalItems, 0)}%`)]);
-    if (!res.half) tiles.push(['Recíprocos (c + d)', 'Reciprocal (c + d)', fmtNum(100 * (items.c + items.d) / totalItems, 0) + ' %', T(`c ${fmtNum(100 * items.c / totalItems, 0)} % · d ${fmtNum(100 * items.d / totalItems, 0)} %`, `c ${fmtNum(100 * items.c / totalItems, 0)}% · d ${fmtNum(100 * items.d / totalItems, 0)}%`)]);
+    tiles.push(['Dominancia (b)', 'Dominance (b)', fmtNum(100 * items.b / totalItems, 0) + ' %', T(`b₁ ${fmtNum(100 * items.b1 / totalItems, 0)} % · b₂ ${fmtNum(100 * items.b2 / totalItems, 0)} % · b₃ ${fmtNum(100 * items.b3 / totalItems, 0)} %`, `b₁ ${fmtNum(100 * items.b1 / totalItems, 0)} % · b₂ ${fmtNum(100 * items.b2 / totalItems, 0)} % · b₃ ${fmtNum(100 * items.b3 / totalItems, 0)} %`)]);
+    if (!res.half) tiles.push(['Recíprocos (c + d)', 'Reciprocal (c + d)', fmtNum(100 * (items.c + items.d) / totalItems, 0) + ' %', T(`c ${fmtNum(100 * items.c / totalItems, 0)} % · d ${fmtNum(100 * items.d / totalItems, 0)} %`, `c ${fmtNum(100 * items.c / totalItems, 0)} % · d ${fmtNum(100 * items.d / totalItems, 0)} %`)]);
     if (res.components) {
       const C = res.components, R = C.ratios;
       tiles.push(['Grado medio de dominancia', 'Average degree of dominance', f2(R.dominance), '√(H₁/D)', isFinite(R.dominance) ? (R.dominance > 1 ? 'warn' : 'ok') : '']);

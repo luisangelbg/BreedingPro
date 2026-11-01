@@ -5,7 +5,7 @@
    sequential sum of squares; a column whose residual is null after the previous
    columns is aliased and skipped, which gives the right degrees of freedom for
    unbalanced data, empty cells and nested factors. From the swept matrix come the
-   solutions, the generalised inverse, leverages, estimability checks and
+   solutions, the generalized inverse, leverages, estimability checks and
    least-squares means with standard errors.
 
    Mixed models: REML variance components by average-information iterations
@@ -127,7 +127,7 @@ LM.crossprod = (D, y, w) => {
 };
 
 /* Least-squares fit with sequential (type I) sums of squares.
-   Returns the ANOVA lines of every term, the residual, solutions, generalised
+   Returns the ANOVA lines of every term, the residual, solutions, generalized
    inverse (swept block), fitted values, residuals and leverages. */
 LM.fit = (terms, y, o) => {
   o = o || {};
@@ -194,7 +194,7 @@ LM.anovaTable = (fit, labels, denominators) => {
   return rows;
 };
 
-/* externally studentised residuals and Bonferroni outlier p values (Cook & Weisberg 1982) */
+/* externally studentized residuals and Bonferroni outlier p values (Cook & Weisberg 1982) */
 LM.studentized = fit => {
   const n = fit.n, out = [];
   for (let i = 0; i < n; i++) {

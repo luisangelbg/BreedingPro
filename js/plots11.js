@@ -119,7 +119,7 @@ P11.effects = (cfg0, beta, names) => {
   const hasChr = chr.every(c => c != null);
   const vals = Array.from(beta, v => Math.abs(v));
   const sx = Fig.scaleLinear(0, beta.length, f.x0, f.x1), sy = Fig.scaleLinear(0, Fig.niceDomain(0, Math.max(...vals), true)[1], f.y1, f.y0);
-  Fig.axisX(f, sx, Object.assign({}, cfg, { xlab: cfg.xlab || (hasChr ? T('marcador (orden en el genoma; color = cromosoma)', 'marker (genome order; colour = chromosome)') : T('marcador (orden del archivo)', 'marker (file order)')) }));
+  Fig.axisX(f, sx, Object.assign({}, cfg, { xlab: cfg.xlab || (hasChr ? T('marcador (orden en el genoma; color = cromosoma)', 'marker (genome order; color = chromosome)') : T('marcador (orden del archivo)', 'marker (file order)')) }));
   Fig.axisY(f, sy, Object.assign({}, cfg, { ylab: cfg.ylab || T('|efecto|', '|effect|') }));
   const g = Fig.g();
   vals.forEach((v, j) => {

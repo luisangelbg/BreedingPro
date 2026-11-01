@@ -55,7 +55,7 @@
     host.innerHTML = h;
   };
   const f2 = x => fmtFixed(x, 2), f3 = x => fmtFixed(x, 3);
-  const pct = x => isFinite(x) ? Math.round(x * 100) + '%' : '—';
+  const pct = x => isFinite(x) ? Math.round(x * 100) + ' %' : '—';
 
   /* ================= 1 · mating design ================= */
   function renderTiles() {
@@ -182,7 +182,7 @@
     const o = readSeed(), b = Mating.budget(B2.plan, o);
     B2.budget = b;
     msg('b2SeedMsg', b.warnings.map(w => Object.assign({ level: 'warning' }, w)));
-    const perPlot = B2.plan.design === 'generations' ? T('según plantas por generación', 'from plants per generation') : T(`${o.seedsPerPlot} × ${o.reps} rep. × ${o.locations} loc. + ${Math.round(o.safety * 100)}%`, `${o.seedsPerPlot} × ${o.reps} reps × ${o.locations} loc. + ${Math.round(o.safety * 100)}%`);
+    const perPlot = B2.plan.design === 'generations' ? T('según plantas por generación', 'from plants per generation') : T(`${o.seedsPerPlot} × ${o.reps} rep. × ${o.locations} loc. + ${Math.round(o.safety * 100)} %`, `${o.seedsPerPlot} × ${o.reps} reps × ${o.locations} loc. + ${Math.round(o.safety * 100)} %`);
     statTiles('b2SeedTiles', [
       ['Semilla por entrada', 'Seed per entry', fmtNum(b.perEntry.find(x => x.kind !== 'check') ? Math.max(...b.perEntry.map(x => x.seed)) : 0, 0), perPlot],
       ['Polinizaciones de cruza', 'Cross pollinations', fmtNum(b.totals.crossPollinations, 0), T(`${B2.plan.crosses.length} cruzas`, `${B2.plan.crosses.length} crosses`)],
@@ -264,7 +264,7 @@
       title: () => T(`Croquis de campo · ${B2.field.locations[B2.loc].name}`, `Field map · ${B2.field.locations[B2.loc].name}`), fileName: 'field_map',
       render: c => P2.fieldMap(c, B2.field, B2.loc),
       controls: () => [P2.titleControl(), P2.paletteControl(),
-        { key: 'colorBy', label: T('Color según', 'Colour by'), type: 'select', options: [['type', T('tipo de entrada', 'entry type')], ['rep', T('repetición', 'replicate')], ['none', T('sin color', 'no colour')]] },
+        { key: 'colorBy', label: T('Color según', 'Color by'), type: 'select', options: [['type', T('tipo de entrada', 'entry type')], ['rep', T('repetición', 'replicate')], ['none', T('sin color', 'no color')]] },
         { key: 'showEntry', label: T('Mostrar entradas', 'Show entries'), type: 'checkbox' }, { key: 'showPlot', label: T('Mostrar número de parcela', 'Show plot numbers'), type: 'checkbox' }],
     }, { width: Math.round(Math.min(2400, 110 + lay.nCols * cw)), height: Math.round(Math.min(2000, 190 + lay.nRows * ch)) });
     renderBook();
@@ -291,14 +291,14 @@
     const book = B2.book; if (!book || typeof XLSX === 'undefined') return;
     const wb = XLSX.utils.book_new();
     const aoa = (el('b2MetaLine').checked ? [[book.meta]] : []).concat([book.header], book.rows);
-    XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(aoa), T('Libreta', 'FieldBook'));
+    XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(aoa), T('Libreta', 'Field book'));
     const entries = [[ '#', T('Entrada', 'Entry'), T('Hembra', 'Female'), T('Macho', 'Male'), T('Tipo', 'Type'), T('Semilla necesaria', 'Seed needed'), T('Polinizaciones', 'Pollinations')]];
     B2.plan.entries.forEach((e, i) => { const b = B2.budget ? B2.budget.perEntry[i] : {}; entries.push([e.entry, e.code, e.female, e.male, P2.typeName(e), b.seed, b.pollinations]); });
     XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(entries), T('Entradas', 'Entries'));
     if (B2.budget) {
       const par = [[T('Progenitor', 'Parent'), T('Como hembra', 'As female'), T('Como macho', 'As male'), T('Autofecundaciones', 'Selfs'), T('Plantas hembra', 'Female plants'), T('Plantas macho', 'Male plants')]];
       B2.budget.parents.forEach(p => par.push([p.name, p.asFemale, p.asMale, p.selfs, p.femalePlants, p.malePlants]));
-      XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(par), T('Cruzamiento', 'CrossingBlock'));
+      XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(par), T('Cruzamiento', 'Crossing block'));
     }
     const o = B2.field.options, st = B2.field.structure;
     const design = [[T('Parámetro', 'Parameter'), T('Valor', 'Value')],
@@ -335,13 +335,13 @@
     const seCols = [
       { label: T('Estimación', 'Estimate'), get: x => T(x) },
       { label: T('Error estándar', 'Standard error'), num: true, get: x => f3(x.se) },
-      { label: 'DMS', num: true, get: x => x.lsd != null ? f3(x.lsd) : '' },
-      { label: T('Diferencia detectable', 'Detectable difference'), num: true, get: x => x.detectable != null ? `${f3(x.detectable)} <small>(${fmtNum(100 * x.detectable / o.mean, 1)}%)</small>` : '' },
+      { label: T('DMS', 'LSD'), num: true, get: x => x.lsd != null ? f3(x.lsd) : '' },
+      { label: T('Diferencia detectable', 'Detectable difference'), num: true, get: x => x.detectable != null ? `${f3(x.detectable)} <small>(${fmtNum(100 * x.detectable / o.mean, 1)} %)</small>` : '' },
     ];
     const powCols = [
       { label: T('Prueba', 'Test'), get: x => T(x) },
       { label: T('Modelo', 'Model'), get: x => x.model },
-      { label: 'gl', num: true, get: x => `${fmtNum(x.df1, 0)}, ${fmtNum(x.df2, 0)}` },
+      { label: T('gl', 'df'), num: true, get: x => `${fmtNum(x.df1, 0)}, ${fmtNum(x.df2, 0)}` },
       { label: T('Potencia', 'Power'), num: true, get: x => powerCell(x.power, o.power) },
     ];
     const tagModel = (list, es, en) => list.map(x => Object.assign({}, x, { model: T(es, en) }));
@@ -357,7 +357,7 @@
         { label: T('Componente', 'Component'), get: x => x.n },
         { label: T('Supuesto', 'Assumed'), num: true, get: x => f3(x.v) },
         { label: T('Error estándar', 'Standard error'), num: true, get: x => f3(x.se) },
-        { label: 'CV', num: true, get: x => x.v > 0 ? `<span class="pw ${x.se / x.v <= 0.5 ? 'ok' : x.se / x.v <= 1 ? 'mid' : 'low'}">${fmtNum(100 * x.se / x.v, 0)}%</span>` : '' },
+        { label: 'CV', num: true, get: x => x.v > 0 ? `<span class="pw ${x.se / x.v <= 0.5 ? 'ok' : x.se / x.v <= 1 ? 'mid' : 'low'}">${fmtNum(100 * x.se / x.v, 0)} %</span>` : '' },
       ], [{ n: T('σ²ACG', 'σ²GCA'), v: c.s2g, se: c.seS2g }, { n: T('σ²ACE', 'σ²SCA'), v: c.s2s, se: c.seS2s }, { n: 'σ²A', v: c.s2A, se: c.seS2A }, { n: 'σ²D', v: c.s2D, se: c.seS2D }]);
       if (o.vary === 'n') { pts = Precision.griffingCurve(q, 'p', cfg.method >= 3 ? 5 : 4, 24); current = q.p; }
       else { pts = Precision.griffingCurve(q, 'r', 2, 8); current = q.r; xes = 'Repeticiones por localidad'; xen = 'Replicates per location'; }
@@ -375,7 +375,7 @@
     } else if (d === 'partial') {
       const q = { p: cfg.parents.length, s: cfg.s, r: o.r, L: o.L, sigma2e: o.sigma2e, alpha: o.alpha, sdG: Math.sqrt(o.s2g), sdS: Math.sqrt(o.s2s), s2g: o.s2g, s2s: o.s2s, includeParents: cfg.includeParents, extraEntries: checks };
       res = Precision.partial(q);
-      table(host.se, [{ label: T('ĝᵢ − ĝⱼ a distancia circulante', 'ĝᵢ − ĝⱼ at circulant distance'), get: x => x.distance }, { label: T('Error estándar', 'Standard error'), num: true, get: x => f3(x.se) }, { label: 'DMS', num: true, get: x => f3(x.lsd) }], res.distances);
+      table(host.se, [{ label: T('ĝᵢ − ĝⱼ a distancia circulante', 'ĝᵢ − ĝⱼ at circulant distance'), get: x => x.distance }, { label: T('Error estándar', 'Standard error'), num: true, get: x => f3(x.se) }, { label: T('DMS', 'LSD'), num: true, get: x => f3(x.lsd) }], res.distances);
       table(host.pw, powCols, tagModel(res.fixed, 'I · fijo', 'I · fixed').concat(tagModel(res.random, 'II · aleatorio', 'II · random')));
       el(host.comp).innerHTML = `<p class="hint">${T('En el dialelo parcial la precisión de ĝᵢ − ĝⱼ depende de qué tan lejos están los progenitores en el esquema circulante.', 'In the partial diallel the precision of ĝᵢ − ĝⱼ depends on how far apart the parents are in the circulant scheme.')}</p>`;
       const valid = [];
@@ -400,13 +400,13 @@
       const q = { design, m: cfg.m, f: cfg.f, n: cfg.n, sets: cfg.sets, r: o.r * o.L, sigma2e: o.sigma2e, s2A: o.s2A, s2D: o.s2D, F: design === 'nc3' ? 0 : o.F, alpha: o.alpha };
       res = Precision.nc(q);
       el(host.se).innerHTML = `<p class="hint">${T('En estos diseños el objetivo son las varianzas σ²A y σ²D de la población, no efectos individuales; vea las tablas de la derecha.', 'In these designs the goal is the population variances σ²A and σ²D, not individual effects; see the tables on the right.')}</p>` +
-        (design === 'nc3' ? `<p class="hint">${T('Base F₂ (p = q = ½), parametrización de Comstock y Robinson: σ²m = ¼σ²A y σ²ml = σ²D. La cruza triple de prueba usa las mismas sumas y diferencias, más la prueba de epistasis L₁ + L₂ − 2L₃.', 'F₂ base (p = q = ½), Comstock and Robinson parametrisation: σ²m = ¼σ²A and σ²ml = σ²D. The triple test cross uses the same sums and differences, plus the epistasis test L₁ + L₂ − 2L₃.')}</p>` : '');
+        (design === 'nc3' ? `<p class="hint">${T('Base F₂ (p = q = ½), parametrización de Comstock y Robinson: σ²m = ¼σ²A y σ²ml = σ²D. La cruza triple de prueba usa las mismas sumas y diferencias, más la prueba de epistasis L₁ + L₂ − 2L₃.', 'F₂ base (p = q = ½), Comstock and Robinson parametrization: σ²m = ¼σ²A and σ²ml = σ²D. The triple test cross uses the same sums and differences, plus the epistasis test L₁ + L₂ − 2L₃.')}</p>` : '');
       table(host.pw, powCols, tagModel(res.tests, 'aleatorio', 'random'));
       table(host.comp, [
         { label: T('Componente', 'Component'), get: x => T(x) },
         { label: T('Supuesto', 'Assumed'), num: true, get: x => f3(x.value) },
         { label: T('Error estándar', 'Standard error'), num: true, get: x => f3(x.se) },
-        { label: 'CV', num: true, get: x => x.value > 0 ? `<span class="pw ${x.se / x.value <= 0.5 ? 'ok' : x.se / x.value <= 1 ? 'mid' : 'low'}">${fmtNum(100 * x.se / x.value, 0)}%</span>` : '' },
+        { label: 'CV', num: true, get: x => x.value > 0 ? `<span class="pw ${x.se / x.value <= 0.5 ? 'ok' : x.se / x.value <= 1 ? 'mid' : 'low'}">${fmtNum(100 * x.se / x.value, 0)} %</span>` : '' },
       ], res.comps);
       const xs = o.vary === 'n' ? (design === 'nc3' ? [10, 15, 20, 25, 30, 40, 50, 60, 80, 100] : [2, 3, 4, 5, 6, 8, 10, 12, 16, 20]) : [2, 3, 4, 5, 6, 7, 8];
       const key0 = res.tests[0].key, key1 = res.tests[res.tests.length - 1].key;
@@ -415,9 +415,9 @@
       xes = o.vary === 'n' ? (design === 'nc3' ? 'Plantas F₂ probadas' : 'Machos por conjunto') : 'Repeticiones por localidad';
       xen = o.vary === 'n' ? (design === 'nc3' ? 'F₂ plants tested' : 'Males per set') : 'Replicates per location';
       series = [{ key: 'a', es: T(res.tests[0]), en: T(res.tests[0]), color: 0 }, { key: 'b', es: T(res.tests[res.tests.length - 1]), en: T(res.tests[res.tests.length - 1]), color: 3 }];
-      notes.push({ es: 'Las varianzas de estos diseños se estiman en un solo ambiente; si se promedian localidades sin modelar la interacción, σ²A y σ²D quedan infladas por σ²GA.', en: 'These variances are estimated in a single environment; averaging locations without modelling the interaction inflates σ²A and σ²D by σ²GE.', level: 'info' });
+      notes.push({ es: 'Las varianzas de estos diseños se estiman en un solo ambiente; si se promedian localidades sin modelar la interacción, σ²A y σ²D quedan infladas por σ²GA.', en: 'These variances are estimated in a single environment; averaging locations without modeling the interaction inflates σ²A and σ²D by σ²GE.', level: 'info' });
       /* the message follows the actual coefficients of variation: Design III estimates dominance well */
-      const cvA = 100 * res.comps[0].se / res.comps[0].value, cvD = 100 * res.comps[1].se / res.comps[1].value, pc = x => fmtNum(x, 0) + '%';
+      const cvA = 100 * res.comps[0].se / res.comps[0].value, cvD = 100 * res.comps[1].se / res.comps[1].value, pc = x => fmtNum(x, 0) + ' %';
       el('b2PowerText').innerHTML = cvD > 1.3 * cvA
         ? T(`La dominancia se estima con mucha menos precisión que la varianza aditiva (CV de σ²D ${pc(cvD)} contra ${pc(cvA)} de σ²A): fíjese en el CV de σ²D antes de decidir el tamaño del experimento.`, `Dominance is estimated far less precisely than additive variance (CV of σ²D ${pc(cvD)} against ${pc(cvA)} for σ²A): check the CV of σ²D before deciding the size of the experiment.`)
         : T(`σ²A y σ²D se estiman con una precisión parecida (CV de ${pc(cvA)} y ${pc(cvD)})${design === 'nc3' ? ': por eso el diseño III es el más eficiente para estimar el grado medio de dominancia' : ''}.`, `σ²A and σ²D are estimated with similar precision (CV of ${pc(cvA)} and ${pc(cvD)})${design === 'nc3' ? ': that is why Design III is the most efficient for the average degree of dominance' : ''}.`);
@@ -432,7 +432,7 @@
         { label: T('Varianza esperada', 'Expected variance'), num: true, get: x => f3(x.v) },
         { label: T('EE de la media', 'SE of the mean'), num: true, get: x => f3(x.se) },
       ], gens.map(e => { const v = alloc.variances[e.generation] * E; return { g: e.generation, n: e.plants * o.L, v, se: Math.sqrt(v / (e.plants * o.L)) }; }));
-      el(host.pw).innerHTML = `<p class="hint">${T('Las pruebas de escala comparan combinaciones de medias; su precisión mejora cuando los errores estándar de todas las generaciones son parecidos (botón «Repartir» de la tarjeta 1).', 'The scaling tests compare combinations of means; their precision improves when every generation has a similar standard error (the "Share out" button in card 1).')}</p>`;
+      el(host.pw).innerHTML = `<p class="hint">${T('Las pruebas de escala comparan combinaciones de medias; su precisión mejora cuando los errores estándar de todas las generaciones son parecidos (botón «Repartir» de la tarjeta 1).', 'The scaling tests compare combinations of means; their precision improves when every generation has a similar standard error (the “Share out” button in card 1).')}</p>`;
       el(host.comp).innerHTML = ''; el('b2FigPower').innerHTML = ''; el('b2PowerText').innerHTML = '';
       msg('b2PowerMsg', notes);
       return;
@@ -467,7 +467,7 @@
     const o = readField();
     const small = B2.plan.entries.length * o.reps * o.locations.length <= 2500 && !(o.design === 'alpha' && B2.plan.entries.length > 200);
     if (!B2.plan.errors.length && small) generateField();
-    else if (B2.field) { B2.field = null; el('b2FigField').innerHTML = ''; el('b2BookWrap').style.display = 'none'; el('b2FieldTiles').innerHTML = ''; msg('b2FieldMsg', [{ es: 'El plan cambió: pulse «Generar croquis y libreta».', en: 'The plan changed: press "Generate map and field book".', level: 'info' }]); }
+    else if (B2.field) { B2.field = null; el('b2FigField').innerHTML = ''; el('b2BookWrap').style.display = 'none'; el('b2FieldTiles').innerHTML = ''; msg('b2FieldMsg', [{ es: 'El plan cambió: pulse «Generar croquis y libreta».', en: 'The plan changed: press “Generate map and field book”.', level: 'info' }]); }
     renderPower();
     state.plan = { plan: B2.plan, budget: B2.budget, field: B2.field };
   }

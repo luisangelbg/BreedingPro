@@ -192,7 +192,7 @@ Precision.nc = o => {
     comps.push({ key: 's2D', es: 'σ²D = 4σ²mf/(1+F)²', en: 'σ²D = 4σ²mf/(1+F)²', value: o.s2D, se: 4 / Math.pow(1 + F, 2) * seMF });
     return { tests, comps, dfe, families: sets * m * f };
   }
-  /* NC III on an F2 (Comstock & Robinson parametrisation): σ²m = ¼σ²A, σ²ml = σ²D */
+  /* NC III on an F2 (Comstock & Robinson parametrization): σ²m = ¼σ²A, σ²ml = σ²D */
   const n = o.n, dfm = n - 1, dfe = (r - 1) * (2 * n - 1);
   const EMm = s2 + 2 * r * 0.25 * o.s2A, EMml = s2 + r * o.s2D;
   test('males', 'Plantas F₂ (σ²A)', 'F₂ plants (σ²A)', EMm, s2, dfm, dfe);
@@ -207,7 +207,7 @@ Precision.nc = o => {
 /* ---------------- generation means: plants per generation ----------------
    Expected variances with no epistasis, no linkage and F = 0 (report 02 §7.1):
    V(P1) = V(P2) = V(F1) = E; V(F2) = ½D + ¼H + E; V(B1) ≈ V(B2) = ¼D + ¼H + E.
-   Allocating plants in proportion to these variances equalises the standard
+   Allocating plants in proportion to these variances equalizes the standard
    errors of the generation means (Kearsey 1980), with a floor for the
    non-segregating generations. */
 Precision.generationAllocation = o => {

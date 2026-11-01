@@ -96,7 +96,7 @@
     if (!D) return { ok: false, es: 'Cargue los datos en el Bloque 3: este bloque toma de ahí las medias ajustadas y el error de cada ambiente.', en: 'Load the data in Block 3: this block takes the adjusted means and the error of each environment from there.' };
     if (D.mating.design !== 'griffing') {
       const other = { partial: 6, nc1: 6, nc2: 6, nc3: 6, ttc: 6, lxt: 6, generations: 7, none: D.field.multiEnv ? 9 : 8 }[D.mating.design] || 3;
-      return { ok: false, es: `Los datos cargados son de otro diseño (${T(D.mating.reasons[0] || { es: D.mating.design, en: D.mating.design })}). Los dialelos completos de Griffing se analizan aquí; ese diseño se analiza en el Bloque ${other}.`, en: `The data loaded belong to another design (${T(D.mating.reasons[0] || { es: D.mating.design, en: D.mating.design })}). Complete Griffing diallels are analysed here; that design is analysed in Block ${other}.` };
+      return { ok: false, es: `Los datos cargados son de otro diseño (${T(D.mating.reasons[0] || { es: D.mating.design, en: D.mating.design })}). Los dialelos completos de Griffing se analizan aquí; ese diseño se analiza en el Bloque ${other}.`, en: `The data loaded belong to another design (${T(D.mating.reasons[0] || { es: D.mating.design, en: D.mating.design })}). Complete Griffing diallels are analyzed here; that design is analyzed in Block ${other}.` };
     }
     if (!D.ds.traits.length) return { ok: false, es: 'No hay variables respuesta.', en: 'There are no response traits.' };
     return { ok: true };
@@ -109,17 +109,17 @@
     const dataMethod = D.mating.method;
     el('b4Source').innerHTML = T(
       `Datos: <b>${esc(D.fileName || '')}</b> · ${D.mating.p} progenitores · ${D.ds.records.length} registros · reconocido como <b>método ${dataMethod}</b> de Griffing${D.field.multiEnv ? ` · ${D.field.envs.length} ambientes` : ''}.`,
-      `Data: <b>${esc(D.fileName || '')}</b> · ${D.mating.p} parents · ${D.ds.records.length} records · recognised as Griffing's <b>Method ${dataMethod}</b>${D.field.multiEnv ? ` · ${D.field.envs.length} environments` : ''}.`);
+      `Data: <b>${esc(D.fileName || '')}</b> · ${D.mating.p} parents · ${D.ds.records.length} records · recognized as Griffing's <b>Method ${dataMethod}</b>${D.field.multiEnv ? ` · ${D.field.envs.length} environments` : ''}.`);
     el('b4MethodNote').innerHTML = B4.method === dataMethod
-      ? T('El método del diseño reconocido.', 'The method of the recognised design.')
-      : T(`Se analiza un subconjunto de las entradas, con su propio error (así se compara con un experimento diseñado como método ${B4.method}).`, `A subset of the entries is analysed, with its own error (this compares with an experiment designed as Method ${B4.method}).`);
+      ? T('El método del diseño reconocido.', 'The method of the recognized design.')
+      : T(`Se analiza un subconjunto de las entradas, con su propio error (así se compara con un experimento diseñado como método ${B4.method}).`, `A subset of the entries is analyzed, with its own error (this compares with an experiment designed as Method ${B4.method}).`);
     el('b4RecipField').style.display = M.recip ? 'none' : (hasReciprocals() ? '' : 'none');
     el('b4EnvField').style.display = D.field.multiEnv ? '' : 'none';
     const main = res.main;
     const r = main.r, sc = B4.scale === 'mean' ? 1 / r : 1;
     const tiles = [
       ['Método y modelo', 'Method and model', T(`Método ${B4.method}`, `Method ${B4.method}`), T(`modelo ${B4.model} · ${T(M).replace(/^Método \d+: /, '')}`, `Model ${B4.model} · ${T(M).replace(/^Method \d+: /, '')}`)],
-      ['Entradas analizadas', 'Entries analysed', String(res.cells.length / Math.max(1, res.e)), T(`${res.expected} esperadas · ${res.p} progenitores`, `${res.expected} expected · ${res.p} parents`), res.complete ? 'ok' : 'warn'],
+      ['Entradas analizadas', 'Entries analyzed', String(res.cells.length / Math.max(1, res.e)), T(`${res.expected} esperadas · ${res.p} progenitores`, `${res.expected} expected · ${res.p} parents`), res.complete ? 'ok' : 'warn'],
       ['Media general', 'Grand mean', fmtNum(main.effects ? main.effects.mu.est : NaN, 3), T(`EE ${fmtNum(main.effects ? main.effects.mu.se : NaN, 3)}`, `SE ${fmtNum(main.effects ? main.effects.mu.se : NaN, 3)}`)],
       ['Error experimental', 'Experimental error', fmtNum(main.mse * (B4.scale === 'mean' ? 1 / r : 1), 4), T(`${main.dfe} gl · ${B4.scale === 'mean' ? 'escala de medias' : 'escala de parcelas'} · r = ${fmtNum(r, 2)}`, `${main.dfe} df · ${B4.scale === 'mean' ? 'entry-mean scale' : 'plot scale'} · r = ${fmtNum(r, 2)}`)],
     ];
@@ -127,7 +127,7 @@
     if (gcaRow && scaRow) {
       const tot = main.entries ? main.entries.ss : gcaRow.ss + scaRow.ss;
       const pg = Math.round(100 * gcaRow.ss / tot), ps = Math.round(100 * scaRow.ss / tot);
-      tiles.push(['ACG / ACE', 'GCA / SCA', T(`${pg} % / ${ps} %`, `${pg}% / ${ps}%`), T('de la suma de cuadrados entre entradas', 'of the sum of squares between entries')]);
+      tiles.push(['ACG / ACE', 'GCA / SCA', T(`${pg} % / ${ps} %`, `${pg} % / ${ps} %`), T('de la suma de cuadrados entre entradas', 'of the sum of squares between entries')]);
     }
     if (main.genetic && isFinite(main.genetic.baker)) tiles.push(['Razón de Baker', 'Baker ratio', f2(main.genetic.baker), T('2σ²ACG/(2σ²ACG + σ²ACE)', '2σ²GCA/(2σ²GCA + σ²SCA)'), main.genetic.baker >= 0.5 ? 'ok' : '']);
     statTiles('b4Tiles', tiles);
@@ -191,7 +191,7 @@
       : (adjusted
         ? T(`Sumas de cuadrados en la escala de parcelas (× r = ${fmtNum(r, 2)}).`, `Sums of squares on the plot scale (× r = ${fmtNum(r, 2)}).`)
         : T(`Sumas de cuadrados en la escala de parcelas (× r = ${fmtNum(r, 2)}); el error es el cuadrado medio del diseño de campo.`, `Sums of squares on the plot scale (× r = ${fmtNum(r, 2)}); the error is the mean square of the field design.`)));
-    if (adjusted) notes.push(T(`Las medias vienen de un diseño con bloques incompletos y son menos precisas que CM<sub>error</sub>/r: el error de este análisis es la varianza promedio de las medias ajustadas, ${fmtNum(100 * (ratio - 1), 0)} % mayor que el cuadrado medio intrabloque (Möhring y Piepho 2009).`, `The means come from an incomplete-block design and are less precise than MS<sub>error</sub>/r: the error of this analysis is the average variance of the adjusted means, ${fmtNum(100 * (ratio - 1), 0)}% larger than the intra-block mean square (Möhring & Piepho 2009).`));
+    if (adjusted) notes.push(T(`Las medias vienen de un diseño con bloques incompletos y son menos precisas que CM<sub>error</sub>/r: el error de este análisis es la varianza promedio de las medias ajustadas, ${fmtNum(100 * (ratio - 1), 0)} % mayor que el cuadrado medio intrabloque (Möhring y Piepho 2009).`, `The means come from an incomplete-block design and are less precise than MS<sub>error</sub>/r: the error of this analysis is the average variance of the adjusted means, ${fmtNum(100 * (ratio - 1), 0)} % larger than the intra-block mean square (Möhring & Piepho 2009).`));
     if (main.multiEnv) notes.push(T(`El error es el combinado de los ${res.envs.length} ambientes (${main.dfe} gl); los bloques de cada ambiente ya se descontaron en el Bloque 3.`, `The error is pooled over the ${res.envs.length} environments (${main.dfe} df); the blocks of each environment were already removed in Block 3.`));
     if (B4.method === 1 && !modelI) notes.push(T('En el método 1 la prueba F de la ACG del modelo II es aproximada: los coeficientes de σ²ACE difieren entre los cuadrados medios de ACG y ACE (Griffing 1956).', "In Method 1 the Model II F test of GCA is approximate: the σ²SCA coefficients differ between the GCA and SCA mean squares (Griffing 1956)."));
     if (envRandom) notes.push(T('Con ambientes aleatorios cada efecto genético se prueba contra su interacción con ambientes.', 'With random environments each genetic effect is tested against its interaction with environments.'));
@@ -365,7 +365,7 @@
       { label: T('Progenitor', 'Parent'), get: g => esc(g.name) },
       { label: 'ĝᵢ', num: true, get: g => fmtNum(g.est, 3) },
       { label: 'p', num: true, get: g => sig(g.p) },
-      { label: T('Lectura', 'Reading'), get: g => (g.p < 0.05 ? (dir * g.est > 0 ? `<span class="pw ok">${T('favorable', 'favourable')}</span>` : `<span class="pw low">${T('desfavorable', 'unfavourable')}</span>`) : `<span class="pw mid">${T('sin diferencia', 'no difference')}</span>`) },
+      { label: T('Lectura', 'Reading'), get: g => (g.p < 0.05 ? (dir * g.est > 0 ? `<span class="pw ok">${T('favorable', 'favorable')}</span>` : `<span class="pw low">${T('desfavorable', 'unfavorable')}</span>`) : `<span class="pw mid">${T('sin diferencia', 'no difference')}</span>`) },
     ], gca.map((g, k) => Object.assign(g, { rank: k + 1 })));
     const pred = (res.predictions || []).map(x => Object.assign({ name: cross(x.i, x.j) }, x));
     const tested = pred.filter(x => x.tested).sort((a, b) => dir * (b.observed - a.observed));
@@ -389,7 +389,7 @@
     mountFig('b4FigObsPred', {
       title: () => T('Observado contra predicho', 'Observed against predicted') + ' · ' + label, fileName: 'observed_predicted',
       render: c => P4.observedPredicted(c, pred, { label }),
-      controls: () => [P2.titleControl(), { key: 'withSca', label: T('Incluir la ACE en la predicción', 'Include SCA in the prediction'), type: 'checkbox' }, { key: 'labels', label: T('Cruzas etiquetadas', 'Labelled crosses'), type: 'number', min: 0, max: 40, step: 1 }, P2.paletteControl()],
+      controls: () => [P2.titleControl(), { key: 'withSca', label: T('Incluir la ACE en la predicción', 'Include SCA in the prediction'), type: 'checkbox' }, { key: 'labels', label: T('Cruzas etiquetadas', 'Labeled crosses'), type: 'number', min: 0, max: 40, step: 1 }, P2.paletteControl()],
     }, { width: 900, height: 520, labels: 6 });
     /* reading */
     /* only effects that are significant in the desired direction are "best" */
@@ -457,8 +457,8 @@
       { label: T('SC ACG', 'GCA SS'), num: true, get: r => (r.values.gca == null ? '' : fmtNum(r.values.gca, 2) + ' ' + stars(r.gcaP)) },
       { label: T('SC ACE', 'SCA SS'), num: true, get: r => (r.values.sca == null ? '' : fmtNum(r.values.sca, 2) + ' ' + stars(r.scaP)) },
       { label: T('SC recíprocos', 'Reciprocal SS'), num: true, get: r => (r.values.rec == null ? '' : fmtNum(r.values.rec, 2) + ' ' + stars(r.recP)) },
-      { label: 'σ²ACG', num: true, get: r => fmtNum(r.values.g, 3) },
-      { label: 'σ²ACE', num: true, get: r => fmtNum(r.values.s, 3) },
+      { label: T('σ²ACG', 'σ²GCA'), num: true, get: r => fmtNum(r.values.g, 3) },
+      { label: T('σ²ACE', 'σ²SCA'), num: true, get: r => fmtNum(r.values.s, 3) },
       { label: T('Baker', 'Baker'), num: true, get: r => f2(r.baker) },
       { label: T('Qué estima', 'What it estimates'), get: r => `<span class="hint">${T(what[r.method][0], what[r.method][1])}</span>` },
     ], rows);
@@ -493,7 +493,7 @@
         <li><b>Reciprocal effects:</b> rᵢⱼ = mᵢ − mⱼ + nᵢⱼ separates the maternal part (mᵢ, which depends on which parent was the female) from the non-maternal part (nᵢⱼ), as in Cockerham (1963) and Hayman's (1954) c/d analysis.</li>
         <li><b>Model I:</b> the parents themselves are of interest; effects are tested against the experimental error. <b>Model II:</b> the parents are a sample from a population; variance components are estimated from Griffing's expected mean squares and GCA is tested against SCA (in Method 1 that test is approximate).</li>
         <li><b>Components:</b> σ²GCA = ¼(1 + F)σ²A and σ²SCA = [(1 + F)/2]²σ²D, so σ²A = 4σ²GCA/(1 + F) and σ²D = 4σ²SCA/(1 + F)² (Wright 1985; Griffing 1956). Baker's (1978) ratio = 2σ²GCA/(2σ²GCA + σ²SCA). Standard errors of the components from the variance of the mean squares (2MS²/df).</li>
-        <li><b>Several environments:</b> analysed in two stages (adjusted means of each environment from Block 3 and pooled error). The second-stage error is the average variance of the adjusted means on the plot scale: equal to the error mean square with complete blocks and larger with incomplete blocks, whose means are less precise (Möhring & Piepho 2009). With random environments each effect is tested against its interaction; Model II GCA uses a quasi-F with Satterthwaite degrees of freedom (Singh 1973).</li>
+        <li><b>Several environments:</b> analyzed in two stages (adjusted means of each environment from Block 3 and pooled error). The second-stage error is the average variance of the adjusted means on the plot scale: equal to the error mean square with complete blocks and larger with incomplete blocks, whose means are less precise (Möhring & Piepho 2009). With random environments each effect is tested against its interaction; Model II GCA uses a quasi-F with Satterthwaite degrees of freedom (Singh 1973).</li>
         <li><b>Scale:</b> sums of squares are shown on the entry-mean scale (error = MS<sub>error</sub>/r) or the plot scale (× r); the F tests are identical.</li>
         <li><b>References:</b> Griffing B (1956) Aust J Biol Sci 9:463–493 and Heredity 10:31–50; Cockerham CC (1963) in Statistical Genetics and Plant Breeding; Baker RJ (1978) Crop Sci 18:533–536; Wright AJ (1985) Theor Appl Genet 71:31–36; Kuehl RO, Rawlings JO, Cockerham CC (1968) Biometrics 24:881–901; Singh D (1973) Indian J Genet 33:469–481; Möhring J, Piepho HP (2009) Crop Sci 49:1977–1988; Möhring J, Melchinger AE, Piepho HP (2011) Crop Sci 51:470–478.</li>
       </ul>`);
@@ -530,7 +530,7 @@
     const pr = [[T('Cruza', 'Cross'), T('Evaluada', 'Tested'), T('Media', 'Mean'), 'mu+gi+gj', T('EE', 'SE'), 'sca', T('EE ACE', 'SCA SE'), 'p']];
     (res.predictions || []).forEach(x => pr.push([cross(x.i, x.j), x.tested ? 1 : 0, x.observed, x.predictedGca, x.seGca, x.sca, x.scaSe, x.scaP]));
     sheet(pr, T('Cruzas', 'Crosses'));
-    if (B4.compare) sheet([[T('Método', 'Method'), T('Entradas', 'Entries'), T('gl error', 'Error df'), T('CM error', 'Error MS'), 'SC ACG', 'SC ACE', 'SC rec', 'sigma2GCA', 'sigma2SCA', 'Baker']]
+    if (B4.compare) sheet([[T('Método', 'Method'), T('Entradas', 'Entries'), T('gl error', 'Error df'), T('CM error', 'Error MS'), T('SC ACG', 'GCA SS'), T('SC ACE', 'SCA SS'), T('SC rec', 'Reciprocal SS'), 'sigma2GCA', 'sigma2SCA', 'Baker']]
       .concat(B4.compare.map(r => [r.method, r.cells, r.dfe, r.mse, r.values.gca, r.values.sca, r.values.rec, r.values.g, r.values.s, r.baker])), T('Comparación', 'Comparison'));
     const out = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
     download(new Blob([out], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' }), slug(T('griffing_', 'griffing_') + (state.data.ds.traits[B4.trait].name || '')) + '.xlsx');
@@ -567,7 +567,7 @@
   function renderPickers() {
     const D = state.data;
     el('b4Trait').innerHTML = D.ds.traits.map((t, i) => `<option value="${i}"${i === B4.trait ? ' selected' : ''}>${esc(t.name)}</option>`).join('');
-    el('b4Method').innerHTML = [1, 2, 3, 4].filter(methodPossible).map(m => `<option value="${m}"${m === B4.method ? ' selected' : ''}>${T(Griffing.METHODS[m])}${m === D.mating.method ? T(' (diseño reconocido)', ' (recognised design)') : ''}</option>`).join('');
+    el('b4Method').innerHTML = [1, 2, 3, 4].filter(methodPossible).map(m => `<option value="${m}"${m === B4.method ? ' selected' : ''}>${T(Griffing.METHODS[m])}${m === D.mating.method ? T(' (diseño reconocido)', ' (recognized design)') : ''}</option>`).join('');
     el('b4Model').value = B4.model;
     el('b4Recip').value = B4.recip;
     el('b4EnvMode').value = B4.envMode;

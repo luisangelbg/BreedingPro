@@ -178,7 +178,7 @@ GS.invert = (K, n) => {
   }
   return { Kinv: Ki, logdet };
 };
-/* leading principal components of the double-centred matrix, by subspace iteration */
+/* leading principal components of the double-centered matrix, by subspace iteration */
 GS.pca = (K, n, k) => {
   k = k || 3;
   const C = new Float64Array(n * n);

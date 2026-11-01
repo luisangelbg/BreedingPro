@@ -1,4 +1,4 @@
-/* BreedingPro — language (Spanish / English) and colour theme.
+/* BreedingPro — language (Spanish / English) and color theme.
 
    How translation works, so that nothing is ever left half translated:
    1. Rich text in the HTML is written twice, side by side:

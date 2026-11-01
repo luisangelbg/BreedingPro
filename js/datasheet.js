@@ -2,7 +2,7 @@
 
    A spreadsheet-like grid for users who cannot upload a file: paste a block copied
    from any spreadsheet (tab-separated) or a CSV text, or type directly. The grid is
-   virtualised (only the visible cells exist in the page), so thousands of rows and
+   virtualized (only the visible cells exist in the page), so thousands of rows and
    columns stay responsive. The sheet is saved in the browser as it changes, can be
    downloaded as .xlsx, .ods, .csv or .tsv, and is read through the same column
    roles and design recognition as a file. Row numbers are the rows of the sheet, so
@@ -188,7 +188,7 @@
   function insertCols(right) { const [a, b] = selCols(); const n = b - a + 1, at = right ? b + 1 : a; structural(() => { S.cells.forEach(r => { while (r.length < at) r.push(''); r.splice(at, 0, ...new Array(n).fill('')); }); S.nCols = Math.min(MAX_COLS, S.nCols + n); }, 'insert columns'); }
   function deleteCols() { const [a, b] = selCols(); structural(() => { S.cells.forEach(r => r.splice(a, b - a + 1)); }, 'delete columns'); S.sel = { r0: S.sel.r0, c0: a, r1: S.sel.r0, c1: a }; render(); }
 
-  /* ================================================================ rendering (virtualised) */
+  /* ================================================================ rendering (virtualized) */
   function build() {
     const host = el('sheetGrid');
     host.innerHTML = '';

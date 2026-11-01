@@ -4,7 +4,7 @@
    (Hayman's additive–dominance model: AA = +a, aa = −a, Aa = d at every
    locus, genes independent), every cross of the half diallel is "grown" in
    replicated plots with normal plot error, and the table of means is then
-   analysed exactly as real data are: Hayman–Jinks array statistics (Vr, Wr),
+   analyzed exactly as real data are: Hayman–Jinks array statistics (Vr, Wr),
    the Wr–Vr regression with its limiting parabola, the genetic components
    D, H1, H2, F, h², and Griffing's Method 2 (fixed model) general combining
    ability. Optional dominance × dominance epistasis between pairs of loci shows
@@ -149,7 +149,7 @@
     noisy: { n: 7, loci: 12, da: 0.5, dir: 1, u: 0.5, eps: 0, err: 2.5 },
   };
   const D_FMT = {
-    dlN: v => String(v), dlLoci: v => String(v), dlDa: v => v.toFixed(2), dlDir: v => Math.round(v * 100) + '%',
+    dlN: v => String(v), dlLoci: v => String(v), dlDa: v => v.toFixed(2), dlDir: v => Math.round(v * 100) + ' %',
     dlU: v => v.toFixed(2), dlEps: v => (v > 0 ? '+' : v < 0 ? '−' : '') + Math.abs(v).toFixed(2), dlErr: v => v.toFixed(2),
   };
   let dSeed = 20260917, dRes = null;
@@ -159,7 +159,7 @@
     return { n: val('dlN'), loci: val('dlLoci'), da: val('dlDa'), dir: val('dlDir'), u: val('dlU'), eps: val('dlEps'), err: val('dlErr') };
   }
 
-  /* simulate and analyse one half diallel with parents (Griffing's Method 2 layout) */
+  /* simulate and analyze one half diallel with parents (Griffing's Method 2 layout) */
   function simulateDiallel(cfg, seed) {
     const r = rng(seed);
     const n = cfg.n, K = cfg.loci, a = 1;
@@ -401,7 +401,7 @@
     dominance: { N: 400, loci: 40, h2: 0.4, ps: 0.1, p0: 0.3, da: 1, c: 1 },
   };
   const S_FMT = {
-    slN: v => String(v), slLoci: v => String(v), slH2: v => v.toFixed(2), slPs: v => Math.round(v * 100) + '%', slP0: v => v.toFixed(2),
+    slN: v => String(v), slLoci: v => String(v), slH2: v => v.toFixed(2), slPs: v => Math.round(v * 100) + ' %', slP0: v => v.toFixed(2),
     slDa: v => v.toFixed(2),
   };
   let sSeed = 7, sPop = null, sTimer = null;
@@ -525,7 +525,7 @@
     f.g.appendChild(svgEl('text', { x: f.W - f.m.r + 5, y: f.m.t - 12, 'font-size': 10.5, fill: cssVar('--leaf'), 'font-weight': 700 }, 'h²'));
     f.plot.appendChild(svgEl('path', { d: pathOf(naive.map(p => [f.sx(p[0]), f.sy(p[1])])), fill: 'none', stroke: cssVar('--text-muted'), 'stroke-width': 1.3, 'stroke-dasharray': '6 4' }));
     f.plot.appendChild(svgEl('path', { d: pathOf(H.map(h => [f.sx(h.cycle), syH(h.h2)])), fill: 'none', stroke: cssVar('--leaf'), 'stroke-width': 1.8 }));
-    /* per-cycle predictions: an arrow from each realised mean to its breeder's-equation forecast */
+    /* per-cycle predictions: an arrow from each realized mean to its breeder's-equation forecast */
     for (let t = 0; t + 1 < H.length; t++) {
       const x0 = f.sx(H[t].cycle), y0 = f.sy(units(H[t])), y1 = f.sy(units(H[t]) + H[t].Rpred / sd0);
       f.plot.appendChild(svgEl('path', { d: `M${x0} ${y0} L${f.sx(H[t].cycle + 1)} ${y1}`, stroke: cssVar('--gold'), 'stroke-width': 1.4, fill: 'none', opacity: 0.9 }));
@@ -548,14 +548,14 @@
     const st = el('slStatus');
     if (!st) return;
     if (!prev) {
-      st.innerHTML = T(`Se selecciona el mejor <b>${Math.round(pop.cfg.ps * 100)}%</b> (barras doradas). Con h² = ${f2(n.h2)} y S = ${f2(n.S)}, la ecuación del criador predice una respuesta de <b>${f2(n.Rpred)}</b> en el siguiente ciclo. Pulsa <b>Ciclo</b> o <b>▶ Correr</b>.`,
-        `The best <b>${Math.round(pop.cfg.ps * 100)}%</b> are selected (gold bars). With h² = ${f2(n.h2)} and S = ${f2(n.S)}, the breeder's equation predicts a response of <b>${f2(n.Rpred)}</b> next cycle. Press <b>Cycle</b> or <b>▶ Run</b>.`);
+      st.innerHTML = T(`Se selecciona el mejor <b>${Math.round(pop.cfg.ps * 100)} %</b> (barras doradas). Con h² = ${f2(n.h2)} y S = ${f2(n.S)}, la ecuación del criador predice una respuesta de <b>${f2(n.Rpred)}</b> en el siguiente ciclo. Pulsa <b>Ciclo</b> o <b>▶ Correr</b>.`,
+        `The best <b>${Math.round(pop.cfg.ps * 100)} %</b> are selected (gold bars). With h² = ${f2(n.h2)} and S = ${f2(n.S)}, the breeder's equation predicts a response of <b>${f2(n.Rpred)}</b> next cycle. Press <b>Cycle</b> or <b>▶ Run</b>.`);
       return;
     }
     const lost = 1 - n.vA / h0.vA, loci = n.fixed === 1 ? 'locus' : 'loci';
     const domNote = pop.cfg.da > 0;
     st.innerHTML = T(`Ciclo ${n.cycle}: respuesta obtenida <b>${f2(n.mY - prev.mY)}</b> contra <b>${f2(prev.Rpred)}</b> predicha. La varianza aditiva ha caído <b>${fmtPct(Math.max(0, lost), 0)}</b> desde el inicio (efecto Bulmer y fijación de ${n.fixed} ${loci}), por eso la línea discontinua —que supone h² constante— se aleja de la realidad.${domNote ? ' Con dominancia, además, σ²A baja conforme el alelo favorable se vuelve común, porque el recesivo que queda se esconde en los heterocigotos.' : ''}${pop.cfg.c < 1 ? ' Sin control del polen (c = ½) solo la mitad del diferencial se transmite.' : ''}`,
-      `Cycle ${n.cycle}: realised response <b>${f2(n.mY - prev.mY)}</b> against <b>${f2(prev.Rpred)}</b> predicted. Additive variance has fallen <b>${fmtPct(Math.max(0, lost), 0)}</b> since the start (Bulmer effect and fixation of ${n.fixed} ${loci}), which is why the dashed line — that assumes a constant h² — drifts away from reality.${domNote ? ' With dominance, σ²A also shrinks as the favourable allele becomes common, because the remaining recessive hides in heterozygotes.' : ''}${pop.cfg.c < 1 ? ' Without pollen control (c = ½) only half the selection differential is transmitted.' : ''}`);
+      `Cycle ${n.cycle}: realized response <b>${f2(n.mY - prev.mY)}</b> against <b>${f2(prev.Rpred)}</b> predicted. Additive variance has fallen <b>${fmtPct(Math.max(0, lost), 0)}</b> since the start (Bulmer effect and fixation of ${n.fixed} ${loci}), which is why the dashed line — that assumes a constant h² — drifts away from reality.${domNote ? ' With dominance, σ²A also shrinks as the favorable allele becomes common, because the remaining recessive hides in heterozygotes.' : ''}${pop.cfg.c < 1 ? ' Without pollen control (c = ½) only half the selection differential is transmitted.' : ''}`);
   }
 
   function drawSelection() { if (!sPop) return; drawHistogram(sPop); drawTrajectory(sPop); readSelection(sPop); }

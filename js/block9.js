@@ -36,9 +36,9 @@
   function status() {
     const D = state.data;
     if (!D) return { ok: false, es: 'Cargue los datos en el Bloque 3.', en: 'Load the data in Block 3.' };
-    if (D.mating.design === 'generations') return { ok: false, es: 'Las generaciones se analizan en el Bloque 7; aquí se necesitan genotipos evaluados en varios ambientes.', en: 'Generations are analysed in Block 7; this block needs genotypes evaluated in several environments.' };
+    if (D.mating.design === 'generations') return { ok: false, es: 'Las generaciones se analizan en el Bloque 7; aquí se necesitan genotipos evaluados en varios ambientes.', en: 'Generations are analyzed in Block 7; this block needs genotypes evaluated in several environments.' };
     if (!D.ds.traits.length) return { ok: false, es: 'No hay variables respuesta.', en: 'There are no response traits.' };
-    if (!D.field.multiEnv || D.field.envs.length < 2) return { ok: false, es: 'La interacción genotipo × ambiente necesita los mismos genotipos evaluados en dos o más ambientes (localidades, años o fechas). Los datos cargados tienen un solo ambiente; en el Bloque 3 asigne el papel «ambiente» a la columna que los distingue, o cargue un ejemplo multiambiente.', en: 'Genotype × environment interaction needs the same genotypes evaluated in two or more environments (locations, years or dates). The data loaded have one environment only; in Block 3 give the "environment" role to the column that tells them apart, or load a multi-environment example.' };
+    if (!D.field.multiEnv || D.field.envs.length < 2) return { ok: false, es: 'La interacción genotipo × ambiente necesita los mismos genotipos evaluados en dos o más ambientes (localidades, años o fechas). Los datos cargados tienen un solo ambiente; en el Bloque 3 asigne el papel «ambiente» a la columna que los distingue, o cargue un ejemplo multiambiente.', en: 'Genotype × environment interaction needs the same genotypes evaluated in two or more environments (locations, years or dates). The data loaded have one environment only; in Block 3 give the “environment” role to the column that tells them apart, or load a multi-environment example.' };
     return { ok: true };
   }
 
@@ -101,7 +101,7 @@
     mountFig('b9FigHeat', {
       title: () => T('Tabla genotipo × ambiente', 'Genotype × environment table'), fileName: 'gxe_table',
       render: c => P9.heat(c, { Y: res.Y, Z: GXE.additive(res.Y).Z, genos: tab.genos, envs: tab.envs, gm: A.gm, em: A.em, imputed: res.imp.imputed, nImputed: res.imp.n }),
-      controls: () => [P2.titleControl(), { key: 'show', label: T('Mostrar', 'Show'), type: 'select', options: [['means', T('medias', 'means')], ['ge', T('interacción (residuos del modelo aditivo)', 'interaction (residuals of the additive model)')]] }, { key: 'colormap', label: T('Colores', 'Colours'), type: 'select', options: Object.entries(Fig.colormapNames) }, { key: 'showValues', label: T('Valores en las celdas', 'Values in the cells'), type: 'checkbox' }],
+      controls: () => [P2.titleControl(), { key: 'show', label: T('Mostrar', 'Show'), type: 'select', options: [['means', T('medias', 'means')], ['ge', T('interacción (residuos del modelo aditivo)', 'interaction (residuals of the additive model)')]] }, { key: 'colormap', label: T('Colores', 'Colors'), type: 'select', options: Object.entries(Fig.colormapNames) }, { key: 'showValues', label: T('Valores en las celdas', 'Values in the cells'), type: 'checkbox' }],
     }, { width: 900, height: Math.max(420, Math.min(1000, 150 + 18 * res.g)), show: 'means', showValues: true });
     /* the table itself */
     const envs = tab.envs;
@@ -161,7 +161,7 @@
     table('b9RegTable', [
       { label: T('Genotipo', 'Genotype'), get: r => esc(r.name) },
       { label: T('Media', 'Mean'), num: true, get: r => f3(r.mean) },
-      { label: 'b ± EE', num: true, get: r => `${fmtFixed(r.b, 3)} <span class="hint">± ${fmtFixed(r.seB, 3)}</span>` },
+      { label: T('b ± EE', 'b ± SE'), num: true, get: r => `${fmtFixed(r.b, 3)} <span class="hint">± ${fmtFixed(r.seB, 3)}</span>` },
       { label: 't (b = 1)', num: true, get: r => fmtFixed(r.t, 2) },
       { label: 'p', num: true, get: r => sig(r.p) },
       { label: 'S²d', num: true, get: r => (isFinite(r.s2d) ? fmtNum(r.s2d, 4) : '') },
@@ -243,17 +243,17 @@
       { label: T('Media', 'Mean'), num: true, get: r => f3(r.mean) },
       { label: 'P<sub>i</sub>', num: true, get: r => `<b>${fmtNum(r.sup.P, 4)}</b>` },
       { label: T('parte genética %', 'genetic part %'), num: true, get: r => fmtNum(100 * r.sup.Pgen / r.sup.P, 1) },
-      { label: T('P<sub>i</sub> favorables', 'P<sub>i</sub> favourable'), num: true, get: r => fmtNum(r.sup.Pfav, 4) },
-      { label: T('P<sub>i</sub> desfavorables', 'P<sub>i</sub> unfavourable'), num: true, get: r => fmtNum(r.sup.Punf, 4) },
+      { label: T('P<sub>i</sub> favorables', 'P<sub>i</sub> favorable'), num: true, get: r => fmtNum(r.sup.Pfav, 4) },
+      { label: T('P<sub>i</sub> desfavorables', 'P<sub>i</sub> unfavorable'), num: true, get: r => fmtNum(r.sup.Punf, 4) },
     ];
     if (res.ann) cols.push(
       { label: T('W<sub>i</sub> (Annicchiarico)', 'W<sub>i</sub> (Annicchiarico)'), num: true, get: r => `<b>${fmtNum(r.ann.all.W, 2)}</b>` },
-      { label: T('favorables', 'favourable'), num: true, get: r => fmtNum(r.ann.fav.W, 2) },
-      { label: T('desfavorables', 'unfavourable'), num: true, get: r => fmtNum(r.ann.unf.W, 2) });
+      { label: T('favorables', 'favorable'), num: true, get: r => fmtNum(r.ann.fav.W, 2) },
+      { label: T('desfavorables', 'unfavorable'), num: true, get: r => fmtNum(r.ann.unf.W, 2) });
     table('b9SupTable', cols, sRows);
     el('b9SupNote').innerHTML = T(
       `Superioridad de Lin y Binns (1988): P<sub>i</sub> = Σ<sub>j</sub> (Y<sub>ij</sub> − M<sub>j</sub>)²/(2e), con M<sub>j</sub> la ${B9.lower ? 'menor' : 'mayor'} media del ambiente j; se parte en una fracción genética, e(Ȳ<sub>i·</sub> − M̄)²/(2e), y otra de interacción, y se calcula aparte en los ${nf} ambientes favorables (índice ≥ 0) y los ${res.e - nf} desfavorables. ${res.ann ? `Confiabilidad de Annicchiarico (1992): W<sub>i</sub> = media − z<sub>1−α</sub>·DE del desempeño relativo 100·Y<sub>ij</sub>/Ȳ<sub>·j</sub>, con α = ${B9.annAlpha} (z = ${fmtFixed(res.ann.z, 4)}): el desempeño relativo que el genotipo supera con probabilidad 1 − α.` : 'La confiabilidad de Annicchiarico solo se da para variables en que el mayor valor es el mejor.'}`,
-      `Superiority of Lin & Binns (1988): P<sub>i</sub> = Σ<sub>j</sub> (Y<sub>ij</sub> − M<sub>j</sub>)²/(2e), with M<sub>j</sub> the ${B9.lower ? 'lowest' : 'highest'} mean of environment j; it is split into a genetic fraction, e(Ȳ<sub>i·</sub> − M̄)²/(2e), and an interaction one, and computed apart in the ${nf} favourable environments (index ≥ 0) and the ${res.e - nf} unfavourable ones. ${res.ann ? `Reliability of Annicchiarico (1992): W<sub>i</sub> = mean − z<sub>1−α</sub>·SD of the relative performance 100·Y<sub>ij</sub>/Ȳ<sub>·j</sub>, with α = ${B9.annAlpha} (z = ${fmtFixed(res.ann.z, 4)}): the relative performance the genotype exceeds with probability 1 − α.` : 'Annicchiarico\'s reliability is given only for traits where the highest value is the best.'}`);
+      `Superiority of Lin & Binns (1988): P<sub>i</sub> = Σ<sub>j</sub> (Y<sub>ij</sub> − M<sub>j</sub>)²/(2e), with M<sub>j</sub> the ${B9.lower ? 'lowest' : 'highest'} mean of environment j; it is split into a genetic fraction, e(Ȳ<sub>i·</sub> − M̄)²/(2e), and an interaction one, and computed apart in the ${nf} favorable environments (index ≥ 0) and the ${res.e - nf} unfavorable ones. ${res.ann ? `Reliability of Annicchiarico (1992): W<sub>i</sub> = mean − z<sub>1−α</sub>·SD of the relative performance 100·Y<sub>ij</sub>/Ȳ<sub>·j</sub>, with α = ${B9.annAlpha} (z = ${fmtFixed(res.ann.z, 4)}): the relative performance the genotype exceeds with probability 1 − α.` : 'Annicchiarico\'s reliability is given only for traits where the highest value is the best.'}`);
     el('b9AnnField').style.display = res.ann ? '' : 'none';
   }
 
@@ -294,7 +294,7 @@
     ], kr);
     el('b9KangNote').innerHTML = T(
       `Kang (1993): el rango por la media (1 = ${B9.lower ? 'mayor' : 'menor'}) se ajusta con la DMS = t<sub>${1 - B9.alphaLSD}</sub>·√(2CM<sub>e</sub>/re) = ${f4(K.lsd)} (+1, +2 o +3 si la media supera la media general en 0, 1 o 2 DMS; −1, −2 o −3 si queda abajo) y se castiga la inestabilidad de Shukla: −2, −4 u −8 si su F es significativa al 10, 5 o 1 %. Se seleccionan los genotipos con YS<sub>i</sub> mayor que su promedio (${fmtNum(K.meanYsi, 2)}).`,
-      `Kang (1993): the rank by the mean (1 = ${B9.lower ? 'highest' : 'lowest'}) is adjusted with the LSD = t<sub>${1 - B9.alphaLSD}</sub>·√(2MS<sub>e</sub>/re) = ${f4(K.lsd)} (+1, +2 or +3 when the mean exceeds the grand mean by 0, 1 or 2 LSD; −1, −2 or −3 when below) and Shukla's instability is penalised: −2, −4 or −8 when its F is significant at 10, 5 or 1 %. The genotypes with YS<sub>i</sub> above its average (${fmtNum(K.meanYsi, 2)}) are selected.`);
+      `Kang (1993): the rank by the mean (1 = ${B9.lower ? 'highest' : 'lowest'}) is adjusted with the LSD = t<sub>${1 - B9.alphaLSD}</sub>·√(2MS<sub>e</sub>/re) = ${f4(K.lsd)} (+1, +2 or +3 when the mean exceeds the grand mean by 0, 1 or 2 LSD; −1, −2 or −3 when below) and Shukla's instability is penalized: −2, −4 or −8 when its F is significant at 10, 5 or 1 %. The genotypes with YS<sub>i</sub> above its average (${fmtNum(K.meanYsi, 2)}) are selected.`);
   }
 
   /* ================= 5 · AMMI ================= */
@@ -399,7 +399,7 @@
     host.style.display = '';
     const names = res.tab.genos, envs = res.tab.envs;
     const gg = GXE.gge(res.Y, { scaling: B9.scaling, lower: B9.lower });
-    if (gg.sv.d.length < 2) { msg('b9GgeMsg', [{ level: 'warning', es: 'La tabla centrada por ambientes tiene un solo componente: no hay biplot.', en: 'The environment-centred table has one component only: there is no biplot.' }]); return; }
+    if (gg.sv.d.length < 2) { msg('b9GgeMsg', [{ level: 'warning', es: 'La tabla centrada por ambientes tiene un solo componente: no hay biplot.', en: 'The environment-centered table has one component only: there is no biplot.' }]); return; }
     const V = VIEWS[B9.view] || VIEWS.www;
     const svp = B9.svp === 'auto' ? V.svp : B9.svp;
     const C = gg.coords(svp);
@@ -414,7 +414,7 @@
     msg('b9GgeMsg', notes);
     const spec = { titleEs: V.es, titleEn: V.en, G: G2, E: E2, genos: names, envs, pct: [gg.pct[0], gg.pct[1]], view: B9.view };
     const out = el('b9GgeTable');
-    let note = T(`PC1 y PC2 explican ${fmtNum(gg.pct[0], 1)} % y ${fmtNum(gg.pct[1], 1)} % de G + G×A (datos centrados por ambiente${B9.scaling === 'sd' ? ' y divididos entre su desviación estándar' : ''}); partición de los valores singulares centrada en ${{ genotype: 'los genotipos', environment: 'los ambientes', symmetric: 'ambos (simétrica)' }[svp]}.`, `PC1 and PC2 explain ${fmtNum(gg.pct[0], 1)} % and ${fmtNum(gg.pct[1], 1)} % of G + G×E (environment-centred data${B9.scaling === 'sd' ? ' divided by their standard deviation' : ''}); singular-value partition focused on ${{ genotype: 'the genotypes', environment: 'the environments', symmetric: 'both (symmetric)' }[svp]}.`);
+    let note = T(`PC1 y PC2 explican ${fmtNum(gg.pct[0], 1)} % y ${fmtNum(gg.pct[1], 1)} % de G + G×A (datos centrados por ambiente${B9.scaling === 'sd' ? ' y divididos entre su desviación estándar' : ''}); partición de los valores singulares centrada en ${{ genotype: 'los genotipos', environment: 'los ambientes', symmetric: 'ambos (simétrica)' }[svp]}.`, `PC1 and PC2 explain ${fmtNum(gg.pct[0], 1)} % and ${fmtNum(gg.pct[1], 1)} % of G + G×E (environment-centered data${B9.scaling === 'sd' ? ' divided by their standard deviation' : ''}); singular-value partition focused on ${{ genotype: 'the genotypes', environment: 'the environments', symmetric: 'both (symmetric)' }[svp]}.`);
     if (B9.lower) note += ' ' + T('Como el menor valor es el mejor, la tabla se multiplicó por −1: «ganar» es tener el menor valor.', 'Because the lowest value is the best, the table was multiplied by −1: "winning" means having the lowest value.');
     if (B9.view === 'www') {
       const w = GXE.whichWon(G2, E2);
@@ -461,7 +461,7 @@
       const obs = envs.map((n, j) => ({ n, win: side[j], ya: res.Y[a][j], yb: res.Y[b][j] }));
       table(out, [
         { label: T('Ambiente', 'Environment'), get: r => esc(r.n) },
-        { label: T('Favorece según el biplot', 'Favoured by the biplot'), get: r => `<b>${esc(names[r.win])}</b>` },
+        { label: T('Favorece según el biplot', 'Favored by the biplot'), get: r => `<b>${esc(names[r.win])}</b>` },
         { label: esc(names[a]), num: true, get: r => f3(r.ya) },
         { label: esc(names[b]), num: true, get: r => f3(r.yb) },
         { label: T('Coincide con los datos', 'Agrees with the data'), get: r => ((B9.lower ? r.ya < r.yb : r.ya > r.yb) === (r.win === a) ? '✔' : '✘') },
@@ -496,12 +496,12 @@
       + order.map(i => `<tr><td>${esc(names[i])}</td>` + cols.map((c, k) => `<td class="num">${fmtNum(c.v[i], 3)} <span class="hint">(${fmtNum(ranks[k][i], 1)})</span></td>`).join('') + `<td class="num"><b>${fmtNum(mr[i], 2)}</b></td></tr>`).join('') + '</tbody></table>';
     el('b9SummaryNote').innerHTML = T(
       'Entre paréntesis, el lugar de cada genotipo por cada estadística (1 = mejor: mayor media' + (B9.lower ? ' —aquí, menor—' : '') + ', b más cercano a 1, menor inestabilidad, mayor W<sub>i</sub> de Annicchiarico, YS<sub>i</sub> y WAASY). El rango medio resume, sin pesos, estadísticas que miden cosas distintas: sirve para ordenar la discusión, no para decidir por sí solo.',
-      'In brackets, the rank of every genotype by every statistic (1 = best: highest mean' + (B9.lower ? ' —here, lowest—' : '') + ', b closest to 1, least instability, highest Annicchiarico W<sub>i</sub>, YS<sub>i</sub> and WAASY). The mean rank summarises, without weights, statistics that measure different things: it orders the discussion, it does not decide by itself.');
+      'In brackets, the rank of every genotype by every statistic (1 = best: highest mean' + (B9.lower ? ' —here, lowest—' : '') + ', b closest to 1, least instability, highest Annicchiarico W<sub>i</sub>, YS<sub>i</sub> and WAASY). The mean rank summarizes, without weights, statistics that measure different things: it orders the discussion, it does not decide by itself.');
     const R = GXE.spearman(cols);
     mountFig('b9FigCorr', {
       title: () => T('Correlaciones de rangos entre estadísticas', 'Rank correlations between statistics'), fileName: 'gxe_spearman',
       render: c => P8.corr(Object.assign({}, c, { title: c.title || T('Correlaciones de rangos entre estadísticas', 'Rank correlations between statistics') }), cols.map(x => x.name), R, { note: T('Correlación de Spearman entre los valores de los genotipos', 'Spearman correlation between the values of the genotypes') }),
-      controls: () => [P2.titleControl(), { key: 'colormap', label: T('Colores', 'Colours'), type: 'select', options: Object.entries(Fig.colormapNames) }],
+      controls: () => [P2.titleControl(), { key: 'colormap', label: T('Colores', 'Colors'), type: 'select', options: Object.entries(Fig.colormapNames) }],
     }, { width: 820, height: 700, colormap: 'rdbu' });
     el('b9CorrNote').innerHTML = T(
       'Las estadísticas se agrupan en dos familias (Lin y col. 1986; Becker y Léon 1988): las de estabilidad estática o biológica (la respuesta del genotipo no cambia entre ambientes) y las dinámicas o agronómicas (sigue el patrón promedio de los ambientes), con las que combinan media y estabilidad (P<sub>i</sub>, YS<sub>i</sub>, WAASY, S⁽³⁾, S⁽⁶⁾) por su lado. Una correlación alta indica que dos estadísticas ordenan casi igual a los genotipos; W<sub>i</sub> y σ²<sub>i</sub> ordenan siempre igual, porque σ²<sub>i</sub> es una función lineal de W<sub>i</sub>.',
@@ -516,13 +516,13 @@
       { es: ['Tabla y error', 'Cada celda es la media ajustada del genotipo en el ambiente, del análisis de ese ambiente en el Bloque 3 (bloques completos, incompletos o filas y columnas). El error combinado es el promedio de los CM del error ponderado por sus grados de libertad y r la media armónica de las repeticiones; con solo medias se usa el error que se escriba. Las celdas vacías se estiman por EM-AMMI (Gauch y Zobel 1990): se alternan el ajuste del modelo aditivo más k ejes y la sustitución de las celdas vacías hasta que no cambian.'],
         en: ['Table and error', 'Every cell is the adjusted mean of the genotype in the environment, from the analysis of that environment in Block 3 (complete or incomplete blocks, or rows and columns). The pooled error is the average of the error MS weighted by their degrees of freedom and r the harmonic mean of the replicates; with means only, the error typed in is used. Empty cells are imputed by EM-AMMI (Gauch & Zobel 1990): fitting the additive model plus k axes and replacing the empty cells alternate until they no longer change.'] },
       { es: ['Varianzas del error distintas', 'El modelo en dos etapas (Smith, Cullis y Thompson 2005; Möhring y Piepho 2009) da a la media de cada celda la varianza de su ambiente, v<sub>ij</sub> = EE², y trata la interacción como aleatoria: Y<sub>ij</sub> = μ + g<sub>i</sub> + a<sub>j</sub> + ga<sub>ij</sub> + ε<sub>ij</sub>, ga ~ N(0, σ²GA), ε ~ N(0, v<sub>ij</sub>). σ²GA se estima por REML resolviendo la ecuación de puntaje ½[y′PPy − tr P] = 0; las medias de los genotipos son las de mínimos cuadrados generalizados y su prueba de Wald usa gl aproximados.'],
-        en: ['Unequal error variances', 'The two-stage model (Smith, Cullis & Thompson 2005; Möhring & Piepho 2009) gives the mean of every cell the variance of its environment, v<sub>ij</sub> = SE², and takes the interaction as random: Y<sub>ij</sub> = μ + g<sub>i</sub> + a<sub>j</sub> + ga<sub>ij</sub> + ε<sub>ij</sub>, ga ~ N(0, σ²GE), ε ~ N(0, v<sub>ij</sub>). σ²GE is estimated by REML solving the score equation ½[y′PPy − tr P] = 0; the genotype means are generalised least-squares means and their Wald test uses approximate df.'] },
+        en: ['Unequal error variances', 'The two-stage model (Smith, Cullis & Thompson 2005; Möhring & Piepho 2009) gives the mean of every cell the variance of its environment, v<sub>ij</sub> = SE², and takes the interaction as random: Y<sub>ij</sub> = μ + g<sub>i</sub> + a<sub>j</sub> + ga<sub>ij</sub> + ε<sub>ij</sub>, ga ~ N(0, σ²GE), ε ~ N(0, v<sub>ij</sub>). σ²GE is estimated by REML solving the score equation ½[y′PPy − tr P] = 0; the genotype means are generalized least-squares means and their Wald test uses approximate df.'] },
       { es: ['Regresión y varianzas de estabilidad', 'Finlay y Wilkinson (1963) usaron logaritmos del rendimiento; aquí la escala es la de los datos (transforme en el Bloque 3 si hace falta). Un genotipo estable en el sentido de Eberhart y Russell (1966) tiene b = 1 y S²d = 0; en el de Shukla (1972) y Wricke (1962), poca interacción. La estabilidad «estática» (b = 0) rara vez conviene en rendimiento: significa no aprovechar los buenos ambientes (Becker y Léon 1988).'],
-        en: ['Regression and stability variances', 'Finlay & Wilkinson (1963) used logarithms of yield; here the scale is that of the data (transform in Block 3 if needed). A stable genotype in the sense of Eberhart & Russell (1966) has b = 1 and S²d = 0; in that of Shukla (1972) and Wricke (1962), little interaction. "Static" stability (b = 0) is seldom desirable for yield: it means not taking advantage of good environments (Becker & Léon 1988).'] },
+        en: ['Regression and stability variances', 'Finlay & Wilkinson (1963) used logarithms of yield; here the scale is that of the data (transform in Block 3 if needed). A stable genotype in the sense of Eberhart & Russell (1966) has b = 1 and S²d = 0; in that of Shukla (1972) and Wricke (1962), little interaction. “Static” stability (b = 0) is seldom desirable for yield: it means not taking advantage of good environments (Becker & Léon 1988).'] },
       { es: ['AMMI', 'Modelo de efectos principales aditivos e interacción multiplicativa (Gollob 1968; Gauch 1988): Y<sub>ij</sub> = μ + g<sub>i</sub> + a<sub>j</sub> + Σ<sub>k</sub> λ<sub>k</sub>u<sub>ik</sub>v<sub>jk</sub> + ρ<sub>ij</sub>. Grados de libertad de Gollob g + e − 1 − 2k; F<sub>R</sub> de Cornelius, Seyedsadr y Crossa (1992) con (g − 1 − n)(e − 1 − n) gl para el residuo después de n ejes. El signo de cada eje es arbitrario: se fija para que el ambiente de mayor carga absoluta sea positivo.'],
         en: ['AMMI', 'Additive main effects and multiplicative interaction model (Gollob 1968; Gauch 1988): Y<sub>ij</sub> = μ + g<sub>i</sub> + a<sub>j</sub> + Σ<sub>k</sub> λ<sub>k</sub>u<sub>ik</sub>v<sub>jk</sub> + ρ<sub>ij</sub>. Gollob\'s degrees of freedom g + e − 1 − 2k; F<sub>R</sub> of Cornelius, Seyedsadr & Crossa (1992) with (g − 1 − n)(e − 1 − n) df for the residual after n axes. The sign of every axis is arbitrary: it is set so that the environment with the largest absolute loading is positive.'] },
       { es: ['Biplot GGE', 'Descomposición en valores singulares de la tabla centrada por ambientes (G + G×A), opcionalmente dividida entre la desviación estándar de cada ambiente (Yan y Kang 2003; Yan y Tinker 2006). Partición de los valores singulares: centrada en genotipos (U·Λ, V) para comparar genotipos, en ambientes (U, V·Λ) para comparar ambientes, simétrica (U·Λ<sup>½</sup>, V·Λ<sup>½</sup>) para quién ganó dónde. Ambos ejes tienen la misma escala. El primer componente se orienta para que la media de los ambientes sea positiva.'],
-        en: ['GGE biplot', 'Singular value decomposition of the environment-centred table (G + G×E), optionally divided by the standard deviation of every environment (Yan & Kang 2003; Yan & Tinker 2006). Singular-value partition: genotype-focused (U·Λ, V) to compare genotypes, environment-focused (U, V·Λ) to compare environments, symmetric (U·Λ<sup>½</sup>, V·Λ<sup>½</sup>) for which won where. Both axes have the same scale. The first component is oriented so that the mean of the environments is positive.'] },
+        en: ['GGE biplot', 'Singular value decomposition of the environment-centered table (G + G×E), optionally divided by the standard deviation of every environment (Yan & Kang 2003; Yan & Tinker 2006). Singular-value partition: genotype-focused (U·Λ, V) to compare genotypes, environment-focused (U, V·Λ) to compare environments, symmetric (U·Λ<sup>½</sup>, V·Λ<sup>½</sup>) for which won where. Both axes have the same scale. The first component is oriented so that the mean of the environments is positive.'] },
     ];
     const cites = [
       'Finlay KW, Wilkinson GN (1963). The analysis of adaptation in a plant-breeding programme. Australian Journal of Agricultural Research 14: 742–754.',
@@ -646,7 +646,7 @@
     el('b9Back').addEventListener('click', () => goStep(8));
     el('b9Next').addEventListener('click', () => { if (STEPS[9].ready) goStep(10); });
     document.addEventListener('datachange', () => { B9.cache.clear(); B9.trait = 0; B9.ga = 0; B9.gb = 1; if (document.getElementById('panel-9').classList.contains('active')) renderAll(); else B9.built = false; });
-    document.addEventListener('stepchange', e => { if (e.detail.step === 9 && (!B9.built || !B9.res)) { B9.built = true; bpAfterPaint(renderAll, bpWork('Analizando los ambientes', 'Analysing the environments')); } });
+    document.addEventListener('stepchange', e => { if (e.detail.step === 9 && (!B9.built || !B9.res)) { B9.built = true; bpAfterPaint(renderAll, bpWork('Analizando los ambientes', 'Analyzing the environments')); } });
     document.addEventListener('langchange', () => { renderNotes(); if (B9.res) renderAll(); });
   }
   document.addEventListener('DOMContentLoaded', init);

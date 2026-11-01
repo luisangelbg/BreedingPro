@@ -7,7 +7,7 @@
    factors (Castle–Wright as corrected by Lande 1981 and by Cockerham 1986), heterosis,
    inbreeding depression and the potence ratio.
 
-   Two parametrisations are offered because the literature uses both and they are not the
+   Two parametrizations are offered because the literature uses both and they are not the
    same numbers. With α = f(AA) − f(aa) and β = f(Aa) in the generation:
      Mather & Jinks F∞ metric:  μ = m + α[d] + β[h] + α²[i] + αβ[j] + β²[l]
      Hayman (1958) F₂ metric:   μ = m + αd + (β−½)h + α²i + 2α(β−½)j + (β−½)²l
@@ -17,7 +17,7 @@
 
    Everything works from the statistics of every generation (n, mean, variance of the mean,
    variance among individuals and its degrees of freedom), so a table published as summary
-   statistics can be analysed exactly like a data file. */
+   statistics can be analyzed exactly like a data file. */
 
 const GEN = {};
 
@@ -65,7 +65,7 @@ GEN.VARCOEF = {
    The variance among individuals (for D, H, F and E) is the one within plots, or within
    blocks when every plant is its own plot. The variance of a generation mean depends on the
    design:
-   · plants individually randomised (one plot per generation, or single-plant plots): the
+   · plants individually randomized (one plot per generation, or single-plant plots): the
      variance among individuals divided by their number;
    · replicated plots of several plants ('plots'): the plot means follow
      generation + block + plot error, and the variance of one plot mean of generation g is

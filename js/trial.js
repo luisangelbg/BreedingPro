@@ -3,7 +3,7 @@
    For every environment and trait: plot values (plants averaged, with the
    sampling error between plants kept apart), the analysis of variance that
    matches the field design, adjusted entry means with standard errors, the
-   average standard error of a difference and the LSD, externally studentised
+   average standard error of a difference and the LSD, externally studentized
    residuals with the Bonferroni outlier test, normality of residuals, Tukey's
    test for non-additivity, the efficiency of incomplete blocks over complete
    blocks, and the repeatability of the trial (heritability on an entry-mean
@@ -26,8 +26,8 @@
 const Trial = {};
 
 Trial.DESIGNS = {
-  crd: { es: 'Completamente al azar', en: 'Completely randomised' },
-  rcbd: { es: 'Bloques completos al azar', en: 'Randomised complete blocks' },
+  crd: { es: 'Completamente al azar', en: 'Completely randomized' },
+  rcbd: { es: 'Bloques completos al azar', en: 'Randomized complete blocks' },
   alpha: { es: 'Látice α (bloques incompletos resolubles)', en: 'α-lattice (resolvable incomplete blocks)' },
   ibd: { es: 'Bloques incompletos', en: 'Incomplete blocks' },
   augmented: { es: 'Bloques aumentados', en: 'Augmented blocks' },

@@ -16,7 +16,7 @@
     el('b12Blocks').querySelectorAll('[data-b12]').forEach(c => c.addEventListener('change', () => { const n = +c.dataset.b12; if (c.checked) B12.sel.add(n); else B12.sel.delete(n); }));
     const nOk = avail.filter(x => x.ok).length;
     el('b12Build').disabled = !nOk;
-    if (!nOk) msg('b12Msg', [{ level: 'info', es: 'Todavía no hay resultados. Cargue datos en el Bloque 3 (o un ejemplo) y analícelos en los bloques que correspondan; el Bloque 2 también aporta al informe el plan de cruzas y del ensayo.', en: 'There are no results yet. Load data in Block 3 (or an example) and analyse them in the blocks that apply; Block 2 also adds the crossing and trial plan to the report.' }]);
+    if (!nOk) msg('b12Msg', [{ level: 'info', es: 'Todavía no hay resultados. Cargue datos en el Bloque 3 (o un ejemplo) y analícelos en los bloques que correspondan; el Bloque 2 también aporta al informe el plan de cruzas y del ensayo.', en: 'There are no results yet. Load data in Block 3 (or an example) and analyze them in the blocks that apply; Block 2 also adds the crossing and trial plan to the report.' }]);
     else clearMessages('b12Msg');
   }
   const opts = () => ({

@@ -108,7 +108,7 @@ P4.observedPredicted = (cfg0, list, o) => {
   pts.forEach(c => {
     const col = Fig.color(cfg.palette, c.self ? 1 : 0);
     const dot = Fig.marker(sx(px(c)), sy(c.observed), c.self ? 4 : 4.4, c.self ? 'square' : 'circle', { fill: Fig.alpha(col, 0.8), stroke: f.t.bg, 'stroke-width': 0.8 });
-    dot.appendChild(Fig.el('title', {}, `${c.name} · ${T('obs.', 'obs.')} ${fmtNum(c.observed, 3)} · ${T('pred.', 'pred.')} ${fmtNum(px(c), 3)}${isFinite(c.sca) ? ' · ACE ' + fmtNum(c.sca, 3) : ''}`));
+    dot.appendChild(Fig.el('title', {}, `${c.name} · ${T('obs.', 'obs.')} ${fmtNum(c.observed, 3)} · ${T('pred.', 'pred.')} ${fmtNum(px(c), 3)}${isFinite(c.sca) ? ' · ' + T('ACE', 'SCA') + ' ' + fmtNum(c.sca, 3) : ''}`));
     g.appendChild(dot);
   });
   /* label the crosses that depart most from the prediction */

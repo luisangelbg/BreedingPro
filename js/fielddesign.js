@@ -1,18 +1,18 @@
 /* BreedingPro — Block 2 engine, part 2: field designs for the evaluation trial.
 
-   Field.generate(entries, o) returns, for every location, the randomised plots
+   Field.generate(entries, o) returns, for every location, the randomized plots
    with their replicate, block, field row and column and plot number.
 
    Designs
-   - CRD: all plots randomised together.
-   - RCBD: every replicate is a complete block, randomised independently.
+   - CRD: all plots randomized together.
+   - RCBD: every replicate is a complete block, randomized independently.
    - Resolvable incomplete blocks ("alpha lattice", Patterson & Williams 1976):
-     each replicate is split into s blocks of size k (or of two neighbouring
+     each replicate is split into s blocks of size k (or of two neighboring
      sizes when v is not a multiple of k). When s is prime, r ≤ s and k ≤ s the
      cyclic alpha array {i·s + (b + i·c) mod s} gives an α(0,1) design, in which
      no two entries meet twice. Candidates also come from random generating
      arrays of any s and from an exchange algorithm (entries swapped between blocks
-     of the same replicate) that minimises the sum of squared concurrences Σλᵢⱼ², a
+     of the same replicate) that minimizes the sum of squared concurrences Σλᵢⱼ², a
      standard surrogate of A-optimality. The finalist with the highest exact
      efficiency is kept and, for up to 100 entries, polished by exchanges that raise
      that exact efficiency directly. The average efficiency factor
@@ -21,7 +21,7 @@
      bound U = (v − 1)(r − 1) / [(v − 1)(r − 1) + r(s − 1)] for resolvable designs.
    - Augmented RCBD (Federer 1956): checks in every block, new entries once.
 
-   Randomisation (seeded, reproducible): entry labels are permuted, blocks are
+   Randomization (seeded, reproducible): entry labels are permuted, blocks are
    shuffled within replicates and plots within blocks, independently at every
    location. */
 

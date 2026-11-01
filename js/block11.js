@@ -167,7 +167,7 @@
     mountFig('b11FigG', {
       title: () => T('Matriz de parentesco genómico', 'Genomic relationship matrix'), fileName: 'G_matrix',
       render: c => P11.matrix(c, { titleEs: 'Matriz de parentesco genómico G', titleEn: 'Genomic relationship matrix G', M: Mb, rows: labs, cols: labs, colormap: 'heat', barLabel: 'G', note: k > 1 ? T(`Individuos ordenados por el primer componente; cada celda es el promedio de bloques de ${k}.`, `Individuals ordered by the first component; every cell is the average of blocks of ${k}.`) : T('Individuos ordenados por el primer componente.', 'Individuals ordered by the first component.') }),
-      controls: () => [P2.titleControl(), { key: 'colormap', label: T('Colores', 'Colours'), type: 'select', options: Object.entries(Fig.colormapNames) }],
+      controls: () => [P2.titleControl(), { key: 'colormap', label: T('Colores', 'Colors'), type: 'select', options: Object.entries(Fig.colormapNames) }],
     }, { width: 760, height: 720, colormap: 'heat' });
     el('b11GABox').style.display = B11.A ? '' : 'none';
     if (B11.A) {
@@ -461,7 +461,7 @@
     mountFig('b11FigH', {
       title: () => T('Híbridos predichos', 'Predicted hybrids'), fileName: 'hybrid_matrix',
       render: c => P11.matrix(c, { titleEs: 'Desempeño predicho de todas las cruzas simples', titleEn: 'Predicted performance of every single cross', M: Mx, rows: o1.map(a => H.ids1[a]), cols: o2.map(b => H.ids2[b]), mark, colormap: 'viridis', barLabel: T('predicho', 'predicted'), note: T('Líneas ordenadas por su ACG; recuadro = híbrido evaluado.', 'Lines ordered by their GCA; outlined = hybrid evaluated.') }),
-      controls: () => [P2.titleControl(), { key: 'colormap', label: T('Colores', 'Colours'), type: 'select', options: Object.entries(Fig.colormapNames) }],
+      controls: () => [P2.titleControl(), { key: 'colormap', label: T('Colores', 'Colors'), type: 'select', options: Object.entries(Fig.colormapNames) }],
     }, { width: 860, height: 760 });
     const tested = all.filter(p => p.tested);
     mountFig('b11FigHObs', {

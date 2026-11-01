@@ -1,5 +1,5 @@
 /* BreedingPro — Block 3 examples: published datasets (with their source and
-   licence) and two simulated trials whose true parameters are known.
+   license) and two simulated trials whose true parameters are known.
    The published tables are in js/exdata.js, in long format; every example is
    read through the same importer as a user's file. */
 
@@ -21,18 +21,18 @@ const CITE = {
   patterson76: 'Patterson HD, Williams ER (1976). A new class of resolvable incomplete block designs. Biometrika 63: 83–92.',
   mather: 'Mather K, Jinks JL (1982). Biometrical Genetics, 3rd ed. Chapman and Hall, London.',
   gale77: 'Gale JS, Mather K, Jinks JL (1977). Joint scaling tests. Heredity 38: 47–51 (Table 1, set 1). doi:10.1038/hdy.1977.6',
-  olivoto: 'Olivoto T. Maize hybrids evaluated for 15 ear and plant traits; data distributed with free software under the GNU General Public License v3 by its author.',
-  olivotoOat: 'Olivoto T. Oat genotypes in 14 environments, grain yield and hectolitre mass; data distributed with free software under the GNU General Public License v3 by its author.',
-  kang93: 'Kang MS (1993). Simultaneous selection for yield and stability in crop performance trials: consequences for growers. Agronomy Journal 85: 754–757; Kang MS, Magari R (1995). Agronomy Journal 87: 276–277. Example data distributed with free software under the GPL.',
+  olivoto: { es: 'Olivoto T. Híbridos de maíz evaluados en 15 caracteres de mazorca y planta; datos distribuidos por su autor con software libre bajo la Licencia Pública General de GNU v3.', en: 'Olivoto T. Maize hybrids evaluated for 15 ear and plant traits; data distributed with free software under the GNU General Public License v3 by its author.' },
+  olivotoOat: { es: 'Olivoto T. Genotipos de avena en 14 ambientes, rendimiento de grano y peso hectolítrico; datos distribuidos por su autor con software libre bajo la Licencia Pública General de GNU v3.', en: 'Olivoto T. Oat genotypes in 14 environments, grain yield and hectoliter mass; data distributed with free software under the GNU General Public License v3 by its author.' },
+  kang93: { es: 'Kang MS (1993). Simultaneous selection for yield and stability in crop performance trials: consequences for growers. Agronomy Journal 85: 754–757; Kang MS, Magari R (1995). Agronomy Journal 87: 276–277. Datos de ejemplo distribuidos con software libre bajo la GPL.', en: 'Kang MS (1993). Simultaneous selection for yield and stability in crop performance trials: consequences for growers. Agronomy Journal 85: 754–757; Kang MS, Magari R (1995). Agronomy Journal 87: 276–277. Example data distributed with free software under the GPL.' },
   henderson76: 'Henderson CR (1976). A simple method for computing the inverse of a numerator relationship matrix used in prediction of breeding values. Biometrics 32: 69–83.',
   kearsey68: 'Kearsey MJ, Jinks JL (1968). A general method of detecting additive, dominance and epistatic variation for metrical traits. I. Theory. Heredity 23: 403–409.',
 };
 Examples.CITE = CITE;
 
 const LIC = {
-  ccbync: { es: 'Artículo de acceso abierto con licencia CC BY-NC 4.0: uso no comercial y con atribución.', en: 'Open-access article under a CC BY-NC 4.0 licence: non-commercial use with attribution.' },
+  ccbync: { es: 'Artículo de acceso abierto con licencia CC BY-NC 4.0: uso no comercial y con atribución.', en: 'Open-access article under a CC BY-NC 4.0 license: non-commercial use with attribution.' },
   gpl: { es: 'Transcripción distribuida con licencia GPL en software libre; los datos provienen de la obra citada.', en: 'Transcription distributed under the GPL in free software; the data come from the work cited.' },
-  ccby: { es: 'Datos de la obra citada; copia abierta con licencia CC BY 4.0.', en: 'Data from the work cited; open copy under a CC BY 4.0 licence.' },
+  ccby: { es: 'Datos de la obra citada; copia abierta con licencia CC BY 4.0.', en: 'Data from the work cited; open copy under a CC BY 4.0 license.' },
   sim: { es: 'Datos simulados por BreedingPro con semilla fija; libres de derechos.', en: 'Data simulated by BreedingPro with a fixed seed; free of rights.' },
   stats: { es: 'Estadísticas publicadas en la obra citada (n, media y varianza de cada generación); los valores por planta los reconstruyó BreedingPro con esos momentos exactos.', en: 'Statistics published in the work cited (n, mean and variance of every generation); the values per plant were rebuilt by BreedingPro with those exact moments.' },
 };
@@ -109,7 +109,7 @@ Examples.LIST = [
     id: 'nc2', family: 'nc', art: 'nc2',
     title: { es: 'Papa: Carolina del Norte II', en: 'Potato: North Carolina II' },
     sub: { es: '2 conjuntos × 5 machos × 5 hembras · 3 repeticiones · 150 parcelas · rendimiento', en: '2 sets × 5 males × 5 females · 3 replicates · 150 plots · yield' },
-    cite: ['International Potato Center (CIP), locality Majes, Peru; data distributed with free software under the GPL.', CITE.comstock48], license: LIC.gpl,
+    cite: [{ es: 'Centro Internacional de la Papa (CIP), localidad de Majes, Perú; datos distribuidos con software libre bajo la GPL.', en: 'International Potato Center (CIP), locality Majes, Peru; data distributed with free software under the GPL.' }, CITE.comstock48], license: LIC.gpl,
     note: { es: 'Machos y hembras son plantas distintas aunque compartan códigos numéricos.', en: 'Males and females are different plants even when they share numeric codes.' },
     override: { mating: 'nc2' },
     expect: { field: 'rcbd', mating: 'nc2', anova: { rep: 144345 + 847836, residual: 1783762 }, tol: 1 },
@@ -159,7 +159,7 @@ Examples.LIST = [
   {
     id: 'oat14', family: 'met', art: 'stability',
     title: { es: 'Avena: 10 genotipos en 14 ambientes', en: 'Oat: 10 genotypes in 14 environments' },
-    sub: { es: 'Ensayo multiambiente · bloques completos, 3 repeticiones · 420 parcelas · rendimiento (GY) y peso hectolítrico (HM)', en: 'Multi-environment trial · complete blocks, 3 replicates · 420 plots · grain yield (GY) and hectolitre mass (HM)' },
+    sub: { es: 'Ensayo multiambiente · bloques completos, 3 repeticiones · 420 parcelas · rendimiento (GY) y peso hectolítrico (HM)', en: 'Multi-environment trial · complete blocks, 3 replicates · 420 plots · grain yield (GY) and hectoliter mass (HM)' },
     cite: [CITE.olivotoOat], license: LIC.gpl,
     note: { es: 'Catorce ambientes permiten las regresiones de estabilidad con 12 grados de libertad por genotipo, AMMI y el biplot GGE.', en: 'Fourteen environments allow the stability regressions with 12 degrees of freedom per genotype, AMMI and the GGE biplot.' },
     expect: { field: 'rcbd', mating: 'none', multiEnv: true },
@@ -168,7 +168,7 @@ Examples.LIST = [
     id: 'plrv28', family: 'met', art: 'ammi',
     title: { es: 'Papa: 28 clones en 6 localidades', en: 'Potato: 28 clones in 6 localities' },
     sub: { es: 'Población PLRV · bloques completos, 3 repeticiones · 504 parcelas · rendimiento (t/ha)', en: 'PLRV population · complete blocks, 3 replicates · 504 plots · yield (t/ha)' },
-    cite: ['International Potato Center (CIP), Lima, Peru: clones of the PLRV population in Ayacucho, Huancayo, La Molina and San Ramón (2002–2003); data distributed with free software under the GPL.'], license: LIC.gpl,
+    cite: [{ es: 'Centro Internacional de la Papa (CIP), Lima, Perú: clones de la población PLRV en Ayacucho, Huancayo, La Molina y San Ramón (2002–2003); datos distribuidos con software libre bajo la GPL.', en: 'International Potato Center (CIP), Lima, Peru: clones of the PLRV population in Ayacucho, Huancayo, La Molina and San Ramón (2002–2003); data distributed with free software under the GPL.' }], license: LIC.gpl,
     note: { es: 'El ejemplo clásico de AMMI: cinco ejes con 13368.6, 6427.6, 2241.9, 1027.6 y 696.1 de suma de cuadrados.', en: 'The classic AMMI example: five axes with sums of squares 13368.6, 6427.6, 2241.9, 1027.6 and 696.1.' },
     expect: { field: 'rcbd', mating: 'none', multiEnv: true },
   },

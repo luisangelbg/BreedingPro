@@ -93,8 +93,8 @@ P6.sumsDiff = (cfg0, sd, o) => {
     `r(${T('suma', 'sum')}, ${T('dif.', 'diff.')}) = ${fmtFixed(sd.corSD, 3)}`,
     isFinite(sd.pCor) ? `${pEq(sd.pCor)}` : '',
     !isFinite(sd.pCor) || sd.pCor >= 0.05 ? T('sin dirección definida', 'no defined direction')
-      : sd.corSD < 0 ? T(`dominancia hacia ${sd.testers[0]}`, `dominance towards ${sd.testers[0]}`)
-        : T(`dominancia hacia ${sd.testers[1]}`, `dominance towards ${sd.testers[1]}`),
+      : sd.corSD < 0 ? T(`dominancia hacia ${sd.testers[0]}`, `dominance toward ${sd.testers[0]}`)
+        : T(`dominancia hacia ${sd.testers[1]}`, `dominance toward ${sd.testers[1]}`),
   ].filter(Boolean);
   if (cfg.legendPos !== 'none') {
     const lg = f.g.appendChild(Fig.g({ 'data-role': 'legend' }));   /* notes and key in one group for the figure studio; data-li = entry */

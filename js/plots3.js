@@ -6,9 +6,9 @@ const P3 = {};
 const t3 = (cfg, es, en) => Object.assign({}, cfg, { title: cfg.title || T(es, en) });
 const cut = (s, n) => { s = String(s); return s.length > n ? s.slice(0, n - 1) + '…' : s; };
 
-P3.colormapControl = def => ({ key: 'colormap', label: T('Escala de color', 'Colour scale'), type: 'select', options: Object.entries(Fig.colormapNames), def });
+P3.colormapControl = def => ({ key: 'colormap', label: T('Escala de color', 'Color scale'), type: 'select', options: Object.entries(Fig.colormapNames), def });
 
-/* vertical colour bar at the right of a frame */
+/* vertical color bar at the right of a frame */
 P3.colorbar = (f, cfg, lo, hi, ramp, label) => {
   const g = Fig.g({ 'data-legend': 'colorbar' });   /* tagged for the figure studio */
   const x = f.x1 + 22, y0 = f.y0 + 6, h = Math.min(220, f.y1 - f.y0 - 12), w = 13;
@@ -26,7 +26,7 @@ P3.colorbar = (f, cfg, lo, hi, ramp, label) => {
   });
   if (label) g.appendChild(Fig.text(x, y0 - 8, label, { size: 10.5, fill: f.t.muted, font: f.font, role: 'legend', weight: 'bold' }));
   f.g.appendChild(g);
-  /* the area the colours fill is the plot area for the figure studio (a grid narrower than the frame sets f.x1/f.y1 to it first) */
+  /* the area the colors fill is the plot area for the figure studio (a grid narrower than the frame sets f.x1/f.y1 to it first) */
   const S = f.g.ownerSVGElement;
   if (S) S.setAttribute('data-plot', [f.x0, f.y0, f.x1 - f.x0, f.y1 - f.y0].map(v => +(+v).toFixed(2)).join(' '));
 };
@@ -175,14 +175,14 @@ P3.residuals = (cfg0, res, o) => {
   const pts = res.filter(r => isFinite(r.r));
   const col = Fig.color(cfg.palette, 0), bad = Fig.color(cfg.palette, 3);
   const flagged = r => r.pBonf < 0.05 || Math.abs(r.t) >= 3.5;
-  /* left: studentised residuals against fitted values */
+  /* left: studentized residuals against fitted values */
   const fL = Fig.frame(svg, cfg, { margin: { left: 74, right: W / 2 + gap / 2, top: 64, bottom: 64 } });
   const xs = pts.map(r => r.fitted), ys = pts.map(r => r.r);
   const dx = Fig.niceDomain(Math.min(...xs), Math.max(...xs));
   const ym = Math.max(3.5, ...ys.map(Math.abs)) * 1.05;
   const sx = Fig.scaleLinear(dx[0], dx[1], fL.x0, fL.x1), sy = Fig.scaleLinear(-ym, ym, fL.y1, fL.y0);
   Fig.axisX(fL, sx, Object.assign({}, cfg, { xlab: T('Valor ajustado', 'Fitted value') }));
-  Fig.axisY(fL, sy, Object.assign({}, cfg, { ylab: T('Residual estandarizado', 'Standardised residual') }));
+  Fig.axisY(fL, sy, Object.assign({}, cfg, { ylab: T('Residual estandarizado', 'Standardized residual') }));
   const g = Fig.g();
   [-3, 0, 3].forEach(v => g.appendChild(Fig.el('line', { x1: fL.x0, x2: fL.x1, y1: sy(v), y2: sy(v), stroke: v ? bad : fL.t.muted, 'stroke-dasharray': v ? '5 4' : null, 'stroke-width': 1.1, opacity: v ? 0.7 : 1 })));
   pts.forEach(r => {

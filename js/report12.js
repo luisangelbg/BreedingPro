@@ -4,7 +4,7 @@
    adds a methods section drafted from the settings that were actually used (js/methods12.js),
    the references cited there and the citation of the software. The package adds every table
    as CSV, the results workbook of every block, the figures as SVG and as raster images, the
-   data as analysed and the methods as plain text. */
+   data as analyzed and the methods as plain text. */
 
 (function () {
   const RP = {};
@@ -27,7 +27,7 @@
   RP.BLOCKS = [
     { n: 2, es: 'Planeación de cruzas, del ensayo y de su potencia', en: 'Planning of crosses, the trial and its power',
       ready: () => !!(window.B2 && B2.plan && !B2.plan.errors.length), cards: ['b2Design', 'b2SeedCard', { id: 'b2Field', ready: () => !!(B2.field && B2.field.locations) }, 'b2Power'] },
-    { n: 3, es: 'Diseño reconocido y análisis del ensayo', en: 'Recognised design and trial analysis',
+    { n: 3, es: 'Diseño reconocido y análisis del ensayo', en: 'Recognized design and trial analysis',
       ready: () => !!(state.data && state.data.ds && state.data.ds.records.length), cards: ['b3Design', 'b3Quality', 'b3Analysis'] },
     { n: 4, es: 'Dialelo de Griffing', en: 'Griffing diallel',
       ready: () => !!(window.B4 && B4.built && B4.res && B4.res.main && design() === 'griffing'), cards: ['b4Anova', 'b4Effects', 'b4Params', 'b4Best', 'b4Compare'] },
@@ -249,7 +249,7 @@ figure{margin:16px 0}figure svg{display:block;margin:0 auto}figcaption{font-size
       if (notes) add('notes', T('Fundamentos de los métodos', 'Background of the methods'), notes);
     }
     if (o.cite !== false) add('cite', T('Cómo citar', 'How to cite'), RP.citeSection());
-    if (o.dataAppendix && state.data) add('appendix', T('Apéndice: datos analizados', 'Appendix: data as analysed'), RP.dataTable());
+    if (o.dataAppendix && state.data) add('appendix', T('Apéndice: datos analizados', 'Appendix: data as analyzed'), RP.dataTable());
     const counts = `${RP.tables.length} ${T('tablas', 'tables')} · ${RP.figures.length} ${T('figuras', 'figures')}`;
     return `<!DOCTYPE html><html lang="${L}"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>${esc(o.title)}</title><style>${RP.CSS}</style></head><body>
 <h1>${esc(o.title)}</h1>
@@ -275,14 +275,14 @@ ${body.join('\n')}
 }</pre></div>`;
   };
 
-  /* the data of Block 3 as analysed (columns as read, with the excluded plots marked) */
+  /* the data of Block 3 as analyzed (columns as read, with the excluded plots marked) */
   RP.dataTable = () => {
     const tab = window.B3 && B3.table;
     if (!tab) return '';
     const ex = B3.excluded || new Set();
     tabN++;
-    RP.tables.push({ n: tabN, caption: T('Datos analizados', 'Data as analysed'), rows: tab.rows.map(r => r.map(v => (v == null ? '' : String(v)))), header: tab.header });
-    return `<div class="table-scroll"><table><caption><b>${T('Tabla', 'Table')} ${tabN}.</b> ${T('Datos analizados', 'Data as analysed')} (${tab.rows.length} ${T('filas', 'rows')}${ex.size ? `; ${ex.size} ${T('excluidas del análisis, en gris', 'excluded from the analysis, in grey')}` : ''}).</caption><thead><tr>${tab.header.map(x => `<th>${esc(x)}</th>`).join('')}</tr></thead><tbody>${tab.rows.map((r, i) => `<tr${ex.has(i) ? ' class="row-flag"' : ''}>${r.map(v => `<td>${esc(v == null ? '' : v)}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`;
+    RP.tables.push({ n: tabN, caption: T('Datos analizados', 'Data as analyzed'), rows: tab.rows.map(r => r.map(v => (v == null ? '' : String(v)))), header: tab.header });
+    return `<div class="table-scroll"><table><caption><b>${T('Tabla', 'Table')} ${tabN}.</b> ${T('Datos analizados', 'Data as analyzed')} (${tab.rows.length} ${T('filas', 'rows')}${ex.size ? `; ${ex.size} ${T('excluidas del análisis, en gris', 'excluded from the analysis, in gray')}` : ''}).</caption><thead><tr>${tab.header.map(x => `<th>${esc(x)}</th>`).join('')}</tr></thead><tbody>${tab.rows.map((r, i) => `<tr${ex.has(i) ? ' class="row-flag"' : ''}>${r.map(v => `<td>${esc(v == null ? '' : v)}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`;
   };
 
   /* ---------- the package ---------- */
@@ -336,5 +336,5 @@ ${body.join('\n')}
   };
   RP.readme = o => T(
     `${o.title}\r\n\r\nGenerado con BreedingPro ${RP.VERSION} el ${new Date().toISOString().slice(0, 16).replace('T', ' ')}.\r\n\r\ninforme.html: el informe completo; se abre en cualquier navegador y se imprime como PDF desde el navegador.\r\nmetodos.txt: la sección de métodos en texto simple, para pegarla en un manuscrito.\r\ntablas/: cada tabla del informe en CSV (UTF-8), con su número.\r\nresultados/: el libro de resultados (.xlsx) de cada bloque incluido, con todas las filas.\r\nfiguras/: cada figura del informe en SVG (vectorial, editable) y en ${o.raster === 'none' ? 'ningún formato de mapa de bits' : (o.raster || 'png').toUpperCase() + ` a ${Math.round((+o.scale || 4) * 75)} ppp`}.\r\ndatos/: los datos del Bloque 3 tal como se analizaron.\r\n\r\nCite el programa y los métodos: ${RP.citation()}\r\n`,
-    `${o.title}\r\n\r\nGenerated with BreedingPro ${RP.VERSION} on ${new Date().toISOString().slice(0, 16).replace('T', ' ')}.\r\n\r\nreport.html: the full report; opens in any browser and prints to PDF from the browser.\r\nmethods.txt: the methods section as plain text, ready to paste into a manuscript.\r\ntables/: every table of the report as CSV (UTF-8), numbered.\r\nresults/: the results workbook (.xlsx) of every block included, with every row.\r\nfigures/: every figure of the report as SVG (vector, editable) and as ${o.raster === 'none' ? 'no raster format' : (o.raster || 'png').toUpperCase() + ` at ${Math.round((+o.scale || 4) * 75)} dpi`}.\r\ndata/: the data of Block 3 as analysed.\r\n\r\nPlease cite the software and the methods: ${RP.citation()}\r\n`);
+    `${o.title}\r\n\r\nGenerated with BreedingPro ${RP.VERSION} on ${new Date().toISOString().slice(0, 16).replace('T', ' ')}.\r\n\r\nreport.html: the full report; opens in any browser and prints to PDF from the browser.\r\nmethods.txt: the methods section as plain text, ready to paste into a manuscript.\r\ntables/: every table of the report as CSV (UTF-8), numbered.\r\nresults/: the results workbook (.xlsx) of every block included, with every row.\r\nfigures/: every figure of the report as SVG (vector, editable) and as ${o.raster === 'none' ? 'no raster format' : (o.raster || 'png').toUpperCase() + ` at ${Math.round((+o.scale || 4) * 75)} dpi`}.\r\ndata/: the data of Block 3 as analyzed.\r\n\r\nPlease cite the software and the methods: ${RP.citation()}\r\n`);
 })();

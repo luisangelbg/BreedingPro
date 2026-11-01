@@ -1,6 +1,6 @@
 /* BreedingPro — Block 3 interface: data and experimental design.
    Loads a file, the data sheet, the Block 2 field book or an example; lets the
-   user confirm the role of every column; shows the recognised designs, data
+   user confirm the role of every column; shows the recognized designs, data
    quality and the field-design analysis; and leaves in state.data everything the
    genetic blocks need. */
 
@@ -9,6 +9,8 @@
   window.B3 = B3;
 
   const NC = ['nc1', 'nc2', 'nc3', 'ttc', 'lxt'];
+  /* the source of an example: a reference (the same in both languages) or a note written in both */
+  const citeText = c => (typeof c === 'string' ? c : T(c));
   const ROLE_GROUP = { env: 'field', year: 'field', rep: 'field', block: 'field', plot: 'field', row: 'field', col: 'field', set: 'field', plant: 'field', entry: 'gen', female: 'gen', male: 'gen', generation: 'gen', type: 'gen', trait: 'trait', ignore: 'ignore' };
   const MATING = {
     griffing: { es: 'Dialelo de Griffing', en: 'Griffing diallel' }, partial: { es: 'Dialelo parcial', en: 'Partial diallel' },
@@ -51,7 +53,7 @@
         <div class="ex-body">
           <b>${L2(ex.title.es, ex.title.en)}</b>
           <small>${L2(ex.sub.es, ex.sub.en)}</small>
-          <p class="ex-cite">${esc(ex.cite[0])}</p>
+          <p class="ex-cite">${esc(citeText(ex.cite[0]))}</p>
           <span class="ex-lic${ex.simulated ? ' sim' : ''}" title="${esc(T(ex.license))}">${ex.simulated ? L2('simulado', 'simulated') : ex.license === Examples.LIST[0].license ? 'CC BY-NC 4.0' : L2('datos publicados', 'published data')}</span>
         </div>
         <button class="btn btn-secondary btn-sm" data-ex="${ex.id}" type="button">${L2('Cargar', 'Load')}</button>
@@ -129,7 +131,7 @@
     if (!ex) return;
     const parts = [];
     if (ex.note) parts.push(esc(T(ex.note)));
-    if (ex.cite && ex.cite.length) parts.push(T('Fuente: ', 'Source: ') + ex.cite.map(esc).join(' · '));
+    if (ex.cite && ex.cite.length) parts.push(T('Fuente: ', 'Source: ') + ex.cite.map(c => esc(citeText(c))).join(' · '));
     showMessage('b3LoadMsg', 'info', `<b>${T('Sobre este ejemplo', 'About this example')}.</b> ${parts.join(' ')}`);
   }
 
@@ -269,7 +271,7 @@
         ds.traits.map(t => { const e = B3.external[t.name] || {}; return `<tr data-trait="${esc(t.name)}"><td>${esc(t.name)}</td><td><input type="number" step="any" min="0" aria-label="${esc(t.name + ' · ' + T('cuadrado medio del error', 'error mean square'))}" data-k="ms" value="${e.ms != null ? e.ms : ''}" style="width:110px"></td><td><input type="number" min="1" aria-label="${esc(t.name + ' · ' + T('grados de libertad', 'degrees of freedom'))}" data-k="df" value="${e.df != null ? e.df : ''}" style="width:90px"></td><td><select aria-label="${esc(t.name + ' · ' + T('escala', 'scale'))}" data-k="scale"><option value="means"${e.scale !== 'plot' ? ' selected' : ''}>${T('de medias', 'of means')}</option><option value="plot"${e.scale === 'plot' ? ' selected' : ''}>${T('de parcelas', 'of plots')}</option></select></td><td><input type="number" min="1" aria-label="${esc(t.name + ' · ' + T('repeticiones', 'replicates'))}" data-k="r" value="${e.r != null ? e.r : 1}" style="width:70px"></td></tr>`; }).join('') + '</tbody></table>';
     }
     const dmsg = [];
-    if (m.design === 'none' && ds.records.some(r => r.female)) dmsg.push({ level: 'info', es: 'Hay progenitores pero ninguna cruza reconocible.', en: 'There are parents but no recognisable cross.' });
+    if (m.design === 'none' && ds.records.some(r => r.female)) dmsg.push({ level: 'info', es: 'Hay progenitores pero ninguna cruza reconocible.', en: 'There are parents but no recognizable cross.' });
     msg('b3DesignMsg', dmsg);
     renderPresence();
     /* missing entries */
@@ -329,7 +331,7 @@
     mountFig('b3FigPresence', {
       title: () => T('Cruzas presentes en los datos', 'Crosses present in the data'), fileName: 'crosses_present',
       render: c => P3.presence(c, M, cells, { expected }),
-      controls: () => [P2.titleControl(), { key: 'colorBy', label: T('Color según', 'Colour by'), type: 'select', options: [['count', T('número de parcelas', 'number of plots')], ['mean', T('media de la variable', 'trait mean')]] }, P3.colormapControl(), { key: 'showValues', label: T('Mostrar valores', 'Show values'), type: 'checkbox' }, P2.paletteControl()],
+      controls: () => [P2.titleControl(), { key: 'colorBy', label: T('Color según', 'Color by'), type: 'select', options: [['count', T('número de parcelas', 'number of plots')], ['mean', T('media de la variable', 'trait mean')]] }, P3.colormapControl(), { key: 'showValues', label: T('Mostrar valores', 'Show values'), type: 'checkbox' }, P2.paletteControl()],
     }, Object.assign({ colormap: 'ylgn', showValues: true }, size));
   }
 
@@ -361,7 +363,7 @@
     clearTimeout(pending);
     /* a change that arrives before the previous one ran replaces its window */
     if (pendingW && !pendingW.ended) pendingW.close();
-    const w = pendingW = bpWork('Analizando el ensayo', 'Analysing the trial');
+    const w = pendingW = bpWork('Analizando el ensayo', 'Analyzing the trial');
     pending = setTimeout(() => bpAfterPaint(() => {
       if (pendingW === w) pendingW = null;
       try {
@@ -423,7 +425,7 @@
     const excludedRows = [];
     if (B3.excluded.size) {
       const byPlot = new Map();
-      B3.ds.records.filter(r => B3.excluded.has(r.k)).forEach(r => { const key = r.env + '|' + r.rep + '|' + r.block + '|' + r.entry; if (!byPlot.has(key)) byPlot.set(key, { env: r.env || T('Única', 'Single'), entry: r.entry, rep: r.rep || r.block, y: t.y[r.k], ks: [], lines: [], level: 'excluded' }); const p = byPlot.get(key); p.ks.push(r.k); p.lines.push(r.line); });
+      B3.ds.records.filter(r => B3.excluded.has(r.k)).forEach(r => { const key = r.env + '|' + r.rep + '|' + r.block + '|' + r.entry; if (!byPlot.has(key)) byPlot.set(key, { env: r.env || T('Única', 'Single environment'), entry: r.entry, rep: r.rep || r.block, y: t.y[r.k], ks: [], lines: [], level: 'excluded' }); const p = byPlot.get(key); p.ks.push(r.k); p.lines.push(r.line); });
       byPlot.forEach(v => excludedRows.push(v));
     }
     const all = out.concat(excludedRows);
@@ -496,13 +498,13 @@
       ];
       if (e.anova) {
         tiles.push(['Coeficiente de variación', 'Coefficient of variation', fmtNum(e.cv, 1) + ' %', T(`CME = ${fmtNum(e.mse, 4)} con ${e.dfe} gl`, `MSE = ${fmtNum(e.mse, 4)} with ${e.dfe} df`), e.cv <= 12 ? 'ok' : e.cv <= 20 ? 'warn' : 'bad']);
-        tiles.push(['DMS (5 %)', 'LSD (5%)', fmtNum(e.lsd, 3), T(`EE de una diferencia: ${fmtNum(e.sed, 4)}`, `SE of a difference: ${fmtNum(e.sed, 4)}`)]);
+        tiles.push(['DMS (5 %)', 'LSD (5 %)', fmtNum(e.lsd, 3), T(`EE de una diferencia: ${fmtNum(e.sed, 4)}`, `SE of a difference: ${fmtNum(e.sed, 4)}`)]);
         if (e.h2) tiles.push(['Heredabilidad del ensayo', 'Trial heritability', f2(e.h2.cullis), T(`Cullis y col. 2006 · estándar ${f2(e.h2.standard)}`, `Cullis et al. 2006 · standard ${f2(e.h2.standard)}`), e.h2.cullis >= 0.5 ? 'ok' : e.h2.cullis >= 0.3 ? 'warn' : 'bad']);
-        if (e.efficiency) tiles.push(['Eficiencia vs. bloques completos', 'Efficiency vs complete blocks', fmtNum(100 * e.efficiency.reml, 0) + ' %', T(`intrabloque ${fmtNum(100 * e.efficiency.intra, 0)} %`, `intra-block ${fmtNum(100 * e.efficiency.intra, 0)}%`), e.efficiency.reml >= 1.05 ? 'ok' : '']);
+        if (e.efficiency) tiles.push(['Eficiencia vs. bloques completos', 'Efficiency vs complete blocks', fmtNum(100 * e.efficiency.reml, 0) + ' %', T(`intrabloque ${fmtNum(100 * e.efficiency.intra, 0)} %`, `intra-block ${fmtNum(100 * e.efficiency.intra, 0)} %`), e.efficiency.reml >= 1.05 ? 'ok' : '']);
         if (e.reml) e.reml.components.forEach(c => tiles.push([c.name === 'block' ? '<span class="nc">σ²</span> de bloques' : c.name === 'row' ? '<span class="nc">σ²</span> de filas' : '<span class="nc">σ²</span> de columnas', c.name === 'block' ? 'Block <span class="nc">σ²</span>' : c.name === 'row' ? 'Row <span class="nc">σ²</span>' : 'Column <span class="nc">σ²</span>', fmtNum(c.sigma2, 4), c.boundary ? T('en el límite (cero)', 'at the boundary (zero)') : T(`σ²e = ${fmtNum(e.reml.sigma2e, 4)}`, `σ²e = ${fmtNum(e.reml.sigma2e, 4)}`)]));
       } else if (e.external) {
         tiles.push(['Error externo', 'External error', fmtNum(e.mseMeans, 4), T(`escala de medias · ${e.dfe} gl`, `means scale · ${e.dfe} df`)]);
-        tiles.push(['DMS (5 %)', 'LSD (5%)', fmtNum(e.lsd, 3), '']);
+        tiles.push(['DMS (5 %)', 'LSD (5 %)', fmtNum(e.lsd, 3), '']);
       } else notes.push({ level: 'info', es: 'Medias sin repeticiones: escriba el error del experimento original en la tarjeta 3 para obtener errores estándar.', en: 'Unreplicated means: type the error of the original experiment in card 3 to get standard errors.' });
       statTiles('b3AnaTiles', tiles);
       if (e.anova) {
@@ -510,7 +512,7 @@
         if (e.within) rows.splice(rows.length - 1, 0, { source: 'within', df: e.within.df, ss: e.within.ss, ms: e.within.ms, sub: false });
         anovaTable(rows, false);
         const parts = [];
-        if (e.within) parts.push(T(`Las parcelas se analizan con la media de ${fmtNum(e.within.plantsPerPlot, 1)} plantas: sus sumas de cuadrados están en la escala de medias de parcela (multiplíquelas por ${fmtNum(e.within.plantsPerPlot, 1)} para la escala de plantas) y la fila entre plantas, en la escala de plantas. Error experimental contra error de muestreo: F = ${f2(e.within.F)}, ${pEq(e.within.p)}.`, `Plots are analysed as the mean of ${fmtNum(e.within.plantsPerPlot, 1)} plants: their sums of squares are on the plot-mean scale (multiply by ${fmtNum(e.within.plantsPerPlot, 1)} for the plant scale) and the between-plants line is on the plant scale. Experimental against sampling error: F = ${f2(e.within.F)}, ${pEq(e.within.p)}.`));
+        if (e.within) parts.push(T(`Las parcelas se analizan con la media de ${fmtNum(e.within.plantsPerPlot, 1)} plantas: sus sumas de cuadrados están en la escala de medias de parcela (multiplíquelas por ${fmtNum(e.within.plantsPerPlot, 1)} para la escala de plantas) y la fila entre plantas, en la escala de plantas. Error experimental contra error de muestreo: F = ${f2(e.within.F)}, ${pEq(e.within.p)}.`, `Plots are analyzed as the mean of ${fmtNum(e.within.plantsPerPlot, 1)} plants: their sums of squares are on the plot-mean scale (multiply by ${fmtNum(e.within.plantsPerPlot, 1)} for the plant scale) and the between-plants line is on the plant scale. Experimental against sampling error: F = ${f2(e.within.F)}, ${pEq(e.within.p)}.`));
         if (e.blocksAdjusted) parts.push(T(`Bloques eliminando entradas: SC = ${fmtNum(e.blocksAdjusted.ss, 4)}, F = ${f2(e.blocksAdjusted.F)}, ${pEq(e.blocksAdjusted.p)}.`, `Blocks eliminating entries: SS = ${fmtNum(e.blocksAdjusted.ss, 4)}, F = ${f2(e.blocksAdjusted.F)}, ${pEq(e.blocksAdjusted.p)}.`));
         if (e.design === 'alpha' || e.design === 'ibd') parts.push(T('Sumas de cuadrados secuenciales: las entradas están ajustadas por bloques.', 'Sequential sums of squares: entries are adjusted for blocks.'));
         el('b3AnovaNote').innerHTML = parts.join(' ');
@@ -537,7 +539,7 @@
         ['Media general', 'Grand mean', fmtNum(e.mean, 3), ''],
         ['CME combinado', 'Pooled MSE', fmtNum(e.mse, 4), T(`${e.dfe} gl`, `${e.dfe} df`) + (e.cv ? ` · CV ${fmtNum(e.cv, 1)} %` : '')],
         ['Homogeneidad del error', 'Error homogeneity', b ? fmtP(b.p) : '—', b ? T(`Bartlett · cociente máx./mín. ${fmtNum(b.fmax, 2)}`, `Bartlett · max/min ratio ${fmtNum(b.fmax, 2)}`) : '', b ? (b.p >= 0.05 ? 'ok' : 'warn') : ''],
-        ['DMS (5 %)', 'LSD (5%)', fmtNum(e.lsd, 3), T('entre medias de todos los ambientes', 'between means over environments')],
+        ['DMS (5 %)', 'LSD (5 %)', fmtNum(e.lsd, 3), T('entre medias de todos los ambientes', 'between means over environments')],
       ]);
       anovaTable(e.anova.slice(), true);
       el('b3AssumpH').textContent = T('Error y heredabilidad por ambiente', 'Error and heritability by environment');
@@ -567,7 +569,7 @@
     if (means.length) mountFig('b3FigMeans', {
       title: () => T('Medias ajustadas', 'Adjusted means') + ' · ' + t.name + (B3.rec.field.multiEnv ? ' · ' + (combined ? T('combinado', 'combined') : e.env) : ''), fileName: 'adjusted_means',
       render: c => P3.means(c, means, { label: t.name, df: e.dfe, grand: e.mean, typeName }),
-      controls: () => [P2.titleControl(), { key: 'order', label: T('Orden', 'Order'), type: 'select', options: [['mean', T('por media', 'by mean')], ['name', T('por nombre', 'by name')]] }, { key: 'maxEntries', label: T('Máximo de entradas', 'Maximum entries'), type: 'number', min: 10, max: 400, step: 10 }, { key: 'showCI', label: T('Intervalos de confianza de 95 %', '95% confidence intervals'), type: 'checkbox' }, P2.paletteControl()],
+      controls: () => [P2.titleControl(), { key: 'order', label: T('Orden', 'Order'), type: 'select', options: [['mean', T('por media', 'by mean')], ['name', T('por nombre', 'by name')]] }, { key: 'maxEntries', label: T('Máximo de entradas', 'Maximum entries'), type: 'number', min: 10, max: 400, step: 10 }, { key: 'showCI', label: T('Intervalos de confianza de 95 %', '95 % confidence intervals'), type: 'checkbox' }, P2.paletteControl()],
     }, { width: 980, height: Math.max(420, Math.min(1400, 150 + Math.min(means.length, 60) * 17)), flip: true, maxEntries: 60, showCI: true });
     renderNext();
   }
@@ -586,12 +588,12 @@
         <li>Los errores estándar de las medias REML son los del modelo, sin el ajuste de Kenward y Roger (1997).</li>
       </ul>`, `
       <ul>
-        <li><b>Randomised complete blocks:</b> y = μ + replicate + entry + e. Tukey's (1949) one-degree-of-freedom test for non-additivity.</li>
+        <li><b>Randomized complete blocks:</b> y = μ + replicate + entry + e. Tukey's (1949) one-degree-of-freedom test for non-additivity.</li>
         <li><b>α-lattice and resolvable incomplete blocks</b> (Patterson &amp; Williams 1976): the analysis of variance is intra-block (entries adjusted for blocks within replicates); means are estimated with random blocks by restricted maximum likelihood (REML; Patterson &amp; Thompson 1971), which recovers inter-block information. Variance components come from average-information iterations (Gilmour, Thompson &amp; Cullis 1995). Efficiency compares the squared average standard error of a difference with that of the complete-block analysis.</li>
         <li><b>Augmented blocks</b> (Federer 1956): fixed blocks estimated from the repeated checks; new entries are adjusted for the effect of their block. The entries sum of squares is split into checks and new entries plus their contrast with the checks.</li>
         <li><b>Rows and columns:</b> rows and columns within replicates as random effects (REML).</li>
-        <li><b>Plant-level data:</b> each plot is summarised by the mean of its plants and the sampling error between plants is reported separately (Steel, Torrie &amp; Dickey 1997).</li>
-        <li><b>Outliers:</b> externally studentised residuals with a Bonferroni correction (Cook &amp; Weisberg 1982).</li>
+        <li><b>Plant-level data:</b> each plot is summarized by the mean of its plants and the sampling error between plants is reported separately (Steel, Torrie &amp; Dickey 1997).</li>
+        <li><b>Outliers:</b> externally studentized residuals with a Bonferroni correction (Cook &amp; Weisberg 1982).</li>
         <li><b>Trial heritability:</b> random entries and fixed checks; standard H² = σ²g / (σ²g + σ²e/r) and Cullis, Smith &amp; Coombes (2006) H² = 1 − v̄Δ/(2σ²g), where v̄Δ is the average prediction error variance of differences.</li>
         <li><b>Combined analysis:</b> one stage with environments, replicates within environments, entries and their interaction, or two stages (adjusted means of each environment and pooled error; Möhring &amp; Piepho 2009) when the model is too large. Homogeneity of error by Bartlett's (1937) test.</li>
         <li>Standard errors of REML means are model-based, without the Kenward &amp; Roger (1997) adjustment.</li>
@@ -600,7 +602,7 @@
 
   function renderNext() {
     const d = B3.rec.mating.design;
-    /* partial diallels are analysed with the other mating designs in Block 6 */
+    /* partial diallels are analyzed with the other mating designs in Block 6 */
     const n = d === 'griffing' ? 4 : NC.includes(d) || d === 'partial' ? 6 : d === 'generations' ? 7 : B3.rec.field.multiEnv ? 9 : 8;
     const s = STEPS[n - 1];
     el('b3Next').disabled = !s.ready;
@@ -641,7 +643,7 @@
     if (typeof XLSX === 'undefined') return;
     const wb = XLSX.utils.book_new();
     const anova = [[T('Variable', 'Trait'), T('Ambiente', 'Environment'), T('Fuente', 'Source'), T('gl', 'df'), T('SC', 'SS'), T('CM', 'MS'), 'F', 'p']];
-    const quality = [[T('Variable', 'Trait'), T('Ambiente', 'Environment'), T('Diseño', 'Design'), T('Parcelas', 'Plots'), T('Media', 'Mean'), 'CV %', T('CME', 'MSE'), T('gl error', 'Error df'), T('DMS 5 %', 'LSD 5%'), 'H² Cullis', T('H² estándar', 'Standard H²'), 'σ²g', T('σ² bloques', 'Block σ²'), 'Shapiro–Wilk p', T('Tukey p', 'Tukey p'), T('Atípicos', 'Outliers')]];
+    const quality = [[T('Variable', 'Trait'), T('Ambiente', 'Environment'), T('Diseño', 'Design'), T('Parcelas', 'Plots'), T('Media', 'Mean'), 'CV %', T('CME', 'MSE'), T('gl error', 'Error df'), T('DMS 5 %', 'LSD 5 %'), 'H² Cullis', T('H² estándar', 'Standard H²'), 'σ²g', T('σ² bloques', 'Block σ²'), 'Shapiro–Wilk p', T('Tukey p', 'Tukey p'), T('Atípicos', 'Outliers')]];
     allResults().forEach(res => {
       res.envs.concat(res.combined ? [Object.assign({ env: T('Combinado', 'Combined'), combinedRow: true }, res.combined)] : []).forEach(e => {
         (e.anova || []).forEach(r => anova.push([res.trait, e.env, SRC(r.source).trim(), r.df, r.ss, r.total ? '' : r.ms, isFinite(r.F) ? r.F : '', isFinite(r.p) ? r.p : '']));
@@ -729,7 +731,7 @@
       if (B3.example) exampleNote();
       if (!B3.ds || !B3.rec) return;
       /* names of single environments and the book's type names depend on the language */
-      const single = T('Única', 'Single');
+      const single = T('Única', 'Single environment');
       B3.rec.field.envs.forEach(e => { if (!e.key) e.name = single; });
       B3.results.forEach(res => res.envs.forEach(e => { if (!e.key) e.env = single; }));
       renderColumns(); renderDesign(); renderTraitPickers();

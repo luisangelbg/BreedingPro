@@ -1,5 +1,39 @@
 # Changelog
 
+## Después de la 1.0.1 — 2026-10-31
+
+Correcciones de la interfaz en inglés halladas al traducir el manual. En español sólo cambian el espacio antes de %,
+el reparto de las tablas lado a lado y la fuente de algunos ejemplos (que ahora sale en español). Ningún cálculo cambia.
+
+- Siglas que quedaban en español en la interfaz inglesa: **σ²GCA / σ²SCA** (comparación de métodos del Bloque 4 y su
+  hoja de Excel: «GCA SS», «SCA SS», «Reciprocal SS»), **LSD** y **df** (precisión y potencia del Bloque 2),
+  **Cov(HS)**, **MS<sub>e</sub>**, **σ²P**, **GCA × E / SCA × E** y la razón de Baker con GCA/SCA en las fórmulas de
+  parámetros del Bloque 6 (antes «σ²A/σ²F (base de parcela)» salía en español: ahora «σ²A/σ²P (plot basis)»),
+  **CVp %** y **σ²GE** en la tabla de parámetros del Bloque 8 (como en su nota), **b ± SE** en la regresión de
+  estabilidad del Bloque 9 y **SCA** en la descripción emergente de la figura observado-predicho del Bloque 4.
+- El ambiente único se llama **Single environment** en inglés (antes «Single»); en español sigue «Única».
+- Hojas de la libreta de campo en inglés: «Field book» y «Crossing block» (antes FieldBook y CrossingBlock); la casilla
+  del Bloque 2 dice «to load the field book back in Block 3».
+- Ortografía estadounidense en toda la interfaz inglesa, incluidos el editor ✎ y el estudio de figuras de esta copia:
+  program, recognized, randomized/randomization, analyze(d), realized, maximize, equalize, generalized, studentized,
+  standardized, parametrization, summarized, modeling, color, gray/Grayscale, favorable, labeled, license, hectoliter,
+  center(ed), toward, penalized, Canceled. Los títulos de las obras citadas no cambian.
+- Comillas tipográficas “ ” en los textos ingleses.
+- Espacio antes de % en todas las cifras y en los dos idiomas («5 %»): fmtPct, Bloque 2 (semilla, diferencia
+  detectable, precisión de varianzas, potencia deseada), Bloque 3 (LSD 5 %, eficiencia intrabloque, intervalos de 95 %),
+  Bloque 4 (reparto GCA/SCA), Bloque 5 (partición de Hayman), deslizadores de los laboratorios del Bloque 1 y zoom y tamaño de texto
+  del estudio de figuras.
+- Tablas lado a lado (`.two-col`): con columnas fijas (1:1) la tabla de arreglos del Bloque 5 y el ANOVA combinado del
+  Bloque 3, entre otras, salían cortadas o con desplazamiento a 1400–1700 px, porque el índice del bloque a la derecha
+  estrecha la página. Ahora cada columna parte del ancho de su tabla y, si las dos no caben, la segunda pasa debajo
+  de la primera a todo el ancho (`css/style.css`); en el Bloque 5 (tarjeta 4, `narrow-wide`) la tabla de arreglos
+  conserva su ancho y en el Bloque 3 (`wide-narrow`) lo conserva el ANOVA; el espacio sobrante va a la otra tabla. Comprobado con los 21 ejemplos a 1400 y 1700 px: ninguna
+  tabla de esas tarjetas queda cortada.
+- Galería de ejemplos: las fuentes que eran notas en inglés (papa de Carolina del Norte II y PLRV del CIP, maíz y
+  avena de Olivoto, datos de Kang) salen en español con la interfaz española y en inglés con la inglesa.
+- 7 pruebas nuevas (siglas y ortografía inglesas, % con espacio, ambiente único, fuentes de los ejemplos y reparto de
+  `.two-col`): 345 en total, todas en verde.
+
 ## Unreleased
 
 - Accessibility (WCAG 2.5.3, Label in Name): the brand link in the top bar was announced as "BreedingPro home", a

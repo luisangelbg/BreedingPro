@@ -10,11 +10,11 @@
     { n: 2, art: 'fieldPlan', tag: ['planear', 'plan'],
       t: ['Planear cruzas y campo', 'Plan crosses and field'],
       d: ['Genera el plan de cruzamientos para cualquier dialelo, Carolina del Norte, línea × probador o generaciones; aleatoriza el ensayo en bloques o látice alfa, calcula la semilla y la precisión esperada de ACG y ACE, y descarga la libreta de campo.',
-        'Generate the crossing plan for any diallel, North Carolina design, line × tester or generation set; randomise the trial in blocks or alpha lattices, work out seed needs and the expected precision of GCA and SCA, and download the field book.'] },
+        'Generate the crossing plan for any diallel, North Carolina design, line × tester or generation set; randomize the trial in blocks or alpha lattices, work out seed needs and the expected precision of GCA and SCA, and download the field book.'] },
     { n: 3, art: 'dataSheet', tag: ['datos', 'data'],
       t: ['Datos y diseño experimental', 'Data and experimental design'],
       d: ['Importa hojas de cálculo o pega tus datos; indica hembra, macho, repetición, ambiente y caracteres. La app reconoce el diseño de apareamiento, revisa balance, faltantes y atípicos, y hace el ANOVA del diseño de campo.',
-        'Import spreadsheets or paste your data; mark female, male, replicate, environment and traits. The app recognises the mating design, checks balance, missing crosses and outliers, and runs the ANOVA of the field design.'] },
+        'Import spreadsheets or paste your data; mark female, male, replicate, environment and traits. The app recognizes the mating design, checks balance, missing crosses and outliers, and runs the ANOVA of the field design.'] },
     { n: 4, art: 'griffing2', tag: ['dialelos', 'diallels'],
       t: ['Dialelos de Griffing', 'Griffing diallels'],
       d: ['Los cuatro métodos con modelo fijo y aleatorio: ANOVA, efectos de ACG, ACE y recíprocos (maternos y no maternos) con errores estándar, componentes de varianza, heredabilidad, dialelos en varios ambientes y datos desbalanceados por REML.',
@@ -53,7 +53,7 @@
         'Every figure is editable and exports at up to 900 dpi as PNG, TIFF or SVG. One click builds the report with the methods section and its citations, and a ZIP with tables, figures and data.'] },
   ];
 
-  /* ---------------- material that can be analysed ---------------- */
+  /* ---------------- material that can be analyzed ---------------- */
   const MATERIALS = [
     { art: 'matInbred', k: ['líneas e híbridos', 'lines and hybrids'], kc: '', t: ['Líneas endogámicas y sus cruzas', 'Inbred lines and their crosses'], s: ['Maíz, sorgo, girasol, hortalizas: dialelos, probadores y predicción de híbridos.', 'Maize, sorghum, sunflower, vegetables: diallels, testers and hybrid prediction.'] },
     { art: 'matPopulation', k: ['alógamas', 'outcrossers'], kc: 'l', t: ['Variedades y poblaciones', 'Varieties and populations'], s: ['Cruzas entre variedades nativas o poblaciones: heterosis de Gardner y Eberhart y selección recurrente.', 'Crosses between landraces or populations: Gardner–Eberhart heterosis and recurrent selection.'] },
@@ -86,7 +86,7 @@
     { art: 'generationMeans', fam: 'gen', n: ['Medias generacionales', 'Generation means'], s: ['pruebas de escala y 6 parámetros', 'scaling tests and 6 parameters'] },
     { art: 'generations', fam: 'gen', n: ['Varianzas generacionales', 'Generation variances'], s: ['D, H, E y número de genes', 'D, H, E and number of genes'] },
     { art: 'heterosis', fam: 'gen', n: ['Heterosis', 'Heterosis'], s: ['progenitor medio, mejor y testigo', 'mid-parent, better parent, check'] },
-    { art: 'heritability', fam: 'sel', n: ['Heredabilidad', 'Heritability'], s: ['en parcela, en medias y generalizada', 'plot, entry-mean and generalised'] },
+    { art: 'heritability', fam: 'sel', n: ['Heredabilidad', 'Heritability'], s: ['en parcela, en medias y generalizada', 'plot, entry-mean and generalized'] },
     { art: 'selection', fam: 'sel', n: ['Respuesta a la selección', 'Response to selection'], s: ['por método y por año', 'per method and per year'] },
     { art: 'selIndex', fam: 'sel', n: ['Índices de selección', 'Selection indices'], s: ['Smith–Hazel, restringido, deseado', 'Smith–Hazel, restricted, desired'] },
     { art: 'pathAnalysis', fam: 'sel', n: ['Correlaciones y senderos', 'Correlations and paths'], s: ['efectos directos e indirectos', 'direct and indirect effects'] },
@@ -117,13 +117,13 @@
     doc: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 3h9l4 4v14H6z"/><path d="M14 3v5h5M9 13h7M9 17h5"/></svg>',
   };
   const BRING = [
-    ['plan', ['Del plan de cruzas al artículo', 'From the crossing plan to the paper'], ['Planea, captura, analiza y publica en un mismo flujo, sin cambiar de programa.', 'Plan, record, analyse and publish in one workflow, without switching programs.']],
+    ['plan', ['Del plan de cruzas al artículo', 'From the crossing plan to the paper'], ['Planea, captura, analiza y publica en un mismo flujo, sin cambiar de programa.', 'Plan, record, analyze and publish in one workflow, without switching programs.']],
     ['table', ['Todos los diseños de apareamiento', 'Every mating design'], ['Griffing 1–4 con ambos modelos, Hayman–Jinks, Gardner–Eberhart, Carolina del Norte, línea × probador, cruza triple y generaciones.', 'Griffing 1–4 under both models, Hayman–Jinks, Gardner–Eberhart, North Carolina, line × tester, triple test cross and generations.']],
     ['missing', ['Cruzas perdidas y datos desbalanceados', 'Lost crosses and unbalanced data'], ['Cuando falta una cruza o una parcela, los modelos lineales y REML dan estimaciones correctas en lugar de rellenar a ojo.', 'When a cross or a plot is lost, linear models and REML give proper estimates instead of guessed fill-ins.']],
     ['check', ['Supuestos puestos a prueba', 'Assumptions put to the test'], ['Cada método revisa sus propios supuestos (b = 1 en Wr–Vr, homogeneidad, normalidad, epistasis) antes de interpretar.', 'Each method checks its own assumptions (b = 1 in Wr–Vr, homogeneity, normality, epistasis) before interpreting.']],
     ['chat', ['Interpretación en palabras', 'Interpretation in words'], ['Qué progenitores y qué cruzas sobresalen, qué tipo de acción génica domina y qué método de mejora conviene.', 'Which parents and crosses stand out, which gene action prevails and which breeding method suits it.']],
     ['dna', ['Plantas, animales y marcadores', 'Plants, animals and markers'], ['Del dialelo clásico al modelo animal con pedigrí y a la predicción genómica de híbridos.', 'From the classical diallel to the animal model with pedigree and the genomic prediction of hybrids.']],
-    ['fig', ['Figuras listas para publicar', 'Publication-ready figures'], ['Editables en colores, fuentes y etiquetas; hasta 900 ppp en PNG, TIFF o SVG.', 'Editable colours, fonts and labels; up to 900 dpi as PNG, TIFF or SVG.']],
+    ['fig', ['Figuras listas para publicar', 'Publication-ready figures'], ['Editables en colores, fuentes y etiquetas; hasta 900 ppp en PNG, TIFF o SVG.', 'Editable colors, fonts and labels; up to 900 dpi as PNG, TIFF or SVG.']],
     ['doc', ['Informe reproducible', 'Reproducible report'], ['Sección de métodos redactada con los ajustes reales y las citas de cada procedimiento.', 'Methods section written with the actual settings and the citation of every procedure.']],
     ['globe', ['Español e inglés', 'Spanish and English'], ['Toda la interfaz, las interpretaciones y el informe cambian de idioma con un clic.', 'The whole interface, the interpretations and the report switch language with one click.']],
     ['lock', ['Tus datos no salen de tu computadora', 'Your data never leave your computer'], ['Todo se calcula en el navegador, sin instalar nada y sin conexión.', 'Everything is computed in the browser, with nothing to install and no connection needed.']],

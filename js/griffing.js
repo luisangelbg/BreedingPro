@@ -17,7 +17,7 @@
    forms and the published standard errors) and remain valid, with the right
    standard errors, when crosses are missing or replication is unequal.
 
-   Sums of squares are sequential (type I) on over-parameterised incidence
+   Sums of squares are sequential (type I) on over-parameterized incidence
    matrices, which gives Griffing's orthogonal partition for balanced data and
    type-I sums of squares otherwise. Weights are the numbers of plots, so the sums
    of squares are on the plot scale; dividing by r gives the entry-mean scale.
@@ -185,7 +185,7 @@ function effects(cells, L, sigmaFor, alpha) {
 }
 
 /* ---------------- sums of squares ---------------- */
-/* over-parameterised incidence columns, as covariate groups for LM.fit */
+/* over-parameterized incidence columns, as covariate groups for LM.fit */
 function anovaTerms(cells, L, envFac) {
   const n = cells.length, p = L.p;
   const terms = [{ kind: 'intercept', name: '(intercept)' }];
@@ -527,7 +527,7 @@ Griffing.analyse = o => {
   return out;
 };
 
-/* the cells of a data set analysed as another method (subsets of the same table) */
+/* the cells of a data set analyzed as another method (subsets of the same table) */
 Griffing.subset = (cells, method, o) => {
   o = o || {};
   const M = Griffing.METHODS[method];

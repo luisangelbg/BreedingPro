@@ -5,7 +5,7 @@
 
 const P2 = {};
 
-/* ---------------- entry types: colour and name ---------------- */
+/* ---------------- entry types: color and name ---------------- */
 P2.TYPES = {
   F1: { i: 0, es: 'F₁ directa', en: 'F₁ (direct)' },
   parent: { i: 1, es: 'progenitor', en: 'parent' },
@@ -195,7 +195,7 @@ P2.powerCurve = (cfg0, pts, o) => {
   Fig.axisX(f, sx, Object.assign({}, cfg, { xlab: cfg.xlab || T(o.xes, o.xen) }), { ticks: xs.length <= 16 ? xs : null });
   const g = Fig.g();
   g.appendChild(Fig.el('line', { x1: f.x0, x2: f.x1, y1: sy(o.target), y2: sy(o.target), stroke: f.t.muted, 'stroke-dasharray': '6 4', 'stroke-width': 1.2 }));
-  g.appendChild(Fig.text(f.x1 - 4, sy(o.target) - 6, `${Math.round(o.target * 100)}%`, { size: 10, anchor: 'end', fill: f.t.muted, font: f.font }));
+  g.appendChild(Fig.text(f.x1 - 4, sy(o.target) - 6, `${Math.round(o.target * 100)} %`, { size: 10, anchor: 'end', fill: f.t.muted, font: f.font }));
   const series = o.series.filter(s => pts.some(p => isFinite(p[s.key])));
   series.forEach((s, k) => {
     const col = Fig.color(cfg.palette, s.color != null ? s.color : k);

@@ -178,7 +178,7 @@
       mountFig('b10FigA', {
         title: () => T('Matriz de parentesco A', 'Relationship matrix A'), fileName: 'relationship_A',
         render: c => P10.relationship(c, A, ped.ids),
-        controls: () => [P2.titleControl(), { key: 'colormap', label: T('Colores', 'Colours'), type: 'select', options: Object.entries(Fig.colormapNames) }],
+        controls: () => [P2.titleControl(), { key: 'colormap', label: T('Colores', 'Colors'), type: 'select', options: Object.entries(Fig.colormapNames) }],
       }, { width: 760, height: 760, colormap: 'heat' });
     }
     el('b10PedNote').innerHTML = T(
@@ -237,7 +237,7 @@
     const recs = recordsOf(traits[B10.trait]);
     const prep = AM.prepare(recs, B10.ped, modelSpec());
     const notes = prep.issues.slice();
-    if (prep.size > 2600) { msg('b10RunMsg', notes.concat([{ level: 'error', es: `El sistema de ecuaciones tiene ${prep.size} incógnitas; este bloque resuelve de forma exacta (matrices densas) hasta 2600. Reduzca el pedigrí a los ancestros de los individuos con registros o analice por partes.`, en: `The system of equations has ${prep.size} unknowns; this block solves exactly (dense matrices) up to 2600. Reduce the pedigree to the ancestors of the individuals with records or analyse in parts.` }])); return; }
+    if (prep.size > 2600) { msg('b10RunMsg', notes.concat([{ level: 'error', es: `El sistema de ecuaciones tiene ${prep.size} incógnitas; este bloque resuelve de forma exacta (matrices densas) hasta 2600. Reduzca el pedigrí a los ancestros de los individuos con registros o analice por partes.`, en: `The system of equations has ${prep.size} unknowns; this block solves exactly (dense matrices) up to 2600. Reduce the pedigree to the ancestors of the individuals with records or analyze in parts.` }])); return; }
     let theta = null;
     if (B10.varMode === 'given') {
       theta = prep.random.map(r => B10.given[r.key]).concat([B10.given.e]);
@@ -375,7 +375,7 @@
     if (!pedOK) notes.push({ level: 'info', es: 'Sin pedigrí (tarjeta 1) los genotipos se tratan como no emparentados (K = I).', en: 'Without a pedigree (card 1) the genotypes are treated as unrelated (K = I).' });
     else if (!matched) notes.push({ level: 'warning', es: 'Ningún nombre del pedigrí coincide con las entradas del ensayo.', en: 'No name of the pedigree matches the entries of the trial.' });
     else notes.push({ level: 'info', es: `${matched} de ${entries.size} entradas del ensayo están en el pedigrí.`, en: `${matched} of ${entries.size} entries of the trial are in the pedigree.` });
-    if (D.example === 'simLines' && !(B10.src && B10.src.id === 'simLinesPed')) notes.push({ level: 'info', es: 'El ejemplo cargado en el Bloque 3 trae su pedigrí: elíjalo arriba, «Simulado: pedigrí de líneas endogámicas».', en: 'The example loaded in Block 3 comes with its pedigree: choose it above, "Simulated: pedigree of inbred lines".' });
+    if (D.example === 'simLines' && !(B10.src && B10.src.id === 'simLinesPed')) notes.push({ level: 'info', es: 'El ejemplo cargado en el Bloque 3 trae su pedigrí: elíjalo arriba, «Simulado: pedigrí de líneas endogámicas».', en: 'The example loaded in Block 3 comes with its pedigree: choose it above, “Simulated: pedigree of inbred lines”.' });
     msg('b10TMsg', notes);
     el('b10TTrait').innerHTML = D.ds.traits.map((t, j) => `<option value="${j}">${esc(t.name)}</option>`).join('');
     if (B10.tTrait >= D.ds.traits.length) B10.tTrait = 0;
@@ -570,7 +570,7 @@
     ].concat(X.pct ? [{ label: T('Promedio de razas', 'Breed average'), num: true, get: r => f4(X.pct.find(p => p.expr === r.expr).base) }, { label: T('Con heterosis individual', 'With individual heterosis'), num: true, get: r => f4(X.pct.find(p => p.expr === r.expr).afterI) }] : []), X.preds);
     el('b10XPredNote').innerHTML = X.mode === 'percent'
       ? T('Heterosis multiplicativa: promedio de razas × (1 + H<sub>I</sub>h<sup>I</sup>) × (1 + H<sub>M</sub>h<sup>M</sup>) × (1 − R·r<sup>I</sup>), con los porcentajes escritos arriba.', 'Multiplicative heterosis: breed average × (1 + H<sub>I</sub>h<sup>I</sup>) × (1 + H<sub>M</sub>h<sup>M</sup>) × (1 − R·r<sup>I</sup>), with the percentages typed above.')
-      : T('rot(A,B) y rot(A,B,C) son rotaciones de dos y tres razas en equilibrio, promediadas sobre el ciclo (h<sup>I</sup> = h<sup>M</sup> = ⅔ y 6/7); comp(A,B,C) es una compuesta con partes iguales después de apareamiento al azar (h = 1 − Σp²); comp(A:0.5,B:0.25,C:0.25) acepta proporciones. Un predicho «no estimable» depende de un parámetro que estos grupos no separan.', 'rot(A,B) and rot(A,B,C) are two- and three-breed rotations at equilibrium, averaged over the cycle (h<sup>I</sup> = h<sup>M</sup> = ⅔ and 6/7); comp(A,B,C) is a composite with equal shares after random mating (h = 1 − Σp²); comp(A:0.5,B:0.25,C:0.25) takes proportions. A "not estimable" prediction depends on a parameter these groups do not separate.');
+      : T('rot(A,B) y rot(A,B,C) son rotaciones de dos y tres razas en equilibrio, promediadas sobre el ciclo (h<sup>I</sup> = h<sup>M</sup> = ⅔ y 6/7); comp(A,B,C) es una compuesta con partes iguales después de apareamiento al azar (h = 1 − Σp²); comp(A:0.5,B:0.25,C:0.25) acepta proporciones. Un predicho «no estimable» depende de un parámetro que estos grupos no separan.', 'rot(A,B) and rot(A,B,C) are two- and three-breed rotations at equilibrium, averaged over the cycle (h<sup>I</sup> = h<sup>M</sup> = ⅔ and 6/7); comp(A,B,C) is a composite with equal shares after random mating (h = 1 − Σp²); comp(A:0.5,B:0.25,C:0.25) takes proportions. A “not estimable” prediction depends on a parameter these groups do not separate.');
     mountFig('b10FigX', {
       title: () => T('Desempeño predicho', 'Predicted performance'), fileName: 'crossbreeding',
       render: c => P10.crosses(c, X.preds, { label: T('predicho', 'predicted') }),

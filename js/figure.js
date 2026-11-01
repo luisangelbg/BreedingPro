@@ -33,8 +33,8 @@ Object.defineProperty(Fig, 'paletteNames', { get: () => ({
   breeding: FT('Maíz morado (BreedingPro)', 'Purple maize (BreedingPro)'), cluster: FT('Índigo', 'Indigo'), vivid: FT('Vivos', 'Vivid'),
   harvest: FT('Cosecha', 'Harvest'), soil: FT('Suelo y cultivo', 'Soil & crop'), ocean: FT('Océano', 'Ocean'), sunset: FT('Atardecer', 'Sunset'),
   meadow: FT('Pradera', 'Meadow'), bold: FT('Intensos', 'Bold'), soft: FT('Suaves', 'Soft'), deep: FT('Profundos', 'Deep'),
-  okabe: FT('Okabe e Ito 2008 (apta para daltonismo)', 'Okabe & Ito 2008 (colour-blind safe)'), tol: FT('Tol 2021 (apta para daltonismo)', 'Tol 2021 (colour-blind safe)'),
-  pastel: FT('Pastel', 'Pastel'), greys: FT('Escala de grises', 'Greyscale'),
+  okabe: FT('Okabe e Ito 2008 (apta para daltonismo)', 'Okabe & Ito 2008 (color-blind safe)'), tol: FT('Tol 2021 (apta para daltonismo)', 'Tol 2021 (color-blind safe)'),
+  pastel: FT('Pastel', 'Pastel'), greys: FT('Escala de grises', 'Grayscale'),
 }) });
 
 function lerp(a, b, t) { return a + (b - a) * t; }
@@ -56,8 +56,8 @@ Fig.colormaps = {
   plasma:  rampFrom([[13,8,135],[126,3,168],[204,71,120],[248,149,64],[240,249,33]]),
   cividis: rampFrom([[0,32,77],[60,86,120],[124,123,120],[192,164,98],[255,234,70]]),
   /* the diverging and sequential ramps below are original to this program: their stops come from
-     anchors in the OKLCH colour space, with lightness rising to the centre and falling to the ends
-     (diverging) or falling steadily (sequential), and ends that stay apart under red–green colour blindness */
+     anchors in the OKLCH color space, with lightness rising to the center and falling to the ends
+     (diverging) or falling steadily (sequential), and ends that stay apart under red–green color blindness */
   rdylbu:  rampFrom([[39,67,135],[105,174,213],[252,245,199],[237,156,85],[165,30,36]]),
   rdbu:    rampFrom([[2,56,105],[151,197,222],[246,239,230],[229,166,146],[144,40,34]]),
   spectral:rampFrom([[86,69,151],[82,200,180],[241,244,182],[248,154,86],[166,31,71]]),
@@ -68,7 +68,7 @@ Fig.colormaps = {
   heat:    rampFrom([[255,247,217],[253,146,62],[158,18,43]]),
 };
 Object.defineProperty(Fig, 'colormapNames', { get: () => ({
-  viridis: 'Viridis', magma: 'Magma', inferno: 'Inferno', plasma: 'Plasma', cividis: FT('Cividis (apta para daltonismo)', 'Cividis (colour-blind safe)'),
+  viridis: 'Viridis', magma: 'Magma', inferno: 'Inferno', plasma: 'Plasma', cividis: FT('Cividis (apta para daltonismo)', 'Cividis (color-blind safe)'),
   rdylbu: FT('Rojo–Amarillo–Azul', 'Red–Yellow–Blue'), rdbu: FT('Rojo–Azul (divergente)', 'Red–Blue (diverging)'), spectral: FT('Espectral', 'Spectral'),
   bluered: FT('Azul–Blanco–Rojo', 'Blue–White–Red'), greens: FT('Verdes', 'Greens'), ylgn: FT('Amarillo–Verde', 'Yellow–Green'),
   browns: FT('Cafés (suelo)', 'Browns (soil)'), heat: FT('Calor', 'Heat'),
@@ -496,7 +496,7 @@ Fig.bandPlot = (svg, cfg, labels, dom, o) => {
 
 /* ---------- labels that push each other apart (like ggrepel) ----------
    items: [{x, y, text, size?, weight?, fill?, r?}] anchored at data points;
-   o.obstacles: unlabelled points to keep clear. Labels stay inside the plot
+   o.obstacles: unlabeled points to keep clear. Labels stay inside the plot
    area, and a thin leader joins a label that had to move away from its point. */
 Fig.repelLabels = (g, f, items, o) => {
   o = o || {};
@@ -510,7 +510,7 @@ Fig.repelLabels = (g, f, items, o) => {
     return { it, size, w, h, cx: it.x + dx + w / 2, cy: it.y + dy - h / 2 + size * 0.35, ax: it.x, ay: it.y, r: it.r || 4 };
   });
   const x0 = f.x0 + 2, x1 = f.x1 - 2, y0 = f.y0 + 2, y1 = f.y1 - 2;
-  /* unlabelled points also push labels off them (skipped for very crowded plots) */
+  /* unlabeled points also push labels off them (skipped for very crowded plots) */
   const others = (o.obstacles || []).length <= 800 ? (o.obstacles || []) : [];
   const pts = items.map(it => [it.x, it.y, it.r || 4]).concat(others.map(p => [p.x, p.y, p.r || 4]));
   /* Greedy placement. Each label tries positions on growing rings around its
@@ -868,10 +868,10 @@ Fig.mount = (host, spec) => {
 
   /* --- editor --- */
   const det = mk('details', { class: 'fig-editor' });
-  det.appendChild(mk('summary', null, FT('⚙ Editar figura: títulos, colores, letras, tamaños', '⚙ Edit figure — titles, colours, fonts, sizes')));
+  det.appendChild(mk('summary', null, FT('⚙ Editar figura: títulos, colores, letras, tamaños', '⚙ Edit figure — titles, colors, fonts, sizes')));
   const tabs = mk('div', { class: 'fig-tabs' });
   const groups = [
-    { name: FT('Contenido y colores', 'Content & colours'), controls: (typeof spec.controls === 'function' ? spec.controls() : spec.controls) || [] },
+    { name: FT('Contenido y colores', 'Content & colors'), controls: (typeof spec.controls === 'function' ? spec.controls() : spec.controls) || [] },
     { name: FT('Estilo y tipografía', 'Style & typography'), controls: Fig.STYLE_CONTROLS },
   ];
   groups.forEach((gr, gi) => {
@@ -930,7 +930,7 @@ Fig.mount = (host, spec) => {
         input = mk('input', { type: 'number', min: c.min, max: c.max, step: c.step || 1, value: cfg[c.key], style: 'width:90px' });
         input.addEventListener('change', () => { cfg[c.key] = +input.value; commit(); });
       } else if (c.type === 'colors') {
-        /* one colour picker per series */
+        /* one color picker per series */
         const wrap = mk('div', { class: 'color-row' });
         (c.labels || []).forEach((l, i) => {
           const cur = (cfg[c.key] && cfg[c.key][i]) || Fig.color(cfg.palette, i);

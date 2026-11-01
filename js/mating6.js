@@ -156,7 +156,7 @@ MD.layout = (design, obs, o) => {
     if (st.multiEnv) add('plantEnv', { kind: 'cross', f: plantF, g: st.envF, name: 'plantEnv' }, LM.combine(plantF, st.envF));
     out.plantF = plantF; out.testerF = testerF; out.cellF = cellF; out.testers = testers;
   } else if (design === 'partial') {
-    /* y_ij = μ + g_i + g_j + s_ij: over-parameterised columns swept in order, so the sums of
+    /* y_ij = μ + g_i + g_j + s_ij: over-parameterized columns swept in order, so the sums of
        squares are those of general and of specific combining ability, whatever crosses were
        made. One column per parent for the general effects, one per cross for the specific. */
     const P = o.parents, ix = new Map(P.map((x, k) => [x, k]));

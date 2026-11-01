@@ -137,7 +137,7 @@ const HBAR = '<span class="ovl">h</span><span class="sr-only">̄</span>';
 
 function fmtPct(x, d) {
   if (x == null || !isFinite(x)) return '—';
-  const s = (x * 100).toLocaleString('en-US', { maximumFractionDigits: d == null ? 1 : d }) + '%';
+  const s = (x * 100).toLocaleString('en-US', { maximumFractionDigits: d == null ? 1 : d }) + ' %';
   return s.startsWith('-') ? '−' + s.slice(1) : s;
 }
 
@@ -257,7 +257,7 @@ const Prefs = {
 
 /* ---------------- random numbers ----------------
    Everything stochastic (simulators, permutation tests, cross-validation,
-   randomisation of field plans) draws from a seeded generator, so a run is
+   randomization of field plans) draws from a seeded generator, so a run is
    reproducible and its seed can be reported. sfc32 passes the usual
    statistical batteries, unlike a 32-bit linear congruential generator. */
 function rng(seed) {

@@ -1338,6 +1338,42 @@
   check('methods check: a reference in the list that the text never cites is caught (Bartlett 1937), the cited ones pass', chk12.uncited.length === 1 && chk12.uncited[0] === 'bartlett37', JSON.stringify(chk12));
   check('software citation: author, year, version, kind and DOI', /^Barrera-Guzmán, L\.Á\. \(2026\)\. BreedingPro: .+ \((versión|Version) \d+\.\d+\.\d+\) \[(software|Computer software)\]\. https:\/\/doi\.org\/10\.5281\/zenodo\.\d+$/.test(RP.citation()), RP.citation());
 
+  section('English interface and layout');
+  const langI = I18N.lang;
+  I18N.lang = 'en';
+  check('percentages carry a space before % in both languages ("5 %", "12.5 %")', fmtPct(0.05, 0) === '5 %' && fmtPct(0.125, 1) === '12.5 %', fmtPct(0.05, 0) + ' | ' + fmtPct(0.125, 1));
+  const desI = Object.values(Trial.DESIGNS).map(d => d.en).join(' | ');
+  check('field designs named in American spelling (randomized)', /Randomized complete blocks/.test(desI) && /Completely randomized/.test(desI) && !/randomis/i.test(desI), desI);
+  const envEnI = Data.recognize(loaded.maize4.ds, {}).field.envs[0].name;
+  I18N.lang = 'es';
+  const envEsI = Data.recognize(loaded.maize4.ds, {}).field.envs[0].name;
+  I18N.lang = 'en';
+  check('a trial without an environment column: “Single environment” in English, “Única” in Spanish', envEnI === 'Single environment' && envEsI === 'Única', envEnI + ' | ' + envEsI);
+  const palI = Object.values(Fig.paletteNames || {}).concat(Object.values(Fig.colormapNames || {})).map(v => (typeof v === 'function' ? v() : String(v))).join(' | ');
+  check('palette names in American spelling (color-blind, Grayscale)', /color-blind/.test(palI) && /Grayscale/.test(palI) && !/colour|grey/i.test(palI), palI);
+  const predI = [{ name: 'A × B', self: false, observed: 10, predictedGca: 9, predicted: 9.5, sca: 0.5 }, { name: 'A × C', self: false, observed: 8, predictedGca: 8.4, predicted: 8.2, sca: -0.4 }, { name: 'A', self: true, observed: 7, predictedGca: 7.1, predicted: 7.1, sca: NaN }];
+  let svgI = '';
+  try { svgI = window.P4.observedPredicted({ width: 700, height: 480, theme: 'light', palette: 'okabe' }, predI, {}).textContent; } catch (e) { svgI = 'ERROR ' + e.message; }
+  const methI = (() => { try { return window.P4.methods({ width: 700, height: 480, theme: 'light', palette: 'okabe', show: 'components' }, [1, 2].map(m => ({ method: m, values: { g: 1 + m, s: 2, r: 0.5 } })), {}).textContent; } catch (e) { return 'ERROR ' + e.message; } })();
+  check('Block 4 figures in English say GCA and SCA, not ACG and ACE', /SCA/.test(svgI) && /GCA/.test(svgI) && !/\b(ACG|ACE)\b/.test(svgI) && /σ²GCA/.test(methI) && /σ²SCA/.test(methI) && !/ACG|ACE/.test(methI), (svgI + ' || ' + methI).slice(0, 300));
+  const citesI = Examples.LIST.flatMap(e => (e.cite || []).map(c => ({ id: e.id, c })));
+  const monoI = citesI.filter(({ c }) => typeof c === 'string' && /\b(distributed|locality|simulated)\b/i.test(c)).map(x => x.id);
+  const pairI = citesI.filter(({ c }) => typeof c !== 'string' && !(c.es && c.en && c.es !== c.en)).map(x => x.id);
+  check('example sources: the notes about the data are written in both languages (only bibliographic references stay as they are)', !monoI.length && !pairI.length && citesI.some(({ id, c }) => id === 'nc2' && typeof c !== 'string' && /Centro Internacional de la Papa/.test(c.es)), monoI.concat(pairI).join(', '));
+  I18N.lang = langI;
+  /* two tables side by side only when both fit; otherwise one below the other, never cut */
+  const boxI = document.createElement('div');
+  boxI.style.cssText = 'width:800px;position:absolute;left:-9999px;top:0';
+  const tabI = w => `<div><div class="table-scroll"><table><tr><td><div style="width:${w}px;height:10px"></div></td></tr></table></div></div>`;
+  boxI.innerHTML = `<div class="two-col narrow-wide" id="tcWide">${tabI(330)}${tabI(560)}</div><div class="two-col wide-narrow" id="tcNarrow">${tabI(300)}${tabI(250)}</div>`;
+  document.body.appendChild(boxI);
+  const kidsW = [...boxI.querySelector('#tcWide').children], kidsN = [...boxI.querySelector('#tcNarrow').children];
+  const cutI = kidsW.concat(kidsN).map(k => k.querySelector('.table-scroll')).filter(t => t.scrollWidth > t.clientWidth + 1).length;
+  check('.two-col: two wide tables (330 + 560 px in 800 px) go one below the other, two narrow ones (300 + 250 px) stay side by side, and none is cut',
+    kidsW[1].offsetTop > kidsW[0].offsetTop && kidsN[1].offsetTop === kidsN[0].offsetTop && cutI === 0,
+    `wide: ${kidsW.map(k => k.offsetTop + '/' + k.offsetWidth).join(', ')}; narrow: ${kidsN.map(k => k.offsetTop + '/' + k.offsetWidth).join(', ')}; cut ${cutI}`);
+  boxI.remove();
+
   section('Illustrations');
   const names = Object.keys(Art).filter(k => typeof Art[k] === 'function' && !['ear', 'cow'].includes(k));
   let broken = names.filter(k => { try { const s = Art[k](); return !/^<svg[\s\S]*<\/svg>$/.test(s) || /NaN|undefined/.test(s); } catch (e) { return true; } });

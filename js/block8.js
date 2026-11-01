@@ -35,7 +35,7 @@
   function status() {
     const D = state.data;
     if (!D) return { ok: false, es: 'Cargue los datos en el Bloque 3.', en: 'Load the data in Block 3.' };
-    if (D.mating.design === 'generations') return { ok: false, es: 'Las generaciones se analizan en el Bloque 7; aquí se necesitan genotipos (líneas, híbridos, familias, clones) evaluados en un ensayo.', en: 'Generations are analysed in Block 7; this block needs genotypes (lines, hybrids, families, clones) evaluated in a trial.' };
+    if (D.mating.design === 'generations') return { ok: false, es: 'Las generaciones se analizan en el Bloque 7; aquí se necesitan genotipos (líneas, híbridos, familias, clones) evaluados en un ensayo.', en: 'Generations are analyzed in Block 7; this block needs genotypes (lines, hybrids, families, clones) evaluated in a trial.' };
     if (!D.ds.traits.length) return { ok: false, es: 'No hay variables respuesta.', en: 'There are no response traits.' };
     return { ok: true };
   }
@@ -183,7 +183,7 @@
       { label: T('Media', 'Mean'), num: true, get: r => (r.missing ? '' : fmtNum(r.mean, 4)) },
       { label: 'σ²G', num: true, get: r => (r.missing ? '' : pm(r.s2g, r.seS2g, 4)) },
     ];
-    if (multi) cols.push({ label: 'σ²GA', num: true, get: r => (r.missing ? '' : pm(r.s2ge, r.seS2ge, 4)) });
+    if (multi) cols.push({ label: T('σ²GA', 'σ²GE'), num: true, get: r => (r.missing ? '' : pm(r.s2ge, r.seS2ge, 4)) });
     cols.push(
       { label: 'σ²e', num: true, get: r => (r.missing ? '' : fmtNum(r.s2e, 4)) },
       { label: T('H² parcela', 'H² plot'), num: true, get: r => (r.missing ? '' : f3(r.h2plot)) },
@@ -193,7 +193,7 @@
     if (res.params.some(p => p.a && p.a.reml)) cols.push({ label: T('H² Cullis (REML)', 'H² Cullis (REML)'), num: true, get: r => (r.a && r.a.reml ? f3(r.a.reml.cullis) : '') });
     cols.push(
       { label: 'CVg %', num: true, get: r => (r.missing ? '' : f2(r.gcv)) },
-      { label: 'CVf %', num: true, get: r => (r.missing ? '' : f2(r.pcv)) },
+      { label: T('CVf %', 'CVp %'), num: true, get: r => (r.missing ? '' : f2(r.pcv)) },
       { label: 'CVe %', num: true, get: r => (r.missing ? '' : f2(r.ecv)) },
       { label: T('AG', 'GA'), num: true, get: r => (r.missing ? '' : fmtNum(r.ga, 4)) },
       { label: T('AG %', 'GA %'), num: true, get: r => (r.missing ? '' : f2(r.gaPct)) },
@@ -525,7 +525,7 @@
       { es: ['Heredabilidad', 'En base de parcela H² = σ²G/(σ²G + σ²GA + σ²e) y en base de medias H² = σ²G/(σ²G + σ²GA/e + σ²e/re) = 1 − CM<sub>GA</sub>/CM<sub>G</sub> (una localidad: 1 − CM<sub>e</sub>/CM<sub>G</sub>). Intervalo exacto de Knapp, Stroup y Ross (1985): (1 − q<sub>F</sub>(1 − α/2)/F, 1 − q<sub>F</sub>(α/2)/F) con F = CM<sub>G</sub>/CM<sub>denominador</sub>. Con bloques incompletos se muestra además la heredabilidad de Cullis, Smith y Coombes (2006) por REML, calculada en el Bloque 3 con el promedio exacto de las varianzas de las diferencias.'],
         en: ['Heritability', 'On a plot basis H² = σ²G/(σ²G + σ²GE + σ²e) and on an entry-mean basis H² = σ²G/(σ²G + σ²GE/e + σ²e/re) = 1 − MS<sub>GE</sub>/MS<sub>G</sub> (one location: 1 − MS<sub>e</sub>/MS<sub>G</sub>). Exact interval of Knapp, Stroup & Ross (1985): (1 − q<sub>F</sub>(1 − α/2)/F, 1 − q<sub>F</sub>(α/2)/F) with F = MS<sub>G</sub>/MS<sub>denominator</sub>. With incomplete blocks the heritability of Cullis, Smith & Coombes (2006) by REML is also shown, computed in Block 3 with the exact mean variance of differences.'] },
       { es: ['Intensidad de selección', 'i = φ(x<sub>p</sub>)/p para la fracción superior p de una población infinita. Cuando se eligen N de M genotipos, la intensidad esperada es la media de los N mayores de M normales, (M/N)∫xφ(x)Pr[Bin(M − 1, 1 − Φ(x)) ≤ N − 1]dx; también se dan las aproximaciones de Burrows (1972) y Bulmer (1980). Varios libros llaman k a la misma cantidad y «intensidad» al porcentaje seleccionado.'],
-        en: ['Selection intensity', 'i = φ(x<sub>p</sub>)/p for the upper fraction p of an infinite population. When N of M genotypes are chosen, the expected intensity is the mean of the N largest of M normals, (M/N)∫xφ(x)Pr[Bin(M − 1, 1 − Φ(x)) ≤ N − 1]dx; the approximations of Burrows (1972) and Bulmer (1980) are given too. Several books call the same quantity k and call the percentage selected the "intensity".'] },
+        en: ['Selection intensity', 'i = φ(x<sub>p</sub>)/p for the upper fraction p of an infinite population. When N of M genotypes are chosen, the expected intensity is the mean of the N largest of M normals, (M/N)∫xφ(x)Pr[Bin(M − 1, 1 − Φ(x)) ≤ N − 1]dx; the approximations of Burrows (1972) and Bulmer (1980) are given too. Several books call the same quantity k and call the percentage selected the “intensity”.'] },
       { es: ['Correlaciones y análisis de sendas', 'Productos cruzados medios por el análisis de la suma de cada par de variables, en el mismo diseño que las variables. Errores estándar por el método delta con los momentos de Wishart; no se usa la aproximación de Robertson, pensada para análisis de hermanos. Sendas: efectos directos p = R⁻¹r, indirectos r<sub>ij</sub>p<sub>j</sub>, R² = p′r y residuo √(1 − R²), con factores de inflación de la varianza, número de condición y regresión en cresta opcional (Carvalho y Cruz 1996).'],
         en: ['Correlations and path analysis', 'Mean cross-products from the analysis of the sum of every pair of traits, in the same design as the traits. Standard errors by the delta method with Wishart moments; Robertson\'s approximation, meant for sib analyses, is not used. Paths: direct effects p = R⁻¹r, indirect r<sub>ij</sub>p<sub>j</sub>, R² = p′r and residual √(1 − R²), with variance-inflation factors, the condition number and optional ridge regression (Carvalho & Cruz 1996).'] },
       { es: ['Índices de selección', 'Smith (1936)–Hazel (1943) b = P⁻¹Gw; índice base b = w (Williams 1962); restringido b<sub>R</sub> = [I − P⁻¹C(C′P⁻¹C)⁻¹C′]b con C = G de las variables restringidas (Kempthorne y Nordskog 1959); ganancias proporcionales de Mallard (1972) y Tallis (1985) con su θ; ganancias deseadas b = P⁻¹G(G′P⁻¹G)⁻¹d (Pesek y Baker 1969); índice propio ESIM (Cerón-Rojas y col. 2006) por el problema propio generalizado; suma de rangos de Mulamba y Mock (1978) y multiplicativo de Elston (1963). Si P no es definida positiva se dobla con el método de Schaeffer (2014); si G no es compatible con P, sus heredabilidades canónicas (valores propios en la escala donde P = I) se llevan al intervalo [0, 1], la idea de Hayes y Hill (1981).'],
@@ -597,7 +597,7 @@
     el('b8Intensity').value = B8.intensity;
     el('b8CorrKind').value = B8.corrKind;
   }
-  /* back to the block that analysed the design; forward to G×E with several environments, to
+  /* back to the block that analyzed the design; forward to G×E with several environments, to
      BLUP with one (Block 9 needs two environments or more) */
   function navigation() {
     const D = state.data, d = D ? D.mating.design : 'none';
@@ -644,7 +644,7 @@
     el('b8Back').addEventListener('click', () => goStep(+el('b8Back').dataset.step || 3));
     el('b8Next').addEventListener('click', () => { const n = +el('b8Next').dataset.step || 9; if (STEPS[n - 1].ready) goStep(n); });
     document.addEventListener('datachange', () => { B8.cache.clear(); B8.env = null; B8.traits = null; B8.setup = {}; B8.fehr = null; if (document.getElementById('panel-8').classList.contains('active')) renderAll(); else B8.built = false; });
-    document.addEventListener('stepchange', e => { if (e.detail.step === 8 && (!B8.built || !B8.res)) { B8.built = true; bpAfterPaint(renderAll, bpWork('Analizando las variables', 'Analysing the traits')); } });
+    document.addEventListener('stepchange', e => { if (e.detail.step === 8 && (!B8.built || !B8.res)) { B8.built = true; bpAfterPaint(renderAll, bpWork('Analizando las variables', 'Analyzing the traits')); } });
     document.addEventListener('langchange', () => { renderNotes(); if (B8.res) renderAll(); });
   }
   document.addEventListener('DOMContentLoaded', init);
