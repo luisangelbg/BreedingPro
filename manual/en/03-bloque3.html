@@ -227,7 +227,7 @@
 
   <!-- ====================================================================== 3.4 -->
   <h2 id="s3-4"><span class="num">3.4</span>The recognized design</h2>
-  <p>The card <span class="ui">3 · Recognised design</span> says which experiment the app believes you have. Six tiles sum it up: the mating design with its degree of confidence (high, medium or low; <i>declared</i> if it came in the declaration line and <i>chosen</i> if you changed it yourself), the entries with their parents and checks, the field design, the environments, the replicates with the plots per environment and the traits. Below, a list explains <b>why</b> each conclusion was reached and points out what is missing or left over.</p>
+  <p>The card <span class="ui">3 · Recognized design</span> says which experiment the app believes you have. Six tiles sum it up: the mating design with its degree of confidence (high, medium or low; <i>declared</i> if it came in the declaration line and <i>chosen</i> if you changed it yourself), the entries with their parents and checks, the field design, the environments, the replicates with the plots per environment and the traits. Below, a list explains <b>why</b> each conclusion was reached and points out what is missing or left over.</p>
 
   <h3>The mating design</h3>
   <p>The app checks the rules of Table 3.2 in order and keeps the first one that holds. In a diallel, the method depends on whether there are parents (at least half of them) and reciprocals (in at least half of the pairs): with both, Method 1; parents only, 2; reciprocals only, 3; neither, 4.</p>
@@ -276,12 +276,12 @@
   <p>If something does not match your experiment, change it in the menus <span class="ui">Mating design</span> (automatic, Griffing Methods 1 to 4, partial diallel, the three North Carolina designs, triple test cross, line × tester, generation means or genotype trial) and <span class="ui">Field design</span> (automatic or one of the seven designs). The change is marked as <i>chosen</i> and everything that follows is recomputed. Typical cases: a North Carolina II that is really a I because each male has its own females, or a trial with row and column that you want to analyze as rows and columns.</p>
 
   <h3>Crosses present, missing entries and recognized entries</h3>
-  <p>The figure <span class="ui">Crosses present in the data</span> draws the table of the design: female × male in diallels and the North Carolina II, male × female in the I, F<sub>2</sub> plant × tester in the III and the triple test cross, line × tester in the line × tester. Each cell is colored by the number of plots or, with <span class="ui">Colour by</span>, by the mean of the trait; parents carry a border, and a cross that the design expects but is not in the data is marked with an ×, with the legend <i>missing from the data</i>.</p>
+  <p>The figure <span class="ui">Crosses present in the data</span> draws the table of the design: female × male in diallels and the North Carolina II, male × female in the I, F<sub>2</sub> plant × tester in the III and the triple test cross, line × tester in the line × tester. Each cell is colored by the number of plots or, with <span class="ui">Color by</span>, by the mean of the trait; parents carry a border, and a cross that the design expects but is not in the data is marked with an ×, with the legend <i>missing from the data</i>.</p>
   <figure class="chica">
     <div class="marco"><img src="../img/en/b3-presencia.png" alt="The female by male table with the crosses present in Method 2"></div>
     <figcaption><b>Figure 3.7.</b> The crosses present in the α-lattice: Method 2 fills the diagonal (parents, with a border) and the upper triangle. Each cross is in 6 plots: 2 replicates × 3 locations.</figcaption>
   </figure>
-  <p>If the design is incomplete, the box <span class="ui">Entries missing from the design</span> lists the missing crosses, parents, reciprocals or generations. At the end, <span class="ui">Recognised entries</span> (folded) lists each entry with its female, its male, its type and its number of records: it is the quickest way to check that the pedigree was read correctly.</p>
+  <p>If the design is incomplete, the box <span class="ui">Entries missing from the design</span> lists the missing crosses, parents, reciprocals or generations. At the end, <span class="ui">Recognized entries</span> (folded) lists each entry with its female, its male, its type and its number of records: it is the quickest way to check that the pedigree was read correctly.</p>
 
   <h3>What is recognized in the examples</h3>
   <p>Table 3.4 serves as a check of the recognition and as a guide to choosing an example similar to your data.</p>
@@ -322,7 +322,7 @@
     <figcaption><b>Figure 3.8.</b> Card 4 with Hayman’s diallel (flowering time). The red dots are the two plots of D × A flagged as outliers; the red frame on the map marks their position, the same in both replicates.</figcaption>
   </figure>
 
-  <p>The <b>distribution by environment</b> is a box plot with the observations on top (they can be hidden) and a diamond at the mean; the values flagged as outliers are painted red. The <b>field map</b> puts each plot in its place: by row and column if the data have them and, if not, in the order of the rows within each replicate. The menu <span class="ui">Colour</span> switches between the <span class="ui">observed value</span> and the <span class="ui">standardised residual</span> of the design model; the latter, on a diverging scale, reveals patches in the land (clustered residuals of the same sign) that the blocks did not absorb. Suspect plots carry a red border in both.</p>
+  <p>The <b>distribution by environment</b> is a box plot with the observations on top (they can be hidden) and a diamond at the mean; the values flagged as outliers are painted red. The <b>field map</b> puts each plot in its place: by row and column if the data have them and, if not, in the order of the rows within each replicate. The menu <span class="ui">Color</span> switches between the <span class="ui">observed value</span> and the <span class="ui">standardized residual</span> of the design model; the latter, on a diverging scale, reveals patches in the land (clustered residuals of the same sign) that the blocks did not absorb. Suspect plots carry a red border in both.</p>
 
   <h3>Outliers</h3>
   <p>Each observation is compared with what the design model predicts (for example, replicate + entry in complete blocks), by means of its externally studentized residual. Two levels: <b>outlier</b>, if the Bonferroni test gives <i>p</i> &lt; 0.05, and <b>check</b>, if |<i>t</i>| ≥ 3.5 without reaching that threshold. The table gives the environment, the entry, the replicate or block, the value, the fitted value, <i>t</i>, <i>p</i> and the rows of the file where it is.</p>
@@ -365,7 +365,7 @@
   </figure>
 
   <h3>The tiles</h3>
-  <p>The tile <span class="ui">Model</span> gives the design and how the means were obtained; <span class="ui">Grand mean</span>, how many plots (or plants, or means) went in. The <span class="ui">Coefficient of variation</span> comes with the error mean square (MSE) and its degrees of freedom; the <span class="ui">LSD (5%)</span>, with the average standard error of a difference between two means. <span class="ui">Trial heritability</span> gives that of Cullis, Smith and Coombes (2006) and the standard one. In designs with incomplete blocks there are also <span class="ui">Efficiency vs complete blocks</span> and the block variance (or those of rows and columns) with that of the error. The colored edge of some tiles sums up the reading: green if the value is good, amber if it is acceptable and red if it is poor.</p>
+  <p>The tile <span class="ui">Model</span> gives the design and how the means were obtained; <span class="ui">Grand mean</span>, how many plots (or plants, or means) went in. The <span class="ui">Coefficient of variation</span> comes with the error mean square (MSE) and its degrees of freedom; the <span class="ui">LSD (5&nbsp;%)</span>, with the average standard error of a difference between two means. <span class="ui">Trial heritability</span> gives that of Cullis, Smith and Coombes (2006) and the standard one. In designs with incomplete blocks there are also <span class="ui">Efficiency vs complete blocks</span> and the block variance (or those of rows and columns) with that of the error. The colored edge of some tiles sums up the reading: green if the value is good, amber if it is acceptable and red if it is poor.</p>
   <p>At Chapultepec, the 120 plots give a mean of 6.961 t/ha, a CV of 8.2% (MSE = 0.3264 with 41 df) and an LSD of 1.255. The entries, adjusted for blocks, differ clearly (<i>F</i> = 11.92 with 59 and 41 df). The estimated block variance, 0.1462, and that of the error, 0.3254, are close to the values used in the simulation (0.20 and 0.36); with only 20 blocks per location, the former is imprecise. The efficiency of 119% means that with complete blocks about 19% more replicates would have been needed to compare the entries with the same precision; without recovering the inter-block information (intra-block analysis) the gain would be only 4%.</p>
 
   <div class="caja teoria">
@@ -451,9 +451,9 @@
       <tr><td><span class="ui">Cleaned data (.csv)</span></td><td>The original table with a column <i>Excluded</i> (1 if the observation was left out)</td></tr>
     </tbody>
   </table>
-  <p>In addition, at the end of card 5, <span class="ui">How is each design analysed?</span> sums up the methods of Sections 3.5 to 3.7 with their references, ready for the materials and methods section of an article; the report of Block 12 includes them in full prose.</p>
+  <p>In addition, at the end of card 5, <span class="ui">How is each design analyzed?</span> sums up the methods of Sections 3.5 to 3.7 with their references, ready for the materials and methods section of an article; the report of Block 12 includes them in full prose.</p>
 
-  <p>The button <span class="ui">Continue</span> at the end changes according to the recognized mating design (Table 3.8); in the example it reads <span class="ui">Continue: Griffing →</span>. <span class="ui">← Plan</span> goes back to Block 2. The other blocks are always one click away in the top bar.</p>
+  <p>The button <span class="ui">Continue</span> at the end changes according to the recognized mating design (Table 3.8); in the example it reads <span class="ui">Continue: Griffing →</span>. <span class="ui">← Plan</span> goes back to Block 2. The other blocks are always one click away in the list of blocks on the left.</p>
   <table class="compacta" style="width:84%">
     <caption><b>Table 3.8.</b> Where the button <span class="ui">Continue</span> leads.</caption>
     <thead><tr><th>Recognized design</th><th style="width:40%">Next block</th></tr></thead>
@@ -472,7 +472,7 @@
     <div class="caja-t"><span class="ico">✓</span>Rule of thumb · before moving on to the genetic blocks</div>
     <table class="compacta"><tbody>
       <tr><td style="width:46%"><b>If</b> a column was left with a wrong role or as <span class="ui">Ignore</span>…</td><td><b>then</b> correct it in card 2: everything else depends on it.</td></tr>
-      <tr><td><b>If</b> the mating design has medium or low confidence…</td><td><b>then</b> read the reasons and check <span class="ui">Recognised entries</span> and the figure of crosses present.</td></tr>
+      <tr><td><b>If</b> the mating design has medium or low confidence…</td><td><b>then</b> read the reasons and check <span class="ui">Recognized entries</span> and the figure of crosses present.</td></tr>
       <tr><td><b>If</b> there are outliers…</td><td><b>then</b> compare them with the field book and exclude only proven errors.</td></tr>
       <tr><td><b>If</b> normality or additivity fail…</td><td><b>then</b> consider transforming the trait before loading it again.</td></tr>
     </tbody></table>

@@ -7,8 +7,6 @@
   const cargar = async id => { goStep(3); await W(500); document.querySelector("[data-fam=\"all\"]").click(); await W(150); document.querySelector(`[data-ex="${id}"]`).click(); for (let k = 0; k < 80; k++) { await W(250); if (B3.results.size && !document.getElementById("b3Analysis").classList.contains("is-busy")) break; } await W(800); };
   await cargar("simAlpha");
   const c = document.getElementById("b3Analysis");
-  /* the combined ANOVA has a seventh column (F against the error): give the left table the room it needs, as in the earlier layout */
-  c.querySelector(".two-col").style.gridTemplateColumns = "1.36fr 1fr"; await W(300);
   irA(c); await W(400);
   caja([document.getElementById("b3AnaTiles"), c.querySelector(".two-col"), document.getElementById("b3AnaMsg")], 10);
 })()

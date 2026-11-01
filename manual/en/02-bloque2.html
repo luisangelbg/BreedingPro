@@ -162,7 +162,7 @@
   <p>The full list of crosses and entries is folded at the end of the card, in <span class="ui">List of crosses and entries</span>, with the number, code, female, male and type of each one, and it is downloaded with <span class="ui">⬇ CSV</span>.</p>
 
   <h3>How many plants per generation</h3>
-  <p>In the generations design each generation is evaluated with a number of plants. The segregating generations vary more than the parents and the F<sub>1</sub>, so with the same number of plants their means are more or less precise according to their variance. The button <span class="ui">Share out to equalise precision</span> distributes a total of plants in proportion to the expected variance of each generation, so that all means have the same standard error (Kearsey, 1980).</p>
+  <p>In the generations design each generation is evaluated with a number of plants. The segregating generations vary more than the parents and the F<sub>1</sub>, so with the same number of plants their means are more or less precise according to their variance. The button <span class="ui">Share out to equalize precision</span> distributes a total of plants in proportion to the expected variance of each generation, so that all means have the same standard error (Kearsey, 1980).</p>
   <div class="formula">V(P<sub>1</sub>) = V(P<sub>2</sub>) = V(F<sub>1</sub>) = E &nbsp;·&nbsp; V(F<sub>2</sub>) = ½D + ¼H + E &nbsp;·&nbsp; V(BC<sub>1</sub>) = V(BC<sub>2</sub>) = ¼D + ¼H + E<br>with D and H derived from the heritability in the F<sub>2</sub> and from the ratio (H/D)<sup>½</sup> you give</div>
   <p>With the default values (600 plants, H² = 0.5 in the F<sub>2</sub> and (H/D)<sup>½</sup> = 0.8) the allocation is 73 plants of each parent and of the F<sub>1</sub>, 146 of F<sub>2</sub> and 118 of each backcross, and the standard errors of the six means fall between 0.079 and 0.080. With the initial allocation of 30 and 100 plants they ranged from 0.086 to 0.124 (Section 2.7).</p>
 
@@ -223,9 +223,9 @@
     <caption><b>Table 2.5.</b> The four field designs. <i>v</i>: entries; <i>r</i>: replicates; <i>s</i>: blocks per replicate; <i>b</i>: blocks and <i>c</i>: checks of the augmented design.</caption>
     <thead><tr><th style="width:24%">Design</th><th>How it is built</th><th style="width:30%">Error degrees of freedom</th></tr></thead>
     <tbody>
-      <tr><td><span class="ui">Randomised complete blocks</span></td><td>Each replicate is a block with all the entries</td><td>(<i>r</i> − 1)(<i>v</i> − 1)</td></tr>
+      <tr><td><span class="ui">Randomized complete blocks</span></td><td>Each replicate is a block with all the entries</td><td>(<i>r</i> − 1)(<i>v</i> − 1)</td></tr>
       <tr><td><span class="ui">Alpha lattice (incomplete blocks)</span></td><td>Each replicate is divided into <i>s</i> blocks of <i>k</i> plots (Patterson and Williams, 1976)</td><td><i>vr</i> − 1 − (<i>v</i> − 1) − (<i>r</i> − 1) − <i>r</i>(<i>s</i> − 1)</td></tr>
-      <tr><td><span class="ui">Completely randomised</span></td><td>All the plots are randomized together</td><td><i>v</i>(<i>r</i> − 1)</td></tr>
+      <tr><td><span class="ui">Completely randomized</span></td><td>All the plots are randomized together</td><td><i>v</i>(<i>r</i> − 1)</td></tr>
       <tr><td><span class="ui">Augmented (repeated checks)</span></td><td>The checks in every block; the new entries only once (Federer, 1956)</td><td>(<i>b</i> − 1)(<i>c</i> − 1)</td></tr>
     </tbody>
   </table>
@@ -309,7 +309,7 @@
   <p>Plot 6 already belongs to replicate 2 and lies in column 7: with the replicates side by side, the first field row crosses the three replicates, and column 6 is the alley between them.</p>
   <h3>The downloads</h3>
   <ul>
-    <li><span class="ui">⬇ Workbook (.xlsx)</span> saves four sheets: <b>FieldBook</b>; <b>Entries</b>, with the seed and pollinations of each one; <b>CrossingBlock</b>, with the plants of each parent; and <b>Design</b>, with the mating and field designs, the replicates, the locations, the random seed, the error degrees of freedom, the efficiency factor and its bound (in the α-lattice) and the date.</li>
+    <li><span class="ui">⬇ Workbook (.xlsx)</span> saves four sheets: <b>Field book</b>; <b>Entries</b>, with the seed and pollinations of each one; <b>Crossing block</b>, with the plants of each parent; and <b>Design</b>, with the mating and field designs, the replicates, the locations, the random seed, the error degrees of freedom, the efficiency factor and its bound (in the α-lattice) and the date.</li>
     <li><span class="ui">⬇ CSV</span> saves the field book only, as UTF-8 text, which spreadsheets open with the accents right.</li>
   </ul>
   <p>With the checkbox <span class="ui">Include the line that describes the design</span> ticked, the first line of both files declares the plan. In the example it reads:</p>
@@ -328,7 +328,7 @@
       <tr><td><span class="ui">Additive CV, σA/mean (%)</span></td><td class="n">10</td><td>Size of the expected additive variation, relative to the mean</td></tr>
       <tr><td><span class="ui">Dominance CV, σD/mean (%)</span></td><td class="n">8</td><td>The same for dominance</td></tr>
       <tr><td><span class="ui">Parental inbreeding (F)</span></td><td class="n">1</td><td>1 for lines; 0.875, 0.75 or 0.5 for S<sub>3</sub>, S<sub>2</sub> or S<sub>1</sub>; 0 for non-inbred plants</td></tr>
-      <tr><td>α · <span class="ui">Target power</span></td><td class="n">0.05 · 80%</td><td>Significance level and power sought</td></tr>
+      <tr><td>α · <span class="ui">Target power</span></td><td class="n">0.05 · 80&nbsp;%</td><td>Significance level and power sought</td></tr>
       <tr><td><span class="ui">Power curve against</span></td><td class="n">parents</td><td>Number of parents (or families) or number of replicates</td></tr>
     </tbody>
   </table>
@@ -404,7 +404,7 @@
 
   <h3>Generations</h3>
   <table class="compacta" style="width:86%">
-    <caption><b>Table 2.13.</b> Standard error of each generation mean, with the initial allocation of plants and with that of the button <span class="ui">Share out to equalise precision</span> (600 plants per location).</caption>
+    <caption><b>Table 2.13.</b> Standard error of each generation mean, with the initial allocation of plants and with that of the button <span class="ui">Share out to equalize precision</span> (600 plants per location).</caption>
     <thead><tr><th>Generation</th><th class="n">Initial plants</th><th class="n">SE</th><th class="n">Plants shared out</th><th class="n">SE</th></tr></thead>
     <tbody>
       <tr><td>P<sub>1</sub>, P<sub>2</sub>, F<sub>1</sub></td><td class="n">30</td><td class="n">0.124</td><td class="n">73</td><td class="n">0.079</td></tr>
