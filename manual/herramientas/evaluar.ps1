@@ -11,7 +11,7 @@ param(
 $ErrorActionPreference = 'Stop'
 $root = Split-Path (Split-Path $PSScriptRoot -Parent) -Parent
 $browser = @("${env:ProgramFiles(x86)}\Microsoft\Edge\Application\msedge.exe", "$env:ProgramFiles\Microsoft\Edge\Application\msedge.exe") | Where-Object { Test-Path $_ } | Select-Object -First 1
-$profileDir = Join-Path $env:TEMP 'breedingpro-eval'
+$profileDir = Join-Path $env:TEMP ('breedingpro-eval-' + $Port)
 $url = 'file:///' + (Join-Path $root $Page).Replace([string][char]92, '/').Replace(' ', '%20')
 $proc = Start-Process -FilePath $browser -PassThru -ArgumentList @('--headless=new', '--disable-gpu', '--no-first-run', '--hide-scrollbars', "--remote-debugging-port=$Port", "--user-data-dir=$profileDir", 'about:blank')
 $script:nextId = 0
