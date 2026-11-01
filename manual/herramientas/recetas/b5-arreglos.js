@@ -7,6 +7,6 @@
   const cargar = async id => { goStep(3); await W(500); document.querySelector("[data-fam=\"all\"]").click(); await W(150); document.querySelector(`[data-ex="${id}"]`).click(); for (let k = 0; k < 80; k++) { await W(250); if (B3.results.size && !document.getElementById("b3Analysis").classList.contains("is-busy")) break; } await W(800); goStep(5); await W(3000); };
   const $ = id => document.getElementById(id);
   await cargar("hayman54");
-  const t = $("b5RegTable"); const g = t.closest(".two-col"); g.style.gridTemplateColumns = "minmax(0, 2fr) minmax(0, 3fr)"; await W(300); irA(g); await W(400);
+  const t = $("b5RegTable"); const g = t.closest(".two-col"); irA(g); await W(400);
   caja([g], 4);
 })()
