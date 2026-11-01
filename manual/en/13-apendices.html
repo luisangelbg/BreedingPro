@@ -160,7 +160,7 @@
     <caption><b>Table A.6.</b> What each block downloads. The figures, the report and the package are described in Sections I.6, 12.3 and 12.6.</caption>
     <thead><tr><th style="width:9%">Block</th><th style="width:25%">File</th><th>Content</th></tr></thead>
     <tbody>
-      <tr><td><span class="chip k2">B2</span></td><td><code>field_book.xlsx</code> · <code>field_book.csv</code> · <code>entries.csv</code></td><td>Sheets <code>FieldBook</code>, <code>Entries</code>, <code>CrossingBlock</code> and <code>Design</code>; the CSV, only the field book, with the declaration line if requested; the list of crosses and entries.</td></tr>
+      <tr><td><span class="chip k2">B2</span></td><td><code>field_book.xlsx</code> · <code>field_book.csv</code> · <code>entries.csv</code></td><td>Sheets <code>Field book</code>, <code>Entries</code>, <code>Crossing block</code> and <code>Design</code>; the CSV, only the field book, with the declaration line if requested; the list of crosses and entries.</td></tr>
       <tr><td><span class="chip k3">B3</span></td><td><code>data_and_design_….xlsx</code> · <code>adjusted_means.csv</code> · <code>cleaned_data.csv</code></td><td>Sheets <code>Means</code>, <code>ANOVA</code>, <code>Quality</code>, <code>Data</code> and <code>Design</code>; the adjusted means by trait and environment; the original table with the <code>Excluded</code> column (Table 3.7).</td></tr>
       <tr><td><span class="chip k3">B3</span></td><td>Data sheet: <span class="ui">Save as</span></td><td><code>.xlsx</code>, <code>.ods</code>, <code>.csv</code> with commas or with semicolons, or <code>.tsv</code>, with the values as they were typed.</td></tr>
       <tr><td><span class="chip k4">B4</span></td><td><code>griffing_….xlsx</code> · <code>griffing_effects.csv</code></td><td>Sheets <code>ANOVA</code>, <code>Effects</code>, <code>Components</code>, <code>Parameters</code>, <code>Crosses</code> and, if the methods were compared, <code>Comparison</code>; the CSV, the effects with their standard errors.</td></tr>
@@ -201,13 +201,13 @@
   <div class="caja regla">
     <div class="caja-t"><span class="ico">✓</span>Decision rule · which block to use<span class="sec-ref">Section I.8</span></div>
     <table class="compacta"><tbody>
-      <tr><td style="width:44%"><b>If</b> the table has female and male from a group of parents crossed among themselves…</td><td><b>then</b> Griffing (4), Hayman–Jinks (5) and parameters (8).</td></tr>
+      <tr><td style="width:44%"><b>If</b> the table has the female and male of a group of parents crossed among themselves…</td><td><b>then</b> Griffing (4), Hayman–Jinks (5) and parameters (8).</td></tr>
       <tr><td><b>If</b> males and females are different groups (NC, L × T) or the diallel is partial…</td><td><b>then</b> mating designs (6) and parameters (8).</td></tr>
       <tr><td><b>If</b> there is a generation column (P₁, P₂, F₁, F₂…)…</td><td><b>then</b> generations (7).</td></tr>
       <tr><td><b>If</b> they are genotypes in several locations or years…</td><td><b>then</b> parameters (8), stability (9) and, with a pedigree, BLUP (10).</td></tr>
       <tr><td><b>If</b> you have a pedigree or markers…</td><td><b>then</b> BLUP (10) or genomics (11).</td></tr>
     </tbody></table>
-    <p class="regla-pie">Block 3 makes this choice for you when it recognizes the design and shows it in card <span class="ui">3 · Recognised design</span>.</p>
+    <p class="regla-pie">Block 3 makes this choice for you when it recognizes the design, and states it on the <span class="ui">3 · Recognized design</span> card.</p>
   </div>
 
   <div class="caja regla">
@@ -226,15 +226,15 @@
   <div class="caja regla">
     <div class="caja-t"><span class="ico">✓</span>Decision rule · how the app words the interpretation<span class="sec-ref">Section 1.2</span></div>
     <table class="compacta"><tbody>
-      <tr><td style="width:47%"><b>If</b> b does not differ from 1 (|t| below the 5% critical value with <i>p</i> − 2 degrees of freedom)…</td><td><b>then</b> the additive–dominance model holds.</td></tr>
+      <tr><td style="width:47%"><b>If</b> b does not differ from 1 (|t| smaller than the critical value at 5% with <i>p</i> − 2 degrees of freedom)…</td><td><b>then</b> the additive–dominance model holds.</td></tr>
       <tr><td><b>If</b> b departs from 1…</td><td><b>then</b> there is non-allelic interaction or another broken assumption, and the components are biased.</td></tr>
       <tr><td><b>If</b> (H<sub>1</sub>/D)<sup>½</sup> &lt; 0.25…</td><td><b>then</b> gene action is practically additive.</td></tr>
       <tr><td><b>If</b> the intercept of the line is positive and significant…</td><td><b>then</b> partial dominance.</td></tr>
       <tr><td><b>If</b> it is negative and significant…</td><td><b>then</b> overdominance.</td></tr>
-      <tr><td><b>If</b> it does not differ from zero and (H<sub>1</sub>/D)<sup>½</sup> is between 0.8 and 1.2…</td><td><b>then</b> complete dominance. Outside that interval, the app warns that the intercept test has little power (practice 4).</td></tr>
+      <tr><td><b>If</b> it does not differ from zero and (H<sub>1</sub>/D)<sup>½</sup> is between 0.8 and 1.2…</td><td><b>then</b> complete dominance. Outside that interval, the app warns that the intercept test has little power (Exercise 4).</td></tr>
       <tr><td><b>If</b> r(Yr, Wr + Vr) &lt; −0.3 · &gt; 0.3…</td><td><b>then</b> the dominant · recessive alleles increase the trait; between both values the direction is unclear.</td></tr>
     </tbody></table>
-    <p class="regla-pie">The app also names the two parents closest to the origin: they are the ones carrying the most dominant alleles.</p>
+    <p class="regla-pie">The app also names the two parents closest to the origin: they are the ones that carry the most dominant alleles.</p>
   </div>
 
   <h3 class="ap-cap"><span class="chip k2">B2</span>Planning crosses, trial and power</h3>
@@ -243,7 +243,7 @@
     <div class="caja-t"><span class="ico">✓</span>Decision rule · which field design to use<span class="sec-ref">Section 2.4</span></div>
     <table class="compacta"><tbody>
       <tr><td style="width:46%"><b>If</b> there are few entries (up to 15 or 20) and the land is uniform over the size of a replicate…</td><td><b>then</b> randomized complete blocks.</td></tr>
-      <tr><td><b>If</b> there are many entries and a complete replicate no longer fits on homogeneous soil…</td><td><b>then</b> α-lattice, with blocks of a size close to √<i>v</i>.</td></tr>
+      <tr><td><b>If</b> there are many entries and a full replicate no longer fits on homogeneous soil…</td><td><b>then</b> α-lattice, with blocks of a size close to √<i>v</i>.</td></tr>
       <tr><td><b>If</b> there are many new entries and seed for a single plot of each…</td><td><b>then</b> augmented, with at least two checks and 12 or more error degrees of freedom.</td></tr>
       <tr><td><b>If</b> the plots are pots or homogeneous units (greenhouse, laboratory)…</td><td><b>then</b> completely randomized.</td></tr>
     </tbody></table>
@@ -255,24 +255,24 @@
   <div class="caja regla">
     <div class="caja-t"><span class="ico">✓</span>Reading rule · the quality of the trial<span class="sec-ref">Section 3.6</span></div>
     <table class="compacta">
-      <thead><tr><th style="width:36%">Test</th><th style="width:26%">Good</th><th>To check</th></tr></thead>
+      <thead><tr><th style="width:36%">Test</th><th style="width:26%">Fine</th><th>To check</th></tr></thead>
       <tbody>
-        <tr><td><b>Normality</b> of the residuals (Shapiro–Wilk)</td><td>p ≥ 0.05: holds</td><td>p &lt; 0.05: check the Q–Q plot</td></tr>
-        <tr><td><b>Additivity</b> replicate × entry (Tukey, 1 df)</td><td>p ≥ 0.05: additive</td><td>p &lt; 0.05: not additive; try a transformation</td></tr>
-        <tr><td><b>Outliers</b> (Bonferroni)</td><td>none</td><td>there are some: check them in card 4</td></tr>
+        <tr><td><b>Normality</b> of residuals (Shapiro–Wilk)</td><td>p ≥ 0.05: holds</td><td>p &lt; 0.05: check the Q–Q plot</td></tr>
+        <tr><td>Replicate × entry <b>additivity</b> (Tukey, 1 df)</td><td>p ≥ 0.05: additive</td><td>p &lt; 0.05: non-additive: try a transformation</td></tr>
+        <tr><td><b>Outliers</b> (Bonferroni)</td><td>none</td><td>some: review in card 4</td></tr>
         <tr><td><b>Repeatability</b> (H²<sub>c</sub>)</td><td>≥ 0.5: informative trial</td><td>0.3 to 0.5: moderate; &lt; 0.3: low</td></tr>
         <tr><td><b>Precision</b> (CV)</td><td>≤ 12%: good</td><td>12 to 20%: acceptable; &gt; 20%: low</td></tr>
-        <tr><td><b>Gain</b> from incomplete blocks</td><td>≥ 5%: the blocks helped</td><td>&lt; 5%: little gain</td></tr>
+        <tr><td><b>Gain</b> from incomplete blocks</td><td>≥ 5%: blocks helped</td><td>&lt; 5%: little gain</td></tr>
       </tbody>
     </table>
     <p class="regla-pie">The CV limits are indicative: they depend on the crop and the trait. If Bartlett’s test of the combined analysis gives p &lt; 0.05, use the two-stage analysis of Block 9.</p>
   </div>
 
   <div class="caja regla">
-    <div class="caja-t"><span class="ico">✓</span>Practical rule · before moving on to the genetic blocks<span class="sec-ref">Section 3.9</span></div>
+    <div class="caja-t"><span class="ico">✓</span>Rule of thumb · before moving on to the genetic blocks<span class="sec-ref">Section 3.9</span></div>
     <table class="compacta"><tbody>
-      <tr><td style="width:46%"><b>If</b> a column ended up with the wrong role or on <span class="ui">Ignore</span>…</td><td><b>then</b> correct it in card 2: everything else depends on it.</td></tr>
-      <tr><td><b>If</b> the mating design has medium or low confidence…</td><td><b>then</b> read the reasons and check <span class="ui">Recognised entries</span> and the figure of crosses present.</td></tr>
+      <tr><td style="width:46%"><b>If</b> a column was left with a wrong role or as <span class="ui">Ignore</span>…</td><td><b>then</b> correct it in card 2: everything else depends on it.</td></tr>
+      <tr><td><b>If</b> the mating design has medium or low confidence…</td><td><b>then</b> read the reasons and check <span class="ui">Recognized entries</span> and the figure of crosses present.</td></tr>
       <tr><td><b>If</b> there are outliers…</td><td><b>then</b> compare them with the field book and exclude only proven errors.</td></tr>
       <tr><td><b>If</b> normality or additivity fail…</td><td><b>then</b> consider transforming the trait before loading it again.</td></tr>
     </tbody></table>
@@ -668,7 +668,7 @@
     <thead><tr><th style="width:27%">Symptom or message</th><th style="width:27%">Cause</th><th>What to do</th><th style="width:7%" class="c">See</th></tr></thead>
     <tbody>
       <tr><td>“The entries column (genotype, cross or parents) is missing.” Cards 3 to 5 do not appear.</td><td>No column has the entry role, nor those of female and male.</td><td>In card 2, give the role <span class="ui">Entry / genotype</span> to the names column, or <span class="ui">Female / line / parent 1</span> and <span class="ui">Male / tester / parent 2</span> to the pedigree columns.</td><td class="c">3.3</td></tr>
-      <tr><td>“There is no response trait: mark at least one numeric column as "Response trait".”</td><td>The data columns were read as text or given another role.</td><td>Check the decimal separator and any text inside the numbers; mark the traits.</td><td class="c">3.3</td></tr>
+      <tr><td>“There is no response trait: mark at least one numeric column as “Response trait”.”</td><td>The data columns were read as text or given another role.</td><td>Check the decimal separator and any text inside the numbers; mark the traits.</td><td class="c">3.3</td></tr>
       <tr><td>A column of lot, furrow or code numbers appears as a trait.</td><td>Its name is not recognized and 90% or more of its cells are numbers.</td><td>Switch it to <span class="ui">Ignore</span>.</td><td class="c">3.3</td></tr>
       <tr><td>Card 2 warns of non-numeric values in a trait.</td><td>Cells such as <code>12.5a</code> or notes written next to the datum: they are taken as missing.</td><td><span class="ui">Correct in the data sheet</span>, fix the value and <span class="ui">Use these data →</span>.</td><td class="c">3.2</td></tr>
       <tr><td>Decimals are misread: <code>12,5</code> as text or as 125.</td><td>The column mixes decimal comma and point, or a comma-separated CSV carries decimal commas.</td><td>Choose the <span class="ui">Decimal separator</span>, or save the CSV with semicolons.</td><td class="c">3.3</td></tr>
@@ -684,7 +684,7 @@
     <caption><b>Table D.3.</b> Problems with the design and the analysis of each environment.</caption>
     <thead><tr><th style="width:27%">Symptom or message</th><th style="width:27%">Cause</th><th>What to do</th><th style="width:7%" class="c">See</th></tr></thead>
     <tbody>
-      <tr><td>The mating design comes out with medium or low confidence.</td><td>Entries of the complete design are missing, the partial diallel is not circulant, crosses of the factorial are missing, the females of a North Carolina II repeat codes across males or there are fewer than 20 F<sub>2</sub> plants.</td><td>Read the reasons, check <span class="ui">Recognised entries</span> and, if needed, choose the design in the <span class="ui">Mating design</span> menu.</td><td class="c">3.4</td></tr>
+      <tr><td>The mating design comes out with medium or low confidence.</td><td>Entries of the complete design are missing, the partial diallel is not circulant, crosses of the factorial are missing, the females of a North Carolina II repeat codes across males or there are fewer than 20 F<sub>2</sub> plants.</td><td>Read the reasons, check <span class="ui">Recognized entries</span> and, if needed, choose the design in the <span class="ui">Mating design</span> menu.</td><td class="c">3.4</td></tr>
       <tr><td>A North Carolina I is recognized as II.</td><td>The females of each male repeat codes with those of other males.</td><td>Choose <span class="ui">North Carolina I</span> in the menu, or give the females unique codes.</td><td class="c">3.4</td></tr>
       <tr><td>“{n} plots hold more than one entry (e.g., plot {k}).”</td><td>A data-entry error in the plot or entry column.</td><td>Correct the data: a plot cannot have two entries.</td><td class="c">3.4</td></tr>
       <tr><td>The row–column design is not used even though the data have row and column.</td><td>It is never chosen on its own.</td><td>Choose <span class="ui">Rows and columns</span> in the <span class="ui">Field design</span> menu.</td><td class="c">3.4</td></tr>
@@ -938,10 +938,10 @@
     <caption><b>Table F.2.</b> Published color palettes and scales offered by the figure editor.</caption>
     <thead><tr><th style="width:25%">Resource</th><th style="width:27%">Authorship</th><th style="width:23%">Terms</th><th>In the editor</th></tr></thead>
     <tbody>
-      <tr><td><b>Color-blind-safe palette</b></td><td>Okabe and Ito (2008): eight colors; the app adds a gray and a dark brown.</td><td>Freely accessible guide; the app and the manual cite its authors.</td><td><span class="ui">Okabe &amp; Ito 2008 (colour-blind safe)</span></td></tr>
-      <tr><td><b>Qualitative color schemes</b></td><td>Tol (2021): <i>bright</i> scheme plus black and two colors of the <i>vibrant</i> scheme.</td><td>Freely accessible technical note; the author is cited.</td><td><span class="ui">Tol 2021 (colour-blind safe)</span></td></tr>
+      <tr><td><b>Color-blind-safe palette</b></td><td>Okabe and Ito (2008): eight colors; the app adds a gray and a dark brown.</td><td>Freely accessible guide; the app and the manual cite its authors.</td><td><span class="ui">Okabe &amp; Ito 2008 (color-blind safe)</span></td></tr>
+      <tr><td><b>Qualitative color schemes</b></td><td>Tol (2021): <i>bright</i> scheme plus black and two colors of the <i>vibrant</i> scheme.</td><td>Freely accessible technical note; the author is cited.</td><td><span class="ui">Tol 2021 (color-blind safe)</span></td></tr>
       <tr><td><b>Viridis, Magma, Inferno and Plasma scales</b></td><td>Nathaniel J. Smith and Stéfan van der Walt; Viridis also with Eric Firing (2015).</td><td>Dedicated to the public domain (CC0 1.0); their authors appreciate credit.</td><td>Continuous scales of the heat maps, with five colors of each.</td></tr>
-      <tr><td><b>Cividis scale</b></td><td>Núñez, Anderton and Renslow (2018).</td><td>Open-access paper (CC BY 4.0); it is cited.</td><td><span class="ui">Cividis (colour-blind safe)</span></td></tr>
+      <tr><td><b>Cividis scale</b></td><td>Núñez, Anderton and Renslow (2018).</td><td>Open-access paper (CC BY 4.0); it is cited.</td><td><span class="ui">Cividis (color-blind safe)</span></td></tr>
     </tbody>
   </table>
   <p>The other thirteen qualitative palettes of the editor, such as <span class="ui">Purple maize (BreedingPro)</span> or <span class="ui">Harvest</span>, and the eight scales of Figure F.1 are the app’s own.</p>
@@ -999,8 +999,8 @@
   <p><b>Manual resources.</b> The typefaces Cormorant, Crimson Pro and Jost (Christian Thalmann, Jacques Le Bailly and Owen Earl) are under the SIL Open Font License (OFL) 1.1; the app uses no external typefaces. The illustrations and diagrams are original, and the screenshots come from the app itself.</p>
 
   <h3>How to cite</h3>
-  <div class="cita">Barrera-Guzmán, L. Á. (2026). <i>BreedingPro: a browser-based platform for diallel crosses, mating designs, genetic parameters and prediction in plant and animal breeding</i> (Version 1.0.1) [Computer software]. https://doi.org/10.5281/zenodo.23005938</div>
-  <div class="cita">Barrera-Guzmán, L. Á. (2026). <i>BreedingPro: User’s Manual</i> (1st English ed.). Distributed with BreedingPro, version 1.0.1. https://doi.org/10.5281/zenodo.23005938</div>
+  <div class="cita">Barrera-Guzmán, L.Á. (2026). <i>BreedingPro: a browser-based platform for diallel crosses, mating designs, genetic parameters and prediction in plant and animal breeding</i> (Version 1.0.1) [Computer software]. https://doi.org/10.5281/zenodo.23005938</div>
+  <div class="cita">Barrera-Guzmán, L.Á. (2026). <i>BreedingPro: User’s Manual</i> (1st English ed.). Distributed with BreedingPro, version 1.0.1. https://doi.org/10.5281/zenodo.23005938</div>
   <p class="small">The citation of the program is the one given by the <span class="ui">How to cite</span> section of the app’s home page and card <span class="ui">4 · How to cite</span> of Block 12, and the one that closes every Block 12 report in English. The DOI is the concept DOI: it always leads to the most recent version. Each archived version also has its own (version 1.0.0, 10.5281/zenodo.23005939).</p>
 
 </section>
