@@ -28,8 +28,8 @@
   table.comparacion { font-size: 8pt; }
   table.comparacion td:first-child { font-size: 8pt; }
   .rejilla.plan { grid-template-columns: 0.82fr 1fr; }
-  table.libreta { font-size: 7.8pt; }
-  table.libreta td, table.libreta th { padding: 0.03in 0.045in; white-space: nowrap; }
+  table.libreta { font-size: 7.4pt; }
+  table.libreta td, table.libreta th { padding: 0.03in 0.035in; white-space: nowrap; }
   .formula { font-family: var(--sans); font-size: 9pt; background: #f6f3fa; border-radius: 4px; padding: 0.07in 0.12in; margin: 0.06in 0 0.12in; line-height: 1.6; }
   code.meta { display: block; font-size: 7.6pt; white-space: normal; word-break: normal; background: #f6f3fa; padding: 0.06in 0.1in; border-radius: 4px; margin: 0.04in 0 0.12in; }
   figure.angosta .marco { width: 58%; margin: 0 auto; }
@@ -494,7 +494,7 @@
   /* ---------------------------------------------------------------- author */
   const au = el('g', { 'text-anchor': 'middle' });
   el('text', { x: W / 2, y: 1040, fill: INK, 'font-family': 'Cormorant, serif', 'font-size': 33, 'font-weight': 600, 'letter-spacing': 1.4 }, au, 'Luis Ángel Barrera-Guzmán');
-  el('text', { x: W / 2, y: 1068, fill: GRIS, 'font-family': 'Jost, sans-serif', 'font-size': 10.5, 'font-weight': 400, 'letter-spacing': 4 }, au, 'VERSIÓN 1.0 · VERSION 1.0 · 2026');
+  el('text', { x: W / 2, y: 1068, fill: GRIS, 'font-family': 'Jost, sans-serif', 'font-size': 10.5, 'font-weight': 400, 'letter-spacing': 4 }, au, 'VERSIÓN 1.0.1 · VERSION 1.0.1 · 2026');
 })();
 </script>
 
@@ -516,9 +516,9 @@
   </dl>
 
   <h4>Cómo citar el programa</h4>
-  <div class="cita">Barrera-Guzmán, L. Á. (2026). <i>BreedingPro: plataforma en el navegador para el análisis de cruzas dialélicas, diseños de apareamiento, parámetros genéticos y predicción en el mejoramiento de plantas y animales</i> (versión 1.0.1) [Programa de cómputo]. https://doi.org/10.5281/zenodo.23005938</div>
+  <div class="cita">Barrera-Guzmán, L.Á. (2026). <i>BreedingPro: plataforma en el navegador para el análisis de cruzas dialélicas, diseños de apareamiento, parámetros genéticos y predicción en el mejoramiento de plantas y animales</i> (versión 1.0.1) [software]. https://doi.org/10.5281/zenodo.23005938</div>
   <h4>Cómo citar este manual</h4>
-  <div class="cita">Barrera-Guzmán, L. Á. (2026). <i>BreedingPro. Manual de usuario</i> (1.ª ed.). Distribuido con BreedingPro, versión 1.0.1. https://doi.org/10.5281/zenodo.23005938</div>
+  <div class="cita">Barrera-Guzmán, L.Á. (2026). <i>BreedingPro. Manual de usuario</i> (1.ª ed.). Distribuido con BreedingPro, versión 1.0.1. https://doi.org/10.5281/zenodo.23005938</div>
   <p class="small">Ese identificador de objeto digital (DOI) es el del concepto: siempre lleva a la versión más reciente. Cada versión archivada tiene además el suyo (la 1.0.0, 10.5281/zenodo.23005939). La cita del programa aparece también al final de cada informe del Bloque 12 y en la sección <span class="ui">Cómo citar</span> de la portada de la app.</p>
 
   <div class="caja nota">
@@ -571,7 +571,7 @@
 <!-- ====================================================================== CÓMO LEER ESTE MANUAL -->
 <section class="preliminares" id="como-leer" data-nueva-hoja style="--acento: var(--b0)">
   <h2 style="margin-top:0.2in">Cómo leer este manual</h2>
-  <p class="lead">El manual sigue el mismo orden que la app: doce bloques numerados que se recorren de izquierda a derecha en la barra superior. Cada capítulo explica un bloque y lleva su mismo número: el capítulo 3 es el Bloque 3, y sus secciones, figuras y tablas se numeran 3.1, 3.2… Empieza con la teoría indispensable, describe lo que calcula y cómo leerlo, y termina con ejemplos paso a paso con los datos que ya vienen dentro del programa. La introducción va antes de los bloques y se numera aparte: I.1, I.2…</p>
+  <p class="lead">El manual sigue el mismo orden que la app: doce bloques numerados que aparecen, de arriba abajo, en la lista de la izquierda. Cada capítulo explica un bloque y lleva su mismo número: el capítulo 3 es el Bloque 3, y sus secciones, figuras y tablas se numeran 3.1, 3.2… Empieza con la teoría indispensable, describe lo que calcula y cómo leerlo, y termina con ejemplos paso a paso con los datos que ya vienen dentro del programa. La introducción va antes de los bloques y se numera aparte: I.1, I.2…</p>
 
   <h3>Un color para cada bloque</h3>
   <p>El color del bloque aparece en la apertura de su capítulo, en los números de sección, en la pestaña del borde de la hoja y en el índice, y es el mismo de la franja de la portada. Así sabes de un vistazo en qué parte de la app estás.</p>
@@ -891,7 +891,7 @@
   </div>
 
   <!-- 1.5 -->
-  <h2 id="si-5"><span class="num">I.5</span>Qué necesitas y cómo abrir el programa</h2>
+  <h2 id="si-5"><span class="num">I.5</span>Qué necesitas y cómo abrirlo</h2>
   <div class="dos">
     <div>
       <h4>Requisitos</h4>
@@ -935,36 +935,42 @@
 
   <!-- 1.6 -->
   <h2 id="si-6"><span class="num">I.6</span>Recorrido por la interfaz</h2>
-  <p>La barra superior acompaña a todos los bloques. Debajo, cada bloque ocupa una sola página que se lee de arriba abajo.</p>
-  <figure class="reducida">
+  <p>La barra superior y los dos paneles laterales acompañan a todos los bloques: a la izquierda, la lista de los doce bloques; a la derecha, el índice del bloque en que estás. En medio, cada bloque ocupa una sola página que se lee de arriba abajo.</p>
+  <figure class="media">
     <div class="marco" style="position:relative">
-      <img src="../img/inicio.png" alt="Portada de BreedingPro con la barra de bloques">
-      <span class="marca" style="left:4.4%;top:3.2%">1</span>
-      <span class="marca" style="left:4.4%;top:10.2%">2</span>
-      <span class="marca" style="left:76.6%;top:3.2%">3</span>
-      <span class="marca" style="left:93.8%;top:8.8%">4</span>
-      <span class="marca" style="left:7%;top:62.7%">5</span>
-      <span class="marca" style="left:7%;top:79.2%">6</span>
-      <span class="marca" style="left:57.5%;top:29.6%">7</span>
+      <img src="../img/inicio.png" alt="Portada de BreedingPro con la barra superior, la lista de bloques a la izquierda y el índice del bloque a la derecha">
+      <span class="marca" style="left:34%;top:2.6%">1</span>
+      <span class="marca" style="left:10%;top:17%">2</span>
+      <span class="marca" style="left:83.8%;top:6%">3</span>
+      <span class="marca" style="left:89.5%;top:6%">4</span>
+      <span class="marca" style="left:34%;top:77%">5</span>
+      <span class="marca" style="left:42%;top:88.5%">6</span>
+      <span class="marca" style="left:66%;top:39.6%">7</span>
+      <span class="marca" style="left:95%;top:12%">8</span>
+      <span class="marca" style="left:52%;top:7.6%">9</span>
+      <span class="marca" style="left:13%;top:93.3%">10</span>
     </div>
-    <figcaption><b>Figura I.3.</b> La portada de la app (Bloque 1) con la barra de bloques.</figcaption>
-  </figure>
-  <ul class="leyenda-marcas">
-    <li><span class="n">1</span>Nombre del programa: un clic regresa a la portada.</li>
-    <li><span class="n">2</span>La barra de los doce bloques. El bloque activo se resalta; cualquiera se abre con un clic.</li>
+    <figcaption><b>Figura I.3.</b> La portada de la app (Bloque 1) con la barra superior y los dos paneles laterales.</figcaption>
+    <ul class="leyenda-marcas">
+    <li><span class="n">1</span>Nombre del programa: un clic regresa a la portada; <span class="ui">LABG Suite</span> lleva al portal de la suite.</li>
+    <li><span class="n">2</span>La lista de los doce bloques. El bloque activo se resalta; cualquiera se abre con un clic.</li>
     <li><span class="n">3</span><span class="ui">ES</span> · <span class="ui">EN</span>: cambia el idioma de toda la app, incluidas las figuras y los informes.</li>
-    <li><span class="n">4</span>Tema claro u oscuro. Las figuras exportadas conservan su propio fondo.</li>
+    <li><span class="n">4</span>Tema claro u oscuro; luego, animaciones, reportar un problema y atajos de teclado.</li>
     <li><span class="n">5</span>Empezar con tus datos, probar los laboratorios, leer la teoría o ver cómo citar.</li>
     <li><span class="n">6</span>Lo que la app garantiza: sin instalar, sin enviar datos, dos idiomas, cruzas perdidas y figuras hasta 900 ppp.</li>
     <li><span class="n">7</span>Ilustración viva: un dialelo con sus ACG y ACE, un gráfico Wr–Vr y la respuesta a la selección.</li>
+    <li><span class="n">8</span><span class="ui">En este bloque</span>: las secciones del bloque, a un clic.</li>
+    <li><span class="n">9</span>Dónde estás (programa › bloque › sección), los modos <span class="ui">Documento</span> y <span class="ui">Enfocado</span> y la búsqueda (<span class="ui">Ctrl K</span>).</li>
+    <li><span class="n">10</span><span class="ui">Buscar</span>, <span class="ui">Modo enfocado</span> y <span class="ui">Ayuda</span>.</li>
   </ul>
+  </figure>
 
   <h3>La página de un bloque</h3>
   <p>Todos los bloques de análisis comparten la misma organización, así que basta aprenderla una vez:</p>
   <table>
     <thead><tr><th style="width:24%">Parte</th><th>Qué contiene</th></tr></thead>
     <tbody>
-      <tr><td><b>Tarjetas numeradas</b></td><td>Cada bloque se divide en tarjetas (<span class="ui">1 · Datos y modelo</span>, <span class="ui">2 · Análisis de varianza</span>…). Las primeras piden los ajustes y las siguientes muestran los resultados.</td></tr>
+      <tr><td><b>Tarjetas numeradas</b></td><td>Cada bloque se divide en tarjetas (<span class="ui">1 · Datos y modelo</span>, <span class="ui">2 · Análisis de varianza</span>…). Las primeras piden los ajustes y las siguientes muestran los resultados. En el modo <span class="ui">Enfocado</span> se ve una sola sección a la vez.</td></tr>
       <tr><td><b>Mensajes de color</b></td><td>Morado informa, verde confirma, ámbar advierte y rojo detiene: por ejemplo, un diseño que no admite el análisis o una varianza que se estimó negativa.</td></tr>
       <tr><td><b>Recuadros de resumen</b></td><td>Los números principales en grande, con una línea de contexto debajo.</td></tr>
       <tr><td><b>Tablas</b></td><td>Con los valores P y sus asteriscos. Las tablas largas muestran las primeras filas y descargan todas.</td></tr>
@@ -978,31 +984,33 @@
   </figure>
 
   <h3>El editor de figuras</h3>
-  <p>Cada figura tiene debajo un editor plegado. Todo cambio redibuja la figura al instante, y el estilo que elijas (tema, letra, tamaños) se recuerda para las demás figuras de todos los bloques.</p>
+  <p>Cada figura tiene debajo un editor plegado. Todo cambio redibuja la figura al instante, y el estilo que elijas (tema, letra, tamaños) se recuerda para las demás figuras de todos los bloques. El botón <span class="ui">✎</span> de arriba de la figura abre un editor más completo de títulos, ejes, series, leyenda, textos y anotaciones, y el ícono de la derecha de la tarjeta la abre en el estudio de figuras, con la pantalla dividida para editarla y exportarla.</p>
   <figure class="media">
     <div class="marco" style="position:relative">
       <img src="../img/figura.png" alt="Figura de efectos de ACG del Bloque 4 con su editor abierto">
-      <span class="marca" style="left:36.5%;top:21.5%">1</span>
-      <span class="marca" style="left:9.6%;top:67.2%">2</span>
-      <span class="marca" style="left:31.8%;top:71.6%">3</span>
-      <span class="marca" style="left:9.6%;top:81%">4</span>
-      <span class="marca" style="left:26%;top:89.6%">5</span>
-      <span class="marca" style="left:57.4%;top:92.2%">6</span>
+      <span class="marca" style="left:65%;top:21.1%">1</span>
+      <span class="marca" style="left:31%;top:62.2%">2</span>
+      <span class="marca" style="left:27.5%;top:66.5%">3</span>
+      <span class="marca" style="left:17%;top:78.5%">4</span>
+      <span class="marca" style="left:41.5%;top:87.4%">5</span>
+      <span class="marca" style="left:95%;top:85%">6</span>
+      <span class="marca" style="left:70.5%;top:4.8%">7</span>
     </div>
     <figcaption><b>Figura I.5.</b> La figura de los efectos de ACG del Bloque 4 con su editor abierto.</figcaption>
-  </figure>
-  <ul class="leyenda-marcas">
+    <ul class="leyenda-marcas">
     <li><span class="n">1</span>La figura, con asteriscos de significancia e intervalos de confianza.</li>
-    <li><span class="n">2</span><span class="ui">Editar figura</span> abre y cierra el editor.</li>
+    <li><span class="n">2</span><span class="ui">Editar figura: títulos, colores, letras, tamaños</span> abre y cierra el editor.</li>
     <li><span class="n">3</span>Dos pestañas: <span class="ui">Contenido y colores</span> y <span class="ui">Estilo y tipografía</span>.</li>
     <li><span class="n">4</span>Opciones propias de la figura: girar los ejes, estilo, orden, bandas e intervalos.</li>
     <li><span class="n">5</span>Paleta de colores; la segunda pestaña cambia tema, letra y tamaños.</li>
     <li><span class="n">6</span>Formato (PNG, TIFF, SVG, JPG o WEBP), resolución hasta 900 ppp, fondo y descarga, con el tamaño en píxeles y centímetros.</li>
+    <li><span class="n">7</span><span class="ui">✎</span> abre el editor completo de la figura; el ícono de la derecha abre el estudio de figuras.</li>
   </ul>
+  </figure>
 
   <h3>Idioma y tema</h3>
   <p>El botón <span class="ui">EN</span> cambia al inglés toda la app: los textos, las tablas, los títulos y ejes de las figuras y el informe del Bloque 12. Así puedes preparar las figuras de un artículo en inglés sin volver a analizar. El tema oscuro descansa la vista en sesiones largas; las figuras conservan su propio fondo blanco para exportarlas.</p>
-  <figure class="reducida">
+  <figure class="reducida" style="width:64%">
     <div class="marco"><img src="../img/figura-oscuro-en.png" alt="La misma figura con la app en inglés y tema oscuro"></div>
     <figcaption><b>Figura I.6.</b> La misma figura de la figura I.5 con la app en inglés y en tema oscuro.</figcaption>
   </figure>
@@ -1048,7 +1056,7 @@
     <ol class="pasos" style="margin-bottom:0">
       <li>Abre la app y pulsa <span class="ui">Empezar con mis datos →</span>.</li>
       <li>En <span class="ui">Ejemplos publicados y simulados</span>, pulsa <span class="ui">Cargar</span> en <span class="ui">Dialelo completo 8 × 8 (libro de texto)</span>. La app reconoce un dialelo del método 1 de Griffing con 8 progenitores, 64 entradas y 4 repeticiones en bloques completos al azar.</li>
-      <li>Revisa el diseño reconocido y la calidad de los datos, y pulsa <span class="ui">4 Griffing</span> en la barra de bloques.</li>
+      <li>Revisa el diseño reconocido y la calidad de los datos, y haz clic en <span class="ui">Griffing</span> (4) en la lista de bloques.</li>
       <li>En la tarjeta <span class="ui">2 · Análisis de varianza del dialelo</span> verás que la ACG (F = 18.89) y la ACE (F = 27.38) son significativas (P &lt; 0.0001) y los efectos recíprocos no (P = 0.99), como en la figura I.4. En <span class="ui">3 · Efectos</span>, los progenitores 3 y 7 tienen las mayores ACG (9.03 y 7.24), que se ven también en la figura I.5.</li>
     </ol>
   </div>
@@ -1180,7 +1188,7 @@
 
   <!-- ====================================================================== 1.1 -->
   <h2 id="s1-1"><span class="num">1.1</span>La portada de la app</h2>
-  <p class="lead">Al abrir <code>index.html</code> aparece el Bloque 1. Se lee de arriba abajo, como un folleto: primero qué hace el programa y cómo se recorre, luego dos laboratorios para experimentar, el mapa de los once bloques de análisis, los métodos, la teoría y, al final, cómo citarlo.</p>
+  <p class="lead">Al abrir <code>index.html</code> aparece el Bloque 1. Se lee de arriba abajo, como un folleto: primero qué hace el programa y cómo se recorre, luego dos laboratorios para experimentar, el mapa de los once bloques de análisis, los métodos, la teoría y, al final, cómo citarlo. El índice <span class="ui">En este bloque</span>, a la derecha, enumera sus secciones y lleva a cualquiera con un clic.</p>
 
   <table>
     <caption><b>Tabla 1.1.</b> Secciones de la portada, en el orden en que aparecen.</caption>
@@ -1402,10 +1410,10 @@
     <div class="marco" style="position:relative">
       <img src="../img/b1-lab-dialelos.png" alt="El laboratorio de dialelos con el escenario de dominancia parcial">
       <span class="marca" style="left:46.8%;top:5.5%">1</span>
-      <span class="marca" style="left:52.4%;top:18.5%">2</span>
+      <span class="marca" style="left:51.9%;top:18.5%">2</span>
       <span class="marca" style="left:23.9%;top:24.2%">3</span>
       <span class="marca" style="left:64.1%;top:24.2%">4</span>
-      <span class="marca" style="left:95.6%;top:24.2%">5</span>
+      <span class="marca" style="left:95.9%;top:24.2%">5</span>
       <span class="marca" style="left:16.4%;top:72.3%">6</span>
       <span class="marca" style="left:89%;top:85%">7</span>
       <span class="marca" style="left:13.1%;top:88%">8</span>
@@ -1574,7 +1582,7 @@
   <figure>
     <div class="marco" style="position:relative">
       <img src="../img/b1-lab-seleccion.png" alt="El laboratorio de selección tras diez ciclos de selección masal">
-      <span class="marca" style="left:71.3%;top:18.5%">1</span>
+      <span class="marca" style="left:69.5%;top:18.5%">1</span>
       <span class="marca" style="left:34.2%;top:24.2%">2</span>
       <span class="marca" style="left:80.4%;top:24.2%">3</span>
       <span class="marca" style="left:12.4%;top:70.4%">4</span>
@@ -1923,7 +1931,7 @@
   </table>
   <table class="compacta">
     <caption><b>Tabla 2.4.</b> Valores orientativos del menú <span class="ui">Cultivo</span>. <span class="ui">Otro (valores propios)</span> deja los campos como estén.</caption>
-    <thead><tr><th>Cultivo</th><th class="n">Semillas por polinización</th><th class="n">Unidades femeninas por planta</th><th class="n">Polinizaciones por planta macho</th><th class="n">Semillas por parcela</th></tr></thead>
+    <thead><tr><th>Cultivo</th><th class="n">Semillas por<br>polinización</th><th class="n">Unidades femeninas<br>por planta</th><th class="n">Polinizaciones por<br>planta macho</th><th class="n">Semillas<br>por parcela</th></tr></thead>
     <tbody>
       <tr><td>Maíz</td><td class="n">250</td><td class="n">1</td><td class="n">4</td><td class="n">40</td></tr>
       <tr><td>Sorgo</td><td class="n">400</td><td class="n">1</td><td class="n">3</td><td class="n">80</td></tr>
@@ -2579,7 +2587,7 @@
   </table>
   <p>Además, al final de la tarjeta 5, <span class="ui">¿Cómo se analiza cada diseño?</span> resume los métodos de las secciones 3.5 a 3.7 con sus referencias, listos para la sección de materiales y métodos de un artículo; el informe del Bloque 12 los incluye redactados.</p>
 
-  <p>El botón <span class="ui">Continuar</span> del final cambia según el diseño de apareamiento reconocido (tabla 3.8); en el ejemplo dice <span class="ui">Continuar: Griffing →</span>. <span class="ui">← Planear</span> regresa al Bloque 2. Los demás bloques están siempre a un clic en la barra superior.</p>
+  <p>El botón <span class="ui">Continuar</span> del final cambia según el diseño de apareamiento reconocido (tabla 3.8); en el ejemplo dice <span class="ui">Continuar: Griffing →</span>. <span class="ui">← Planear</span> regresa al Bloque 2. Los demás bloques están siempre a un clic en la lista de bloques de la izquierda.</p>
   <table class="compacta" style="width:84%">
     <caption><b>Tabla 3.8.</b> A dónde lleva el botón <span class="ui">Continuar</span>.</caption>
     <thead><tr><th>Diseño reconocido</th><th style="width:40%">Siguiente bloque</th></tr></thead>
@@ -2820,7 +2828,7 @@
     <div class="formula" style="margin-bottom:0.04in"><i><span style="text-decoration: overline">x</span><sub>ij</sub></i> = μ + <i>g<sub>i</sub></i> + <i>g<sub>j</sub></i> + <i>s<sub>ij</sub></i> + <i>r<sub>ij</sub></i> + <i>ē<sub>ij</sub></i> &nbsp;·&nbsp; <i>s<sub>ij</sub></i> = <i>s<sub>ji</sub></i> &nbsp;·&nbsp; <i>r<sub>ij</sub></i> = −<i>r<sub>ji</sub></i> = <i>m<sub>i</sub></i> − <i>m<sub>j</sub></i> + <i>n<sub>ij</sub></i></div>
     <p>La media de la cruza <i>i</i> × <i>j</i> es la media general más la aptitud combinatoria general (ACG) de cada progenitor, <i>g<sub>i</sub></i> y <i>g<sub>j</sub></i>, más la aptitud combinatoria específica (ACE) de la pareja, <i>s<sub>ij</sub></i>, más el efecto recíproco <i>r<sub>ij</sub></i>, que solo existe en los métodos 1 y 3. El recíproco se divide en una parte materna, <i>m<sub>i</sub></i> − <i>m<sub>j</sub></i>, que depende solo de quién fue la hembra, y una no materna, <i>n<sub>ij</sub></i> (Cockerham, 1963). Las restricciones de Griffing (Σ<i>g<sub>i</sub></i> = 0 y la suma de las ACE de cada progenitor igual a cero) hacen que los efectos se lean como desviaciones del promedio del grupo.</p>
   </div>
-  <p>A lo largo del capítulo se usa el <b>dialelo completo 4 × 4 de maíz</b> de Pérez López y colaboradores (2020): cuatro líneas, L1 a L4, con sus 12 cruzas directas y recíprocas y las propias líneas, en bloques completos con seis repeticiones; la variable es el peso volumétrico del grano (PVG, en g/L). Es un método 1, con todo lo que el bloque puede mostrar, y sus resultados publicados permiten comprobar la app. La sección 4.8 usa el látice α simulado del capítulo 4 para el análisis en varios ambientes.</p>
+  <p>A lo largo del capítulo se usa el <b>dialelo completo 4 × 4 de maíz</b> de Pérez López y colaboradores (2020): cuatro líneas, L1 a L4, con sus 12 cruzas directas y recíprocas y las propias líneas, en bloques completos con seis repeticiones; la variable es el peso volumétrico del grano (PVG, en g/L). Es un método 1, con todo lo que el bloque puede mostrar, y sus resultados publicados permiten comprobar la app. La sección 4.8 usa el látice α simulado del capítulo 3 para el análisis en varios ambientes.</p>
 
   <!-- ====================================================================== 4.2 -->
   <h2 id="s4-2"><span class="num">4.2</span>Datos y modelo</h2>
@@ -3019,7 +3027,7 @@
 
   <!-- ====================================================================== 5.1 -->
   <h2 id="s5-1"><span class="num">5.1</span>Tres lecturas de un dialelo</h2>
-  <p class="lead">Griffing (capítulo 5) describe cada progenitor por su aptitud combinatoria. Hayman y Jinks van más al fondo y describen los genes, con un modelo aditivo–dominante y una serie de supuestos. Gardner y Eberhart describen variedades y la heterosis de sus cruzas. Las tres reparten la misma variación entre entradas, así que sus sumas de cuadrados coinciden; cambian la pregunta y la lectura.</p>
+  <p class="lead">Griffing (capítulo 4) describe cada progenitor por su aptitud combinatoria. Hayman y Jinks van más al fondo y describen los genes, con un modelo aditivo–dominante y una serie de supuestos. Gardner y Eberhart describen variedades y la heterosis de sus cruzas. Las tres reparten la misma variación entre entradas, así que sus sumas de cuadrados coinciden; cambian la pregunta y la lectura.</p>
   <table class="compacta">
     <caption><b>Tabla 5.1.</b> Qué pregunta responde cada análisis del Bloque 5 y qué necesita.</caption>
     <thead><tr><th style="width:24%">Análisis</th><th>Pregunta</th><th style="width:30%">Necesita</th></tr></thead>
@@ -3106,7 +3114,7 @@
 
   <!-- ====================================================================== 5.5 -->
   <h2 id="s5-5"><span class="num">5.5</span>El gráfico Wr–Vr y el orden de dominancia</h2>
-  <p>La tarjeta <span class="ui">4 · Gráfico Wr–Vr y orden de dominancia</span> dibuja cada progenitor como un punto: Vr es la varianza de su arreglo (su fila de la tabla dialélica) y Wr, la covarianza de ese arreglo con los progenitores. Si el modelo aditivo–dominante se cumple, los puntos caen sobre una recta de pendiente 1, dentro de la parábola límite Wr² = Vr·V<sub>0</sub>L<sub>0</sub>. El capítulo 2 muestra con el laboratorio de dialelos cómo cambia el gráfico con cada tipo de dominancia y de epistasis.</p>
+  <p>La tarjeta <span class="ui">4 · Gráfico Wr–Vr y orden de dominancia</span> dibuja cada progenitor como un punto: Vr es la varianza de su arreglo (su fila de la tabla dialélica) y Wr, la covarianza de ese arreglo con los progenitores. Si el modelo aditivo–dominante se cumple, los puntos caen sobre una recta de pendiente 1, dentro de la parábola límite Wr² = Vr·V<sub>0</sub>L<sub>0</sub>. El capítulo 1 muestra con el laboratorio de dialelos cómo cambia el gráfico con cada tipo de dominancia y de epistasis.</p>
   <figure>
     <div class="marco"><img src="../img/b5-wrvr.png" alt="El gráfico Wr-Vr del dialelo de Hayman con la parábola y las rectas"></div>
     <figcaption><b>Figura 5.5.</b> El gráfico Wr–Vr de los días a floración. La recta ajustada (morada) casi coincide con la de pendiente 1 (verde) y corta el eje Wr arriba del origen: dominancia parcial. H, E y B, cerca del origen, tienen más genes dominantes; C, lejos, más recesivos. Los rombos marcan dónde caería un progenitor con todos los alelos dominantes o todos recesivos.</figcaption>
@@ -3548,7 +3556,7 @@
     <div class="cap-etiqueta">Capítulo ocho · Bloque 8 · Selección</div>
     <h1 data-corto="Bloque 8 · Parámetros genéticos y selección">Parámetros genéticos y selección</h1>
     <div class="cap-regla"></div>
-    <p class="cap-resumen">Antes de seleccionar hay que saber cuánto de lo que se ve es genético, cómo se relacionan las variables entre sí y cuánto se puede ganar. El Bloque 8 calcula la heredabilidad de cada variable con su intervalo exacto, los coeficientes de variación y el avance genético; las correlaciones genotípicas, fenotípicas y ambientales con el análisis de sendas; cinco índices de selección y los genotipos que eligen; y la ganancia esperada de los métodos de selección recurrente.</p>
+    <p class="cap-resumen">Antes de seleccionar hay que saber cuánto de lo que se ve es genético, cómo se relacionan las variables entre sí y cuánto se puede ganar. El Bloque 8 calcula la heredabilidad de cada variable con su intervalo exacto, los coeficientes de variación y el avance genético; las correlaciones genotípicas, fenotípicas y ambientales con el análisis de sendas; seis índices de selección y los genotipos que eligen; y la ganancia esperada de los métodos de selección recurrente.</p>
     <div class="cap-franja"><span class="k8"></span><span class="k8" style="opacity:.75"></span><span class="k8" style="opacity:.5"></span><span class="k8" style="opacity:.3"></span></div>
     <ul class="cap-contenido">
       <li><b>8.1</b>Qué hace el bloque</li>
@@ -4138,9 +4146,9 @@
       <tr><td>Heterosis en porcentaje (Buchanan y Northcutt)</td><td>Medias de tres razas, heterosis de 4.7 y 4.2&nbsp;%</td><td>Predice en porcentaje</td></tr>
     </tbody>
   </table>
-  <figure>
+  <figure class="chica">
     <div class="marco"><img src="../img/b10-cruza-datos.png" alt="La tarjeta de cruzamiento con los grupos del experimento simulado de tres razas"></div>
-    <figcaption><b>Figura 10.13.</b> La tarjeta 4 con el experimento de tres razas: una fila por grupo con su cruza, su número de animales, su media y el error estándar de la media. Debajo van la lista de lo que se quiere predecir y el botón <span class="ui">Calcular</span>.</figcaption>
+    <figcaption><b>Figura 10.13.</b> La tarjeta 4 con el experimento de tres razas: una fila por grupo con su cruza, su número de animales, su media y el error estándar de la media, y debajo las casillas de los parámetros del modelo. Más abajo, fuera de la captura, siguen la lista de cruzas o sistemas que predecir y el botón <span class="ui">Calcular</span>.</figcaption>
   </figure>
   <p>Para estimar, cada fila de <span class="ui">Grupos</span> lleva la cruza, <i>n</i>, la media y su error estándar. Si todos los grupos tienen error estándar, los pesos son 1/EE² y hay una prueba de falta de ajuste; si no, los pesos son <i>n</i>, o iguales si tampoco hay <i>n</i>. Los efectos de raza se estiman con Σ<i>g</i><sup>I</sup> = Σ<i>g</i><sup>M</sup> = 0, como desviaciones del promedio de las razas. Las casillas quitan o ponen los efectos maternos de raza, la heterosis materna, la pérdida por recombinación y la heterosis propia de cada par de razas; un parámetro que los grupos no separan se marca como no estimable, y también las predicciones que dependen de él.</p>
   <figure>
@@ -4169,7 +4177,7 @@
     <figcaption><b>Figura 10.18.</b> El ejemplo de Buchanan y Northcutt: razas de 460, 480 y 500 con heterosis individual de 4.7&nbsp;% y materna de 4.2&nbsp;%. La F<sub>1</sub> A×B pesa 470 × 1.047 = 492.09.</figcaption>
   </figure>
   <div class="caja teoria">
-    <div class="caja-t"><span class="ico">∑</span>Teoría · dos escalas de la pérdida por recombinación</div>
+    <div class="caja-t"><span class="ico">θ</span>Teoría en breve · dos escalas de la pérdida por recombinación</div>
     <p>El menú <span class="ui">Pérdida por recombinación</span> tiene dos convenciones: (<i>h</i><sub>padre</sub> + <i>h</i><sub>madre</sub>)/4, en que la F<sub>2</sub> tiene <i>r</i><sup>I</sup> = ½ (Kinghorn, 1980; es la que usan Tesema y colaboradores), y (<i>h</i><sub>padre</sub> + <i>h</i><sub>madre</sub>)/2, en que tiene 1 (Dickerson, 1973). Las predicciones son las mismas con las dos; solo cambia la escala del parámetro, que con la segunda es la mitad. Al tomar un valor publicado hay que usar la convención del artículo.</p>
   </div>
   <div class="caja nota">
@@ -4500,7 +4508,7 @@
   <p>La tarjeta <span class="ui">4 · Cómo citar</span> da la cita del programa con su versión y su DOI (10.5281/zenodo.23005938, que siempre lleva a la versión más reciente), y <span class="ui">Copiar la cita</span> la lleva al portapapeles. La misma cita aparece al final del informe y en la portada de la app.</p>
   <figure>
     <div class="marco"><img src="../img/b12-cita.png" alt="La tarjeta de cómo citar el programa"></div>
-    <figcaption><b>Figura 12.6.</b> La cita de BreedingPro, versión 1.0.0.</figcaption>
+    <figcaption><b>Figura 12.6.</b> La cita de BreedingPro, versión 1.0.1.</figcaption>
   </figure>
   <p>Además del programa, cita los artículos originales de los métodos que usaste: la sección de métodos los nombra y la lista de referencias los reúne, de modo que basta con conservarlos al editar el texto.</p>
   <div class="caja nota">
@@ -5469,6 +5477,11 @@
   </table>
 
   <p><b>Recursos del manual.</b> Las tipografías Cormorant, Crimson Pro y Jost (Christian Thalmann, Jacques Le Bailly y Owen Earl) tienen la Licencia de Tipografías Abiertas SIL (OFL) 1.1; la app no usa tipografías externas. Las ilustraciones y los esquemas son originales, y las capturas salen de la propia app.</p>
+
+  <h3>Cómo citar</h3>
+  <div class="cita">Barrera-Guzmán, L.Á. (2026). <i>BreedingPro: plataforma en el navegador para el análisis de cruzas dialélicas, diseños de apareamiento, parámetros genéticos y predicción en el mejoramiento de plantas y animales</i> (versión 1.0.1) [software]. https://doi.org/10.5281/zenodo.23005938</div>
+  <div class="cita">Barrera-Guzmán, L.Á. (2026). <i>BreedingPro. Manual de usuario</i> (1.ª ed.). Distribuido con BreedingPro, versión 1.0.1. https://doi.org/10.5281/zenodo.23005938</div>
+  <p class="small">La cita del programa es la que dan la sección <span class="ui">Cómo citar</span> de la portada de la app y la tarjeta <span class="ui">4 · Cómo citar</span> del Bloque 12, y la que cierra cada informe del Bloque 12 en español. El DOI es el del concepto: siempre lleva a la versión más reciente. Cada versión archivada tiene además el suyo (la 1.0.0, 10.5281/zenodo.23005939).</p>
 
 </section>
 

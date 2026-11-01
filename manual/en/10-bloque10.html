@@ -103,7 +103,7 @@
   <p>The folded box <span class="ui">Individuals, inbreeding and Mendelian sampling</span> lists each individual with its generation, its selfings, its F and its <i>b</i>, the Mendelian sampling variance relative to σ²<sub>a</sub>; an asterisk marks the added founders. Inbreeding comes from the path vectors of Meuwissen and Luo (1992), and the inverse A<sup>−1</sup> is built directly with the rules of Henderson (1976) and Quaas (1976): for each individual, 1/<i>b</i> is added to its diagonal, −1/(2<i>b</i>) to the cells with its parents and 1/(4<i>b</i>) to the cell of the parents with each other. So the model never needs to invert A.</p>
   <div class="formula"><span style="white-space:nowrap"><i>b</i> = ½ − ¼(F<sub>s</sub> + F<sub>d</sub>)</span> with both parents known, <span style="white-space:nowrap">¾ − ¼F<sub>s</sub></span> with one and 1 with none; <span style="white-space:nowrap">log|A| = Σ log <i>b</i></span></div>
   <figure class="angosta">
-    <div class="marco"><img src="../img/en/b10-fig-a.png" alt="Heat map of the relationship matrix A of Schaeffer's example with contemporary groups, 29 individuals"></div>
+    <div class="marco"><img src="../img/en/b10-fig-a.png" alt="Heat map of the relationship matrix A of Schaeffer’s example with contemporary groups, 29 individuals"></div>
     <figcaption><b>Figure 10.3.</b> The A matrix of Schaeffer’s example with contemporary groups: 29 individuals, the 14 founders first. Parent and offspring and the full sibs 15 and 16 have a relationship of 0.5; half sibs, such as 22 and 23, 0.25.</figcaption>
   </figure>
   <p>In plants you tick <span class="ui">Plants: selfing allowed</span>, and an individual with the same sire and dam is a self and not an error. The lines example brings the pedigree of the 68 entries of the simulated trial of Block 3: 8 parents that are pure lines (founder inbreeding = 1) and 60 lines, five from each of 12 single crosses, with five generations of selfing. A line with <i>t</i> selfings since the cross of its parents <i>s</i> and <i>d</i> keeps the relationships of its F<sub>1</sub> with everyone else and has</p>
@@ -148,7 +148,7 @@
   <p>The <span class="ui">Trend by</span> menu groups by pedigree generation, by birth year or by any fixed or random factor. In a program with selection, the slope of that line is the genetic response achieved.</p>
   <div class="caja nota">
     <div class="caja-t"><span class="ico">✓</span>Verified · the published values</div>
-    <p>With Mrode’s example 3.1 (2014) and σ²<sub>a</sub> = 20, σ²<sub>e</sub> = 40, the sex effects are 4.3585 (males) and 3.4044 (females), and the breeding values of animals 1 to 8, 0.0984, −0.0188, −0.0411, −0.0087, −0.1857, 0.1769, −0.2495 and 0.1826, equal to the published ones to within 10<sup>−7</sup>; animal 1 has PEV 18.84 and reliability 0.058. The REML of the flock agrees with an independent maximization of the restricted likelihood (log L = −1634.0949).</p>
+    <p>With Mrode’s example 3.1 (2014) and σ²<sub>a</sub> = 20, σ²<sub>e</sub> = 40, the sex effects are 4.3585 (males) and 3.4044 (females), and the breeding values of animals 1 to 8, 0.0984, −0.0188, −0.0411, −0.0087, −0.1857, 0.1769, −0.2495 and 0.1826, equal to the published ones to within 10<sup>−7</sup>; animal 1 has PEV 18.84 and reliability 0.058. The REML of the flock agrees with an independent maximization of the restricted likelihood (log L = −1,634.0949).</p>
   </div>
 
   <!-- ====================================================================== 10.4 -->
@@ -156,7 +156,7 @@
   <p><b>The sire model.</b> With <span class="ui">Model: sire</span>, the random effect is the transmitting ability of each sire, half its breeding value, with the relationships of the sires and their ancestors. Its variance is σ²<sub>s</sub> = ¼σ²<sub>a</sub>, so <i>h</i>² = 4σ²<sub>s</sub>/σ²<sub>P</sub>, and the column <span class="ui">EBV (2 × TA)</span> gives twice the transmitting ability so that it reads on the scale of the animal model. The records and mean columns become those of each sire’s progeny, and the records of individuals with no known sire do not contribute to the sire effect (the app counts them in a notice). It is a smaller model than the animal model, but it ignores the dams and assumes that their mates are a random sample.</p>
   <p><b>Repeated records.</b> The checkbox <span class="ui">Permanent environment (repeated records)</span> adds an effect of each individual, with no relationships, that is repeated in all its records: what an individual has of good or bad from its history and not from its genes. Repeatability is <i>t</i> = (σ²<sub>a</sub> + σ²<sub>pe</sub>)/σ²<sub>P</sub>. If no individual has more than one record, the effect is not estimable and the app leaves it out with a notice.</p>
   <figure>
-    <div class="marco"><img src="../img/en/b10-repetibilidad.png" alt="The variance component tiles and table of Schaeffer's repeated-records example"></div>
+    <div class="marco"><img src="../img/en/b10-repetibilidad.png" alt="The variance component tiles and table of Schaeffer’s repeated-records example"></div>
     <figcaption><b>Figure 10.9.</b> Schaeffer’s repeated-records example with its variances: <i>h</i>² = 0.209, repeatability 0.302 and contemporary group 0.116 of the phenotypic variance.</figcaption>
   </figure>
   <p>In that example, the breeding value table adds the column <span class="ui">Permanent environment</span>. Animal 21, with two records averaging 83.50, has the highest breeding value (6.86) and a permanent environment of 3.05: part of what it yields above average does not pass to its progeny.</p>
@@ -249,7 +249,7 @@
     <figcaption><b>Figure 10.18.</b> The example of Buchanan and Northcutt: breeds of 460, 480 and 500 with individual heterosis of 4.7% and maternal heterosis of 4.2%. The F<sub>1</sub> A×B weighs 470 × 1.047 = 492.09.</figcaption>
   </figure>
   <div class="caja teoria">
-    <div class="caja-t"><span class="ico">∑</span>Theory in brief · two scales of the recombination loss</div>
+    <div class="caja-t"><span class="ico">θ</span>Theory in brief · two scales of the recombination loss</div>
     <p>The <span class="ui">Recombination loss</span> menu has two conventions: (<i>h</i><sub>sire</sub> + <i>h</i><sub>dam</sub>)/4, in which the F<sub>2</sub> has <i>r</i><sup>I</sup> = ½ (Kinghorn, 1980; it is the one Tesema and colleagues use), and (<i>h</i><sub>sire</sub> + <i>h</i><sub>dam</sub>)/2, in which it has 1 (Dickerson, 1973). The predictions are the same with both; only the scale of the parameter changes, which is half as large with the second. When you take a published value, use the convention of the paper.</p>
   </div>
   <div class="caja nota">

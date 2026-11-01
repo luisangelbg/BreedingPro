@@ -1,7 +1,7 @@
 #!/usr/bin/perl
 # BreedingPro · manual de usuario: une las partes de un idioma en un solo documento para imprimirlo a PDF.
-# Uso, desde la carpeta manual/:   perl herramientas/unir-manual.pl es
-# Escribe es/manual-completo.html con la portada (00a-portada.html) como primera hoja, las secciones de
+# Uso, desde la carpeta manual/:   perl herramientas/unir-manual.pl es   (o en, para el manual en inglés)
+# Escribe es/manual-completo.html (o en/manual-completo.html, titulado «BreedingPro · User’s Manual») con la portada (00a-portada.html) como primera hoja, las secciones de
 # 00b-introduccion.html (preliminares e introducción) y de 01-bloque1.html a 13-apendices.html en orden, los
 # estilos propios de cada parte y un solo paginar.js: la numeración de páginas es continua, el índice general
 # encuentra las páginas de todos los capítulos y, al imprimir el documento de una sola vez, sus enlaces siguen
@@ -10,6 +10,9 @@ use strict; use warnings; use utf8;
 use open qw(:std :encoding(UTF-8));
 
 my $lang = shift or die "uso: perl herramientas/unir-manual.pl <carpeta del idioma>\n";
+my $en = $lang eq "en";
+my $titulo = $en ? "BreedingPro · User’s Manual" : "BreedingPro · Manual de usuario";
+my $etiqueta = $en ? "Cover" : "Portada";
 opendir my $dh, $lang or die "$lang: $!";
 my @parts = sort grep { /^(00b|0[1-9]|1\d)-.*\.html$/ && $_ ne 'manual-completo.html' } readdir $dh;
 closedir $dh;
@@ -69,7 +72,7 @@ if (-e "$lang/00a-portada.html") {
   my ($script) = $t =~ /(<script>.*?<\/script>)/s;
   my ($fonts) = $t =~ /(<link href="https:\/\/fonts\.googleapis\.com[^>]*>)/;
   die "00a-portada.html no tiene la estructura esperada\n" unless $svg && $script;
-  $portada = qq{<div class="hoja portada cover" aria-label="Portada">$svg</div>\n$script\n};
+  $portada = qq{<div class="hoja portada cover" aria-label="$etiqueta">$svg</div>\n$script\n};
   $links = "$fonts\n$links" if $fonts;
   if ($t =~ /<style>(.*?)<\/style>/s) { $css .= "  $1\n"; }
   $css .= "  .portada > svg { display: block; width: 100%; height: 100%; }\n";
@@ -79,7 +82,7 @@ my $html = <<"HTML";
 <html lang="$lang">
 <head>
 <meta charset="utf-8">
-<title>BreedingPro · Manual de usuario</title>
+<title>$titulo</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- documento generado por herramientas/unir-manual.pl: no se edita a mano; se corrigen las partes -->
 $links

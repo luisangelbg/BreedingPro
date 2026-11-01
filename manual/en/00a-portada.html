@@ -79,7 +79,7 @@
 
   el('rect', { x: 0, y: 0, width: W, height: H, fill: BLANCO });
 
-  /* ---------------------------------------------------------------- the colours of the twelve blocks (plus preliminaries and appendices) */
+  /* ---------------------------------------------------------------- the colors of the twelve blocks (plus preliminaries and appendices) */
   const BLOQUES = ['#2a1740', '#5e2e8c', '#2e8556', '#0f766e', '#c2410c', '#b7791f', '#b4234a', '#7e3fb0', '#1d74b5', '#4d7c0f', '#8a5a2b', '#0e7490', '#334155', '#111111'];
   BLOQUES.forEach((c, i) => {
     el('rect', { x: f1(i * W / BLOQUES.length), y: 0, width: f1(W / BLOQUES.length + 0.5), height: 9, fill: c });
