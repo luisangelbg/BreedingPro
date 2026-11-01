@@ -1,0 +1,485 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>BreedingPro · User’s Manual · Block 3: data, recognized design and field analysis</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,500;0,600;1,500&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../interior.css">
+<!-- splits the content into letter-size pages, with running heads and page numbers -->
+<script src="../paginar.js"></script>
+<style>
+  figure.chica .marco, figure.chica > svg { width: 72%; margin: 0 auto; }
+  figure.chica figcaption { margin-left: 14%; margin-right: 14%; }
+  figure.angosta .marco { width: 58%; margin: 0 auto; }
+  figure.angosta figcaption { margin-left: 21%; margin-right: 21%; }
+  .rejilla { display: grid; grid-template-columns: 1fr 1fr; gap: 0.1in 0.18in; align-items: start; }
+  .rejilla.ancha { grid-template-columns: 0.8fr 1fr; }
+  .rejilla .sub { font-family: var(--sans); font-size: 8.4pt; color: var(--negro); text-align: center; margin-top: 0.04in; }
+  .rejilla .sub b { font-weight: 600; }
+  td.n, th.n { text-align: right; white-space: nowrap; }
+  td.c, th.c { text-align: center; }
+  table.mini { font-size: 7.8pt; margin: 0 auto; }
+  table.mini td, table.mini th { padding: 0.025in 0.07in; white-space: nowrap; }
+  table.ejemplos { font-size: 8pt; }
+  table.ejemplos td, table.ejemplos th { padding: 0.028in 0.06in; }
+  .formula { font-family: var(--sans); font-size: 9pt; background: #f6f3fa; border-radius: 4px; padding: 0.07in 0.12in; margin: 0.06in 0 0.12in; line-height: 1.6; }
+  code.meta { display: block; font-size: 7.6pt; white-space: normal; word-break: normal; background: #f6f3fa; padding: 0.06in 0.1in; border-radius: 4px; margin: 0.04in 0 0.12in; }
+  .flecha-larga { font-family: var(--sans); font-size: 14pt; color: var(--gris); text-align: center; align-self: center; }
+</style>
+</head>
+<body>
+
+<section class="capitulo" id="cap-b3" data-pestana="B3" data-orden="4" style="--acento: var(--b3)">
+  <div class="cap-apertura">
+    <div class="cap-num">B3</div>
+    <div class="cap-etiqueta">Chapter three · Block 3 · Data</div>
+    <h1 data-corto="Block 3 · Data, design and field analysis">Data, recognized design and field analysis</h1>
+    <div class="cap-regla"></div>
+    <p class="cap-resumen">Every genetic analysis starts here. Block 3 reads the data from a file, from its own spreadsheet, from the Block 2 field book or from one of the 21 examples; works out what each column is; infers the mating design and the field design; checks the quality of the data and analyzes the trial as its design requires. The adjusted means and the error it produces are the raw material of Blocks 4 to 11.</p>
+    <div class="cap-franja"><span class="k3"></span><span class="k3" style="opacity:.75"></span><span class="k3" style="opacity:.5"></span><span class="k3" style="opacity:.3"></span></div>
+    <ul class="cap-contenido">
+      <li><b>3.1</b>What this block does</li>
+      <li><b>3.2</b>Loading the data</li>
+      <li><b>3.3</b>The role of each column</li>
+      <li><b>3.4</b>The recognized design</li>
+      <li><b>3.5</b>Data quality</li>
+      <li><b>3.6</b>The analysis of each environment</li>
+      <li><b>3.7</b>The combined analysis</li>
+      <li><b>3.8</b>Special cases</li>
+      <li><b>3.9</b>Downloads and moving on to the genetic blocks</li>
+    </ul>
+  </div>
+
+  <!-- ====================================================================== 3.1 -->
+  <h2 id="s3-1"><span class="num">3.1</span>What this block does</h2>
+  <p class="lead">Block 3 has five cards that are worked from top to bottom. Loading the data is enough: the other four fill in by themselves and are recomputed as soon as you correct something, be it the role of a column, the design or an observation you decide to exclude.</p>
+
+  <figure>
+    <svg viewBox="0 0 710 262" xmlns="http://www.w3.org/2000/svg" font-family="Jost, sans-serif" role="img" aria-label="The five cards of Block 3 and what passes to the genetic blocks">
+      <defs>
+        <marker id="ft" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#0f766e"/></marker>
+        <marker id="fg" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#625d6c"/></marker>
+      </defs>
+      <!-- any correction reruns what follows -->
+      <path d="M634 50 C 634 18 620 16 590 16 L 238 16 C 212 16 208 20 208 46" fill="none" stroke="#625d6c" stroke-width="1.4" stroke-dasharray="5 4" marker-end="url(#fg)"/>
+      <text x="420" y="11" text-anchor="middle" font-size="10" fill="#625d6c">correcting a role, the design or an observation recomputes everything that follows</text>
+      <g font-size="9.3" fill="#123f3b">
+        <!-- card 1 -->
+        <rect x="5" y="52" width="122" height="112" rx="9" fill="#e3f1ef" stroke="#0f766e" stroke-width="1.4"/>
+        <rect x="5" y="52" width="122" height="28" rx="9" fill="#0f766e"/><rect x="5" y="70" width="122" height="10" fill="#0f766e"/>
+        <text x="14" y="71" fill="#fff" font-weight="600" font-size="10.5">1 · Load data</text>
+        <text x="13" y="99">• file or workbook</text><text x="13" y="115">• data sheet</text><text x="13" y="131">• field book (Block 2)</text><text x="13" y="147">• 21 examples</text>
+        <!-- card 2 -->
+        <rect x="147" y="52" width="122" height="112" rx="9" fill="#e3f1ef" stroke="#0f766e" stroke-width="1.4"/>
+        <rect x="147" y="52" width="122" height="28" rx="9" fill="#0f766e"/><rect x="147" y="70" width="122" height="10" fill="#0f766e"/>
+        <text x="156" y="71" fill="#fff" font-weight="600" font-size="10.5">2 · Columns</text>
+        <text x="155" y="99">• 16 roles</text><text x="155" y="115">• names in ES or EN</text><text x="155" y="131">• decimal separator</text><text x="155" y="147">• columns → rows</text>
+        <!-- card 3 -->
+        <rect x="289" y="52" width="122" height="112" rx="9" fill="#e3f1ef" stroke="#0f766e" stroke-width="1.4"/>
+        <rect x="289" y="52" width="122" height="28" rx="9" fill="#0f766e"/><rect x="289" y="70" width="122" height="10" fill="#0f766e"/>
+        <text x="298" y="71" fill="#fff" font-weight="600" font-size="10.5">3 · Design</text>
+        <text x="297" y="99">• mating</text><text x="297" y="115">• field</text><text x="297" y="131">• reasons and confidence</text><text x="297" y="147">• crosses present</text>
+        <!-- card 4 -->
+        <rect x="431" y="52" width="122" height="112" rx="9" fill="#e3f1ef" stroke="#0f766e" stroke-width="1.4"/>
+        <rect x="431" y="52" width="122" height="28" rx="9" fill="#0f766e"/><rect x="431" y="70" width="122" height="10" fill="#0f766e"/>
+        <text x="440" y="71" fill="#fff" font-weight="600" font-size="10.5">4 · Quality</text>
+        <text x="439" y="99">• table by environment</text><text x="439" y="115">• distribution</text><text x="439" y="131">• field map</text><text x="439" y="147">• outliers</text>
+        <!-- card 5 -->
+        <rect x="573" y="52" width="122" height="112" rx="9" fill="#e3f1ef" stroke="#0f766e" stroke-width="1.4"/>
+        <rect x="573" y="52" width="122" height="28" rx="9" fill="#0f766e"/><rect x="573" y="70" width="122" height="10" fill="#0f766e"/>
+        <text x="582" y="71" fill="#fff" font-weight="600" font-size="10.5">5 · Analysis</text>
+        <text x="581" y="99">• ANOVA of the design</text><text x="581" y="115">• adjusted means</text><text x="581" y="131">• assumptions and H²</text><text x="581" y="147">• combined analysis</text>
+      </g>
+      <g stroke="#0f766e" stroke-width="1.6"><path d="M127 108 L 144 108" marker-end="url(#ft)"/><path d="M269 108 L 286 108" marker-end="url(#ft)"/><path d="M411 108 L 428 108" marker-end="url(#ft)"/><path d="M553 108 L 570 108" marker-end="url(#ft)"/></g>
+      <!-- towards the genetic blocks -->
+      <path d="M355 164 L 355 183" stroke="#0f766e" stroke-width="1.6" marker-end="url(#ft)"/>
+      <rect x="10" y="187" width="690" height="66" rx="14" fill="#f4f8f7" stroke="#0f766e" stroke-width="1.2"/>
+      <text x="355" y="205" text-anchor="middle" font-size="10" fill="#0b4f4a">Passes to the genetic blocks: adjusted means, error, design and excluded observations</text>
+      <g font-size="9.2" fill="#fff" text-anchor="middle">
+        <rect x="45" y="216" width="75" height="23" rx="11.5" fill="#c2410c"/><text x="82.5" y="231">Griffing → B4</text>
+        <rect x="130" y="216" width="170" height="23" rx="11.5" fill="#b4234a"/><text x="215" y="231">Partial, NC and L × T → B6</text>
+        <rect x="310" y="216" width="90" height="23" rx="11.5" fill="#7e3fb0"/><text x="355" y="231">Generations → B7</text>
+        <rect x="410" y="216" width="135" height="23" rx="11.5" fill="#1d74b5"/><text x="477.5" y="231">Genotypes, 1 environment → B8</text>
+        <rect x="555" y="216" width="110" height="23" rx="11.5" fill="#4d7c0f"/><text x="610" y="231">Several environments → B9</text>
+      </g>
+    </svg>
+    <figcaption><b>Figure 3.1.</b> The five cards of Block 3. At the end, the button <span class="ui">Continue</span> leads to the block that matches the recognized design; Blocks 10 and 11 use the same data when there is a pedigree or markers.</figcaption>
+  </figure>
+
+  <p>Throughout the chapter the simulated example <b>diallel in an α-lattice at three locations</b> is used: ten parents crossed with Griffing’s Method 2 (the 10 parents and their 45 crosses) plus five checks, 60 entries in all, evaluated in an α-lattice with blocks of six plots, two replicates and three locations (Chapultepec, Los Altos and Valle Verde). It is a Block 2 field book filled from a known model: σ²<sub>GCA</sub> = 0.16, σ²<sub>SCA</sub> = 0.09, σ²<sub>blocks</sub> = 0.20 and σ²<sub>e</sub> = 0.36 (t/ha), so that what is estimated can be compared with the truth. Data quality is illustrated with Hayman’s (1954) diallel of <i>Nicotiana rustica</i>, and the data sheet with the 4 × 4 maize diallel.</p>
+
+  <!-- ====================================================================== 3.2 -->
+  <h2 id="s3-2"><span class="num">3.2</span>Loading the data</h2>
+  <p>The card <span class="ui">1 · Load data</span> offers three tiles and, below them, the gallery of examples. The rule is the same for any source: <b>one row per plot (or per plant) and one column per item</b>. The first row with content holds the column names, which may be in Spanish or in English.</p>
+
+  <figure>
+    <div class="marco"><img src="../img/en/b3-carga.png" alt="The load card with the alpha-lattice example loaded: the three tiles, the note about the example, the source line and the first examples of the gallery"></div>
+    <figcaption><b>Figure 3.2.</b> Card 1 after loading the α-lattice example. The box <span class="ui">About this example</span> says where the data come from and, for simulated ones, with which values they were generated; the line below sums up the source: 360 rows × 13 columns and the design declaration read.</figcaption>
+  </figure>
+
+  <h3>A file</h3>
+  <p>Drag the file onto the tile <span class="ui">File</span> or click it to choose it. Workbooks in <code>.xlsx</code>, <code>.xls</code>, <code>.xlsm</code> and <code>.ods</code> are read, as well as <code>.csv</code>, <code>.tsv</code> and <code>.txt</code> texts. In a workbook with several sheets the one with the most data is opened and the menu <span class="ui">Workbook sheet</span> appears to switch to another. In a text, the separator (comma, semicolon or tab) is inferred from the first 30 lines. Empty rows are ignored, as are lines starting with <code>#</code> before the headers, except the declaration line of Block 2 (see below).</p>
+  <div class="caja nota">
+    <div class="caja-t"><span class="ico">i</span>Note · what counts as a missing value</div>
+    <p>An empty cell is a missing value, and so are <code>NA</code>, <code>N/A</code>, <code>NaN</code>, <code>null</code>, <code>.</code>, <code>..</code>, <code>-</code>, <code>--</code>, <code>?</code>, <code>*</code>, <code>missing</code>, <code>perdido</code>, <code>faltante</code>, <code>s/d</code>, <code>sd</code>, <code>nd</code>, <code>n.d.</code> and the spreadsheet errors <code>#N/A</code>, <code>#VALUE!</code> and <code>#DIV/0!</code>, in upper or lower case. If some other text appears in a variable (for example, <code>12.5a</code>), it is also taken as missing, and card 2 reports how many there were and in which row the first one is.</p>
+  </div>
+
+  <h3>The data sheet</h3>
+  <p>The tile <span class="ui">Data sheet</span> opens a spreadsheet inside the app, for anyone who does not have the file at hand or prefers to paste the data. Paste with <span class="ui">Ctrl</span>+<span class="ui">V</span> a block copied from any spreadsheet (or a text separated by commas, semicolons or tabs), or type directly. The arrows, <span class="ui">Tab</span> and <span class="ui">Enter</span> move the selection; <span class="ui">F2</span> or a double click edits the cell; <span class="ui">Delete</span> clears it; <span class="ui">Ctrl</span>+<span class="ui">Z</span> undoes. The buttons at the top insert or delete rows and columns, add a hundred rows and adjust the width. The sheet holds up to 20,000 rows and 5,000 columns.</p>
+  <figure class="media">
+    <div class="marco"><img src="../img/en/b3-hoja.png" alt="The data sheet with the 4 by 4 maize diallel: toolbar and the first rows of the grid"></div>
+    <figcaption><b>Figure 3.3.</b> The data sheet with the 4 × 4 maize diallel, opened with <span class="ui">Correct in the data sheet</span>. The first row holds the column names.</figcaption>
+  </figure>
+  <p>Below the sheet, <span class="ui">Save as</span> downloads its content as <code>.xlsx</code>, <code>.ods</code>, <code>.csv</code> (with comma or semicolon) or <code>.tsv</code>, with the name you type in <span class="ui">Name</span>. The button <span class="ui">Use these data →</span> sends the sheet to cards 2 to 5 just like a file. If the browser does not let you paste into the grid, open <span class="ui">Pasting does not work in this browser? Paste into this box instead</span> and paste into the text box that appears.</p>
+  <div class="caja importante">
+    <div class="caja-t"><span class="ico">!</span>Important · the sheet is saved in this browser</div>
+    <p>The sheet is saved in the browser every time it changes (the notice <i>saved in this browser</i> appears for a moment) and is restored when it is opened again, even after the page has been closed. It is the only part of the data that the app keeps: a file or an example that was loaded is lost on reloading. Since saving is local, the sheet does not travel to another computer or another browser; for that, download it. When the data come from the sheet, card 4 marks the rows of the outliers in it, with the same row number.</p>
+  </div>
+
+  <h3>The Block 2 field book</h3>
+  <p>The tile <span class="ui">Block 2 field book</span> takes the plan and the field map of Block 2 without downloading anything (Section 2.8). With the checkbox <span class="ui">When using the Block 2 field book, fill it with simulated values…</span> ticked it arrives with a simulated yield for practice; without it, with the yield column empty. Every Block 2 field book, including one downloaded and filled by hand, starts with a <b>declaration line</b> like this one, that of the example:</p>
+  <code class="meta">#BreedingPro fieldbook, mating=griffing, method=2, field=alpha, reps=2, k=6, locations=3, entries=60, seed=4242, F=1</code>
+  <p>Block 3 takes from it the mating design, the method and the field design (<code>mating</code>, <code>method</code> and <code>field</code>) without having to infer them; the other items are for information. If the spreadsheet split the line over several cells, it is joined again. It is best not to delete it.</p>
+
+  <h3>The examples</h3>
+  <p>The gallery <span class="ui">Published and simulated examples</span> has 21 data sets. The buttons at the top filter them by family (<span class="ui">Diallels</span>, <span class="ui">Partial</span>, <span class="ui">North Carolina</span>, <span class="ui">Line × tester</span>, <span class="ui">Generations</span>, <span class="ui">Genotypes and traits</span> and <span class="ui">Multi-environment</span>). Each card shows the title, the design, the size, the first citation and a label: <span class="ui">CC BY-NC 4.0</span>, <span class="ui">published data</span> or <span class="ui">simulated</span>. When one is loaded, the box <span class="ui">About this example</span> gives all its sources and, for simulated ones, the true values. The examples are read exactly like a user’s file; Table 3.4 sums up what Block 3 recognizes in each one.</p>
+  <div class="caja dato">
+    <div class="dato-cifra">21</div>
+    <div class="dato-txt"><div class="caja-t">Key fact</div>data sets ready for practice: 17 published and 4 simulated. The published ones come from open-access articles (CC BY-NC 4.0: non-commercial use with attribution), from open copies under a CC BY 4.0 license or from transcriptions distributed under the GPL; the six generations of <i>N. rustica</i> were rebuilt plant by plant from the published number, mean and variance of each generation. <b>If you publish something done with an example, cite the original work.</b></div>
+  </div>
+
+  <!-- ====================================================================== 3.3 -->
+  <h2 id="s3-3"><span class="num">3.3</span>The role of each column</h2>
+  <p>The card <span class="ui">2 · Columns</span> shows the first eight rows of the table with a menu above each column. The app proposes the role of each one from its name and its contents; you correct whichever needs it and everything is recomputed at once. Under each name you can read whether the column is numeric or text, how many distinct values it has, how many empty cells and, if it detects it, the decimal comma. A colored band groups the roles: blue for the field design, purple for the genotype and the pedigree, green for the response traits and light gray for what is ignored.</p>
+
+  <h3>How the roles are proposed</h3>
+  <ol class="pasos">
+    <li><b>By the name.</b> If the name matches one in Table 3.1, the column takes that role.</li>
+    <li><b>By the contents.</b> If it does not match, a column with 90% or more numbers is a response trait; the rest are ignored.</li>
+    <li><b>One role, one column.</b> Except for the traits, the location and the year, each role belongs to a single column. If two claim it, the first one keeps it; for entries, the text one, which is usually the name (in the example, <i>Genotipo</i> over <i>Entrada</i>). The location and the year can be several columns, which are joined to form the environment.</li>
+    <li><b>Without an entry column</b> or parent columns, the first ignored text column with two or more values becomes the entry names.</li>
+  </ol>
+  <p>The examples come with their roles set. In your own data, check the list before going on: if the entry column is missing, the card says so in red and cards 3 to 5 do not appear until it is corrected.</p>
+
+  <figure>
+    <div class="marco"><img src="../img/en/b3-columnas.png" alt="The columns card with the roles proposed for the alpha lattice: a role menu above each column and the first eight rows"></div>
+    <figcaption><b>Figure 3.4.</b> Card 2 with the α-lattice example, whose column names are in Spanish. <span class="ui">Entrada</span>, an order number, was left as <span class="ui">Ignore</span> because <span class="ui">Genotipo</span> already names the entries; to the right, outside the crop, come <span class="ui">Macho</span>, <span class="ui">Tipo</span> and the two traits.</figcaption>
+  </figure>
+
+  <table class="compacta">
+    <caption><b>Table 3.1.</b> The 16 roles and some of the names the app recognizes. Names are compared ignoring accents, case, spaces and signs: <i>Rep.</i>, <i>REP</i> and <i>Repetición</i> are the same, and <i>No. parcela</i> equals <i>NoParcela</i>.</caption>
+    <thead><tr><th style="width:23%">Role</th><th>Names recognized (examples)</th><th style="width:33%">What it is for</th></tr></thead>
+    <tbody>
+      <tr><td><span class="ui">Response trait</span></td><td>any column with 90% or more numbers and no other role</td><td>What is analyzed; there may be several</td></tr>
+      <tr><td><span class="ui">Location / environment</span></td><td>localidad, ambiente, sitio, lugar, ensayo, experimento, estación, loc, env, location, environment, site, trial</td><td>Separates the environments</td></tr>
+      <tr><td><span class="ui">Year / season</span></td><td>año, ciclo, temporada, campaña, year, season, cycle</td><td>Joined to the location: each location × year is an environment</td></tr>
+      <tr><td><span class="ui">Replicate</span></td><td>repetición, rep, r, réplica, bloque completo, replicate, replication</td><td>Complete replicates</td></tr>
+      <tr><td><span class="ui">Block (incomplete)</span></td><td>bloque, subbloque, bloque incompleto, block, iblock, blk</td><td>Blocks within each replicate, or plain blocks</td></tr>
+      <tr><td><span class="ui">Plot</span></td><td>parcela, unidad experimental, plot, plot number, unit</td><td>Identifies the plot; if it repeats, the rows are plants</td></tr>
+      <tr><td><span class="ui">Row</span> · <span class="ui">Column</span></td><td>fila, hilera, rango, row, range · columna, pase, col, column, tier</td><td>Position in the field: map and row–column design</td></tr>
+      <tr><td><span class="ui">Entry / genotype</span></td><td>genotipo, entrada, tratamiento, variedad, cruza, híbrido, familia, clon, material, accesión, cultivar, nombre, código, genotype, entry, variety, cross</td><td>The name of the entry</td></tr>
+      <tr><td><span class="ui">Female / line / parent 1</span></td><td>hembra, madre, línea, progenitor 1, planta F<sub>2</sub>, female, dam, mother, line, parent 1</td><td>Female parent, the line or the F<sub>2</sub> plant</td></tr>
+      <tr><td><span class="ui">Male / tester / parent 2</span></td><td>macho, padre, probador, progenitor 2, male, sire, father, tester, parent 2</td><td>Male parent or tester</td></tr>
+      <tr><td><span class="ui">Set</span></td><td>conjunto, set</td><td>Sets of the North Carolina designs</td></tr>
+      <tr><td><span class="ui">Generation</span></td><td>generación, filial, generation</td><td>P<sub>1</sub>, P<sub>2</sub>, F<sub>1</sub>, F<sub>2</sub>, backcrosses…</td></tr>
+      <tr><td><span class="ui">Entry type</span></td><td>tipo, clase, categoría, tipo de entrada, type, class, category</td><td>Check, parent, reciprocal, line, tester…</td></tr>
+      <tr><td><span class="ui">Plant / individual</span></td><td>planta, individuo, progenie, plántula, árbol, muestra, plant, individual, tree, sample</td><td>Plant-level data</td></tr>
+      <tr><td><span class="ui">Ignore</span></td><td>whatever fits no role and is not numeric</td><td>Notes, dates, order numbers</td></tr>
+    </tbody>
+  </table>
+
+  <div class="caja importante">
+    <div class="caja-t"><span class="ico">!</span>Important · an identification number is taken for a trait</div>
+    <p>A numeric column with a name the app does not recognize (<i>Lot</i>, <i>Furrow</i>, <i>Key</i>) is proposed as a response trait and would be analyzed as if it were a character. Move it to <span class="ui">Ignore</span> or give it its role. The same the other way round: a trait with the name of a role, such as a column <i>Type</i> that actually measures something, must be marked as <span class="ui">Response trait</span>.</p>
+  </div>
+
+  <h3>Parents, crosses and entry types</h3>
+  <p>The pedigree can come in three ways, and the app recognizes all of them:</p>
+  <ul>
+    <li><b>Female and male columns.</b> Each row gives its two parents. If there is also an entry column with numbers that correspond one to one with the pedigree, the entry is named by its pedigree (<i>L1 × L2</i>) and the number is kept; this is how Block 3 reads the 4 × 4 maize diallel of Figure 3.3.</li>
+    <li><b>The cross written in the name.</b> Without parent columns, names such as <i>A × B</i>, <i>A x B</i>, <i>A/B</i>, <i>A*B</i> or compact codes such as <i>1x3</i> are split into female and male, provided that at least half of the names are crosses and the parents repeat among them; a name equal to a parent is that parent. The card warns: <i>Cross names were split into female and male</i>. This is how the maize partial diallel is read.</li>
+    <li><b>A generation column</b> (or a type column, or the entry names themselves) with the codes P1, P2, F1, F2, F3, BC1 and BC2 (also RC1, RC2, B1, B2), RF1 for the reciprocal F<sub>1</sub> and BC1S and BC2S for the selfed backcrosses.</li>
+  </ul>
+  <p>The <b>type of each entry</b> comes from the column <span class="ui">Entry type</span> when there is one (check, testigo or control; parent or parental; reciprocal; line; tester; F<sub>1</sub>, cross or hybrid). If there is none, it is inferred from the pedigree: a female equal to the male is a parent, a female different from the male is an F<sub>1</sub>, and an entry without parents in data with crosses is a check.</p>
+  <p>In the North Carolina designs and the line × tester, females and males are different plants or lines even if they share a code (<i>1 × 1</i> is a cross, not a parent): the app marks them with ♀ and ♂ and says so. If the codes repeat across sets, the set is prefixed to them (<i>S1·3</i>).</p>
+
+  <h3>Decimal separator and reshaping the table</h3>
+  <p>The menu <span class="ui">Decimal separator</span> is <span class="ui">automatic</span> by default: each column uses a decimal comma if it has more values like <i>12,5</i> or <i>1.234,5</i> than like <i>12.5</i>. Choose <span class="ui">point (12.5)</span> or <span class="ui">comma (12,5)</span> to impose it on all of them.</p>
+  <p>Some data arrive <b>in wide format</b>: one column per replicate or per environment. The button <span class="ui">Columns → rows…</span> turns them into long format. Tick the columns that are replicates of the same trait (those named <i>R1</i>, <i>Rep2</i>, <i>B3</i>, <i>E1</i> or <i>Loc2</i> come ticked), type the name of the new factor and that of the trait, and press <span class="ui">Stack</span>. Names such as <i>E1B2</i> or <i>Loc1_Rep2</i> are split into two factors.</p>
+  <figure>
+    <div class="rejilla ancha" style="grid-template-columns: 1fr auto 1fr">
+      <table class="compacta mini">
+        <thead><tr><th>Genotype</th><th class="n">R1</th><th class="n">R2</th><th class="n">R3</th></tr></thead>
+        <tbody><tr><td>A</td><td class="n">5.2</td><td class="n">4.9</td><td class="n">5.6</td></tr><tr><td>B</td><td class="n">6.1</td><td class="n">6.4</td><td class="n">5.8</td></tr><tr><td>…</td><td></td><td></td><td></td></tr></tbody>
+      </table>
+      <div class="flecha-larga">→</div>
+      <table class="compacta mini">
+        <thead><tr><th>Genotype</th><th class="c">Replicate</th><th class="n">Yield</th></tr></thead>
+        <tbody><tr><td>A</td><td class="c">1</td><td class="n">5.2</td></tr><tr><td>A</td><td class="c">2</td><td class="n">4.9</td></tr><tr><td>A</td><td class="c">3</td><td class="n">5.6</td></tr><tr><td>…</td><td></td><td></td></tr></tbody>
+      </table>
+    </div>
+    <figcaption><b>Figure 3.5.</b> <span class="ui">Columns → rows…</span> stacks columns R1 to R3 into a single trait with the new factor <i>Replicate</i>; the column <i>Genotype</i> is repeated in every row.</figcaption>
+  </figure>
+  <p>If the table is a <b>diallel in matrix form</b> (one parent per row, the same parents as column headers and a value in each cell), <span class="ui">Diallel table → rows</span> also appears, which turns it into three columns: female, male and value. <span class="ui">Undo the reshaping</span> goes back to the original table. Finally, <span class="ui">Correct in the data sheet</span> opens the loaded table in the data sheet to fix a value at its source; afterwards, <span class="ui">Use these data →</span> loads it again.</p>
+
+  <!-- ====================================================================== 3.4 -->
+  <h2 id="s3-4"><span class="num">3.4</span>The recognized design</h2>
+  <p>The card <span class="ui">3 · Recognised design</span> says which experiment the app believes you have. Six tiles sum it up: the mating design with its degree of confidence (high, medium or low; <i>declared</i> if it came in the declaration line and <i>chosen</i> if you changed it yourself), the entries with their parents and checks, the field design, the environments, the replicates with the plots per environment and the traits. Below, a list explains <b>why</b> each conclusion was reached and points out what is missing or left over.</p>
+
+  <h3>The mating design</h3>
+  <p>The app checks the rules of Table 3.2 in order and keeps the first one that holds. In a diallel, the method depends on whether there are parents (at least half of them) and reciprocals (in at least half of the pairs): with both, Method 1; parents only, 2; reciprocals only, 3; neither, 4.</p>
+
+  <table class="compacta">
+    <caption><b>Table 3.2.</b> How the mating design is recognized, rule by rule.</caption>
+    <thead><tr><th style="width:5%" class="c">#</th><th>If in the data…</th><th style="width:27%">then</th></tr></thead>
+    <tbody>
+      <tr><td class="c">1</td><td>three or more entries, and at least 60% of them, are generation codes</td><td>Generation means</td></tr>
+      <tr><td class="c">2</td><td>there is no cross with its two parents</td><td>Genotype trial</td></tr>
+      <tr><td class="c">3</td><td>the testers are P<sub>1</sub> and P<sub>2</sub> (or P<sub>1</sub>, P<sub>2</sub> and F<sub>1</sub>) and four or more plants are crossed with them</td><td>North Carolina III (with three testers, triple test cross)</td></tr>
+      <tr><td class="c">4</td><td>there are no sets and the same names appear as female and as male, or there are three or more selfed parents</td><td>Diallel: Griffing’s if 90% or more of the pairs are present; partial if not</td></tr>
+      <tr><td class="c">5</td><td>each male has its own females (nested) and each female a single male</td><td>North Carolina I</td></tr>
+      <tr><td class="c">6</td><td>there are types <i>line</i> or <i>tester</i>, the headers say line or tester, or there are up to five males and at least twice as many females</td><td>Line × tester</td></tr>
+      <tr><td class="c">7</td><td>none of the above</td><td>North Carolina II (factorial)</td></tr>
+    </tbody>
+  </table>
+  <p>In the partial diallel, the app checks whether each parent enters the same number <i>s</i> of crosses and in the circulant order of Kempthorne and Curnow (1961); if so it says so, and if not it warns that the analysis will be by least squares. The <b>confidence drops to medium</b> when entries of the complete design are missing, when the partial diallel is not circulant, when crosses of the factorial are missing, when the females of a North Carolina II repeat codes across males (it may be a I) or when the North Carolina III or the triple test cross have fewer than 20 plants.</p>
+
+  <figure>
+    <div class="marco"><img src="../img/en/b3-diseno.png" alt="The tiles of the recognized design, the reasons and the two menus to change it"></div>
+    <figcaption><b>Figure 3.6.</b> The recognized design in the α-lattice. The declaration line set Method 2 (<i>confidence high · declared</i>); the reasons say where each conclusion comes from and the two menus below allow changing it.</figcaption>
+  </figure>
+
+
+  <h3>The field design</h3>
+  <p>The field design is recognized <b>in each environment separately</b>, with the rules of Table 3.3. If the environments differ, the tile says <i>differs between environments</i> and the combined analysis uses only the replicates.</p>
+  <table class="compacta">
+    <caption><b>Table 3.3.</b> How the field design is recognized in an environment.</caption>
+    <thead><tr><th style="width:24%">Situation</th><th>If also…</th><th style="width:30%">then</th></tr></thead>
+    <tbody>
+      <tr><td rowspan="3">Two or more replicates</td><td>a few entries are in all of them and the rest only once (less than 60% of the cells filled)</td><td>Augmented blocks</td></tr>
+      <tr><td>there are more blocks than replicates and the largest block takes less than 75% of a replicate</td><td>α-lattice (resolvable incomplete blocks)</td></tr>
+      <tr><td>in any other case</td><td>Randomized complete blocks</td></tr>
+      <tr><td rowspan="4">No replicates, two or more blocks</td><td>every block has all the entries</td><td>Randomized complete blocks (the blocks act as replicates)</td></tr>
+      <tr><td>there are checks in every block and the rest appears once</td><td>Augmented blocks</td></tr>
+      <tr><td>the entries repeat</td><td>Incomplete blocks</td></tr>
+      <tr><td>nothing repeats</td><td>Unreplicated: there is no error</td></tr>
+      <tr><td rowspan="2">Neither replicates nor blocks</td><td>the entries repeat, or there are plant-level data</td><td>Completely randomized</td></tr>
+      <tr><td>there is a single value per entry</td><td>Entry means</td></tr>
+    </tbody>
+  </table>
+  <p>The <b>row–column</b> design is never chosen automatically: if the plots have row and column and you want to use them in the model, choose it in the menu. The card also warns of other field problems: missing replicate × entry combinations (adjusted least squares are used), a plot that appears several times without being plant-level data (it is averaged) and a plot with two different entries, which is an error and must be corrected.</p>
+
+  <h3>Changing what was recognized</h3>
+  <p>If something does not match your experiment, change it in the menus <span class="ui">Mating design</span> (automatic, Griffing Methods 1 to 4, partial diallel, the three North Carolina designs, triple test cross, line × tester, generation means or genotype trial) and <span class="ui">Field design</span> (automatic or one of the seven designs). The change is marked as <i>chosen</i> and everything that follows is recomputed. Typical cases: a North Carolina II that is really a I because each male has its own females, or a trial with row and column that you want to analyze as rows and columns.</p>
+
+  <h3>Crosses present, missing entries and recognized entries</h3>
+  <p>The figure <span class="ui">Crosses present in the data</span> draws the table of the design: female × male in diallels and the North Carolina II, male × female in the I, F<sub>2</sub> plant × tester in the III and the triple test cross, line × tester in the line × tester. Each cell is colored by the number of plots or, with <span class="ui">Colour by</span>, by the mean of the trait; parents carry a border, and a cross that the design expects but is not in the data is marked with an ×, with the legend <i>missing from the data</i>.</p>
+  <figure class="chica">
+    <div class="marco"><img src="../img/en/b3-presencia.png" alt="The female by male table with the crosses present in Method 2"></div>
+    <figcaption><b>Figure 3.7.</b> The crosses present in the α-lattice: Method 2 fills the diagonal (parents, with a border) and the upper triangle. Each cross is in 6 plots: 2 replicates × 3 locations.</figcaption>
+  </figure>
+  <p>If the design is incomplete, the box <span class="ui">Entries missing from the design</span> lists the missing crosses, parents, reciprocals or generations. At the end, <span class="ui">Recognised entries</span> (folded) lists each entry with its female, its male, its type and its number of records: it is the quickest way to check that the pedigree was read correctly.</p>
+
+  <h3>What is recognized in the examples</h3>
+  <p>Table 3.4 serves as a check of the recognition and as a guide to choosing an example similar to your data.</p>
+  <table class="compacta ejemplos">
+    <caption><b>Table 3.4.</b> What Block 3 recognizes in the 21 examples. RCB: randomized complete blocks; CR: completely randomized. <i>Outliers</i>: in the first trait.</caption>
+    <thead><tr><th>Example</th><th>Mating</th><th>Field</th><th class="c">Env.</th><th class="c">Outliers</th><th class="c">Next</th></tr></thead>
+    <tbody>
+      <tr><td>Maize: full 4 × 4 diallel</td><td>Griffing, Method 1</td><td>RCB</td><td class="c">1</td><td class="c">1</td><td class="c"><span class="chip k4">4</span></td></tr>
+      <tr><td><i>Nicotiana rustica</i>: Hayman’s 8 × 8 diallel</td><td>Griffing, Method 1</td><td>RCB</td><td class="c">1</td><td class="c">2</td><td class="c"><span class="chip k4">4</span></td></tr>
+      <tr><td>Full 8 × 8 diallel (textbook)</td><td>Griffing, Method 1</td><td>RCB</td><td class="c">1</td><td class="c">0</td><td class="c"><span class="chip k4">4</span></td></tr>
+      <tr><td>Diallel with parents in two environments</td><td>Griffing, Method 2</td><td>RCB</td><td class="c">2</td><td class="c">0</td><td class="c"><span class="chip k4">4</span></td></tr>
+      <tr><td>Maize: means of 36 single crosses</td><td>Griffing, Method 4</td><td>means</td><td class="c">1</td><td class="c">—</td><td class="c"><span class="chip k4">4</span></td></tr>
+      <tr><td>Maize intervarietal crosses</td><td>Griffing, Method 2</td><td>means</td><td class="c">1</td><td class="c">—</td><td class="c"><span class="chip k4">4</span></td></tr>
+      <tr><td>Maize: partial diallel of 8 lines</td><td>circulant partial, <i>s</i> = 5</td><td>RCB</td><td class="c">1</td><td class="c">0</td><td class="c"><span class="chip k6">6</span></td></tr>
+      <tr><td>North Carolina I</td><td>North Carolina I</td><td>RCB, by plant</td><td class="c">1</td><td class="c">0</td><td class="c"><span class="chip k6">6</span></td></tr>
+      <tr><td>Potato: North Carolina II</td><td>North Carolina II (♀ and ♂)</td><td>RCB</td><td class="c">1</td><td class="c">0</td><td class="c"><span class="chip k6">6</span></td></tr>
+      <tr><td>North Carolina III</td><td>North Carolina III, medium confidence</td><td>RCB</td><td class="c">1</td><td class="c">0</td><td class="c"><span class="chip k6">6</span></td></tr>
+      <tr><td>Simulated: triple test cross</td><td>triple test cross</td><td>RCB</td><td class="c">1</td><td class="c">0</td><td class="c"><span class="chip k6">6</span></td></tr>
+      <tr><td>Line × tester with parents</td><td>line × tester</td><td>RCB</td><td class="c">1</td><td class="c">0</td><td class="c"><span class="chip k6">6</span></td></tr>
+      <tr><td>Maize: 13 hybrids and 15 traits</td><td>genotype trial</td><td>RCB</td><td class="c">1</td><td class="c">1</td><td class="c"><span class="chip k8">8</span></td></tr>
+      <tr><td>Maize: 13 hybrids in 4 environments</td><td>genotype trial</td><td>RCB</td><td class="c">4</td><td class="c">1</td><td class="c"><span class="chip k9">9</span></td></tr>
+      <tr><td>Oat: 10 genotypes in 14 environments</td><td>genotype trial</td><td>RCB</td><td class="c">14</td><td class="c">2</td><td class="c"><span class="chip k9">9</span></td></tr>
+      <tr><td>Potato: 28 clones in 6 localities</td><td>genotype trial</td><td>RCB</td><td class="c">6</td><td class="c">2</td><td class="c"><span class="chip k9">9</span></td></tr>
+      <tr><td>Means of 17 genotypes in 12 environments</td><td>genotype trial</td><td>means</td><td class="c">12</td><td class="c">—</td><td class="c"><span class="chip k9">9</span></td></tr>
+      <tr><td>Simulated: inbred lines with a pedigree</td><td>genotype trial</td><td>RCB</td><td class="c">3</td><td class="c">0</td><td class="c"><span class="chip k9">9</span></td></tr>
+      <tr><td>Simulated: diallel in an α-lattice</td><td>Griffing, Method 2 (declared)</td><td>α-lattice</td><td class="c">3</td><td class="c">0</td><td class="c"><span class="chip k4">4</span></td></tr>
+      <tr><td><i>Nicotiana rustica</i>: six generations</td><td>generation means</td><td>CR, each plant a unit</td><td class="c">1</td><td class="c">0</td><td class="c"><span class="chip k7">7</span></td></tr>
+      <tr><td>Simulated: generation means, plant by plant</td><td>generation means</td><td>RCB, by plant</td><td class="c">1</td><td class="c">0 (1 to check)</td><td class="c"><span class="chip k7">7</span></td></tr>
+    </tbody>
+  </table>
+
+  <!-- ====================================================================== 3.5 -->
+  <h2 id="s3-5"><span class="num">3.5</span>Data quality</h2>
+  <p>The card <span class="ui">4 · Data quality</span> checks one trait at a time; the menu <span class="ui">Trait</span> in the corner switches from one to another. It has four parts: a summary by environment, the distribution, the field map and the list of outliers. The summary gives, for each environment (and for all together if there are several), the records, the missing values, the excluded ones, the mean, the standard deviation, the coefficient of variation, the minimum, the maximum and the skewness.</p>
+
+  <figure class="media">
+    <div class="marco"><img src="../img/en/b3-calidad.png" alt="Summary, distribution and field map of Hayman's diallel"></div>
+    <figcaption><b>Figure 3.8.</b> Card 4 with Hayman’s diallel (flowering time). The red dots are the two plots of D × A flagged as outliers; the red frame on the map marks their position, the same in both replicates.</figcaption>
+  </figure>
+
+  <p>The <b>distribution by environment</b> is a box plot with the observations on top (they can be hidden) and a diamond at the mean; the values flagged as outliers are painted red. The <b>field map</b> puts each plot in its place: by row and column if the data have them and, if not, in the order of the rows within each replicate. The menu <span class="ui">Colour</span> switches between the <span class="ui">observed value</span> and the <span class="ui">standardised residual</span> of the design model; the latter, on a diverging scale, reveals patches in the land (clustered residuals of the same sign) that the blocks did not absorb. Suspect plots carry a red border in both.</p>
+
+  <h3>Outliers</h3>
+  <p>Each observation is compared with what the design model predicts (for example, replicate + entry in complete blocks), by means of its externally studentized residual. Two levels: <b>outlier</b>, if the Bonferroni test gives <i>p</i> &lt; 0.05, and <b>check</b>, if |<i>t</i>| ≥ 3.5 without reaching that threshold. The table gives the environment, the entry, the replicate or block, the value, the fitted value, <i>t</i>, <i>p</i> and the rows of the file where it is.</p>
+  <div class="caja importante">
+    <div class="caja-t"><span class="ico">!</span>Important · with two replicates outliers come in pairs</div>
+    <p>In complete blocks with two replicates, the two residuals of an entry are equal and of opposite sign: if one plot is abnormal, its partner is flagged with the same |<i>t</i>|. That is what happens with D × A (<i>t</i> = −4.68 and +4.68). Statistics cannot tell which of the two is wrong; the field book can.</p>
+  </div>
+  <figure>
+    <div class="marco"><img src="../img/en/b3-atipicos.png" alt="The outlier table of Hayman's diallel with the two plots of D × A"></div>
+    <figcaption><b>Figure 3.9.</b> The two outliers of Hayman’s diallel: the cross D × A flowered at 204 days in replicate 2 and at 318 in replicate 1, when the model expected about 260.</figcaption>
+  </figure>
+  <div class="caja teoria">
+    <div class="caja-t"><span class="ico">θ</span>Theory in brief · studentized residuals and Bonferroni</div>
+    <div class="formula" style="margin-bottom:0.04in"><i>t<sub>i</sub></i> = <i>e<sub>i</sub></i> / [<i>s</i><sub>(<i>i</i>)</sub> √(1 − <i>h<sub>ii</sub></i>)] &nbsp;·&nbsp; <i>p</i><sub>Bonferroni</sub> = min(1, <i>n</i> · <i>p<sub>i</sub></i>)</div>
+    <p><i>e<sub>i</sub></i> is the residual of plot <i>i</i>, <i>h<sub>ii</sub></i> its leverage and <i>s</i><sub>(<i>i</i>)</sub> the error standard deviation estimated <b>without</b> that plot, so that a very odd value does not inflate the scale by which it is judged. <i>t<sub>i</sub></i> follows a <i>t</i> with the error degrees of freedom minus one; since the <i>n</i> plots are tested at once, the <i>p</i> value is multiplied by <i>n</i> (Cook and Weisberg, 1982). Thus, in a trial of 128 plots, fewer than 0.05 false outliers in all are expected by pure chance, not six.</p>
+  </div>
+  <p>The checkbox <span class="ui">Exclude</span> removes the observation from <b>all</b> the analyses: those of this block, those of the genetic blocks and the report, where the excluded rows appear in gray. Use it only when there is a proven error (in data entry, in measurement or a damaged plot), not because a value gets in the way. <span class="ui">Restore every excluded observation</span> brings them all back at once, and the note below says how many are out.</p>
+
+  <!-- ====================================================================== 3.6 -->
+  <h2 id="s3-6"><span class="num">3.6</span>The analysis of each environment</h2>
+  <p>The card <span class="ui">5 · Field-design analysis</span> fits to each environment the model that matches its design (Table 3.5) and delivers the adjusted means of the entries. The menu <span class="ui">Environment</span> picks the environment or, if there are several, the <span class="ui">Combined analysis</span> (Section 3.7), which is what is shown when the data are loaded.</p>
+  <p>With sets (North Carolina I and II), the model adds set and replicate within set. In the α-lattice and incomplete blocks, the analysis of variance is intra-block (sequential sums of squares, with the entries adjusted for blocks), but the means are estimated with blocks as random effects by restricted maximum likelihood (REML; Patterson and Thompson, 1971), which recovers the inter-block information. If the REML fit is not possible, the means stay intra-block and the card says so.</p>
+  <table class="compacta">
+    <caption><b>Table 3.5.</b> The model of each field design. <i>y</i> is the value of the plot (the mean of its plants when there are plant-level data).</caption>
+    <thead><tr><th style="width:21%">Design</th><th>Model</th><th style="width:25%">Adjusted means</th></tr></thead>
+    <tbody>
+      <tr><td>Completely randomized</td><td><i>y</i> = μ + entry + <i>e</i></td><td>least squares</td></tr>
+      <tr><td>Randomized complete blocks</td><td><i>y</i> = μ + replicate + entry + <i>e</i>; Tukey’s (1949) test for non-additivity</td><td>least squares</td></tr>
+      <tr><td>α-lattice</td><td><i>y</i> = μ + replicate + block(replicate) + entry + <i>e</i>; entries adjusted for blocks</td><td>REML, random blocks</td></tr>
+      <tr><td>Incomplete blocks</td><td><i>y</i> = μ + block + entry + <i>e</i></td><td>REML, random blocks</td></tr>
+      <tr><td>Augmented blocks</td><td><i>y</i> = μ + block + entry + <i>e</i>, fixed blocks estimated from the checks (Federer, 1956)</td><td>least squares, adjusted for block</td></tr>
+      <tr><td>Rows and columns</td><td><i>y</i> = μ + replicate + row(rep.) + column(rep.) + entry + <i>e</i></td><td>REML, random rows and columns</td></tr>
+      <tr><td>Entry means</td><td>one value per entry; the error comes from outside (Section 3.8)</td><td>the observed means</td></tr>
+    </tbody>
+  </table>
+
+  <figure>
+    <div class="marco"><img src="../img/en/b3-analisis.png" alt="Tiles, analysis of variance and assumptions for Chapultepec in the alpha lattice"></div>
+    <figcaption><b>Figure 3.10.</b> Card 5 at Chapultepec, one of the three locations of the α-lattice: summary tiles, intra-block analysis of variance and table of assumptions and trial quality.</figcaption>
+  </figure>
+
+  <h3>The tiles</h3>
+  <p>The tile <span class="ui">Model</span> gives the design and how the means were obtained; <span class="ui">Grand mean</span>, how many plots (or plants, or means) went in. The <span class="ui">Coefficient of variation</span> comes with the error mean square (MSE) and its degrees of freedom; the <span class="ui">LSD (5%)</span>, with the average standard error of a difference between two means. <span class="ui">Trial heritability</span> gives that of Cullis, Smith and Coombes (2006) and the standard one. In designs with incomplete blocks there are also <span class="ui">Efficiency vs complete blocks</span> and the block variance (or those of rows and columns) with that of the error. The colored edge of some tiles sums up the reading: green if the value is good, amber if it is acceptable and red if it is poor.</p>
+  <p>At Chapultepec, the 120 plots give a mean of 6.961 t/ha, a CV of 8.2% (MSE = 0.3264 with 41 df) and an LSD of 1.255. The entries, adjusted for blocks, differ clearly (<i>F</i> = 11.92 with 59 and 41 df). The estimated block variance, 0.1462, and that of the error, 0.3254, are close to the values used in the simulation (0.20 and 0.36); with only 20 blocks per location, the former is imprecise. The efficiency of 119% means that with complete blocks about 19% more replicates would have been needed to compare the entries with the same precision; without recovering the inter-block information (intra-block analysis) the gain would be only 4%.</p>
+
+  <div class="caja teoria">
+    <div class="caja-t"><span class="ico">θ</span>Theory in brief · trial heritability and efficiency</div>
+    <div class="formula" style="margin-bottom:0.04in">standard H² = σ²<sub>g</sub> / (σ²<sub>g</sub> + σ²<sub>e</sub>/<i>r</i>) &nbsp;·&nbsp; H²<sub>Cullis</sub> = 1 − <i><span style="text-decoration: overline">v</span></i><sub>Δ</sub> / (2σ²<sub>g</sub>) &nbsp;·&nbsp; efficiency = SED²<sub>RCB</sub> / SED²<sub>design</sub></div>
+    <p>Entries are taken as random and checks as fixed (at least five entries that are not checks are needed); <i>r</i> is the harmonic mean of the replicates, <i><span style="text-decoration: overline">v</span></i><sub>Δ</sub> the average prediction error variance of a difference and SED the average standard error of a difference. Cullis’s heritability also holds with unbalanced data or incomplete blocks. Both are a <b>repeatability</b>: they say how well the trial ranks the entries. Narrow-sense heritability, with σ²<sub>A</sub>, is estimated in Blocks 4 to 8.</p>
+  </div>
+
+  <h3>Assumptions and trial quality</h3>
+  <p>To the right of the analysis of variance, a table checks the assumptions and gives a reading of each test, with the rules of Table 3.6. Tukey’s test is only done in balanced randomized complete blocks, and the gain from incomplete blocks only in the α-lattice and in rows and columns.</p>
+  <table class="compacta" style="width:92%">
+    <caption><b>Table 3.6.</b> The tests of the assumptions table and how they are read.</caption>
+    <thead><tr><th style="width:34%">Test</th><th style="width:30%">Fine</th><th>To check</th></tr></thead>
+    <tbody>
+      <tr><td>Normality of residuals (Shapiro–Wilk)</td><td><i>p</i> ≥ 0.05: <i>holds</i></td><td><i>p</i> &lt; 0.05: <i>check the Q–Q plot</i></td></tr>
+      <tr><td>Replicate × entry additivity (Tukey, 1 df)</td><td><i>p</i> ≥ 0.05: <i>additive</i></td><td><i>p</i> &lt; 0.05: <i>non-additive: try a transformation</i></td></tr>
+      <tr><td>Outliers (Bonferroni)</td><td>none</td><td>some: <i>review in card 4</i></td></tr>
+      <tr><td>Repeatability (H²<sub>c</sub>)</td><td>≥ 0.5: <i>informative trial</i></td><td>0.3 to 0.5: <i>moderate</i>; &lt; 0.3: <i>low: little discrimination</i></td></tr>
+      <tr><td>Precision (CV)</td><td>≤ 12%: <i>good</i></td><td>12 to 20%: <i>acceptable</i>; &gt; 20%: <i>low</i></td></tr>
+      <tr><td>Gain from incomplete blocks</td><td>≥ 5%: <i>blocks helped</i></td><td>&lt; 5%: <i>little gain</i></td></tr>
+    </tbody>
+  </table>
+  <p>At Chapultepec everything comes out fine: normal residuals (<i>W</i> = 0.9920, <i>p</i> = 0.7229), no outliers, H²<sub>c</sub> = 0.93, a CV of 8.2% and a gain of 19% from the blocks. Hayman’s diallel is the opposite case: non-normal residuals (<i>p</i> = 0.0011) and non-additivity (<i>p</i> = 0.0006), which usually indicates that the trait should be transformed (for example, with the logarithm when the variance grows with the mean). The CV limits are only a guide: they depend on the crop and the trait.</p>
+  <figure>
+    <div class="marco"><img src="../img/en/b3-residuales.png" alt="Residuals against fitted values and Q-Q plot for Chapultepec"></div>
+    <figcaption><b>Figure 3.11.</b> The residual diagnostics of Chapultepec. On the left, no pattern against the fitted values and within ±3; on the right, the quantiles follow the normal line.</figcaption>
+  </figure>
+  <figure class="angosta">
+    <div class="marco"><img src="../img/en/b3-medias.png" alt="Adjusted means of the combined analysis with confidence intervals"></div>
+    <figcaption><b>Figure 3.12.</b> The adjusted means of the combined analysis (Section 3.7): the 45 crosses outperform the ten parents and the checks fall among them. The dashed line is the grand mean.</figcaption>
+  </figure>
+
+  <h3>The adjusted means</h3>
+  <p>Below comes the table of <span class="ui">Adjusted means</span>, sorted from highest to lowest, with the rank, the entry, its type, the number of plots, the mean and its standard error. A dagger (†) marks the means that the design cannot estimate because the entry is not connected with the others. The figure of means (Figure 3.12, from the combined analysis) shows them with 95% confidence intervals and colors by type; its panel allows sorting them by name, limiting the number of entries (60 by default) and removing the intervals. On screen the table shows up to 300 rows; the download includes them all.</p>
+
+  <!-- ====================================================================== 3.7 -->
+  <h2 id="s3-7"><span class="num">3.7</span>The combined analysis</h2>
+  <p>With two or more environments, the menu <span class="ui">Environment</span> offers the <span class="ui">Combined analysis</span>. It is fitted in one stage, with all the plots:</p>
+  <div class="formula"><i>y</i> = μ + environment + replicate(environment) [+ block(replicate)] + entry + entry × environment + <i>e</i></div>
+  <p>The block term enters, as a fixed effect, only if all the environments are α-lattices. Environments are tested against replicates within environments, and entries <b>in two ways</b>: against the entry × environment interaction, which is the right test if the environments are a random sample of the possible ones (column <i>F</i>), and against the pooled error, which is right if the environments are fixed (column <span class="ui">F against error</span>).</p>
+  <figure>
+    <div class="marco"><img src="../img/en/b3-combinado.png" alt="Tiles and combined analysis of variance of the three locations"></div>
+    <figcaption><b>Figure 3.13.</b> The combined analysis of the three locations of the α-lattice. The table on the right sums up the error and heritability of each environment.</figcaption>
+  </figure>
+  <p>The tiles give the number of environments and whether the analysis was in one or two stages, the grand mean, the pooled MSE, the <b>error homogeneity</b> with Bartlett’s (1937) test and the ratio of the largest to the smallest MSE, and the LSD between means over all environments. In the example, the errors of the three locations are homogeneous (<i>p</i> = 0.9426, ratio 1.11), so combining them poses no problem. The entry × environment interaction is significant (<i>F</i> = 1.60, <i>p</i> = 0.0049) but small compared with the differences between entries (<i>F</i> = 20.82 against the interaction): the ranking of the crosses changes little from one location to another. The cross P5 × P6 has the highest mean, 8.7622 t/ha (Figure 3.12).</p>
+  <div class="caja importante">
+    <div class="caja-t"><span class="ico">!</span>Important · when the errors are not homogeneous</div>
+    <p>If Bartlett’s test gives <i>p</i> &lt; 0.05, the card warns that the combined <i>F</i> tests are approximate. Such data call for a model with one error variance per environment, which is in Block 9 (two-stage analysis with REML).</p>
+  </div>
+  <p>If the one-stage model would have more than 1,400 parameters (many entries in many environments), the analysis is done <b>in two stages</b> (Möhring and Piepho, 2009): first the adjusted means of each environment and then an analysis of the entry × environment table, whose error is the average variance of the adjusted means, on the plot scale. The card says so and states how many parameters the full model would have had. Entries that are not in every environment are left out of that second stage; in one stage, if there are empty entry × environment combinations, the overall means come from the model without interaction.</p>
+
+  <!-- ====================================================================== 3.8 -->
+  <h2 id="s3-8"><span class="num">3.8</span>Special cases</h2>
+
+  <h3>Plant-level data</h3>
+  <p>When several rows share the same plot (or there is a column <span class="ui">Plant / individual</span>), the data are plant-level. Each plot is summarized by the mean of its plants and the analysis of variance is done with those means; the row <span class="ui">Between plants within plots</span> is added separately, on the plant scale, with the sampling error (Steel, Torrie and Dickey, 1997). The note below the table recalls that the sums of squares of the plots are on the mean scale (they are multiplied by the number of plants to bring them to the plant scale) and tests the experimental error against the sampling error. In the North Carolina I example, with three plants per plot, the between-plants row has 48 df and an MS of 0.074; <i>F</i> = 4.33 (<i>p</i> = 0.0002) says that the plots differ more than the plants explain: there is a genuine plot error.</p>
+
+  <h3>Plants without plots</h3>
+  <p>In generation-mean experiments it is common to measure single plants, without replicates, blocks or plots. Then <b>each plant is an experimental unit</b> and the plants of each generation are its replicates: the design is completely randomized and the replicates tile gives the median number of plants per entry. With the six generations of <i>N. rustica</i> (160 plants) the result is a CV of 12%, an MSE of 1.8503 with 154 df, an LSD of 0.884 and a trial heritability of 0.98.</p>
+
+  <h3>Entry means and external error</h3>
+  <p>With a single value per entry, the data are means and the error cannot be estimated. Card 3 then shows the box <span class="ui">Error of the original experiment</span>: for each trait, the error mean square, its degrees of freedom, its scale and the replicates (on the plot scale, the MS is divided by the replicates). With it there are standard errors, LSD and tests in the genetic blocks; without it, only means. The mean examples bring their error: 21.05 with 2,558 df on the mean scale in the 36 maize crosses (LSD = 12.723), and 1.8 with 576 df on the plot scale, with four replicates, in the 17 genotypes (0.45 for the means).</p>
+
+  <h3>Augmented blocks</h3>
+  <p>In the augmented design, the checks are repeated in every block and the new entries appear once. The blocks are fixed and are estimated from the checks; each new entry is adjusted for the effect of its block (Federer, 1956). With two or more checks, the entries sum of squares is split into <span class="ui">Checks</span> and <span class="ui">New entries and new vs. checks</span>, and the note gives that of blocks eliminating entries.</p>
+
+  <h3>Other cases</h3>
+  <ul>
+    <li><b>A design the data do not support</b> is replaced by a simpler one, with a warning: a lattice without real incomplete blocks becomes complete blocks, and so do rows and columns without those columns.</li>
+    <li><b>Entries without replicates and without repeated checks</b>: the design is <i>unreplicated</i> and there is no error; the app marks it in red.</li>
+    <li><b>Without degrees of freedom for the error</b>, or with fewer than three plots with data, the environment is not analyzed and the card explains why.</li>
+  </ul>
+
+  <!-- ====================================================================== 3.9 -->
+  <h2 id="s3-9"><span class="num">3.9</span>Downloads and moving on to the genetic blocks</h2>
+  <p>At the foot of card 5 there are three downloads, which include <b>all</b> the traits and all the environments, not just what is on screen. Each figure also has its own download panel (Section I.6).</p>
+  <table class="compacta" style="width:92%">
+    <caption><b>Table 3.7.</b> The downloads of Block 3.</caption>
+    <thead><tr><th style="width:27%">Button</th><th>Content</th></tr></thead>
+    <tbody>
+      <tr><td><span class="ui">Results (.xlsx)</span></td><td>Five sheets: <i>Means</i> (by trait and environment, and combined); <i>ANOVA</i> (all sources, with df, SS, MS, <i>F</i> and <i>p</i>); <i>Quality</i> (design, plots, mean, CV, MSE, error df, LSD, Cullis and standard H², σ²<sub>g</sub>, block σ², <i>p</i> of Shapiro–Wilk and of Tukey, outliers); <i>Data</i> (the table with the column <i>Excluded</i>); <i>Design</i> (mating, method, parents, field design, environments and source)</td></tr>
+      <tr><td><span class="ui">Adjusted means (.csv)</span></td><td>Trait, environment, entry, type, plots, adjusted mean and standard error</td></tr>
+      <tr><td><span class="ui">Cleaned data (.csv)</span></td><td>The original table with a column <i>Excluded</i> (1 if the observation was left out)</td></tr>
+    </tbody>
+  </table>
+  <p>In addition, at the end of card 5, <span class="ui">How is each design analysed?</span> sums up the methods of Sections 3.5 to 3.7 with their references, ready for the materials and methods section of an article; the report of Block 12 includes them in full prose.</p>
+
+  <p>The button <span class="ui">Continue</span> at the end changes according to the recognized mating design (Table 3.8); in the example it reads <span class="ui">Continue: Griffing →</span>. <span class="ui">← Plan</span> goes back to Block 2. The other blocks are always one click away in the top bar.</p>
+  <table class="compacta" style="width:84%">
+    <caption><b>Table 3.8.</b> Where the button <span class="ui">Continue</span> leads.</caption>
+    <thead><tr><th>Recognized design</th><th style="width:40%">Next block</th></tr></thead>
+    <tbody>
+      <tr><td>Griffing diallel (complete)</td><td><span class="chip k4">4</span> Griffing diallels (and then 5)</td></tr>
+      <tr><td>Partial diallel, North Carolina designs, triple test cross, line × tester</td><td><span class="chip k6">6</span> Mating designs</td></tr>
+      <tr><td>Generation means</td><td><span class="chip k7">7</span> Generations</td></tr>
+      <tr><td>Genotype trial in one environment</td><td><span class="chip k8">8</span> Genetic parameters and selection</td></tr>
+      <tr><td>Genotype trial in several environments</td><td><span class="chip k9">9</span> Genotype × environment</td></tr>
+    </tbody>
+  </table>
+
+  <p>What passes to the following blocks is the table with its roles, the records with their pedigree, the mating and field designs, the excluded observations, the external error and, for each trait, the analysis of this card (adjusted means, MSE and degrees of freedom), which is computed the first time a block asks for it. Any change in Block 3 (a role, the design, an exclusion) is reflected in them when they are opened again. As in the rest of the app, the loaded data and the results are not kept when the page is reloaded; only the data sheet is kept in the browser.</p>
+
+  <div class="caja regla">
+    <div class="caja-t"><span class="ico">✓</span>Rule of thumb · before moving on to the genetic blocks</div>
+    <table class="compacta"><tbody>
+      <tr><td style="width:46%"><b>If</b> a column was left with a wrong role or as <span class="ui">Ignore</span>…</td><td><b>then</b> correct it in card 2: everything else depends on it.</td></tr>
+      <tr><td><b>If</b> the mating design has medium or low confidence…</td><td><b>then</b> read the reasons and check <span class="ui">Recognised entries</span> and the figure of crosses present.</td></tr>
+      <tr><td><b>If</b> there are outliers…</td><td><b>then</b> compare them with the field book and exclude only proven errors.</td></tr>
+      <tr><td><b>If</b> normality or additivity fail…</td><td><b>then</b> consider transforming the trait before loading it again.</td></tr>
+    </tbody></table>
+    <p class="regla-pie">The genetic blocks use exactly what remains in Block 3: its data, its design, the excluded observations and the external error.</p>
+  </div>
+
+</section>
+
+</body>
+</html>

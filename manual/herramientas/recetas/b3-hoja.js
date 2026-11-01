@@ -7,7 +7,7 @@
   const cargar = async id => { goStep(3); await W(500); document.querySelector("[data-fam=\"all\"]").click(); await W(150); document.querySelector(`[data-ex="${id}"]`).click(); for (let k = 0; k < 80; k++) { await W(250); if (B3.results.size && !document.getElementById("b3Analysis").classList.contains("is-busy")) break; } await W(800); };
   goStep(3); await W(500);
   const src = Examples.rows("maize4").rows.map(r => r.map(v => String(v)));
-  Sheet.open({ rows: src, name: "dialelo_maiz", force: true }); await W(1200);
+  Sheet.open({ rows: src, name: document.documentElement.lang === "en" ? "maize_diallel" : "dialelo_maiz", force: true }); await W(1200);
   const c = document.getElementById("cardSheet"); irA(c); await W(500);
   const g = document.getElementById("sheetGrid"), gr = g.getBoundingClientRect();
   caja([c.querySelector(".card-head"), c.querySelector(".sheet-toolbar")], 10);

@@ -1,0 +1,433 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>BreedingPro · User’s Manual · Block 2: planning crosses, trial and power</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,500;0,600;1,500&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../interior.css">
+<!-- splits the content into letter-size pages, with running heads and page numbers -->
+<script src="../paginar.js"></script>
+<style>
+  figure.chica .marco, figure.chica > svg { width: 72%; margin: 0 auto; }
+  figure.chica figcaption { margin-left: 14%; margin-right: 14%; }
+  .rejilla { display: grid; grid-template-columns: 1fr 1fr; gap: 0.1in 0.18in; align-items: start; }
+  .rejilla.plan { grid-template-columns: 0.82fr 1fr; }
+  .rejilla .sub { font-family: var(--sans); font-size: 8.4pt; color: var(--negro); text-align: center; margin-top: 0.04in; }
+  .rejilla .sub b { font-weight: 600; }
+  td.n, th.n { text-align: right; white-space: nowrap; }
+  table.libreta { font-size: 7.8pt; }
+  table.libreta td, table.libreta th { padding: 0.03in 0.045in; white-space: nowrap; }
+  .formula { font-family: var(--sans); font-size: 9pt; background: #f6f3fa; border-radius: 4px; padding: 0.07in 0.12in; margin: 0.06in 0 0.12in; line-height: 1.6; }
+  code.meta { display: block; font-size: 7.6pt; white-space: normal; word-break: normal; background: #f6f3fa; padding: 0.06in 0.1in; border-radius: 4px; margin: 0.04in 0 0.12in; }
+</style>
+</head>
+<body>
+
+<section class="capitulo" id="cap-b2" data-pestana="B2" data-orden="3" style="--acento: var(--b2)">
+  <div class="cap-apertura">
+    <div class="cap-num">B2</div>
+    <div class="cap-etiqueta">Chapter two · Block 2 · Plan</div>
+    <h1 data-corto="Block 2 · Planning crosses, trial and power">Planning crosses, trial and power</h1>
+    <div class="cap-regla"></div>
+    <p class="cap-resumen">Before the first pollination is made, it pays to know how many crosses must be made, how much seed will be needed, how the trial will be laid out in the field and whether the experiment will have the power needed to answer the question. Block 2 settles all four and delivers the field book that Block 3 will read later.</p>
+    <div class="cap-franja"><span class="k2"></span><span class="k2" style="opacity:.75"></span><span class="k2" style="opacity:.5"></span><span class="k2" style="opacity:.3"></span></div>
+    <ul class="cap-contenido">
+      <li><b>2.1</b>What this block does</li>
+      <li><b>2.2</b>The mating design</li>
+      <li><b>2.3</b>Seed and pollinations</li>
+      <li><b>2.4</b>The field trial</li>
+      <li><b>2.5</b>The field book</li>
+      <li><b>2.6</b>Precision and power before sowing</li>
+      <li><b>2.7</b>Other designs, with their numbers</li>
+      <li><b>2.8</b>From the field book to Block 3</li>
+    </ul>
+  </div>
+
+  <!-- ====================================================================== 2.1 -->
+  <h2 id="s2-1"><span class="num">2.1</span>What this block does</h2>
+  <p class="lead">Block 2 is worked from top to bottom in four cards. Each one takes what the previous one defined, and everything is recomputed at once: if you change the number of parents, the crosses, the seed, the field map and the power change with it.</p>
+
+  <figure>
+    <svg viewBox="0 0 700 250" xmlns="http://www.w3.org/2000/svg" font-family="Jost, sans-serif" role="img" aria-label="The four cards of Block 2 and their output to Block 3">
+      <defs>
+        <marker id="fv" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#2e8556"/></marker>
+        <marker id="fg" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#625d6c"/></marker>
+        <marker id="ft" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#0f766e"/></marker>
+      </defs>
+      <!-- the loop back when power falls short -->
+      <path d="M612 52 C 612 16 600 14 560 14 L 140 14 C 96 14 86 18 86 48" fill="none" stroke="#625d6c" stroke-width="1.4" stroke-dasharray="5 4" marker-end="url(#fg)"/>
+      <text x="350" y="10" text-anchor="middle" font-size="10" fill="#625d6c">not enough power? more parents, replicates or locations</text>
+      <g font-size="10" fill="#1f3d2c">
+        <!-- card 1 -->
+        <rect x="10" y="52" width="152" height="112" rx="9" fill="#e7f3ec" stroke="#2e8556" stroke-width="1.4"/>
+        <rect x="10" y="52" width="152" height="28" rx="9" fill="#2e8556"/><rect x="10" y="70" width="152" height="10" fill="#2e8556"/>
+        <text x="20" y="71" fill="#fff" font-weight="600" font-size="11">1 · Mating design</text>
+        <text x="20" y="100">• 11 designs</text><text x="20" y="117">• crosses to make</text><text x="20" y="134">• entries to evaluate</text><text x="20" y="151">• plan and calendar</text>
+        <!-- card 2 -->
+        <rect x="185" y="52" width="152" height="112" rx="9" fill="#e7f3ec" stroke="#2e8556" stroke-width="1.4"/>
+        <rect x="185" y="52" width="152" height="28" rx="9" fill="#2e8556"/><rect x="185" y="70" width="152" height="10" fill="#2e8556"/>
+        <text x="195" y="71" fill="#fff" font-weight="600" font-size="11">2 · Seed and pollinations</text>
+        <text x="195" y="100">• seed per entry</text><text x="195" y="117">• pollinations</text><text x="195" y="134">• plants per parent</text><text x="195" y="151">• pollen warnings</text>
+        <!-- card 3 -->
+        <rect x="360" y="52" width="152" height="112" rx="9" fill="#e7f3ec" stroke="#2e8556" stroke-width="1.4"/>
+        <rect x="360" y="52" width="152" height="28" rx="9" fill="#2e8556"/><rect x="360" y="70" width="152" height="10" fill="#2e8556"/>
+        <text x="370" y="71" fill="#fff" font-weight="600" font-size="11">3 · Field trial</text>
+        <text x="370" y="100">• 4 field designs</text><text x="370" y="117">• map per location</text><text x="370" y="134">• area and error df</text><text x="370" y="151">• field book</text>
+        <!-- card 4 -->
+        <rect x="535" y="52" width="155" height="112" rx="9" fill="#e7f3ec" stroke="#2e8556" stroke-width="1.4"/>
+        <rect x="535" y="52" width="155" height="28" rx="9" fill="#2e8556"/><rect x="535" y="70" width="155" height="10" fill="#2e8556"/>
+        <text x="545" y="71" fill="#fff" font-weight="600" font-size="11">4 · Precision and power</text>
+        <text x="545" y="100">• standard errors</text><text x="545" y="117">• detectable differences</text><text x="545" y="134">• power of the F tests</text><text x="545" y="151">• precision of σ²A and σ²D</text>
+      </g>
+      <g stroke="#2e8556" stroke-width="1.6"><path d="M162 108 L 182 108" marker-end="url(#fv)"/><path d="M337 108 L 357 108" marker-end="url(#fv)"/><path d="M512 108 L 532 108" marker-end="url(#fv)"/></g>
+      <!-- towards Block 3 -->
+      <path d="M436 164 L 436 196" stroke="#0f766e" stroke-width="1.6" marker-end="url(#ft)"/>
+      <rect x="250" y="200" width="372" height="40" rx="20" fill="#e3f1ef" stroke="#0f766e" stroke-width="1.3"/>
+      <text x="436" y="217" text-anchor="middle" font-size="10.5" fill="#0b4f4a"><tspan font-weight="600">Block 3 · Block 2 field book</tspan></text>
+      <text x="436" y="232" text-anchor="middle" font-size="9.5" fill="#244d4a">with the field data, or with simulated values to rehearse the analysis</text>
+      <g font-size="9.5" fill="#625d6c">
+        <text x="20" y="190">.xlsx with four sheets:</text><text x="20" y="204">field book, entries,</text><text x="20" y="218">crossing block and design;</text><text x="20" y="232">figures up to 900 dpi</text>
+      </g>
+    </svg>
+    <figcaption><b>Figure 2.1.</b> The four cards of Block 2. The field book of card 3 is downloaded or goes straight to Block 3; if card 4 shows low power, you go back to card 1 or 2 and adjust the size of the experiment.</figcaption>
+  </figure>
+
+  <p>The same example is used throughout the chapter: <b>a diallel of eight maize lines</b>, L1 to L8, with Griffing’s Method 4 (F<sub>1</sub> crosses only), two commercial checks, three replicates and two locations, in an α-lattice. Every number quoted comes from the app with those settings and with its default random seed, 2026.</p>
+
+  <!-- ====================================================================== 2.2 -->
+  <h2 id="s2-2"><span class="num">2.2</span>The mating design</h2>
+  <p>The card <span class="ui">1 · Mating design</span> opens with eleven tiles, one per design, each with its own illustration. Choosing one brings up the inputs that design needs: the list of parents, the number of males and females, the two parents of a cross or the generations. Below, four tiles summarize the plan: parents or individuals, crosses to make, entries to evaluate and growing seasons up to the evaluation.</p>
+
+  <table class="compacta">
+    <caption><b>Table 2.1.</b> The eleven designs. <i>p</i>: parents; <i>c</i>: sets; <i>m</i> and <i>f</i>: males and females per set; <i>n</i>: F<sub>2</sub> plants or lines; <i>l</i> and <i>t</i>: lines and testers.</caption>
+    <thead><tr><th style="width:20%">Design</th><th>What is crossed</th><th style="width:18%">Entries</th><th style="width:12%">Blocks</th></tr></thead>
+    <tbody>
+      <tr><td><span class="ui">Griffing 1</span></td><td>Every pair in both directions, plus the parents</td><td><i>p</i>²</td><td><span class="chip k4">4</span> <span class="chip k5">5</span></td></tr>
+      <tr><td><span class="ui">Griffing 2</span></td><td>Every pair once, plus the parents</td><td><i>p</i>(<i>p</i> + 1)/2</td><td><span class="chip k4">4</span> <span class="chip k5">5</span></td></tr>
+      <tr><td><span class="ui">Griffing 3</span></td><td>Every pair in both directions, without the parents</td><td><i>p</i>(<i>p</i> − 1)</td><td><span class="chip k4">4</span></td></tr>
+      <tr><td><span class="ui">Griffing 4</span></td><td>Every pair once, without the parents</td><td><i>p</i>(<i>p</i> − 1)/2</td><td><span class="chip k4">4</span></td></tr>
+      <tr><td><span class="ui">Partial diallel</span></td><td>Each parent with <i>s</i> of the others, in a circulant scheme</td><td><i>ps</i>/2</td><td><span class="chip k6">6</span></td></tr>
+      <tr><td><span class="ui">North Carolina I</span></td><td>Each male with <i>f</i> females of its own, different from those of the other males</td><td><i>c</i>·<i>m</i>·<i>f</i></td><td><span class="chip k6">6</span></td></tr>
+      <tr><td><span class="ui">North Carolina II</span></td><td>Every male with every female of its set</td><td><i>c</i>·<i>m</i>·<i>f</i></td><td><span class="chip k6">6</span></td></tr>
+      <tr><td><span class="ui">North Carolina III</span></td><td>Each F<sub>2</sub> plant as male with P<sub>1</sub> and with P<sub>2</sub></td><td>2<i>n</i></td><td><span class="chip k6">6</span></td></tr>
+      <tr><td><span class="ui">Triple test cross</span></td><td>Each F<sub>2</sub> plant or line as male with P<sub>1</sub>, P<sub>2</sub> and F<sub>1</sub></td><td>3<i>n</i></td><td><span class="chip k6">6</span></td></tr>
+      <tr><td><span class="ui">Line × tester</span></td><td>Each line (female) with each tester (male)</td><td><i>l</i>·<i>t</i></td><td><span class="chip k6">6</span></td></tr>
+      <tr><td><span class="ui">Generations</span></td><td>P<sub>1</sub>, P<sub>2</sub>, F<sub>1</sub>, F<sub>2</sub>, BC<sub>1</sub> = F<sub>1</sub> × P<sub>1</sub> and BC<sub>2</sub> = F<sub>1</sub> × P<sub>2</sub>; optionally the reciprocal F<sub>1</sub>, the F<sub>3</sub> and the selfed backcrosses</td><td>one per generation</td><td><span class="chip k7">7</span></td></tr>
+    </tbody>
+  </table>
+  <p>The partial diallel, the North Carolina III and the triple test cross can add the parents (and the F<sub>1</sub>) as entries; the line × tester adds the lines and testers by default; and any design accepts <b>checks</b>, which are typed separated by commas and are evaluated as one more entry. Parent names are free; if the list is left empty, the app uses generic names (P1, P2… or L1, L2…) and the number you give. When you type names, that number adjusts itself to the count typed and is locked.</p>
+
+  <figure>
+    <div class="marco"><img src="../img/en/b2-tarjeta1.png" alt="The mating-design card with Griffing 4 chosen, eight parents L1 to L8, checks Check A and Check B, and the four summary tiles"></div>
+    <figcaption><b>Figure 2.2.</b> Card 1 with the example: <span class="ui">Griffing 4</span>, eight lines and two checks. The result is 28 crosses and 30 entries, which are evaluated in the second growing season.</figcaption>
+  </figure>
+
+  <div class="caja nota">
+    <div class="caja-t"><span class="ico">i</span>Note · how crosses are written</div>
+    <p>Every cross is written <b>female × male</b>. In diallels, the direct F<sub>1</sub> crosses go above the diagonal (the female is the row) and the reciprocals below, as in Griffing (1956b). In the North Carolina III and the triple test cross, the testers P<sub>1</sub>, P<sub>2</sub> and F<sub>1</sub> are the females and each F<sub>2</sub> plant supplies the pollen. In the line × tester, the lines are the females. Repeated names are ignored with a warning, because the following blocks identify each entry by its name.</p>
+  </div>
+
+  <h3>Rules of some designs</h3>
+  <ul>
+    <li><b>Methods 3 and 4</b> need at least four parents to estimate SCA; the other diallels, at least three.</li>
+    <li><b>Partial diallel</b> (Kempthorne and Curnow, 1961): parent <i>i</i> is crossed with <i>i</i> + <i>k</i>, …, <i>i</i> + <i>k</i> + <i>s</i> − 1 (around the circle), with <i>k</i> = (<i>p</i> + 1 − <i>s</i>)/2. Each parent then enters exactly <i>s</i> crosses, but only if <i>p</i> and <i>s</i> have opposite parity and <i>s</i> &lt; <i>p</i> − 1; the menu <span class="ui">Crosses per parent (s)</span> offers only those values. With 10 parents they are <i>s</i> = 3, 5 or 7 (15, 25 or 35 crosses, instead of 45).</li>
+    <li><b>North Carolina I and II</b> are organized in sets, each with new males and females; they are evaluated as separate experiments. In the II, the checkbox <span class="ui">Males and females are plants from a population</span> means they are non-inbred plants: when the design is chosen with it ticked, card 4 takes F = 0 (as in the I, the III and the triple test cross), and card 2 checks whether each plant is enough for all its crosses.</li>
+    <li><b>North Carolina III and triple test cross</b>: 20 or more F<sub>2</sub> plants are recommended (Kearsey, 1980). The checkbox <span class="ui">I already have F₂ seed (or the lines)</span> removes from the calendar the seasons needed to produce them.</li>
+    <li><b>Line × tester</b> with a single tester is a test cross: the app warns that neither SCA nor the GCA of the testers can be estimated that way.</li>
+    <li><b>Generations</b>: without P<sub>1</sub>, P<sub>2</sub>, F<sub>1</sub> or F<sub>2</sub> there are no scaling tests, and without both backcrosses only the additive–dominance model with the C test is fitted; the app points this out. The backcrosses carry the codes BC1 and BC2; Block 3 also recognizes the Spanish RC1 and RC2, and Block 7 shows them as BC<sub>1</sub> and BC<sub>2</sub>.</li>
+  </ul>
+
+  <h3>The crossing plan and the calendar</h3>
+  <p>Below the tiles there are two editable figures. The <b>crossing plan</b> is the female × male table with each cross colored by type (parent, direct F<sub>1</sub>, reciprocal, full-sib family, backcross to each tester); for generations it is replaced by a diagram of the origin of each generation with its plants. The <b>calendar by growing season</b> spreads the work over growing seasons, from the crossing block to the evaluation.</p>
+  <figure>
+    <div class="rejilla plan">
+      <div><div class="marco"><img src="../img/en/b2-plan.png" alt="The crossing plan of Method 4 with eight lines: the crosses fill the cells above the diagonal"></div><div class="sub"><b>A</b> · Crossing plan</div></div>
+      <div><div class="marco"><img src="../img/en/b2-calendario.png" alt="The calendar by growing season of the example: crossing block in season 1 and evaluation in season 2"></div><div class="sub"><b>B</b> · Calendar by growing season</div></div>
+    </div>
+    <figcaption><b>Figure 2.3.</b> The two figures of card 1 with the example. In Method 4 only the crosses above the diagonal are made; the checks do not appear in the plan because they are not crossed.</figcaption>
+  </figure>
+  <table class="compacta">
+    <caption><b>Table 2.2.</b> Growing seasons up to the evaluation, by design.</caption>
+    <thead><tr><th style="width:30%">Design</th><th>Seasons</th><th style="width:8%" class="c">Total</th></tr></thead>
+    <tbody>
+      <tr><td>Diallels, partial and line × tester</td><td>Crossing block (with selfing of the parents and staggered sowings if they do not flower together) · evaluation</td><td class="c">2</td></tr>
+      <tr><td>North Carolina I and II</td><td>Crossing block, with every plant labeled · evaluation, one experiment per set</td><td class="c">2</td></tr>
+      <tr><td>North Carolina III and triple test cross</td><td>Produce the F<sub>1</sub> · produce the F<sub>2</sub> · test crosses, each male with all its testers on the same day · evaluation</td><td class="c">4</td></tr>
+      <tr><td>Generations</td><td>Produce the F<sub>1</sub> · segregating generations, remaking the F<sub>1</sub> and increasing P<sub>1</sub> and P<sub>2</sub> · (third generation, if requested) · joint evaluation of all of them</td><td class="c">3 or 4</td></tr>
+    </tbody>
+  </table>
+  <p>The full list of crosses and entries is folded at the end of the card, in <span class="ui">List of crosses and entries</span>, with the number, code, female, male and type of each one, and it is downloaded with <span class="ui">⬇ CSV</span>.</p>
+
+  <h3>How many plants per generation</h3>
+  <p>In the generations design each generation is evaluated with a number of plants. The segregating generations vary more than the parents and the F<sub>1</sub>, so with the same number of plants their means are more or less precise according to their variance. The button <span class="ui">Share out to equalise precision</span> distributes a total of plants in proportion to the expected variance of each generation, so that all means have the same standard error (Kearsey, 1980).</p>
+  <div class="formula">V(P<sub>1</sub>) = V(P<sub>2</sub>) = V(F<sub>1</sub>) = E &nbsp;·&nbsp; V(F<sub>2</sub>) = ½D + ¼H + E &nbsp;·&nbsp; V(BC<sub>1</sub>) = V(BC<sub>2</sub>) = ¼D + ¼H + E<br>with D and H derived from the heritability in the F<sub>2</sub> and from the ratio (H/D)<sup>½</sup> you give</div>
+  <p>With the default values (600 plants, H² = 0.5 in the F<sub>2</sub> and (H/D)<sup>½</sup> = 0.8) the allocation is 73 plants of each parent and of the F<sub>1</sub>, 146 of F<sub>2</sub> and 118 of each backcross, and the standard errors of the six means fall between 0.079 and 0.080. With the initial allocation of 30 and 100 plants they ranged from 0.086 to 0.124 (Section 2.7).</p>
+
+  <!-- ====================================================================== 2.3 -->
+  <h2 id="s2-3"><span class="num">2.3</span>Seed and pollinations</h2>
+  <p>The card <span class="ui">2 · Seed and pollinations</span> answers three questions about the crossing block: how much seed each entry needs for the whole trial, how many pollinations must be made and how many plants of each parent must be sown. The menu <span class="ui">Crop</span> fills the fields with guide values (Table 2.4) that you can correct with those of your own program.</p>
+  <figure class="media">
+    <div class="marco"><img src="../img/en/b2-semilla.png" alt="The seed and pollinations card with its inputs, the five summary tiles and the table of plants per parent opened"></div>
+    <figcaption><b>Figure 2.4.</b> Card 2 with the example and the table <span class="ui">Plants per parent in the crossing block</span> opened.</figcaption>
+  </figure>
+  <div class="caja teoria">
+    <div class="caja-t"><span class="ico">θ</span>Theory in brief · the arithmetic of the card</div>
+    <div class="formula" style="margin-bottom:0.04in">seed per entry = seeds per plot × replicates × locations × (1 + margin)<br>pollinations per entry = seed ÷ (seeds per pollination × fraction of successful pollinations)<br>female plants of a parent = (pollinations as female + self-pollinations) ÷ female units per plant<br>male plants of a parent = pollinations as male ÷ pollinations per male plant</div>
+    <p>Everything is rounded up. In the generations design the seed comes from the plants of each generation times the number of locations, with the same margin. The self-pollinations are those that provide the seed of the parents that are evaluated; in Methods 3 and 4 there are none, because the parents do not enter the trial.</p>
+  </div>
+  <p>In the example, each entry needs 40 × 3 × 2 × 1.3 = 312 seeds; with 250 seeds per pollination and 70% success, each pollination yields 175, so two pollinations are made per cross: 56 in all for the 28 crosses. With one ear per plant and four pollinations per male plant, the crossing block needs 56 female plants and 16 male plants.</p>
+  <div class="caja importante">
+    <div class="caja-t"><span class="ico">!</span>Important · who is female and who is male</div>
+    <p>In Methods 2 and 4 the app writes each cross with the parent that comes first in the list as the female. In the example, L1 is the female in its seven crosses (14 female plants and no male ones) and L8 is the male in all of them (4 male plants). Since these methods assume there are no reciprocal effects, you can reverse some crosses in the crossing block to share out the work; keep the entry code as it is in the field book.</p>
+  </div>
+  <table class="compacta" style="width:86%">
+    <caption><b>Table 2.3.</b> Inputs of card 2 and their initial values (those of maize).</caption>
+    <thead><tr><th>Field</th><th class="n">Initial</th><th>What it is</th></tr></thead>
+    <tbody>
+      <tr><td><span class="ui">Replicates</span> · <span class="ui">Locations</span></td><td class="n">3 · 2</td><td>Those of the whole block: cards 3 and 4 use them too</td></tr>
+      <tr><td><span class="ui">Seeds per plot</span></td><td class="n">40</td><td>Seeds sown in each plot</td></tr>
+      <tr><td><span class="ui">Safety margin (%)</span></td><td class="n">30</td><td>Extra seed, for resowing and losses</td></tr>
+      <tr><td><span class="ui">Seeds per pollination</span></td><td class="n">250</td><td>Seed produced by one successful pollination</td></tr>
+      <tr><td><span class="ui">Successful pollinations (%)</span></td><td class="n">70</td><td>Fraction of pollinations that set seed</td></tr>
+      <tr><td><span class="ui">Female units per plant</span></td><td class="n">1</td><td>Ears, heads or flowers that can be pollinated on one plant</td></tr>
+      <tr><td><span class="ui">Pollinations per male plant</span></td><td class="n">4</td><td>Pollinations the pollen of one plant can make</td></tr>
+    </tbody>
+  </table>
+  <table class="compacta">
+    <caption><b>Table 2.4.</b> Guide values of the menu <span class="ui">Crop</span>. <span class="ui">Other (own values)</span> leaves the fields as they are.</caption>
+    <thead><tr><th>Crop</th><th class="n">Seeds per pollination</th><th class="n">Female units per plant</th><th class="n">Pollinations per male plant</th><th class="n">Seeds per plot</th></tr></thead>
+    <tbody>
+      <tr><td>Maize</td><td class="n">250</td><td class="n">1</td><td class="n">4</td><td class="n">40</td></tr>
+      <tr><td>Sorghum</td><td class="n">400</td><td class="n">1</td><td class="n">3</td><td class="n">80</td></tr>
+      <tr><td>Wheat</td><td class="n">30</td><td class="n">3</td><td class="n">5</td><td class="n">300</td></tr>
+      <tr><td>Rice</td><td class="n">20</td><td class="n">3</td><td class="n">6</td><td class="n">200</td></tr>
+      <tr><td>Common bean</td><td class="n">4</td><td class="n">10</td><td class="n">10</td><td class="n">40</td></tr>
+      <tr><td>Tomato</td><td class="n">60</td><td class="n">8</td><td class="n">10</td><td class="n">20</td></tr>
+      <tr><td>Pepper</td><td class="n">40</td><td class="n">8</td><td class="n">10</td><td class="n">20</td></tr>
+      <tr><td>Squash</td><td class="n">200</td><td class="n">2</td><td class="n">3</td><td class="n">10</td></tr>
+      <tr><td>Sunflower</td><td class="n">300</td><td class="n">1</td><td class="n">3</td><td class="n">30</td></tr>
+      <tr><td>Cotton</td><td class="n">25</td><td class="n">10</td><td class="n">10</td><td class="n">40</td></tr>
+    </tbody>
+  </table>
+
+  <h3>When each parent is a single plant</h3>
+  <p>In the North Carolina I and III, in the triple test cross and in the North Carolina II with plants from a population, each parent is a plant that cannot be multiplied. The card compares what is asked of it with what it can give and warns when it is not enough. In the North Carolina II with its initial values (three sets of 4 × 4), each male must supply pollen for 8 pollinations, more than the 4 assumed, and each female needs 8 pollinations with a single ear. The app suggests reducing the seed per plot, staggering the sowing of the females, using several tassels or flowers per plant or, in the II, using as females lines or clones that can be multiplied.</p>
+
+  <!-- ====================================================================== 2.4 -->
+  <h2 id="s2-4"><span class="num">2.4</span>The field trial</h2>
+  <p>The card <span class="ui">3 · Field trial design</span> randomizes the entries at each location and draws the field map. The randomization is <b>reproducible</b>: it starts from the <span class="ui">Random seed</span>, which is written in the field book, and each location receives its own randomization derived from it. The button <span class="ui">↻</span> draws another seed.</p>
+  <table class="compacta">
+    <caption><b>Table 2.5.</b> The four field designs. <i>v</i>: entries; <i>r</i>: replicates; <i>s</i>: blocks per replicate; <i>b</i>: blocks and <i>c</i>: checks of the augmented design.</caption>
+    <thead><tr><th style="width:24%">Design</th><th>How it is built</th><th style="width:30%">Error degrees of freedom</th></tr></thead>
+    <tbody>
+      <tr><td><span class="ui">Randomised complete blocks</span></td><td>Each replicate is a block with all the entries</td><td>(<i>r</i> − 1)(<i>v</i> − 1)</td></tr>
+      <tr><td><span class="ui">Alpha lattice (incomplete blocks)</span></td><td>Each replicate is divided into <i>s</i> blocks of <i>k</i> plots (Patterson and Williams, 1976)</td><td><i>vr</i> − 1 − (<i>v</i> − 1) − (<i>r</i> − 1) − <i>r</i>(<i>s</i> − 1)</td></tr>
+      <tr><td><span class="ui">Completely randomised</span></td><td>All the plots are randomized together</td><td><i>v</i>(<i>r</i> − 1)</td></tr>
+      <tr><td><span class="ui">Augmented (repeated checks)</span></td><td>The checks in every block; the new entries only once (Federer, 1956)</td><td>(<i>b</i> − 1)(<i>c</i> − 1)</td></tr>
+    </tbody>
+  </table>
+  <div class="caja regla">
+    <div class="caja-t"><span class="ico">✓</span>Decision rule · which field design to use</div>
+    <table class="compacta"><tbody>
+      <tr><td style="width:46%"><b>If</b> there are few entries (up to 15 or 20) and the land is uniform over the size of a replicate…</td><td><b>then</b> randomized complete blocks.</td></tr>
+      <tr><td><b>If</b> there are many entries and a full replicate no longer fits on homogeneous soil…</td><td><b>then</b> α-lattice, with blocks of a size close to √<i>v</i>.</td></tr>
+      <tr><td><b>If</b> there are many new entries and seed for a single plot of each…</td><td><b>then</b> augmented, with at least two checks and 12 or more error degrees of freedom.</td></tr>
+      <tr><td><b>If</b> the plots are pots or homogeneous units (greenhouse, laboratory)…</td><td><b>then</b> completely randomized.</td></tr>
+    </tbody></table>
+    <p class="regla-pie">The app requires at least two replicates, except in the augmented design, and warns when the error is left with fewer than 12 degrees of freedom.</p>
+  </div>
+
+  <h3>The α-lattice</h3>
+  <p>When the lattice is chosen, the app proposes a block size <i>k</i> close to √<i>v</i>; with 30 entries it proposes 5, that is, six blocks per replicate. If <i>v</i> is not a multiple of <i>k</i>, the blocks come in two sizes that differ by one plot.</p>
+  <div class="caja teoria">
+    <div class="caja-t"><span class="ico">θ</span>Theory in brief · how it is built and what the efficiency factor is</div>
+    <p>When the number of blocks per replicate <i>s</i> is prime and <i>r</i> ≤ <i>s</i> and <i>k</i> ≤ <i>s</i>, a cyclic array gives an α(0,1) design, in which no pair of entries shares a block more than once: with 25 entries in blocks of 5, or 49 in blocks of 7, it reaches the highest efficiency possible. In the other cases, the app generates candidates from random generating arrays and with an exchange algorithm that spreads the concurrences among pairs, picks the one with the highest <b>efficiency factor E</b> and, up to 100 entries, polishes it with exchanges that raise E directly.</p>
+    <p>E compares the variance of the differences between entries with what a complete-block design with the same error would have: E = 0.785 means that the information lost by using incomplete blocks amounts to 21.5%. Next to E, the app shows its <b>upper bound</b> for resolvable designs and the <b>maximum concurrence</b>, the largest number of times a pair of entries shares a block.</p>
+  </div>
+  <figure class="media">
+    <div class="marco"><img src="../img/en/b2-campo.png" alt="The field-trial card with the alpha lattice chosen, its inputs and the five summary tiles"></div>
+    <figcaption><b>Figure 2.5.</b> Card 3 with the α-lattice of the example: 90 plots per location, 720 m², 43 error degrees of freedom and E = 0.785, with upper bound 0.795; no pair of entries shares a block more than once.</figcaption>
+  </figure>
+  <table class="compacta" style="width:88%">
+    <caption><b>Table 2.6.</b> The α-lattice of the example (30 entries, three replicates) with different block sizes.</caption>
+    <thead><tr><th class="n"><i>k</i></th><th class="n">Blocks per replicate</th><th class="n">E</th><th class="n">Upper bound</th><th class="n">Maximum concurrence</th><th class="n">Error df</th></tr></thead>
+    <tbody>
+      <tr><td class="n">3</td><td class="n">10</td><td class="n">0.591</td><td class="n">0.682</td><td class="n">1</td><td class="n">31</td></tr>
+      <tr><td class="n">5</td><td class="n">6</td><td class="n">0.785</td><td class="n">0.795</td><td class="n">1</td><td class="n">43</td></tr>
+      <tr><td class="n">6</td><td class="n">5</td><td class="n">0.823</td><td class="n">0.829</td><td class="n">2</td><td class="n">46</td></tr>
+      <tr><td class="n">10</td><td class="n">3</td><td class="n">0.905</td><td class="n">0.906</td><td class="n">3</td><td class="n">52</td></tr>
+      <tr><td class="n">30</td><td class="n">1 (complete blocks)</td><td class="n">1</td><td class="n">—</td><td class="n">—</td><td class="n">58</td></tr>
+    </tbody>
+  </table>
+  <div class="caja importante">
+    <div class="caja-t"><span class="ico">!</span>Important · a higher E is not a better design</div>
+    <p>E rises with block size and reaches 1 with complete blocks, because it compares with a design that has the <i>same</i> error. But the purpose of small blocks is a smaller error, because each block occupies a more uniform patch of land. Choose <i>k</i> by the size of the homogeneous land and use E to compare designs with the same <i>k</i>. Nor is the upper bound always reached: with blocks of three plots, several seeds give E between 0.591 and 0.592, far from 0.682, because no design attains it.</p>
+  </div>
+  <div class="caja dato">
+    <div class="dato-cifra">6 of 7</div>
+    <div class="dato-txt"><div class="caja-t">Key fact</div>In the validation of the program, the α-lattices generated matched or exceeded the efficiency of those from an independent generator with the same number of entries, replicates and block size in 6 of 7 cases; in the seventh they fell 0.03% short. E is computed exactly, from the eigenvalues of the information matrix.</div>
+  </div>
+
+  <h3>How it is laid out on the land</h3>
+  <table class="compacta">
+    <caption><b>Table 2.7.</b> Options of card 3 that do not change the statistical design.</caption>
+    <thead><tr><th style="width:27%">Field</th><th>What it does</th></tr></thead>
+    <tbody>
+      <tr><td><span class="ui">Plots per field row</span></td><td>0 puts each block in one row; any other number splits the blocks into rows of that length.</td></tr>
+      <tr><td><span class="ui">Replicates in the field</span></td><td><span class="ui">one below the other</span> or <span class="ui">side by side</span>, with an alley one plot wide between them.</td></tr>
+      <tr><td><span class="ui">Plot numbering</span></td><td><span class="ui">serpentine</span> (each row in the opposite direction to the previous one, the way the field is walked), <span class="ui">row by row</span> or <span class="ui">replicate × 100 + plot</span> (101, 102… or ×1000 if a replicate has 100 or more plots).</td></tr>
+      <tr><td><span class="ui">Locations</span></td><td>Their names, separated by commas; their number comes from card 2.</td></tr>
+      <tr><td><span class="ui">Rows per plot</span>, <span class="ui">Row length (m)</span>, <span class="ui">Row spacing (m)</span></td><td>They compute the area: plots × rows × length × spacing, without alleys or borders. In the example, 90 × 2 × 5 × 0.8 = 720 m² per location.</td></tr>
+      <tr><td><span class="ui">Traits to record</span></td><td>Names separated by commas; each one will be an empty column of the field book.</td></tr>
+    </tbody>
+  </table>
+  <p>The field map is drawn for one location at a time; if there are several, a menu switches between them. The figure editor colors the plots by entry type or by replicate and shows or hides the entry codes and the plot numbers. When the plan is small, the map is redrawn by itself whenever the plan changes; if it is large (more than 2,500 plots, or an α-lattice with more than 200 entries), the app asks you to press <span class="ui">Generate map and field book</span>.</p>
+  <figure>
+    <div class="marco"><img src="../img/en/b2-croquis.png" alt="The field map of the alpha lattice at Location 1, with the three replicates side by side and the checks in gray"></div>
+    <figcaption><b>Figure 2.6.</b> Field map of Location 1 with the replicates side by side. Each row of a replicate is an incomplete block of five plots; the serpentine numbering runs across the three replicates row by row. The checks are in gray.</figcaption>
+  </figure>
+
+  <!-- ====================================================================== 2.5 -->
+  <h2 id="s2-5"><span class="num">2.5</span>The field book</h2>
+  <p>Below the map is the <b>field book</b>: one row per plot for all locations, ready to be printed or to take the data. It has eleven fixed columns and one more, empty, for each trait typed in the card. The view shows the first 60 rows; the downloads include them all.</p>
+  <table class="compacta libreta">
+    <caption><b>Table 2.8.</b> The first rows of the field book of the example (180 plots in all). The last three columns are left empty for the data.</caption>
+    <thead><tr><th>Location</th><th class="n">Plot</th><th class="n">Replicate</th><th class="n">Block</th><th class="n">Row</th><th class="n">Column</th><th class="n">Entry</th><th>Genotype</th><th>Female</th><th>Male</th><th>Type</th><th>Yield</th><th>Male flowering</th><th>Plant height</th></tr></thead>
+    <tbody>
+      <tr><td>Location 1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">22</td><td>L4 × L8</td><td>L4</td><td>L8</td><td>F₁ (direct)</td><td></td><td></td><td></td></tr>
+      <tr><td>Location 1</td><td class="n">2</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">2</td><td class="n">8</td><td>L2 × L3</td><td>L2</td><td>L3</td><td>F₁ (direct)</td><td></td><td></td><td></td></tr>
+      <tr><td>Location 1</td><td class="n">3</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">3</td><td class="n">28</td><td>L7 × L8</td><td>L7</td><td>L8</td><td>F₁ (direct)</td><td></td><td></td><td></td></tr>
+      <tr><td>Location 1</td><td class="n">4</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">4</td><td class="n">17</td><td>L3 × L7</td><td>L3</td><td>L7</td><td>F₁ (direct)</td><td></td><td></td><td></td></tr>
+      <tr><td>Location 1</td><td class="n">5</td><td class="n">1</td><td class="n">1</td><td class="n">1</td><td class="n">5</td><td class="n">11</td><td>L2 × L6</td><td>L2</td><td>L6</td><td>F₁ (direct)</td><td></td><td></td><td></td></tr>
+      <tr><td>Location 1</td><td class="n">6</td><td class="n">2</td><td class="n">1</td><td class="n">1</td><td class="n">7</td><td class="n">15</td><td>L3 × L5</td><td>L3</td><td>L5</td><td>F₁ (direct)</td><td></td><td></td><td></td></tr>
+      <tr><td>…</td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td class="n"></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+    </tbody>
+  </table>
+  <p>Plot 6 already belongs to replicate 2 and lies in column 7: with the replicates side by side, the first field row crosses the three replicates, and column 6 is the alley between them.</p>
+  <h3>The downloads</h3>
+  <ul>
+    <li><span class="ui">⬇ Workbook (.xlsx)</span> saves four sheets: <b>FieldBook</b>; <b>Entries</b>, with the seed and pollinations of each one; <b>CrossingBlock</b>, with the plants of each parent; and <b>Design</b>, with the mating and field designs, the replicates, the locations, the random seed, the error degrees of freedom, the efficiency factor and its bound (in the α-lattice) and the date.</li>
+    <li><span class="ui">⬇ CSV</span> saves the field book only, as UTF-8 text, which spreadsheets open with the accents right.</li>
+  </ul>
+  <p>With the checkbox <span class="ui">Include the line that describes the design</span> ticked, the first line of both files declares the plan. In the example it reads:</p>
+  <code class="meta">#BreedingPro fieldbook, mating=griffing, method=4, field=alpha, reps=3, k=5, locations=2, entries=30, seed=2026, F=1</code>
+  <p>Block 3 reads from that line the mating design, the method and the field design, so it does not have to guess them; the rest stays as a record. Enter the data in the empty columns without changing the names of the fixed columns.</p>
+
+  <!-- ====================================================================== 2.6 -->
+  <h2 id="s2-6"><span class="num">2.6</span>Precision and power before sowing</h2>
+  <p class="lead">The last card answers the question that is too often asked too late: with this size of experiment, will I be able to detect what matters to me? It is enough to assume a mean, the coefficient of variation of the error and the size of the genetic variances; the app computes everything from the expected mean squares of the balanced analysis, before a single datum exists.</p>
+  <table class="compacta">
+    <caption><b>Table 2.9.</b> The assumptions of card 4 and their initial values.</caption>
+    <thead><tr><th style="width:30%">Field</th><th class="n" style="width:10%">Initial</th><th>What it is</th></tr></thead>
+    <tbody>
+      <tr><td><span class="ui">Trait mean</span></td><td class="n">8</td><td>In the units of the trait; for example, t/ha of grain</td></tr>
+      <tr><td><span class="ui">Error CV (%)</span></td><td class="n">12</td><td>Coefficient of variation of the plot error that the trait usually has</td></tr>
+      <tr><td><span class="ui">Additive CV, σA/mean (%)</span></td><td class="n">10</td><td>Size of the expected additive variation, relative to the mean</td></tr>
+      <tr><td><span class="ui">Dominance CV, σD/mean (%)</span></td><td class="n">8</td><td>The same for dominance</td></tr>
+      <tr><td><span class="ui">Parental inbreeding (F)</span></td><td class="n">1</td><td>1 for lines; 0.875, 0.75 or 0.5 for S<sub>3</sub>, S<sub>2</sub> or S<sub>1</sub>; 0 for non-inbred plants</td></tr>
+      <tr><td>α · <span class="ui">Target power</span></td><td class="n">0.05 · 80%</td><td>Significance level and power sought</td></tr>
+      <tr><td><span class="ui">Power curve against</span></td><td class="n">parents</td><td>Number of parents (or families) or number of replicates</td></tr>
+    </tbody>
+  </table>
+  <div class="caja teoria">
+    <div class="caja-t"><span class="ico">θ</span>Theory in brief · from the assumptions to the variances</div>
+    <div class="formula" style="margin-bottom:0.04in">σ²<sub>e</sub> = (CV<sub>e</sub> × mean)² &nbsp;·&nbsp; σ²<sub>A</sub> = (CV<sub>A</sub> × mean)² &nbsp;·&nbsp; σ²<sub>D</sub> = (CV<sub>D</sub> × mean)²<br>σ²<sub>GCA</sub> = ¼(1 + F) σ²<sub>A</sub> &nbsp;·&nbsp; σ²<sub>SCA</sub> = ¼(1 + F)² σ²<sub>D</sub> &nbsp;·&nbsp; error of an entry mean: σ²<sub>e</sub>/(<i>r</i>·<i>L</i>)<br>LSD = <i>t</i><sub>1−α/2</sub> × SE &nbsp;·&nbsp; detectable difference = (<i>t</i><sub>1−α/2</sub> + <i>t</i><sub>power</sub>) × SE</div>
+    <p>In Model I the power of each F test comes from the noncentral F distribution; in Model II, from the central F scaled by the ratio of the expected mean squares. The precision of the genetic variances is computed from the sampling variance of the moment estimators. No interaction of the genetic effects with locations is assumed; if there is one, the real power will be lower, and the app recalls this in a message.</p>
+  </div>
+  <p>With the initial values, σ²<sub>A</sub> = 0.64 and σ²<sub>D</sub> = 0.41; since the lines have F = 1, σ²<sub>GCA</sub> = 0.32 and σ²<sub>SCA</sub> = 0.41.</p>
+
+  <table class="compacta">
+    <caption><b>Table 2.10.</b> What card 4 computes in each design.</caption>
+    <thead><tr><th style="width:24%">Design</th><th>Precision</th><th style="width:34%">Power</th></tr></thead>
+    <tbody>
+      <tr><td>Griffing’s methods</td><td>SE of ĝ<sub>i</sub>, ŝ<sub>ii</sub>, ŝ<sub>ij</sub> and r̂<sub>ij</sub> and of their differences; LSD and detectable difference; SE and CV of σ²<sub>GCA</sub>, σ²<sub>SCA</sub>, σ²<sub>A</sub> and σ²<sub>D</sub></td><td>GCA and SCA in Models I and II; in Method 1 that of Model II is approximate</td></tr>
+      <tr><td>Partial diallel</td><td>SE of ĝ<sub>i</sub> − ĝ<sub>j</sub> according to the distance between the parents in the circle</td><td>GCA and SCA, Models I and II</td></tr>
+      <tr><td>Line × tester</td><td>Exact SE of the GCA of lines and testers and of the SCA, next to the conventional ones</td><td>Lines, testers and lines × testers, Models I and II</td></tr>
+      <tr><td>North Carolina designs and triple test cross</td><td>SE and CV of σ²<sub>A</sub> and σ²<sub>D</sub></td><td>The tests of the design components (random model)</td></tr>
+      <tr><td>Generations</td><td>SE of the mean of each generation with its plants</td><td>—</td></tr>
+    </tbody>
+  </table>
+  <figure>
+    <div class="marco"><img src="../img/en/b2-potencia.png" alt="The precision and power card with the diallel example: standard errors, power of the F tests and precision of the genetic variances"></div>
+    <figcaption><b>Figure 2.7.</b> Card 4 with the example. On the left, the standard errors and the detectable differences; on the right, the power of each F test and the precision of the genetic variances, in green when they reach the target.</figcaption>
+  </figure>
+  <ul>
+    <li><b>Effects.</b> Two GCAs differ significantly if their difference exceeds 0.448 (the LSD), and a real difference of 0.639, 8% of the mean, would be detected with 80% probability. For the SCAs, the detectable differences are 16 to 18%.</li>
+    <li><b>Tests.</b> In Model I (these eight lines) GCA and SCA are detected almost surely. In Model II (a population of which the eight lines are a sample), the probability of concluding that σ²<sub>GCA</sub> &gt; 0 is 77%, because that test has only 7 and 20 degrees of freedom.</li>
+    <li><b>Variances.</b> σ²<sub>A</sub> would be estimated with a coefficient of variation of 70% and σ²<sub>D</sub> of 44%: with eight parents, genetic variances are very imprecise estimates.</li>
+  </ul>
+  <p>The text below sums it up and computes how many parents would be needed for population-level inference: about 9.</p>
+  <figure class="media">
+    <div class="marco"><img src="../img/en/b2-curva.png" alt="The power curve against the number of parents, for GCA and SCA in Models I and II"></div>
+    <figcaption><b>Figure 2.8.</b> Power by number of parents, with the same number of replicates and locations. The solid lines are Model I and the dotted ones Model II; the vertical line marks the current design and the horizontal one, the target power.</figcaption>
+  </figure>
+  <div class="caja importante">
+    <div class="caja-t"><span class="ico">!</span>Important · parents, not replicates</div>
+    <p>If you choose the number of replicates in the menu <span class="ui">Power curve against</span>, you will see that going from 3 to 8 replicates only raises the power for σ²<sub>GCA</sub> from 77 to 83%, while one more parent takes it to 87% and two more to 93%. The precision of the variances depends above all on the number of parents, because they, not the plots, are the sample of the population.</p>
+  </div>
+
+  <!-- ====================================================================== 2.7 -->
+  <h2 id="s2-7"><span class="num">2.7</span>Other designs, with their numbers</h2>
+  <p>The initial values of each design are enough to see how they differ. All the following cases use three replicates, two locations and the initial assumptions of card 4.</p>
+
+  <h3>North Carolina designs: which one estimates dominance best</h3>
+  <table class="compacta">
+    <caption><b>Table 2.11.</b> The three North Carolina designs with their initial values: I and II, three sets of 4 males and 4 females (per male in the I); III, 30 F<sub>2</sub> plants. Non-inbred plants (F = 0).</caption>
+    <thead><tr><th>Design</th><th class="n">Entries</th><th>Power of the tests</th><th class="n">CV of σ²<sub>A</sub></th><th class="n">CV of σ²<sub>D</sub></th></tr></thead>
+    <tbody>
+      <tr><td>North Carolina I</td><td class="n">48</td><td>males 58%; females within males 98%</td><td class="n">79%</td><td class="n">171%</td></tr>
+      <tr><td>North Carolina II</td><td class="n">48</td><td>males 75%; females 75%; males × females 58%</td><td class="n">48%</td><td class="n">69%</td></tr>
+      <tr><td>North Carolina III</td><td class="n">60</td><td>F<sub>2</sub> plants 99%; F<sub>2</sub> × testers 100%</td><td class="n">39%</td><td class="n">36%</td></tr>
+    </tbody>
+  </table>
+  <p>With the same number of entries, the II estimates σ²<sub>A</sub> and σ²<sub>D</sub> much more precisely than the I, in which σ²<sub>D</sub> is obtained by difference and its CV exceeds 170%. The III, designed for the average degree of dominance, estimates both variances with similar precision, and the app says so in its text. Remember that these variances are estimated in a single environment; the app warns that, if locations are averaged without modeling the interaction, σ²<sub>A</sub> and σ²<sub>D</sub> are inflated by σ²<sub>GE</sub>.</p>
+
+  <h3>Line × tester: the exact standard errors</h3>
+  <p>With 20 lines, 2 testers and the lines and testers as entries, there are 40 crosses and 62 entries. The standard errors of the effects used by the app include the factors (<i>l</i> − 1)/<i>l</i> and (<i>t</i> − 1)/<i>t</i>; the conventional ones omit them and overstate the uncertainty, above all when there are few testers.</p>
+  <table class="compacta" style="width:78%">
+    <caption><b>Table 2.12.</b> Exact and conventional standard errors in the 20 × 2 line × tester.</caption>
+    <thead><tr><th>Estimate</th><th class="n">Exact SE</th><th class="n">Conventional SE</th></tr></thead>
+    <tbody>
+      <tr><td>ĝ of a line</td><td class="n">0.270</td><td class="n">0.277</td></tr>
+      <tr><td>ĝ of a tester</td><td class="n">0.062</td><td class="n">0.088</td></tr>
+      <tr><td>ŝ<sub>ij</sub></td><td class="n">0.270</td><td class="n">0.392</td></tr>
+      <tr><td>ŝ<sub>ij</sub> − ŝ<sub>kj</sub> (same tester)</td><td class="n">0.392</td><td class="n">0.554</td></tr>
+    </tbody>
+  </table>
+  <p>In Model II, on the other hand, the power for σ²<sub>GCA</sub> of lines is only 49%, because it is tested against the interaction with 19 degrees of freedom. The app explains it: with two testers, each line’s GCA is averaged over two crosses, and more testers of different genetic background give a more general GCA.</p>
+
+  <h3>Partial diallel</h3>
+  <p>With 10 parents and <i>s</i> = 5, 25 crosses are made instead of 45. The GCA of each parent is estimated from five crosses, and the precision of a difference ĝ<sub>i</sub> − ĝ<sub>j</sub> depends on how far apart the two parents are in the circle: its standard error goes from 0.256, for neighbors, to 0.324, for opposite ones. The power for GCA in Model I is 100%, and for σ²<sub>GCA</sub> in Model II, 67%.</p>
+
+  <h3>Generations</h3>
+  <table class="compacta" style="width:86%">
+    <caption><b>Table 2.13.</b> Standard error of each generation mean, with the initial allocation of plants and with that of the button <span class="ui">Share out to equalise precision</span> (600 plants per location).</caption>
+    <thead><tr><th>Generation</th><th class="n">Initial plants</th><th class="n">SE</th><th class="n">Plants shared out</th><th class="n">SE</th></tr></thead>
+    <tbody>
+      <tr><td>P<sub>1</sub>, P<sub>2</sub>, F<sub>1</sub></td><td class="n">30</td><td class="n">0.124</td><td class="n">73</td><td class="n">0.079</td></tr>
+      <tr><td>F<sub>2</sub></td><td class="n">100</td><td class="n">0.096</td><td class="n">146</td><td class="n">0.079</td></tr>
+      <tr><td>BC<sub>1</sub>, BC<sub>2</sub></td><td class="n">100</td><td class="n">0.086</td><td class="n">118</td><td class="n">0.080</td></tr>
+    </tbody>
+  </table>
+  <p>The scaling tests compare combinations of means and gain precision when all of them have similar standard errors; that is why, in this design, card 4 shows this table instead of the power. With six entries and three replicates, the error has only 10 degrees of freedom per location (the app marks it in amber); a fourth replicate raises them to 15.</p>
+
+  <!-- ====================================================================== 2.8 -->
+  <h2 id="s2-8"><span class="num">2.8</span>From the field book to Block 3</h2>
+  <p>The button <span class="ui">Continue: Data →</span> at the end of the block leads to Block 3. There, the load card has a tile <span class="ui">Block 2 field book</span> that shows a summary of the current plan; in the example, 2 locations, 180 plots and a Griffing diallel. There are two ways to use it.</p>
+  <figure class="chica">
+    <div class="marco"><img src="../img/en/b3-desde-plan.png" alt="The load card of Block 3 with the Block 2 field book tile showing 2 locations, 180 plots and a Griffing diallel"></div>
+    <figcaption><b>Figure 2.9.</b> The card <span class="ui">1 · Load data</span> of Block 3 with the plan of the example ready to be loaded.</figcaption>
+  </figure>
+  <ol class="pasos">
+    <li><b>Before sowing, to rehearse.</b> With the checkbox <span class="ui">fill it with simulated values…</span> ticked, the field book is loaded with a column of simulated yield, with effects of parents, cross, location, replicate and block. It serves to go through the whole analysis, from the recognition of the design to the report, and to check that the experiment will give the tables you need. <b>These are not real data.</b></li>
+    <li><b>After harvest.</b> Enter the data in the empty columns of the downloaded field book and load the file in the tile <span class="ui">File</span>. The line that describes the design tells Block 3 which mating and field designs it is.</li>
+  </ol>
+
+  <p>Like the rest of the app, Block 2 keeps nothing when the page is reloaded: download the workbook, which also keeps the random seed to regenerate the same field map.</p>
+</section>
+
+</body>
+</html>
