@@ -11,5 +11,5 @@
   const v = $("b9View"); v.value = "aec"; v.dispatchEvent(new Event("change")); await W(1500);
   { const a = Fig.registry.b9FigGge; a.cfg.width = 680; a.cfg.height = 500; a.redraw(); await W(600); }
   const f = $("b9FigGge"); irA(f); await W(400);
-  caja([f.querySelector("svg")], 4);
+  caja([f.querySelector(".fig-canvas svg")], 4);
 })()

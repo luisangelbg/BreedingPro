@@ -10,5 +10,5 @@
   document.querySelectorAll(".book-scroll").forEach(n => { n.style.maxHeight = "none"; }); await W(200);
   { const a = Fig.registry.b9FigAmmi2; a.cfg.width = 700; a.cfg.height = 560; a.redraw(); await W(600); }
   const f = $("b9FigAmmi2"); irA(f); await W(400);
-  caja([f.querySelector("svg")], 4);
+  caja([f.querySelector(".fig-canvas svg")], 4);
 })()

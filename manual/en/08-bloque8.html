@@ -1,0 +1,214 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>BreedingPro · User’s Manual · Block 8: genetic parameters and selection</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,500;0,600;1,500&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../interior.css">
+<!-- splits the content into letter-size pages, with running heads and page numbers -->
+<script src="../paginar.js"></script>
+<style>
+  figure.chica .marco, figure.chica > svg { width: 72%; margin: 0 auto; }
+  figure.chica figcaption { margin-left: 14%; margin-right: 14%; }
+  figure.angosta .marco { width: 58%; margin: 0 auto; }
+  figure.angosta figcaption { margin-left: 21%; margin-right: 21%; }
+  td.n, th.n { text-align: right; white-space: nowrap; }
+  td.c, th.c { text-align: center; }
+  .formula { font-family: var(--sans); font-size: 9pt; background: #f6f3fa; border-radius: 4px; padding: 0.07in 0.12in; margin: 0.06in 0 0.12in; line-height: 1.6; }
+</style>
+</head>
+<body>
+
+<section class="capitulo" id="cap-b8" data-pestana="B8" data-orden="9" style="--acento: var(--b8)">
+  <div class="cap-apertura">
+    <div class="cap-num">B8</div>
+    <div class="cap-etiqueta">Chapter eight · Block 8 · Selection</div>
+    <h1 data-corto="Block 8 · Genetic parameters and selection">Genetic parameters and selection</h1>
+    <div class="cap-regla"></div>
+    <p class="cap-resumen">Before selecting you need to know how much of what you see is genetic, how the traits relate to one another and how much can be gained. Block 8 computes the heritability of each trait with its exact interval, the coefficients of variation and the genetic advance; the genotypic, phenotypic and environmental correlations with path analysis; five selection indices and the genotypes they choose; and the expected gain of the recurrent-selection methods.</p>
+    <div class="cap-franja"><span class="k8"></span><span class="k8" style="opacity:.75"></span><span class="k8" style="opacity:.5"></span><span class="k8" style="opacity:.3"></span></div>
+    <ul class="cap-contenido">
+      <li><b>8.1</b>What the block does</li>
+      <li><b>8.2</b>Genetic parameters of every trait</li>
+      <li><b>8.3</b>Heritability and selection intensity</li>
+      <li><b>8.4</b>Several environments</li>
+      <li><b>8.5</b>Correlations</li>
+      <li><b>8.6</b>Path analysis</li>
+      <li><b>8.7</b>Selection indices</li>
+      <li><b>8.8</b>The genotypes selected</li>
+      <li><b>8.9</b>Recurrent-selection methods</li>
+      <li><b>8.10</b>Downloads and next step</li>
+    </ul>
+  </div>
+
+  <!-- ====================================================================== 8.1 -->
+  <h2 id="s8-1"><span class="num">8.1</span>What the block does</h2>
+  <p class="lead">Block 8 works with genotypes evaluated in a trial: lines, hybrids, clones, families or the crosses of a diallel treated as entries. It takes from Block 3 the field analysis of each trait, with the appropriate design (complete blocks, α-lattice, augmented blocks or only means with an external error), and reduces it to the mean squares and cross products that the genetic parameters need. The generations of a cross are analyzed in Block 7, not here.</p>
+  <table class="compacta">
+    <caption><b>Table 8.1.</b> The five cards of Block 8 and what they give.</caption>
+    <thead><tr><th style="width:32%">Card</th><th>What it gives</th></tr></thead>
+    <tbody>
+      <tr><td>1 · Genetic parameters of every trait</td><td>σ²<sub>G</sub>, σ²<sub>GE</sub>, σ²<sub>e</sub>, plot-basis and entry-mean heritability with its exact interval, coefficients of variation and genetic advance</td></tr>
+      <tr><td>2 · Correlations and path analysis</td><td>Genotypic, phenotypic and environmental correlations with their standard errors; direct and indirect effects on one trait</td></tr>
+      <tr><td>3 · Selection indices</td><td>Smith–Hazel, base, restricted, proportional gains, desired gains and eigen, with the expected gain in each trait</td></tr>
+      <tr><td>4 · Genotypes selected</td><td>The ranking of the genotypes with the chosen index, the rank sum or Elston’s index, and the realized gain</td></tr>
+      <tr><td>5 · Recurrent-selection methods</td><td>The gain per cycle and per year of seven methods from σ²<sub>A</sub>, σ²<sub>D</sub> and the error</td></tr>
+    </tbody>
+  </table>
+  <p>The thread of the chapter is the trial of 13 maize hybrids from the examples gallery: three replications in complete blocks and 15 plant and ear traits (data distributed by its author under a free license). The correlations, paths and indices use five of them: plant height (PH), ear height (EH), grain weight per ear (KW), thousand-kernel weight (TKW) and kernels per ear (NKE). The screenshots use a selected proportion of 20%.</p>
+
+  <!-- ====================================================================== 8.2 -->
+  <h2 id="s8-2"><span class="num">8.2</span>Genetic parameters of every trait</h2>
+  <p>The <span class="ui">1 · Genetic parameters of every trait</span> card has three controls: <span class="ui">Proportion selected</span> (from 1 to 50%), <span class="ui">Selection intensity</span> (that of an infinite population or the exact one for the genotypes of the trial) and <span class="ui">Significance level</span>, which sets the confidence interval. With several environments, <span class="ui">Environment</span> also appears, with the option of combining them all (Section 8.4).</p>
+  <figure>
+    <div class="marco"><img src="../img/en/b8-params.png" alt="The table of genetic parameters of the 15 traits of the maize trial"></div>
+    <figcaption><b>Figure 8.1.</b> The parameters of the 15 maize traits. Each row gives the variance components, the two heritabilities, Knapp’s interval, Cullis’s heritability, the coefficients of variation, the genetic advance and the <i>F</i> test of genotypes.</figcaption>
+  </figure>
+  <p>The components come from the expected mean squares of the random model: σ²<sub>G</sub> = (MS<sub>G</sub> − MS<sub>e</sub>)/<i>r</i>, with its standard error. From them two broad-sense heritabilities are read: that of a plot and that of a genotype mean, which is the one that matters when you select on means of <i>r</i> replications.</p>
+  <div class="formula">H²<sub>plot</sub> = σ²<sub>G</sub>/(σ²<sub>G</sub> + σ²<sub>e</sub>) &nbsp;·&nbsp; H²<sub>means</sub> = σ²<sub>G</sub>/(σ²<sub>G</sub> + σ²<sub>e</sub>/<i>r</i>) = 1 − MS<sub>e</sub>/MS<sub>G</sub> &nbsp;·&nbsp; GA = <i>i</i>·σ<sub>P</sub>·H²</div>
+  <p>Grain weight per ear (KW) has σ²<sub>G</sub> = 180.97 ± 115.24 and σ²<sub>e</sub> = 280.41: its heritability is 0.392 per plot and 0.659 on means of three replications, with an interval from 0.135 to 0.887. Cob length (CL), grain percentage (PERK) and cob weight (CW) exceed 0.88; ear length (EL), at 0.126, has almost no genetic variance in these hybrids (<i>p</i> = 0.37).</p>
+  <p>The interval is the exact one of Knapp, Stroup and Ross (1985), which uses the <i>F</i> distribution of the ratio of mean squares instead of assuming normality. Its lower limit can be negative when the genetic variance is small; it is shown as it comes out, because truncating it at zero would change its coverage, and a warning reminds you. The genetic, phenotypic and environmental coefficients of variation (CVg, CVf and CVe, as the app labels them) follow Burton and DeVane (1953); CVf is given on an entry-mean basis, like the heritability. The genetic advance GA (Johnson, Robinson and Comstock, 1955) is how much the mean would rise if the chosen proportion were selected on its phenotypic mean: for KW, 15.29&nbsp;g, 10.4%.</p>
+  <div class="caja nota">
+    <div class="caja-t"><span class="ico">✓</span>Verified · two independent calculations</div>
+    <p>The components, heritabilities, intervals and coefficients of variation of the 15 traits, in one environment and in four, equal those of an independent reconstruction to within 3.5 × 10<sup>−10</sup>, and those of KW agree with another restricted maximum likelihood implementation (σ²<sub>G</sub> = 180.97188, σ²<sub>e</sub> = 280.40877). In 3,000 simulations with H² = 0.75, Knapp’s 95% interval covered the true value 95.07% of the time.</p>
+  </div>
+  <p>The <span class="ui">H² Cullis (REML)</span> column is the heritability of Cullis, Smith and Coombes (2006), which Block 3 computes from the average variance of the differences between means. In balanced complete blocks it equals H² on means; with incomplete blocks, where the moment-based components are approximate, it is the recommended one, and a warning says so. With only means and an external error, the variance among means plays the role of MS<sub>G</sub>.</p>
+
+  <!-- ====================================================================== 8.3 -->
+  <h2 id="s8-3"><span class="num">8.3</span>Heritability and selection intensity</h2>
+  <p>Below the table, a figure shows the entry-mean heritability of each trait with its interval, over the usual classes: low below 0.3 and high above 0.6 (the gray band). Intervals that go below −1 end in an arrow at the edge.</p>
+  <figure class="chica">
+    <div class="marco"><img src="../img/en/b8-fig-h2.png" alt="The entry-mean heritability of each trait with its Knapp interval"></div>
+    <figcaption><b>Figure 8.2.</b> Entry-mean heritability of the 15 traits. With 13 genotypes and three replications the intervals are wide: that of KW goes from 0.13 to 0.89.</figcaption>
+  </figure>
+  <p>The selection intensity <i>i</i> is the superiority of the selected individuals in standard deviations. For an infinite population, <i>i</i> = φ(<i>x</i><sub><i>p</i></sub>)/<i>p</i>, where <i>p</i> is the proportion selected. With few genotypes the real intensity is smaller: the <span class="ui">exact for N of M genotypes</span> option uses the expected mean of the <i>N</i> best of <i>M</i> normal values. The folded box <span class="ui">Exact and finite selection intensity</span> gives the table of values and compares, for the loaded trial, the exact intensity with the approximations of Burrows (1972) and Bulmer (1980).</p>
+  <table class="compacta">
+    <caption><b>Table 8.2.</b> Selection intensity of an infinite population. Some books call it <i>k</i> and call the percentage selected the “intensity”.</caption>
+    <thead><tr><th>Proportion selected</th><th class="n">1%</th><th class="n">2%</th><th class="n">5%</th><th class="n">10%</th><th class="n">15%</th><th class="n">20%</th><th class="n">30%</th><th class="n">50%</th></tr></thead>
+    <tbody><tr><td>Intensity <i>i</i></td><td class="n">2.6652</td><td class="n">2.4209</td><td class="n">2.0627</td><td class="n">1.7550</td><td class="n">1.5544</td><td class="n">1.3998</td><td class="n">1.1590</td><td class="n">0.7979</td></tr></tbody>
+  </table>
+  <p>With 13 hybrids and 20% selected, 3 genotypes are chosen: the exact intensity is 1.2273, against 1.3183 for an infinite population with the same fraction (3 of 13). To choose one of 20 genotypes, the app gives 1.8675 exact, 1.8434 by Burrows and 1.8880 by Bulmer, the values of the example in Walsh and Lynch (2018).</p>
+
+  <!-- ====================================================================== 8.4 -->
+  <h2 id="s8-4"><span class="num">8.4</span>Several environments</h2>
+  <p>With data from several environments, the <span class="ui">Environment</span> menu lets you analyze one or <span class="ui">all combined</span>. In the combined analysis the table adds σ²<sub>GE</sub>, the genotype × environment interaction, and the entry-mean heritability becomes H² = σ²<sub>G</sub>/(σ²<sub>G</sub> + σ²<sub>GE</sub>/<i>e</i> + σ²<sub>e</sub>/<i>re</i>) = 1 − MS<sub>GE</sub>/MS<sub>G</sub>, with <i>e</i> environments: the genotypes are tested against their interaction with the environments, not against the error.</p>
+  <p>The contrast with a single environment is the lesson of Figure 8.3. KW goes from H² = 0.659 to 0.204: its σ²<sub>G</sub> across environments is 30.3 ± 66.6 and its σ²<sub>GE</sub>, 343.0. What looked genetic in one location was, to a large extent, the response of each hybrid to that location. With a negative σ²<sub>G</sub> the heritability is reported as is, but the genetic advance is taken as zero and the card’s warning lists the affected traits. Block 9 analyzes that interaction in depth.</p>
+  <figure>
+    <div class="marco"><img src="../img/en/b8-amb.png" alt="The genetic parameters of the same hybrids in four combined environments"></div>
+    <figcaption><b>Figure 8.3.</b> The same 13 hybrids in four environments. The interaction with the environment exceeds the genetic variance in every trait, and ten of them have a negative σ²<sub>G</sub>.</figcaption>
+  </figure>
+
+  <!-- ====================================================================== 8.5 -->
+  <h2 id="s8-5"><span class="num">8.5</span>Correlations</h2>
+  <p>The <span class="ui">2 · Correlations and path analysis</span> card begins with the boxes of the traits that enter the correlations and the indices; when a trial is loaded, the first six are ticked. The table brings together two matrices: above the diagonal, the genotypic correlations; below, in italics, the entry-mean phenotypic ones, each with its standard error.</p>
+  <figure class="chica">
+    <div class="marco"><img src="../img/en/b8-corr.png" alt="The genotypic and phenotypic correlations of five maize traits"></div>
+    <figcaption><b>Figure 8.4.</b> The correlations of the five chosen traits. Above the diagonal, genotypic; below, entry-mean phenotypic.</figcaption>
+  </figure>
+  <p>The covariances are obtained from the analysis of the sum of each pair of traits, in the same design as the traits: the mean cross product is MCP = (MS<sub><i>x</i>+<i>y</i></sub> − MS<sub><i>x</i></sub> − MS<sub><i>y</i></sub>)/2, and from it the genotypic, phenotypic and environmental covariances follow just as the variances follow from the mean squares. The standard errors are computed by the delta method, with the moments of the mean squares and cross products. The environmental (residual) correlations are in a folded box.</p>
+  <p>In the maize, the two heights go almost together (<i>r</i><sub>G</sub> = 0.96) and both are associated with grain weight per ear (0.87 and 0.86): the tall hybrids yield more per ear. Thousand-kernel weight and kernels per ear are opposed (−0.49): ears with many kernels have smaller ones, the classic trade-off between yield components.</p>
+  <figure class="angosta">
+    <div class="marco"><img src="../img/en/b8-fig-corr.png" alt="The heat map of the genotypic correlations"></div>
+    <figcaption><b>Figure 8.5.</b> The genotypic correlations as a heat map. The <span class="ui">Figure</span> menu switches to the phenotypic or environmental ones.</figcaption>
+  </figure>
+  <p>With few genotypes, a genotypic correlation can fall outside [−1, 1]: moment estimators are not bounded when σ²<sub>G</sub> is small. The app does not truncate it; it marks it and warns you. If σ²<sub>G</sub> is negative, the genotypic correlation does not exist and the cell is left empty. Records missing any of the chosen traits are left out, so that all the covariances use the same plots.</p>
+
+  <!-- ====================================================================== 8.6 -->
+  <h2 id="s8-6"><span class="num">8.6</span>Path analysis</h2>
+  <p>Wright’s path analysis splits the correlation of each trait with a dependent trait into a direct effect and indirect effects through the others: <i>r</i><sub><i>iy</i></sub> = <i>p</i><sub><i>i</i></sub> + Σ<i>r</i><sub><i>ij</i></sub><i>p</i><sub><i>j</i></sub>. The direct effects solve <b>p</b> = <b>R</b><sup>−1</sup><b>r</b>. You choose the dependent trait, the basis (genotypic or phenotypic correlations) and, if needed, a ridge constant <i>k</i> (Carvalho and Cruz, 1996).</p>
+  <figure>
+    <div class="marco"><img src="../img/en/b8-sendas.png" alt="The path analysis of grain weight per ear with phenotypic correlations"></div>
+    <figcaption><b>Figure 8.6.</b> Paths of grain weight per ear (KW) with phenotypic correlations. In bold, the direct effects; on the right, the total correlation and the variance inflation factor (VIF).</figcaption>
+  </figure>
+  <p>The result reads almost like an identity: grain weight per ear is the number of kernels times the weight of each one, and NKE and TKW have direct effects of 0.94 and 0.90, with R² = 0.997. Their total correlations with KW are smaller (0.56 and 0.49) because each carries a negative indirect effect through the other (−0.41 and −0.42). Plant height, on the other hand, is correlated with KW (0.71) almost only through kernels per ear (0.59): its direct effect is 0.04. The condition number, 41.1, indicates weak collinearity.</p>
+  <figure>
+    <div class="marco"><img src="../img/en/b8-sendas-error.png" alt="The warning when the genotypic correlations do not allow a path analysis"></div>
+    <figcaption><b>Figure 8.7.</b> The same paths with genotypic correlations. R² would come out greater than 1, and the app shows the warning instead of the table.</figcaption>
+  </figure>
+  <div class="caja importante">
+    <div class="caja-t"><span class="ico">!</span>Important · when paths make no sense</div>
+    <p>The direct effects only mean something if the correlation matrix is possible, that is, positive definite. With genotypic correlations from few genotypes this often fails, in two ways: among the explanatory traits there are impossible correlations (outside [−1, 1], or incompatible with one another), or the correlations with the dependent trait do not agree with those among the explanatory traits, and R² comes out greater than 1. In the maize the second happens: R² = 1.044. In both cases the app does not show the table and tells you what to do: use the phenotypic correlations, remove traits with small σ²<sub>G</sub> or increase the ridge constant. With strong collinearity (condition number above 100 or large VIFs), the direct effects are unstable even if the matrix is valid.</p>
+  </div>
+
+  <!-- ====================================================================== 8.7 -->
+  <h2 id="s8-7"><span class="num">8.7</span>Selection indices</h2>
+  <p>A selection index combines the traits into a single value, <i>I</i> = <b>b</b>′<b>y</b>, to choose the genotypes that most improve the aggregate genetic value <i>H</i> = <b>w</b>′<b>g</b>, where <b>w</b> are the economic weights. The <span class="ui">3 · Selection indices</span> card begins with a table to define the objective: the direction of each trait, its economic weight, whether it must remain unchanged (restricted index) and the desired gain. The default weights are ±1/σ<sub>P</sub>: the same importance for one phenotypic standard deviation of each trait.</p>
+  <p>All the indices work on an entry-mean basis, with the phenotypic matrix <b>P</b> = MCP<sub>G</sub>/<i>r</i> and the genotypic matrix <b>G</b>. For each one, the table gives σ<sub><i>I</i></sub>, the response in <i>H</i>, the correlation ρ<sub><i>HI</i></sub> between the index and the aggregate value, the heritability of the index, its efficiency relative to Smith–Hazel and the expected gain in each trait, Δ<i>G</i> = <i>i</i>·<b>Gb</b>/σ<sub><i>I</i></sub>.</p>
+  <table class="compacta">
+    <caption><b>Table 8.3.</b> The indices of Block 8.</caption>
+    <thead><tr><th style="width:24%">Index</th><th style="width:30%">Coefficients</th><th>When to use it</th></tr></thead>
+    <tbody>
+      <tr><td>Smith–Hazel</td><td><b>b</b> = <b>P</b><sup>−1</sup><b>Gw</b></td><td>The optimum for <i>H</i> if <b>P</b>, <b>G</b> and <b>w</b> are well estimated</td></tr>
+      <tr><td>Base (Williams, 1962)</td><td><b>b</b> = <b>w</b></td><td>When <b>G</b> and <b>P</b> are unreliable</td></tr>
+      <tr><td>Restricted (Kempthorne and Nordskog, 1959)</td><td>Smith–Hazel with Δ<i>G</i> = 0 in the marked traits</td><td>To improve without moving certain traits</td></tr>
+      <tr><td>Proportional gains (Mallard, 1972; Tallis, 1985)</td><td>Smith–Hazel with the gains in the requested proportion</td><td>When the proportion among gains matters, with its θ</td></tr>
+      <tr><td>Desired gains (Pesek and Baker, 1969)</td><td><b>b</b> = <b>P</b><sup>−1</sup><b>G</b>(<b>G</b>′<b>P</b><sup>−1</sup><b>G</b>)<sup>−1</sup><b>d</b></td><td>Without economic weights: the gain of each trait is requested</td></tr>
+      <tr><td>Eigen, ESIM (Cerón-Rojas and colleagues, 2006)</td><td><b>Gb</b> = λ²<b>Pb</b> with the largest λ²</td><td>Without weights: the most heritable combination</td></tr>
+    </tbody>
+  </table>
+  <figure class="media">
+    <div class="marco"><img src="../img/en/b8-indices.png" alt="The table of selection objectives and the comparison of indices"></div>
+    <figcaption><b>Figure 8.8.</b> The objective of the example: lower plant and ear height and raise grain weight, thousand-kernel weight and kernels per ear, with plant height restricted. Below, the comparison of the indices.</figcaption>
+  </figure>
+  <p>In the example, Smith–Hazel achieves ρ<sub><i>HI</i></sub> = 0.778 and the base index, 0.576 (efficiency 0.740). With plant height restricted, the index loses almost nothing (efficiency 0.999): height barely changed with Smith–Hazel (+0.006&nbsp;m).</p>
+  <p>Both indices raise TKW by 33&nbsp;g and KW by 8 to 9&nbsp;g, but lower kernels per ear by 19 to 21: because of the negative correlation between TKW and NKE, the index prefers heavier kernels to more kernels. The eigen index, which does not use the weights, seeks something else (its accuracy relative to its own objective is λ = 0.923); relative to the objective of the weights, ρ<sub><i>HI</i></sub> = 0.319.</p>
+  <figure class="chica">
+    <div class="marco"><img src="../img/en/b8-fig-indices.png" alt="The expected gain in each trait with each index, as a percentage of the mean"></div>
+    <figcaption><b>Figure 8.9.</b> Expected gain in each trait, as a percentage of its mean, with each index.</figcaption>
+  </figure>
+  <p>When you type a desired gain for any trait, the proportional-gains and desired-gains indices appear. If θ, which measures whether the proportional-gains index moves the traits in the requested direction, comes out negative or zero, a warning says so (Itoh and Yamada, 1987).</p>
+  <div class="caja teoria">
+    <div class="caja-t"><span class="ico">θ</span>Theory in brief · G has to fit inside P</div>
+    <p>The genetic variance of any combination of traits cannot exceed its phenotypic variance. On the scale in which <b>P</b> is the identity, the eigenvalues of <b>G</b> are canonical heritabilities and must lie between 0 and 1. With few genotypes or with nearly redundant traits they fall outside: in the example, one equals −5.95. If this is not corrected, Smith–Hazel gives accuracies greater than 1. The app brings those heritabilities into the interval [0, 1] before computing the indices, the idea of Hayes and Hill (1981), and says how many it changed; if <b>P</b> itself is not positive definite, it first bends it with Schaeffer’s (2014) method. A trait with σ²<sub>G</sub> ≤ 0 keeps its phenotypic information, but its genotypic row and column are set to zero.</p>
+  </div>
+  <p>The folded box <span class="ui">Coefficients of every index and Smith–Hazel detail</span> gives the coefficients <b>b</b> of all the indices and, for Smith–Hazel, the share of the economic value contributed by each trait and the accuracy that would be lost if it were removed.</p>
+  <figure class="media">
+    <div class="marco"><img src="../img/en/b8-sh.png" alt="The coefficients of each index and the detail of the Smith–Hazel index"></div>
+    <figcaption><b>Figure 8.10.</b> Coefficients of the indices and Smith–Hazel detail. TKW contributes 89% of the economic value and KW 49%; NKE subtracts 33%. Removing any of the five traits costs less than 1% of accuracy.</figcaption>
+  </figure>
+  <p>A coefficient can have the opposite sign to its weight: that of KW is negative even though you want to raise grain weight, because TKW and NKE already carry that information and the index corrects what KW adds. That is why the coefficients are not interpreted one by one; what matters are the expected gains.</p>
+  <div class="caja nota">
+    <div class="caja-t"><span class="ico">✓</span>Verified · the published values</div>
+    <p>With the matrices of the book by Cerón-Rojas and Crossa (2018), the Smith–Hazel index gives <b>b</b> = (0.555, −1.063, 1.087), <i>R</i> = 19.21 and ρ = 0.894; the restricted and proportional-gains indices reproduce its examples (<i>R</i> = 6.87 and 16.717, θ = 6.213). The maize indices, including the eigen index measured against the same <i>H</i>, agree with an independent reconstruction, and none of 2,000 random indices exceeds the accuracy of Smith–Hazel.</p>
+  </div>
+
+  <!-- ====================================================================== 8.8 -->
+  <h2 id="s8-8"><span class="num">8.8</span>The genotypes selected</h2>
+  <p>The <span class="ui">4 · Genotypes selected</span> card ranks the genotypes with the index chosen in <span class="ui">Rank with</span>: any of those of the previous card, the rank sum of Mulamba and Mock (1978) or Elston’s (1963) multiplicative index, which need neither <b>P</b> nor <b>G</b>. As many genotypes are selected as the chosen proportion indicates; the checks do not enter the selection.</p>
+  <figure class="media">
+    <div class="marco"><img src="../img/en/b8-seleccion.png" alt="The ranking of the 13 hybrids with the Smith–Hazel index and the realized gain"></div>
+    <figcaption><b>Figure 8.11.</b> The 13 hybrids ranked with Smith–Hazel. With 20%, H1, H7 and H2 are selected. Below, the selection differential and the realized gain in each trait.</figcaption>
+  </figure>
+  <p>The three chosen hybrids have ears with heavy kernels (358&nbsp;g per thousand kernels against 318 for the mean) and average height. H13, the one with the highest grain weight per ear (181.6&nbsp;g), ranks seventh because it is the tallest (2.60&nbsp;m plant and 1.31&nbsp;m ear height): the index charges for the height you wanted to lower. The table below gives, for each trait, the selection differential and the realized gain SD·H²: KW rises 7.1&nbsp;g (4.8%) and TKW 28.4&nbsp;g (8.9%), while NKE drops 17.0 kernels.</p>
+  <p>These gains are empirical: the differential of the genotypes actually chosen, multiplied by the heritability. They are not the predictions of the index, which assume a normal, infinite population; with 13 genotypes it is normal for them to differ.</p>
+
+  <!-- ====================================================================== 8.9 -->
+  <h2 id="s8-9"><span class="num">8.9</span>Recurrent-selection methods</h2>
+  <p>The <span class="ui">5 · Expected gain of the recurrent-selection methods</span> card compares seven recurrent-selection methods in an outcrossing population with the general formula G<sub>c</sub> = <i>i</i>·<i>c</i>·Cov/σ<sub>P</sub> (Sprague and Eberhart, 1977; Fehr, 1987): the covariance between the unit evaluated and the unit recombined, over the phenotypic standard deviation of the selection unit, with the parental control <i>c</i> (½ if only one parent is selected, 2 if selfed seed of the selected plants is recombined).</p>
+  <figure>
+    <div class="marco"><img src="../img/en/b8-fehr.png" alt="The input values and the table of gain per cycle and per year of seven methods"></div>
+    <figcaption><b>Figure 8.12.</b> Card 5 with the values of Fehr’s (1987) example for maize yield and 10% selected. Each method is a sequence of seasons: M in the evaluation environment, A in any season.</figcaption>
+  </figure>
+  <p>The input values are σ²<sub>A</sub>, σ²<sub>D</sub>, their interactions with the environment, the plot error, the phenotypic variance among plots and the variance among plants within plots, with the replications, the environments, the inbreeding of the parents of the lines and the recombination seasons. If Block 6 estimated σ²<sub>A</sub> and σ²<sub>D</sub>, the card takes them from there; the other starting values are those of Fehr’s example and you should replace them with your own. <span class="ui">Back to the starting values</span> restores them.</p>
+  <p>The gain per year results from fitting the sequence of each method, cycle after cycle, into the calendar: one season a year, two equal seasons, two different ones (one in the evaluation environment and an off-season one) or three. Per cycle, the methods with selfing gain more (16.2 the parent lines with F = 0.875, 10.8 the S<sub>0:1</sub>), but they need more seasons; per year, with two different seasons, full-sib selection gains the most (6.86).</p>
+  <figure class="media">
+    <div class="marco"><img src="../img/en/b8-fig-fehr.png" alt="The gain per year of each method with two different seasons"></div>
+    <figcaption><b>Figure 8.13.</b> The gain per year of each method with two different seasons; in another color, the largest. The figure panel switches to the gain per cycle.</figcaption>
+  </figure>
+  <div class="caja nota">
+    <div class="caja-t"><span class="ico">✓</span>Verified · the published values</div>
+    <p>With 10% selected, the gains per cycle are 1.97, 2.39, 4.79, 9.58, 6.86, 10.83 and 16.21&nbsp;q/ha; Fehr (1987, Table 17-9) publishes 2.0, 2.4, 4.8, 9.6, 6.8, 10.8 and 16.2 with <i>k</i> = 1.75 (the app uses 1.7550). The gains per year with one, two equal, two different and three seasons agree with those of the same table.</p>
+  </div>
+  <p>It is a prediction. The real response is smaller if there is epistasis, the Bulmer effect (selection reduces the additive variance), drift in small populations or interaction with the environment that was not estimated.</p>
+
+  <!-- ====================================================================== 8.10 -->
+  <h2 id="s8-10"><span class="num">8.10</span>Downloads and next step</h2>
+  <p>The <span class="ui">6 · Assumptions, formulas and references</span> card summarizes the formulas of each card with their references. <span class="ui">Results (.xlsx)</span> downloads the parameters, the correlation matrices and <b>P</b> and <b>G</b>, the indices, the selection ranking and the recurrent-selection methods, each on its own sheet. Every figure has its download panel.</p>
+  <p><span class="ui">Continue</span> takes you to Block 9 (genotype × environment) if there are several environments, or to Block 10 (BLUP) if there is only one. The back button returns to the block that analyzed the design: Hayman–Jinks for Griffing diallels, Mating designs for the North Carolina designs, the three-way cross, line × tester and partial diallels, and Data for genotype trials.</p>
+</section>
+
+</body>
+</html>

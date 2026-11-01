@@ -1,0 +1,231 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>BreedingPro · User’s Manual · Block 9: genotype × environment interaction</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,500;0,600;1,500&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../interior.css">
+<!-- splits the content into letter-size pages, with running heads and page numbers -->
+<script src="../paginar.js"></script>
+<style>
+  figure.chica .marco, figure.chica > svg { width: 72%; margin: 0 auto; }
+  figure.chica figcaption { margin-left: 14%; margin-right: 14%; }
+  figure.angosta .marco { width: 58%; margin: 0 auto; }
+  figure.angosta figcaption { margin-left: 21%; margin-right: 21%; }
+  td.n, th.n { text-align: right; white-space: nowrap; }
+  td.c, th.c { text-align: center; }
+  .formula { font-family: var(--sans); font-size: 9pt; background: #f6f3fa; border-radius: 4px; padding: 0.07in 0.12in; margin: 0.06in 0 0.12in; line-height: 1.6; }
+</style>
+</head>
+<body>
+
+<section class="capitulo" id="cap-b9" data-pestana="B9" data-orden="10" style="--acento: var(--b9)">
+  <div class="cap-apertura">
+    <div class="cap-num">B9</div>
+    <div class="cap-etiqueta">Chapter nine · Block 9 · Genotype × environment</div>
+    <h1 data-corto="Block 9 · Genotype × environment interaction">Genotype × environment interaction</h1>
+    <div class="cap-regla"></div>
+    <p class="cap-resumen">A genotype that wins in one location can lose in another. Block 9 measures that interaction and describes it in every way the literature uses: the analysis of variance of the table of means with a two-stage model for unequal errors, the regressions on the environmental index, the stability variances, superiority and reliability, the rank statistics, AMMI with its stability indices and the views of the GGE biplot, plus a summary that compares them.</p>
+    <div class="cap-franja"><span class="k9"></span><span class="k9" style="opacity:.75"></span><span class="k9" style="opacity:.5"></span><span class="k9" style="opacity:.3"></span></div>
+    <ul class="cap-contenido">
+      <li><b>9.1</b>What the block does</li>
+      <li><b>9.2</b>The table and its analysis of variance</li>
+      <li><b>9.3</b>Unequal errors: the two-stage analysis</li>
+      <li><b>9.4</b>Regression on the environmental index</li>
+      <li><b>9.5</b>Stability variances, superiority and reliability</li>
+      <li><b>9.6</b>Ranks and yield–stability</li>
+      <li><b>9.7</b>AMMI</li>
+      <li><b>9.8</b>The GGE biplot</li>
+      <li><b>9.9</b>Summary of the statistics</li>
+      <li><b>9.10</b>Downloads and next step</li>
+    </ul>
+  </div>
+
+  <!-- ====================================================================== 9.1 -->
+  <h2 id="s9-1"><span class="num">9.1</span>What the block does</h2>
+  <p class="lead">Block 9 needs the same genotypes evaluated in two or more environments: locations, years or planting dates. From Block 3 it takes the adjusted mean of each genotype in each environment, with the field design of that environment, and the error of each one; with that table it computes everything else. If the data have a single environment, card 1 explains how to mark the column that distinguishes them.</p>
+  <table class="compacta">
+    <caption><b>Table 9.1.</b> The cards of Block 9.</caption>
+    <thead><tr><th style="width:34%">Card</th><th>What it gives</th></tr></thead>
+    <tbody>
+      <tr><td>1 · Genotype × environment table</td><td>Analysis of variance of the table, heat map and two-stage analysis with the error of each environment</td></tr>
+      <tr><td>2 · Regression on the environmental index</td><td>Finlay and Wilkinson, Eberhart and Russell, Perkins and Jinks</td></tr>
+      <tr><td>3 · Stability variances, superiority and reliability</td><td>Wricke, Shukla, Lin and Binns, Annicchiarico</td></tr>
+      <tr><td>4 · Rank statistics and yield–stability</td><td>Huehn with the tests of Nassar and Huehn; Kang’s YS<sub><i>i</i></sub></td></tr>
+      <tr><td>5 · AMMI</td><td>Interaction axes with the Gollob and Cornelius tests; ASV, YSI, WAAS and WAASY; winners per environment</td></tr>
+      <tr><td>6 · GGE biplot</td><td>Which won where, mean vs stability, ideal genotype and environment, discriminativeness, comparison of two genotypes</td></tr>
+      <tr><td>7 · Summary of the statistics</td><td>All the statistics with the rank of each genotype and their rank correlations</td></tr>
+    </tbody>
+  </table>
+  <p>The thread of the chapter is the oat trial from the gallery: 10 genotypes in 14 environments with three replications in complete blocks (420 plots), with grain yield (GY). The AMMI section uses the classic example of 28 potato clones in six locations in Peru, and the checks, the table of 17 genotypes in 12 environments with which Kang (1993) illustrated his statistic.</p>
+
+  <!-- ====================================================================== 9.2 -->
+  <h2 id="s9-2"><span class="num">9.2</span>The table and its analysis of variance</h2>
+  <p>The <span class="ui">1 · Genotype × environment table</span> card has three controls: the <span class="ui">Trait</span>; the <span class="ui">Best value</span>, which you change to <span class="ui">the lowest</span> for days to flowering or disease incidence and which reorients all the statistics that depend on “the best”; and how empty cells are filled, by EM-AMMI with the additive model or with one or two interaction axes (Gauch and Zobel, 1990).</p>
+  <figure>
+    <div class="marco"><img src="../img/en/b9-tabla.png" alt="The genotype by environment table card with the analysis of variance of the oat trial"></div>
+    <figcaption><b>Figure 9.1.</b> Card 1 with the oat trial. The environments account for 86% of the sum of squares, the genotypes 4% and the interaction almost 10%.</figcaption>
+  </figure>
+  <p>The analysis of variance is that of the table of means multiplied by <i>r</i>, on a plot scale, with the pooled error of all environments (0.0967 with 252 degrees of freedom). It has two tests for the genotypes: against the interaction (<i>F</i> = 5.41), if the environments are a sample of the region where the recommendation will be made, and against the error (<i>F</i> = 14.93), if they are the only ones of interest. The interaction is highly significant (<i>F</i> = 2.76, <i>p</i> &lt; 0.0001): the ranking of the genotypes changes from one environment to another. That the environments take most of the sum of squares is normal and says nothing about the interaction.</p>
+  <figure>
+    <div class="marco"><img src="../img/en/b9-fig-heat.png" alt="The heat map of the means of each genotype in each environment"></div>
+    <figcaption><b>Figure 9.2.</b> The table as a heat map, with the genotypes from highest to lowest mean and the environments from lowest to highest index. Its panel switches it to the interaction (the residuals of the additive model).</figcaption>
+  </figure>
+  <p>The folded box <span class="ui">Means of every genotype in every environment</span> has the full table; the estimated cells carry an asterisk. In the analysis of variance, the interaction loses one degree of freedom for each estimated cell.</p>
+
+  <!-- ====================================================================== 9.3 -->
+  <h2 id="s9-3"><span class="num">9.3</span>Unequal errors: the two-stage analysis</h2>
+  <p>The analysis of the table assumes that all environments have the same error, which almost never happens. Below the analysis of variance, the <span class="ui">Error variance of every environment and two-stage analysis</span> table gives the error mean square of each environment with Bartlett’s test, and fits a two-stage model (Smith, Cullis and Thompson, 2005; Möhring and Piepho, 2009): each mean carries the variance of its own environment and the interaction is random, with σ²<sub>GE</sub> estimated by restricted maximum likelihood.</p>
+  <figure>
+    <div class="marco"><img src="../img/en/b9-dos-etapas.png" alt="The error variance of each environment and the result of the two-stage analysis"></div>
+    <figcaption><b>Figure 9.3.</b> The error of each oat environment. The largest is 6.7 times the smallest and Bartlett’s test rejects equality (<i>p</i> = 0.0004); the note gives the result of the two-stage model.</figcaption>
+  </figure>
+  <p>In the oat trial, σ²<sub>GE</sub> = 0.0541 and the likelihood ratio declares it different from zero (127.3, <i>p</i> &lt; 0.0001, with the mixture ½χ²<sub>0</sub> + ½χ²<sub>1</sub> that corresponds to a variance on the boundary). The Wald test of equal means gives <i>F</i> = 5.99. The folded box below compares the two-stage means with the simple ones: here G7 and G2 swap third and fourth place. With very different errors among environments, the differences can be larger; in the potato, for example, a different clone takes first place.</p>
+
+  <!-- ====================================================================== 9.4 -->
+  <h2 id="s9-4"><span class="num">9.4</span>Regression on the environmental index</h2>
+  <p>The environmental index <i>I</i><sub><i>j</i></sub> is the mean of the environment minus the grand mean: it measures how good each environment was. The <span class="ui">2 · Regression on the environmental index</span> card fits, for each genotype, the line of its mean in each environment on that index (Finlay and Wilkinson, 1963). The slope <i>b</i> tells how the genotype responds to the improvement of the environment (<i>b</i> = 1, like the average; greater, it takes more advantage of good environments; smaller, it holds up better in poor ones) and the deviations from the line, S²d, whether that response is predictable (Eberhart and Russell, 1966).</p>
+  <figure>
+    <div class="marco"><img src="../img/en/b9-regresion.png" alt="The table of regressions of each oat genotype on the environmental index"></div>
+    <figcaption><b>Figure 9.4.</b> The regression of the 10 oat genotypes, from highest to lowest mean. A bar in the margin marks those with significant <i>b</i> or S²d; the last column reads them in words.</figcaption>
+  </figure>
+  <p>G3 is the example of stability in the Eberhart and Russell sense: high mean (2.955), <i>b</i> = 1.031 ± 0.046 and S²d not different from zero, with R² = 0.977. G8, the one with the highest mean, responds like the average (<i>b</i> = 1.034), but its deviations are significant (<i>p</i> = 0.013): it wins almost always, though not always for the same reason. G6 is the only one with <i>b</i> significantly less than 1 (0.861, <i>p</i> = 0.044), adapted to poor environments, and G10 the most unpredictable (S²d = 0.177).</p>
+  <p>The <span class="ui">Standard error of b</span> menu offers three sources: the genotype’s own deviations (12 degrees of freedom here), the pooled deviations or the experimental error. The folded box <span class="ui">Eberhart and Russell's analysis of variance</span> partitions the interaction into the heterogeneity of slopes (not significant here, <i>p</i> = 0.13) and the deviations of each genotype.</p>
+  <div class="caja nota">
+    <div class="caja-t"><span class="ico">✓</span>Verified · the published values</div>
+    <p>With the 17 genotypes in 12 environments of Kang (1993), the sums of squares of genotypes, environments and interaction are 186.9082, 2284.0116 and 493.2518, the heterogeneity of slopes 44.8576 and the deviations 448.3942; the slopes of genotypes A to E, 0.8617, 1.1505, 0.9755, 1.2230 and 0.9641; and their S²d, the ecovalences, the Shukla variances and the Lin and Binns superiority are also the published ones.</p>
+  </div>
+  <figure class="chica">
+    <div class="marco"><img src="../img/en/b9-fig-normas.png" alt="The response line of each genotype to the environmental index"></div>
+    <figcaption><b>Figure 9.5.</b> The response lines of the genotypes, with the five with the highest mean highlighted and their observed means; the dashed line is the average response (<i>b</i> = 1).</figcaption>
+  </figure>
+  <figure class="chica">
+    <div class="marco"><img src="../img/en/b9-fig-media-b.png" alt="The mean against the regression coefficient of each genotype"></div>
+    <figcaption><b>Figure 9.6.</b> Mean against <i>b</i>. The quadrants separate broad adaptation (high mean, <i>b</i> close to 1) from specific adaptation to good or poor environments; the diamonds have a significant S²d.</figcaption>
+  </figure>
+  <div class="caja nota">
+    <div class="caja-t"><span class="ico">i</span>Note · two corrections to the classic calculation</div>
+    <p>The deviations of all genotypes add up to zero in each environment, so the pooled deviations have (<i>g</i> − 1)(<i>e</i> − 2) degrees of freedom, 108 in the oat trial, and not the <i>g</i>(<i>e</i> − 2) = 120 of Eberhart and Russell; the note of the table also gives the mean square with its calculation. Moreover, since the environmental index contains the genotype itself, the <i>F</i> of S²d has expectation (<i>g</i> − 1)/<i>g</i> without interaction: with few genotypes the test is somewhat conservative.</p>
+  </div>
+
+  <!-- ====================================================================== 9.5 -->
+  <h2 id="s9-5"><span class="num">9.5</span>Stability variances, superiority and reliability</h2>
+  <p>The <span class="ui">3 · Stability variances, superiority and reliability</span> card begins with two measures of how much each genotype contributes to the interaction. Wricke’s (1962) ecovalence, W<sub><i>i</i></sub>, is the sum of its squared residuals from the additive model, with its percentage of the total. Shukla’s (1972) stability variance, σ²<sub><i>i</i></sub>, is the same information in the form of a variance, which can be tested against the error; s²<sub><i>i</i></sub> is what remains of it after removing the regression on the index.</p>
+  <figure>
+    <div class="marco"><img src="../img/en/b9-varianzas.png" alt="The ecovalence and the Shukla stability variances of each genotype"></div>
+    <figcaption><b>Figure 9.7.</b> Ecovalence and stability variances, from lowest to highest σ²<sub><i>i</i></sub>. G3 contributes 2.3% of the interaction and G10, 25.5%.</figcaption>
+  </figure>
+  <p>Below, the Lin and Binns (1988) superiority, P<sub><i>i</i></sub>, measures the distance of each genotype to the best one in each environment: the smaller, the better. It combines mean and stability, and the table splits it into its genetic and interaction fractions and computes it separately in favorable and unfavorable environments. Annicchiarico’s (1992) reliability, W<sub><i>i</i></sub>, is the relative performance (as a percentage of the mean of each environment) that the genotype exceeds with probability 1 − α; the risk α is chosen above the table.</p>
+  <figure>
+    <div class="marco"><img src="../img/en/b9-superioridad.png" alt="The Lin and Binns superiority and the Annicchiarico reliability"></div>
+    <figcaption><b>Figure 9.8.</b> Superiority and reliability, from lowest to highest P<sub><i>i</i></sub>. G3 and G8 almost tie in superiority, by different paths: G3 by being stable, G8 by its mean.</figcaption>
+  </figure>
+  <p>The table shows things the mean alone does not say. The superiority of G8 comes mostly from the interaction (only 27% is genetic): it is almost unbeatable in unfavorable environments (P<sub><i>i</i></sub> = 0.006) and less so in favorable ones (0.088). With α = 0.25, G3 exceeds 108% of the mean of each environment with 75% probability, and G8 reaches 112.5% in the unfavorable ones. The reliability is only computed when the highest value is the best.</p>
+
+  <!-- ====================================================================== 9.6 -->
+  <h2 id="s9-6"><span class="num">9.6</span>Ranks and yield–stability</h2>
+  <p>Huehn’s (1979, 1990) statistics work with the rank of each genotype in each environment, not with its values, and therefore do not depend on normality or on extreme values. S<sup>(1)</sup> is the mean difference between the ranks of the genotype in each pair of environments and S<sup>(2)</sup>, their variance, both with the data corrected for the genotype effect; S<sup>(3)</sup> and S<sup>(6)</sup> use the uncorrected data and combine yield and stability. The Z tests of Nassar and Huehn (1987) mark the unstable genotypes with an asterisk.</p>
+  <figure>
+    <div class="marco"><img src="../img/en/b9-rangos.png" alt="The Huehn rank statistics of each genotype"></div>
+    <figcaption><b>Figure 9.9.</b> Huehn’s ranks, from lowest to highest S<sup>(1)</sup>. Only G10 is significantly unstable; the sum of the Z<sup>(2)</sup> says that the genotypes differ in stability (<i>p</i> = 0.022).</figcaption>
+  </figure>
+  <p>Kang’s (1993) yield–stability statistic, YS<sub><i>i</i></sub>, adds two ratings. The yield rating is the rank by the mean, adjusted with the least significant difference from the grand mean (+1 to +3 if it exceeds it, −1 to −3 if it falls below). The stability rating penalizes a significant Shukla variance (−2, −4 or −8 at 10, 5 or 1%). The genotypes with YS<sub><i>i</i></sub> greater than the average are selected.</p>
+  <figure>
+    <div class="marco"><img src="../img/en/b9-kang.png" alt="Kang’s yield–stability statistic"></div>
+    <figcaption><b>Figure 9.10.</b> Kang’s YS<sub><i>i</i></sub>. G3 comes first (12) for its high mean without penalty; G8, the one with the highest mean, loses 8 points for its instability and comes second. Seven genotypes are selected.</figcaption>
+  </figure>
+  <div class="caja nota">
+    <div class="caja-t"><span class="ico">✓</span>Verified · the published values</div>
+    <p>With Kang’s (1993) table, the YS<sub><i>i</i></sub> of genotypes A, B, C and D are 14, 3, 12 and 3, and A, C, E, G, H, J, N and O are selected, as in the paper. To achieve this, two values equal to 12 significant digits are treated as a tie: with rounded data, two genotypes can have the same mean and differ only in the last bit.</p>
+  </div>
+
+  <!-- ====================================================================== 9.7 -->
+  <h2 id="s9-7"><span class="num">9.7</span>AMMI</h2>
+  <p>AMMI (additive main effects and multiplicative interaction; Gollob, 1968; Gauch, 1988) fits the grand mean and the effects of genotypes and environments, and decomposes the interaction into singular values: a few axes (IPCA) summarize almost all the pattern and the rest is noise. The <span class="ui">5 · AMMI</span> card decides how many axes to retain, computes the stability indices derived from them and predicts the best genotypes of each environment. This section uses the 28 potato clones in six locations.</p>
+  <figure>
+    <div class="marco"><img src="../img/en/b9-ammi-ejes.png" alt="The AMMI axes of the potato with the Gollob tests and the residual F"></div>
+    <figcaption><b>Figure 9.11.</b> The interaction axes of the potato. Above, each axis with Gollob’s test; below, Cornelius’s residual test, which tests what remains of the interaction after <i>n</i> axes.</figcaption>
+  </figure>
+  <p>The first axis captures 56.3% of the interaction and the first two, 83.3%. Gollob’s test declares three axes significant; the residual test of Cornelius, Seyedsadr and Crossa (1992) says that after two axes there is still interaction left (<i>p</i> = 0.019) and after three there is not (<i>p</i> = 0.53): AMMI3 is enough.</p>
+  <div class="caja importante">
+    <div class="caja-t"><span class="ico">!</span>Important · Gollob’s test is liberal</div>
+    <p>In 10,000 simulated tables without any interaction, Gollob’s <i>F</i> declared the first axis significant 38% of the time, when it should do so 5% of the time; the residual <i>F</i> kept its level. That is why the residual test is the default rule of the <span class="ui">Number of axes by the test</span> menu (Piepho, 1995), with Gollob’s as an option. <span class="ui">Axes for WAAS</span> lets you set the number by hand.</p>
+  </div>
+  <p>With the retained axes, four indices are computed, in the <span class="ui">Stability of the genotypes</span> table: ASV, the distance of each genotype to the origin on the first two axes, weighted by their sum of squares (Purchase and colleagues, 2000); YSI, the sum of the ranks by ASV and by the mean (Farshadfar, 2008); WAAS, the average of the absolute values of its scores on the retained axes, weighted by the share of the interaction each one explains (Olivoto and colleagues, 2019); and WAASY, which rescales the mean and WAAS from 0 to 100 and combines them with the weight you choose.</p>
+  <p>WAAS separates two kinds of high-mean clones (Figure 9.14). 319.20 has the third-highest mean (38.8), but the largest interaction after Desiree (WAAS = 2.54): it yields a lot in some locations and little in others. 364.21 and 427.7 have somewhat lower means (34.1 and 36.2) and much more stability, and that is why they head WAASY. 402.7 is the most stable of all (WAAS = 0.10), but with a low mean. The <span class="ui">Best genotypes of every environment</span> table, at the end of the card, gives the three best of each location predicted by AMMI3; in La Molina 2003 (LM-03), the winner is precisely 319.20.</p>
+  <figure class="chica">
+    <div class="marco"><img src="../img/en/b9-fig-ammi1.png" alt="The AMMI1 biplot of the potato, mean against the first interaction axis"></div>
+    <figcaption><b>Figure 9.12.</b> AMMI1: the mean of each clone and each location against its first interaction axis. Clones near zero on the vertical axis are stable; those that share a sign with a location have a positive interaction with it.</figcaption>
+  </figure>
+  <figure class="chica">
+    <div class="marco"><img src="../img/en/b9-fig-ammi2.png" alt="The AMMI2 biplot of the potato with the first two interaction axes"></div>
+    <figcaption><b>Figure 9.13.</b> AMMI2: the first two axes. San Ramón (SR-02, SR-03) and Ayacucho lie together on the negative side of the first axis; Huancayo (Hyo-02) and La Molina 2003 (LM-03) point in opposite directions on the second: the clones that win in one are not those that win in the other.</figcaption>
+  </figure>
+  <figure class="chica">
+    <div class="marco"><img src="../img/en/b9-fig-waas.png" alt="WAAS against the mean of each potato clone"></div>
+    <figcaption><b>Figure 9.14.</b> WAAS against the mean. Quadrant IV (high mean, stable) holds the desirable clones: 364.21, 427.7 and 506.2 head WAASY.</figcaption>
+  </figure>
+  <div class="caja nota">
+    <div class="caja-t"><span class="ico">✓</span>Verified · the published values</div>
+    <p>The sums of squares of the five potato axes are 13,368.60, 6,427.58, 2,241.94, 1,027.58 and 696.10; Gollob’s <i>F</i> values, 11.645, 5.985, 2.242, 1.110 and 0.817; and the residual ones, 4.753, 2.699, 1.428 and 0.970, the values of the classic example. The ASV and WAAS indices agree with an independent implementation; WAAS differs in the fourth decimal place from another that rounds the percentages of the axes to one decimal.</p>
+  </div>
+  <figure class="media">
+    <div class="marco"><img src="../img/en/b9-ganadores.png" alt="The three best clones of each location predicted by AMMI3"></div>
+    <figcaption><b>Figure 9.15.</b> The three best clones of each location according to AMMI3, from the poorest location to the best.</figcaption>
+  </figure>
+
+  <!-- ====================================================================== 9.8 -->
+  <h2 id="s9-8"><span class="num">9.8</span>The GGE biplot</h2>
+  <p>The GGE biplot (Yan and colleagues, 2000; Yan and Kang, 2003) decomposes the environment-centered table, which contains the effect of the genotypes plus their interaction (G + G×E), and draws genotypes as points and environments as vectors. The <span class="ui">6 · GGE biplot</span> card has three controls: the <span class="ui">View</span>, the <span class="ui">Scaling of the environments</span> (unscaled, or divided by their standard deviation so that they weigh the same) and the <span class="ui">Singular-value partition</span>, which by default is the one suited to each view.</p>
+  <figure class="chica">
+    <div class="marco"><img src="../img/en/b9-gge-www.png" alt="The which-won-where GGE biplot of the oat trial"></div>
+    <figcaption><b>Figure 9.16.</b> Which won where. The polygon joins the outermost genotypes; the lines perpendicular to its sides divide the plane into sectors, and the genotype at the vertex wins in the environments of its sector.</figcaption>
+  </figure>
+  <p>In the oat trial, the first two components explain 41.7% and 22.7% of G + G×E. If together they explain less than 60%, a warning recommends reading the biplot with caution, because it leaves out much of the pattern.</p>
+  <p>G8 wins in nine of the 14 environments; G9 in E3 and E4, G7 in E7 and E14, and G4 in E9. The table below the figure lists the environments of each winner. Those groups are possible mega-environments if the pattern repeats in other years; with a single year, they may be just noise. The mean vs stability view projects each genotype onto the average-environment axis (the arrow): the projection approximates its mean and the distance to the axis, its instability.</p>
+  <table class="compacta">
+    <caption><b>Table 9.2.</b> The views of the GGE biplot and the question each one answers.</caption>
+    <thead><tr><th style="width:30%">View</th><th>Question</th><th style="width:22%">Partition</th></tr></thead>
+    <tbody>
+      <tr><td>Which won where</td><td>Which genotype wins in each group of environments? Are there mega-environments?</td><td>symmetric</td></tr>
+      <tr><td>Mean vs stability</td><td>Which genotypes yield more and which are stable?</td><td>genotype-focused</td></tr>
+      <tr><td>Genotypes against the ideal one</td><td>Which comes closest to the ideal genotype (high and stable)?</td><td>genotype-focused</td></tr>
+      <tr><td>Discriminativeness vs representativeness</td><td>Which environments discriminate the genotypes well and which represent the region?</td><td>environment-focused</td></tr>
+      <tr><td>Environments against the ideal one</td><td>Which environment is best for testing?</td><td>environment-focused</td></tr>
+      <tr><td>Compare two genotypes</td><td>In which environments does each of the two win?</td><td>symmetric</td></tr>
+    </tbody>
+  </table>
+  <p>In the environment views, the length of the vector measures how much the environment discriminates among genotypes and the angle with the average-environment axis, how much it resembles the others. A long environment with a large angle is useful for discarding unstable genotypes, not for choosing broadly adapted ones. The <span class="ui">compare two genotypes</span> view adds two menus to choose them and a table that says, for each environment, which one the biplot favors and whether it agrees with the observed means.</p>
+  <figure class="chica">
+    <div class="marco"><img src="../img/en/b9-gge-aec.png" alt="The mean vs stability GGE biplot of the oat trial"></div>
+    <figcaption><b>Figure 9.17.</b> Mean vs stability. G8 and G3 have the largest projections; G3, moreover, hardly departs from the axis. G9 and G4 are the least stable.</figcaption>
+  </figure>
+  <figure class="chica">
+    <div class="marco"><img src="../img/en/b9-gge-discr.png" alt="The discriminativeness and representativeness GGE biplot of the oat environments"></div>
+    <figcaption><b>Figure 9.18.</b> Discriminativeness and representativeness. E13 and E5, long and close to the average-environment axis, are good test environments; E9 discriminates but, almost perpendicular to the axis, does not represent the others.</figcaption>
+  </figure>
+
+  <!-- ====================================================================== 9.9 -->
+  <h2 id="s9-9"><span class="num">9.9</span>Summary of the statistics</h2>
+  <p>The <span class="ui">7 · Summary of the statistics</span> card brings together in one table the 16 statistics of each genotype with its rank in parentheses (1 = best) and the mean rank. The mean rank serves to organize the discussion, not to decide: it adds without weights statistics that measure different things, and some repeat the same information.</p>
+  <figure>
+    <div class="marco"><img src="../img/en/b9-resumen.png" alt="The summary table of all the stability statistics of the oat trial"></div>
+    <figcaption><b>Figure 9.19.</b> The oat summary, sorted by mean rank. G3 is first by almost every statistic (mean rank 1.06); G8, the one with the highest mean, comes second (3.5), and G10 last (9.81).</figcaption>
+  </figure>
+  <figure class="chica">
+    <div class="marco"><img src="../img/en/b9-fig-spearman.png" alt="The rank correlations among the stability statistics"></div>
+    <figcaption><b>Figure 9.20.</b> Spearman correlations among the oat statistics.</figcaption>
+  </figure>
+  <p>The statistics fall into two families (Lin, Binns and Lefkovitch, 1986; Becker and Léon, 1988): those of static stability, in which the genotype yields the same in all environments, and the dynamic ones, in which it follows the average pattern of the environments; those that combine mean and stability (P<sub><i>i</i></sub>, YS<sub><i>i</i></sub>, WAASY, S<sup>(3)</sup>, S<sup>(6)</sup>) form a separate group. In the oat trial (Figure 9.20), the mean goes with P<sub><i>i</i></sub>, the reliability and WAASY, and the interaction measures (S²d, W, σ², ASV, WAAS) form another group. W<sub><i>i</i></sub> and σ²<sub><i>i</i></sub> always rank alike, because σ²<sub><i>i</i></sub> is a linear function of W<sub><i>i</i></sub>. Static stability is rarely desirable for yield: a genotype that does not change does not take advantage of good environments.</p>
+
+  <!-- ====================================================================== 9.10 -->
+  <h2 id="s9-10"><span class="num">9.10</span>Downloads and next step</h2>
+  <p>The <span class="ui">8 · Assumptions, formulas and references</span> card summarizes the models, the formulas and the references. <span class="ui">Results (.xlsx)</span> downloads, each on its own sheet, the genotype × environment table with the estimated cells, the analysis of variance, the regressions, the variances, the ranks, the AMMI axes and scores, the GGE biplot coordinates and the two-stage analysis. Every figure has its download panel.</p>
+  <p><span class="ui">Continue</span> takes you to Block 10 (BLUP and mixed models with relationships) and <span class="ui">← Selection</span> returns to Block 8, which with several environments computes the heritability with the genotype × environment interaction.</p>
+</section>
+
+</body>
+</html>

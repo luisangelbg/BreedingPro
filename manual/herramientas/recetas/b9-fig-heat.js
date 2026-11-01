@@ -9,5 +9,5 @@
   await cargar("oat14");
   document.querySelectorAll(".book-scroll").forEach(n => { n.style.maxHeight = "none"; }); await W(200);
   const f = $("b9FigHeat"); irA(f); await W(400);
-  caja([f.querySelector("svg")], 4);
+  caja([f.querySelector(".fig-canvas svg")], 4);
 })()

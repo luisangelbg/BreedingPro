@@ -17,5 +17,5 @@
   await cargar("maize13");
   await prep({ traits: false, p: "0.1" });
   const f = $("b8FigFehr"); irA(f); await W(400);
-  caja([f.querySelector("svg")], 4);
+  caja([f.querySelector(".fig-canvas svg")], 4);
 })()
